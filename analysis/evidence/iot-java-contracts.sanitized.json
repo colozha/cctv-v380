@@ -1,0 +1,122 @@
+{
+  "evidence_type": "sanitized-static-excerpts",
+  "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "records": [
+    {
+      "source_evidence_id": "ev_d6c0ffe4b19c9ca5793fdf5e07d110ef358630d4d01e89c2514667a3e6527b60",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.defines.Protocol",
+        "method_name": "cipherJsonData"
+      },
+      "bounded_static_body": [
+        "    public static byte[] cipherJsonData(int i, int i2, byte[] bArr, int i3, byte[] bArr2) {\n        if (bArr == null || bArr2 == null || bArr2.length < 32) {\n            return null;\n        }\n        byte[] bArr3 = new byte[16];\n        System.arraycopy(bArr2, 0, bArr3, 0, 16);\n        byte[] bArr4 = new byte[16];\n        System.arraycopy(bArr2, 16, bArr4, 0, 16);\n        byte[] bArr5 = new byte[bArr.length + 32];\n        int iCipherJsonData = HSMediaLibrary.cipherJsonData(i, i2, bArr, i3, bArr5, bArr3, bArr4);\n        if (iCipherJsonData <= 0) {\n            return null;\n        }\n        byte[] bArr6 = new byte[iCipherJsonData];\n        System.arraycopy(bArr5, 0, bArr6, 0, iCipherJsonData);\n        return bArr6;\n    }"
+      ]
+    },
+    {
+      "source_evidence_id": "ev_644be793d3b5743a41efe7d682c3a0e7d188d5c0508331950e62b9d4f32b45ea",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.defines.Protocol",
+        "method_name": "createCommonJsonHeader"
+      },
+      "bounded_static_body": [
+        "    public static JSONObject createCommonJsonHeader(int i, int i2, int i3, JSONObject jSONObject) {\n        long jCurrentTimeMillis = System.currentTimeMillis() / 1000;\n        JSONObject jSONObject2 = new JSONObject();\n        try {\n            jSONObject2.put(\"id\", i3);\n            jSONObject2.put(\"method_id\", i2);\n            jSONObject2.put(\"chn\", i);\n            jSONObject2.put(\"ts\", jCurrentTimeMillis);\n            jSONObject2.put(b.D, jSONObject);\n        } catch (JSONException e) {\n        }\n        return jSONObject2;\n    }"
+      ]
+    },
+    {
+      "source_evidence_id": "ev_bac6b34a50acd0de8440a03fb7c43cb8c647d81fd45f23cde81643e682a921a5",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.defines.Protocol",
+        "method_name": "isResultOk"
+      },
+      "bounded_static_body": [
+        "    public static boolean isResultOk(BaseResultJsonParse baseResultJsonParse, int i, int i2, ResponseHeader responseHeader, int i3) {\n        if (baseResultJsonParse == null) {\n            return false;\n        }\n        if (baseResultJsonParse.getResult() != null && (baseResultJsonParse.getResult().getCode() == 1104 || baseResultJsonParse.getResult().getCode() == 1103)) {\n            return true;\n        }\n        if (baseResultJsonParse.getResult() == null || baseResultJsonParse.getId() != i2) {\n            return false;\n        }\n        if (baseResultJsonParse.getChn() == i || baseResultJsonParse.getChn() == 0) {\n            return baseResultJsonParse.getMethodId() == i3 || responseHeader == null || responseHeader.secureType == 0;\n        }\n        return false;\n    }"
+      ]
+    },
+    {
+      "source_evidence_id": "ev_076113602330d7687a35eabef8b847545aefd2412c2915c045f55f7026d572d3",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.tools.ED25519Utils",
+        "method_name": "getSKeyByte",
+        "overload_index": 0
+      },
+      "bounded_static_body": [
+        "    public static byte[] getSKeyByte(byte[] bArr) {\n        if (a == null || bArr == null) {\n            return null;\n        }\n        byte[] bArr2 = new byte[32];\n        Arrays.fill(bArr2, (byte) 0);\n        curve25519_CreateSharedKey(bArr2, a, bArr);\n        return bArr2;\n    }"
+      ]
+    },
+    {
+      "source_evidence_id": "ev_db8cdb06603c1fe3b974955654ee10dff1a4a9ec3be086a72ee33b66ad57a5e4",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.tools.ED25519Utils",
+        "method_name": "getSKeyByte",
+        "overload_index": 1
+      },
+      "bounded_static_body": [
+        "    public static byte[] getSKeyByte(byte[] bArr, byte[] bArr2) {\n        if (bArr == null || bArr2 == null) {\n            return null;\n        }\n        byte[] bArr3 = new byte[32];\n        Arrays.fill(bArr3, (byte) 0);\n        curve25519_CreateSharedKey(bArr3, bArr, bArr2);\n        return bArr3;\n    }"
+      ]
+    },
+    {
+      "source_evidence_id": "ev_d82be349e4a743b3fc3f29a39a85bf523e9deb3a875e51cd8efa9870b2831aac",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.tools.ED25519Utils",
+        "method_name": "getPKeyByte",
+        "overload_index": 1
+      },
+      "bounded_static_body": [
+        "    public static byte[] getPKeyByte(byte[] bArr) {\n        if (bArr == null) {\n            return null;\n        }\n        byte[] bArr2 = new byte[32];\n        Arrays.fill(bArr2, (byte) 0);\n        curve25519_CalculatePublicKey(bArr2, bArr);\n        return bArr2;\n    }"
+      ]
+    },
+    {
+      "source_evidence_id": "ev_f605f06b28eb1d53c796468294290da56f83b42f79a870aa9fdba532867f77e2",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.tools.ED25519Utils",
+        "method_name": "xor"
+      },
+      "bounded_static_body": [
+        "    public static byte[] xor(byte[] bArr, byte[] bArr2) {\n        if (bArr == null || bArr2 == null) {\n            return null;\n        }\n        if (bArr2.length == 0) {\n            return bArr;\n        }\n        byte[] bArr3 = new byte[bArr.length];\n        for (int i = 0; i < bArr.length; i++) {\n            bArr3[i] = (byte) (bArr[i] ^ bArr2[i % bArr2.length]);\n        }\n        return bArr3;\n    }"
+      ]
+    },
+    {
+      "source_evidence_id": "ev_180289f8814cf3d6ab899ce5f9fa7b6a8b4afd82bb15159e1d88640a8ed9c13c",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.tools.ED25519Utils",
+        "method_name": "createSeedByte"
+      },
+      "bounded_static_body": [
+        "    public static byte[] createSeedByte() {\n        return Functions.getCharAndNumr(32).getBytes();\n    }"
+      ]
+    },
+    {
+      "source_evidence_id": "ev_7c11bf63a1ed0a83e49eb3fb70ac9ee3e896f05fb1a96910b675b40cd418a0bf",
+      "operation": "inspect_android_method",
+      "parameters": {
+        "path": "/home/husain/Downloads/v380-6-4-90.apk",
+        "class_name": "com.macrovideo.sdk.tools.DatetimeUtils",
+        "method_name": "getCustomTimeZone2"
+      },
+      "bounded_static_body": [
+        "    public static int getCustomTimeZone2() {\n        int rawOffset = TimeZone.getDefault().getRawOffset();\n        int i = rawOffset / 3600000;\n        return (i * 100) + ((rawOffset - (3600000 * i)) / 60000);\n    }"
+      ]
+    }
+  ],
+  "limitations": [
+    "Static JADX output, no execution.",
+    "Projection is not canonical REA Evidence.",
+    "Diagnostic logging calls omitted; no account, owner password, session values or bootstrap constant included."
+  ]
+}

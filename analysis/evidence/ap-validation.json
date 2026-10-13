@@ -1,0 +1,16 @@
+{
+  "validation": "isolated-focused-JVM-tests",
+  "result": "passed",
+  "tests": 6,
+  "runner": "JUnit4.13.2",
+  "compiler": "existing Kotlin2.2.21 compiler, JVM target17",
+  "dependencies": "Existing/declaratively requested Kotlin stdlib2.2.10, coroutines-core1.10.2, org.json20250517, JUnit4.13.2, Hamcrest1.3",
+  "source_sha256": {
+    "app/src/main/java/dev/cctv/v380/protocol/ApProtocol.kt": "9d6da414489b86217b9ad30cb1bc39bf25654d679e2a77b562b89454ff9f0c82",
+    "app/src/main/java/dev/cctv/v380/protocol/IoTCommonProtocol.kt": "f83aa278e808b3d629c66069401bed2928456d767af6502f6546d6b225bf6c6a",
+    "app/src/main/java/dev/cctv/v380/protocol/IoTMediaProtocol.kt": "f4e4125f4a72f2cd67bd56e3895a122b101bf04dbc496565c54e5f12ffb565bc",
+    "app/src/test/java/dev/cctv/v380/ApProtocolTest.kt": "70a3e597570d2aa2d650d8484859b893b30cc0563a008dbe9417b0a3aed58869"
+  },
+  "boundary": "In-memory synthetic requests/replies only. No APK execution, camera contact, cloud calls, credential/auth payload logging or retained live fixtures.",
+  "app_test_status": "The full Gradle task initially failed on concurrent root-owned MainActivity String/Long device-ID migration; isolated AP tests passed. Root owns final integration validation."
+}

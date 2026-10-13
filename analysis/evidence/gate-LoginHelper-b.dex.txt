@@ -1,0 +1,601 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/media/LoginHelper;->b(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)Lcom/macrovideo/sdk/media/LoginHandle; code_item_offset=7890000 registers=46
+0000 dex@00786460 move-object/from16       v1 v41 
+0002 dex@00786464 move-object/from16       v0 v42 
+0004 dex@00786468 move/from16              v2 v44 
+0006 dex@0078646c move/from16              v3 v45 
+0008 dex@00786470 const-string             v4 <string-content-excluded>
+000a dex@00786474 new-instance             v5 Ljava/lang/StringBuilder;
+000c dex@00786478 const-string             v6 <string-content-excluded>
+000e dex@0078647c invoke-direct            v5 v6 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0011 dex@00786482 invoke-virtual           v5 v1 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0014 dex@00786488 const-string             v6 <string-content-excluded>
+0016 dex@0078648c invoke-virtual           v5 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0019 dex@00786492 invoke-virtual           v5 v2 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+001c dex@00786498 const-string             v6 <string-content-excluded>
+001e dex@0078649c invoke-virtual           v5 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0021 dex@007864a2 invoke-virtual           v5 v0 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0024 dex@007864a8 const-string             v6 <string-content-excluded>
+0026 dex@007864ac invoke-virtual           v5 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0029 dex@007864b2 move-object/from16       v6 v43 
+002b dex@007864b6 invoke-virtual           v5 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+002e dex@007864bc const-string             v7 <string-content-excluded>
+0030 dex@007864c0 invoke-virtual           v5 v7 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0033 dex@007864c6 invoke-virtual           v5 v3 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0036 dex@007864cc invoke-virtual           v5 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0039 dex@007864d2 move-result-object       v5 
+003a dex@007864d4 filled-new-array         v5 [Ljava/lang/Object;
+003d dex@007864da move-result-object       v5 
+003e dex@007864dc const-string             v7 <string-content-excluded>
+0040 dex@007864e0 invoke-static            v7 v5 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+0043 dex@007864e6 const/4                  v5 #0 
+0044 dex@007864e8 sput                     v5 Lcom/macrovideo/sdk/media/LoginHelper;->a:I
+0046 dex@007864ec new-instance             v8 Lcom/macrovideo/sdk/media/LoginHandle;
+0048 dex@007864f0 invoke-direct            v8 Lcom/macrovideo/sdk/media/LoginHandle;-><init>()V
+004b dex@007864f6 const/16                 v9 #-257 
+004d dex@007864fa invoke-virtual           v8 v9 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+0050 dex@00786500 invoke-virtual           v8 v1 Lcom/macrovideo/sdk/media/LoginHandle;->setLoginIP(Ljava/lang/String;)V
+0053 dex@00786506 const-string/jumbo       v9 <string-content-excluded>
+0056 dex@0078650c filled-new-array         v9 [Ljava/lang/Object;
+0059 dex@00786512 move-result-object       v10 
+005a dex@00786514 const-string             v11 <string-content-excluded>
+005c dex@00786518 invoke-static            v11 v10 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+005f dex@0078651e filled-new-array         v9 [Ljava/lang/Object;
+0062 dex@00786524 move-result-object       v9 
+0063 dex@00786526 invoke-static            v7 v9 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+0066 dex@0078652c new-array                v9 v5 [I
+0068 dex@00786530 const/16                 v10 #2000 
+006a dex@00786534 invoke-static            v1 v2 v10 v9 Lcom/macrovideo/sdk/tools/Functions;->connectToServer(Ljava/lang/String;II[I)Ljava/net/Socket;
+006d dex@0078653a move-result-object       v9 
+006e dex@0078653c const-string/jumbo       v10 <string-content-excluded>
+0071 dex@00786542 filled-new-array         v10 [Ljava/lang/Object;
+0074 dex@00786548 move-result-object       v12 
+0075 dex@0078654a invoke-static            v11 v12 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+0078 dex@00786550 filled-new-array         v10 [Ljava/lang/Object;
+007b dex@00786556 move-result-object       v10 
+007c dex@00786558 invoke-static            v7 v10 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+007f dex@0078655e if-nez                   v9  -> 00a0
+0081 dex@00786562 new-instance             v0 Ljava/lang/StringBuilder;
+0083 dex@00786566 const-string             v1 <string-content-excluded>
+0085 dex@0078656a invoke-direct            v0 v1 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0088 dex@00786570 invoke-virtual           v8 Lcom/macrovideo/sdk/media/LoginHandle;->toString()Ljava/lang/String;
+008b dex@00786576 move-result-object       v1 
+008c dex@00786578 invoke-virtual           v0 v1 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+008f dex@0078657e invoke-virtual           v0 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0092 dex@00786584 move-result-object       v0 
+0093 dex@00786586 filled-new-array         v0 [Ljava/lang/Object;
+0096 dex@0078658c move-result-object       v0 
+0097 dex@0078658e invoke-static            v7 v0 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+009a dex@00786594 const/16                 v0 #10001 
+009c dex@00786598 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setRealRet(I)V
+009f dex@0078659e return-object            v8 
+00a0 dex@007865a0 invoke-virtual           v9 Ljava/net/Socket;->getInetAddress()Ljava/net/InetAddress;
+00a3 dex@007865a6 move-result-object       v10 
+00a4 dex@007865a8 invoke-virtual           v10 Ljava/net/InetAddress;->getHostAddress()Ljava/lang/String;
+00a7 dex@007865ae move-result-object       v10 
+00a8 dex@007865b0 invoke-virtual           v8 v10 Lcom/macrovideo/sdk/media/LoginHandle;->setLoginIP(Ljava/lang/String;)V
+00ab dex@007865b6 const/4                  v12 #0 
+00ac dex@007865b8 invoke-virtual           v9 Ljava/net/Socket;->isConnected()Z
+00af dex@007865be move-result              v13 
+00b0 dex@007865c0 if-eqz                   v13  -> 00bc
+00b2 dex@007865c4 invoke-virtual           v9 Ljava/net/Socket;->getOutputStream()Ljava/io/OutputStream;
+00b5 dex@007865ca move-result-object       v13 
+00b6 dex@007865cc invoke-virtual           v9 Ljava/net/Socket;->getInputStream()Ljava/io/InputStream;
+00b9 dex@007865d2 move-result-object       v12 
+00ba dex@007865d4 const/4                  v14 #1 
+00bb dex@007865d6 goto                      -> 00cb
+00bc dex@007865d8 const/16                 v13 #10002 
+00be dex@007865dc invoke-virtual           v8 v13 Lcom/macrovideo/sdk/media/LoginHandle;->setRealRet(I)V
+00c1 dex@007865e2 move                     v14 v5 
+00c2 dex@007865e4 move-object              v13 v12 
+00c3 dex@007865e6 goto                      -> 00d0
+00c4 dex@007865e8 move-object              v13 v12 
+00c5 dex@007865ea const/16                 v14 #10003 
+00c7 dex@007865ee invoke-virtual           v8 v14 Lcom/macrovideo/sdk/media/LoginHandle;->setRealRet(I)V
+00ca dex@007865f4 move                     v14 v5 
+00cb dex@007865f6 move-object/from16       v40 v13 
+00cd dex@007865fa move-object              v13 v12 
+00ce dex@007865fc move-object/from16       v12 v40 
+00d0 dex@00786600 const-string             v15 <string-content-excluded>
+00d2 dex@00786604 invoke-static            v15 v14 Lcom/macrovideo/sdk/obf/i;->a(Ljava/lang/String;Z)Ljava/lang/String;
+00d5 dex@0078660a move-result-object       v16 
+00d6 dex@0078660c filled-new-array/range   v16..16 [Ljava/lang/Object;
+00d9 dex@00786612 move-result-object       v10 
+00da dex@00786614 invoke-static            v11 v10 Lcom/macrovideo/sdk/tools/LogUtils;->i(Ljava/lang/String;[Ljava/lang/Object;)V
+00dd dex@0078661a new-instance             v10 Ljava/lang/StringBuilder;
+00df dex@0078661e invoke-direct            v10 v15 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+00e2 dex@00786624 invoke-virtual           v10 v14 Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+00e5 dex@0078662a invoke-virtual           v10 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00e8 dex@00786630 move-result-object       v10 
+00e9 dex@00786632 filled-new-array         v10 [Ljava/lang/Object;
+00ec dex@00786638 move-result-object       v10 
+00ed dex@0078663a invoke-static            v7 v10 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+00f0 dex@00786640 if-eqz                   v14  -> 04cb
+00f2 dex@00786644 const/16                 v10 #520 
+00f4 dex@00786648 new-array                v14 v10 [B
+00f6 dex@0078664c invoke-static            Lcom/macrovideo/sdk/tools/DatetimeUtils;->getStrTimeWhenLANLogin()Ljava/lang/String;
+00f9 dex@00786652 move-result-object       v15 
+00fa dex@00786654 const-string             v10 <string-content-excluded>
+00fc dex@00786658 invoke-static            v10 v15 Lcom/macrovideo/sdk/obf/c;->a(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+00ff dex@0078665e move-result-object       v10 
+0100 dex@00786660 filled-new-array         v10 [Ljava/lang/Object;
+0103 dex@00786666 move-result-object       v10 
+0104 dex@00786668 const-string             v5 <string-content-excluded>
+0106 dex@0078666c invoke-static            v5 v10 Lcom/macrovideo/sdk/tools/LogUtils;->d(Ljava/lang/String;[Ljava/lang/Object;)V
+0109 dex@00786672 sget                     v10 Lcom/macrovideo/sdk/media/LoginHelper;->f:I
+010b dex@00786676 const/16                 v18 #16 
+010d dex@0078667a invoke-static/range      v18..18 Lcom/macrovideo/sdk/tools/Functions;->getCharAndNumr(I)Ljava/lang/String;
+0110 dex@00786680 move-result-object       v19 
+0111 dex@00786682 const/4                  v6 #0 
+0112 dex@00786684 invoke-static            v14 v6 Ljava/util/Arrays;->fill([BB)V
+0115 dex@0078668a move-object/from16       v20 v9 
+0117 dex@0078668e int-to-long              v9 v10 
+0118 dex@00786690 invoke-static            v9 v10 v14 v6 Lcom/macrovideo/sdk/tools/Functions;->IntToBytes(J[BI)V
+011b dex@00786696 const/16                 v6 #120 
+011d dex@0078669a int-to-long              v9 v6 
+011e dex@0078669c const/4                  v6 #4 
+011f dex@0078669e invoke-static            v9 v10 v14 v6 Lcom/macrovideo/sdk/tools/Functions;->IntToBytes(J[BI)V
+0122 dex@007866a4 const/16                 v9 #31 
+0124 dex@007866a8 int-to-byte              v9 v9 
+0125 dex@007866aa const/16                 v10 #8 
+0127 dex@007866ae aput-byte                v9 v14 v10 
+0129 dex@007866b2 const/16                 v9 #10 
+012b dex@007866b6 move-object/from16       v21 v11 
+012d dex@007866ba int-to-long              v10 v9 
+012e dex@007866bc const/16                 v9 #9 
+0130 dex@007866c0 invoke-static            v10 v11 v14 v9 Lcom/macrovideo/sdk/tools/Functions;->IntToBytes(J[BI)V
+0133 dex@007866c6 int-to-long              v10 v3 
+0134 dex@007866c8 const/16                 v3 #13 
+0136 dex@007866cc invoke-static            v10 v11 v14 v3 Lcom/macrovideo/sdk/tools/Functions;->IntToBytes(J[BI)V
+0139 dex@007866d2 const/16                 v10 #17 
+013b dex@007866d6 if-eqz                   v15  -> 014b
+013d dex@007866da invoke-virtual           v15 Ljava/lang/String;->getBytes()[B
+0140 dex@007866e0 move-result-object       v11 
+0141 dex@007866e2 invoke-virtual           v15 Ljava/lang/String;->getBytes()[B
+0144 dex@007866e8 move-result-object       v15 
+0145 dex@007866ea array-length             v15 v15 
+0146 dex@007866ec const/4                  v9 #0 
+0147 dex@007866ee invoke-static            v11 v9 v14 v10 v15 Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+014a dex@007866f4 goto                      -> 014c
+014b dex@007866f6 const/4                  v9 #0 
+014c dex@007866f8 if-eqz                   v0  -> 015c
+014e dex@007866fc invoke-virtual/range     v42..42 Ljava/lang/String;->getBytes()[B
+0151 dex@00786702 move-result-object       v11 
+0152 dex@00786704 invoke-virtual/range     v42..42 Ljava/lang/String;->getBytes()[B
+0155 dex@0078670a move-result-object       v0 
+0156 dex@0078670c array-length             v0 v0 
+0157 dex@0078670e const/16                 v15 #49 
+0159 dex@00786712 invoke-static            v11 v9 v14 v15 v0 Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+015c dex@00786718 invoke-virtual/range     v19..19 Ljava/lang/String;->getBytes()[B
+015f dex@0078671e move-result-object       v0 
+0160 dex@00786720 invoke-virtual/range     v19..19 Ljava/lang/String;->getBytes()[B
+0163 dex@00786726 move-result-object       v11 
+0164 dex@00786728 array-length             v11 v11 
+0165 dex@0078672a const/16                 v15 #81 
+0167 dex@0078672e invoke-static            v0 v9 v14 v15 v11 Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+016a dex@00786734 invoke-virtual/range     v43..43 Ljava/lang/String;->getBytes()[B
+016d dex@0078673a move-result-object       v0 
+016e dex@0078673c sget-object              v9 Lcom/macrovideo/sdk/media/LoginHelper;->sRandomKey:Ljava/lang/String;
+0170 dex@00786740 invoke-virtual           v9 Ljava/lang/String;->getBytes()[B
+0173 dex@00786746 move-result-object       v9 
+0174 dex@00786748 invoke-static            v0 v9 Lcom/macrovideo/sdk/tools/Functions;->encrypt([B[B)[B
+0177 dex@0078674e move-result-object       v0 
+0178 dex@00786750 invoke-virtual/range     v19..19 Ljava/lang/String;->getBytes()[B
+017b dex@00786756 move-result-object       v9 
+017c dex@00786758 invoke-static            v0 v9 Lcom/macrovideo/sdk/tools/Functions;->encrypt([B[B)[B
+017f dex@0078675e move-result-object       v0 
+0180 dex@00786760 array-length             v9 v0 
+0181 dex@00786762 const/16                 v11 #97 
+0183 dex@00786766 const/4                  v15 #0 
+0184 dex@00786768 invoke-static            v0 v15 v14 v11 v9 Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+0187 dex@0078676e goto                      -> 018c
+0188 dex@00786770 move-exception           v0 
+0189 dex@00786772 invoke-virtual           v0 Ljava/lang/Throwable;->printStackTrace()V
+018c dex@00786778 const/16                 v9 #520 
+018e dex@0078677c const/4                  v11 #0 
+018f dex@0078677e invoke-virtual           v12 v14 v11 v9 Ljava/io/OutputStream;->write([BII)V
+0192 dex@00786784 const-string             v0 <string-content-excluded>
+0194 dex@00786788 const-string/jumbo       v9 <string-content-excluded>
+0197 dex@0078678e filled-new-array         v9 [Ljava/lang/Object;
+019a dex@00786794 move-result-object       v9 
+019b dex@00786796 invoke-static            v0 v9 Lcom/macrovideo/sdk/tools/LogUtils;->i(Ljava/lang/String;[Ljava/lang/Object;)V
+019e dex@0078679c new-instance             v0 Ljava/lang/StringBuilder;
+01a0 dex@007867a0 invoke-direct            v0 v4 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+01a3 dex@007867a6 invoke-virtual           v14 Ljava/lang/Object;->toString()Ljava/lang/String;
+01a6 dex@007867ac move-result-object       v4 
+01a7 dex@007867ae invoke-virtual           v0 v4 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+01aa dex@007867b4 invoke-virtual           v0 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+01ad dex@007867ba move-result-object       v0 
+01ae dex@007867bc filled-new-array         v0 [Ljava/lang/Object;
+01b1 dex@007867c2 move-result-object       v0 
+01b2 dex@007867c4 invoke-static            v7 v0 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+01b5 dex@007867ca invoke-virtual           v12 Ljava/io/OutputStream;->flush()V
+01b8 dex@007867d0 const/4                  v4 #0 
+01b9 dex@007867d2 invoke-static            v14 v4 Ljava/util/Arrays;->fill([BB)V
+01bc dex@007867d8 const/4                  v4 #0 
+01bd dex@007867da const/16                 v0 #80 
+01bf dex@007867de const/16                 v9 #256 
+01c1 dex@007867e2 if-ge                    v4 v0  -> 01e1
+01c3 dex@007867e6 invoke-virtual           v13 Ljava/io/InputStream;->available()I
+01c6 dex@007867ec move-result              v0 
+01c7 dex@007867ee if-ge                    v0 v9  -> 01d7
+01c9 dex@007867f2 const-wide/16            v15 #50 
+01cb dex@007867f6 invoke-static/range      v15..16 Ljava/lang/Thread;->sleep(J)V
+01ce dex@007867fc goto                      -> 01d4
+01cf dex@007867fe move-exception           v0 
+01d0 dex@00786800 move-object              v11 v0 
+01d1 dex@00786802 invoke-virtual           v11 Ljava/lang/Throwable;->printStackTrace()V
+01d4 dex@00786808 add-int/lit8             v4 v4 #1 
+01d6 dex@0078680c goto                      -> 01bd
+01d7 dex@0078680e const/4                  v4 #0 
+01d8 dex@00786810 invoke-virtual           v13 v14 v4 v9 Ljava/io/InputStream;->read([BII)I
+01db dex@00786816 const/4                  v0 #1 
+01dc dex@00786818 goto                      -> 01e2
+01dd dex@0078681a move-exception           v0 
+01de dex@0078681c invoke-virtual           v0 Ljava/lang/Throwable;->printStackTrace()V
+01e1 dex@00786822 const/4                  v0 #0 
+01e2 dex@00786824 const-string             v4 <string-content-excluded>
+01e4 dex@00786828 invoke-static            v4 v0 Lcom/macrovideo/sdk/obf/i;->a(Ljava/lang/String;Z)Ljava/lang/String;
+01e7 dex@0078682e move-result-object       v11 
+01e8 dex@00786830 filled-new-array         v11 [Ljava/lang/Object;
+01eb dex@00786836 move-result-object       v11 
+01ec dex@00786838 move-object/from16       v15 v21 
+01ee dex@0078683c invoke-static            v15 v11 Lcom/macrovideo/sdk/tools/LogUtils;->i(Ljava/lang/String;[Ljava/lang/Object;)V
+01f1 dex@00786842 new-instance             v11 Ljava/lang/StringBuilder;
+01f3 dex@00786846 invoke-direct            v11 v4 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+01f6 dex@0078684c invoke-virtual           v11 v0 Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+01f9 dex@00786852 invoke-virtual           v11 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+01fc dex@00786858 move-result-object       v4 
+01fd dex@0078685a filled-new-array         v4 [Ljava/lang/Object;
+0200 dex@00786860 move-result-object       v4 
+0201 dex@00786862 invoke-static            v7 v4 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+0204 dex@00786868 if-eqz                   v0  -> 04aa
+0206 dex@0078686c const/4                  v4 #0 
+0207 dex@0078686e invoke-static            v14 v4 Lcom/macrovideo/sdk/tools/Functions;->BytesToInt([BI)I
+020a dex@00786874 move-result              v0 
+020b dex@00786876 sput                     v0 Lcom/macrovideo/sdk/media/LoginHelper;->a:I
+020d dex@0078687a invoke-static            v14 v6 Lcom/macrovideo/sdk/tools/Functions;->BytesToInt([BI)I
+0210 dex@00786880 move-result              v4 
+0211 dex@00786882 const/16                 v6 #8 
+0213 dex@00786886 invoke-static            v14 v6 Lcom/macrovideo/sdk/tools/Functions;->BytesToInt([BI)I
+0216 dex@0078688c move-result              v11 
+0217 dex@0078688e const-string             v6 <string-content-excluded>
+0219 dex@00786892 const-string             v15 <string-content-excluded>
+021b dex@00786896 const-string             v9 <string-content-excluded>
+021d dex@0078689a invoke-static            v15 v9 v6 v0 v4 Lcom/macrovideo/sdk/obf/k;->a(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)Ljava/lang/StringBuilder;
+0220 dex@007868a0 move-result-object       v6 
+0221 dex@007868a2 invoke-virtual           v6 v11 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0224 dex@007868a8 invoke-virtual           v6 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0227 dex@007868ae move-result-object       v6 
+0228 dex@007868b0 filled-new-array         v6 [Ljava/lang/Object;
+022b dex@007868b6 move-result-object       v6 
+022c dex@007868b8 invoke-static            v5 v6 Lcom/macrovideo/sdk/tools/LogUtils;->d(Ljava/lang/String;[Ljava/lang/Object;)V
+022f dex@007868be new-instance             v5 Ljava/lang/StringBuilder;
+0231 dex@007868c2 invoke-direct            v5 v15 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0234 dex@007868c8 invoke-virtual           v5 v0 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0237 dex@007868ce invoke-virtual           v5 v9 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+023a dex@007868d4 invoke-virtual           v5 v4 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+023d dex@007868da const-string             v6 <string-content-excluded>
+023f dex@007868de invoke-virtual           v5 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0242 dex@007868e4 invoke-virtual           v5 v11 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0245 dex@007868ea invoke-virtual           v5 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0248 dex@007868f0 move-result-object       v5 
+0249 dex@007868f2 filled-new-array         v5 [Ljava/lang/Object;
+024c dex@007868f8 move-result-object       v5 
+024d dex@007868fa invoke-static            v7 v5 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+0250 dex@00786900 const/16                 v5 #12 
+0252 dex@00786904 aget-byte                v5 v14 v5 
+0254 dex@00786908 invoke-static            v14 v3 Lcom/macrovideo/sdk/tools/Functions;->BytesToInt([BI)I
+0257 dex@0078690e move-result              v6 
+0258 dex@00786910 int-to-long              v6 v6 
+0259 dex@00786912 invoke-static            v14 v10 Lcom/macrovideo/sdk/tools/Functions;->BytesToInt([BI)I
+025c dex@00786918 move-result              v9 
+025d dex@0078691a move/from16              v43 v11 
+025f dex@0078691e int-to-long              v10 v9 
+0260 dex@00786920 const/16                 v9 #21 
+0262 dex@00786924 aget-byte                v9 v14 v9 
+0264 dex@00786928 const/16                 v15 #22 
+0266 dex@0078692c aget-byte                v15 v14 v15 
+0268 dex@00786930 move-object/from16       v19 v13 
+026a dex@00786934 const/4                  v3 #0 
+026b dex@00786936 const/16                 v13 #32 
+026d dex@0078693a if-ge                    v3 v13  -> 027a
+026f dex@0078693e add-int/lit8             v21 v3 #27 
+0271 dex@00786942 aget-byte                v13 v14 v21 
+0273 dex@00786946 int-to-char              v13 v13 
+0274 dex@00786948 if-nez                   v13  -> 0277
+0276 dex@0078694c goto                      -> 027b
+0277 dex@0078694e add-int/lit8             v3 v3 #1 
+0279 dex@00786952 goto                      -> 026b
+027a dex@00786954 const/4                  v3 #0 
+027b dex@00786956 new-array                v13 v3 [B
+027d dex@0078695a move-object/from16       v21 v12 
+027f dex@0078695e const/4                  v12 #0 
+0280 dex@00786960 invoke-static            v13 v12 Ljava/util/Arrays;->fill([BB)V
+0283 dex@00786966 move-wide/from16         v26 v10 
+0285 dex@0078696a const/16                 v10 #27 
+0287 dex@0078696e invoke-static            v14 v10 v13 v12 v3 Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+028a dex@00786974 const/16                 v3 #63 
+028c dex@00786978 aget-byte                v3 v14 v3 
+028e dex@0078697c const/16                 v10 #32 
+0290 dex@00786980 new-array                v11 v10 [B
+0292 dex@00786984 invoke-static            v11 v12 Ljava/util/Arrays;->fill([BB)V
+0295 dex@0078698a const/16                 v13 #71 
+0297 dex@0078698e invoke-static            v14 v13 v11 v12 v10 Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+029a dex@00786994 const/4                  v10 #7 
+029b dex@00786996 aget-byte                v10 v11 v10 
+029d dex@0078699a and-int/lit8             v10 v10 #3 
+029f dex@0078699e const/16                 v12 #8 
+02a1 dex@007869a2 aget-byte                v12 v11 v12 
+02a3 dex@007869a6 const/16                 v13 #9 
+02a5 dex@007869aa aget-byte                v13 v11 v13 
+02a7 dex@007869ae move/from16              v23 v13 
+02a9 dex@007869b2 const/16                 v22 #10 
+02ab dex@007869b6 aget-byte                v13 v11 v22 
+02ad dex@007869ba const/16                 v22 #11 
+02af dex@007869be move/from16              v24 v13 
+02b1 dex@007869c2 aget-byte                v13 v11 v22 
+02b3 dex@007869c6 const/16                 v22 #12 
+02b5 dex@007869ca move/from16              v25 v13 
+02b7 dex@007869ce aget-byte                v13 v11 v22 
+02b9 dex@007869d2 move/from16              v22 v13 
+02bb dex@007869d6 const/16                 v16 #13 
+02bd dex@007869da aget-byte                v13 v11 v16 
+02bf dex@007869de const/16                 v16 #14 
+02c1 dex@007869e2 move/from16              v28 v13 
+02c3 dex@007869e6 aget-byte                v13 v11 v16 
+02c5 dex@007869ea const/16                 v16 #15 
+02c7 dex@007869ee move/from16              v29 v12 
+02c9 dex@007869f2 aget-byte                v12 v11 v16 
+02cb dex@007869f6 move/from16              v16 v10 
+02cd dex@007869fa aget-byte                v10 v11 v18 
+02cf dex@007869fe move/from16              v45 v10 
+02d1 dex@00786a02 const/16                 v18 #17 
+02d3 dex@00786a06 aget-byte                v10 v11 v18 
+02d5 dex@00786a0a const/16                 v18 #18 
+02d7 dex@00786a0e move/from16              v30 v5 
+02d9 dex@00786a12 aget-byte                v5 v11 v18 
+02db dex@00786a16 const/16                 v18 #20 
+02dd dex@00786a1a move/from16              v31 v3 
+02df dex@00786a1e aget-byte                v3 v11 v18 
+02e1 dex@00786a22 and-int/lit16            v3 v3 #255 
+02e3 dex@00786a26 const/16                 v18 #21 
+02e5 dex@00786a2a move-wide/from16         v32 v6 
+02e7 dex@00786a2e aget-byte                v6 v11 v18 
+02e9 dex@00786a32 const/16                 v7 #22 
+02eb dex@00786a36 aget-byte                v7 v11 v7 
+02ed dex@00786a3a const/16                 v18 #23 
+02ef dex@00786a3e move/from16              v34 v7 
+02f1 dex@00786a42 aget-byte                v7 v11 v18 
+02f3 dex@00786a46 const/16                 v18 #25 
+02f5 dex@00786a4a move/from16              v35 v7 
+02f7 dex@00786a4e aget-byte                v7 v11 v18 
+02f9 dex@00786a52 move/from16              v18 v7 
+02fb dex@00786a56 const-string             v7 <string-content-excluded>
+02fd dex@00786a5a move/from16              v36 v15 
+02ff dex@00786a5e const-string             v15 <string-content-excluded>
+0301 dex@00786a62 move/from16              v37 v9 
+0303 dex@00786a66 const-string/jumbo       v9 <string-content-excluded>
+0306 dex@00786a6c invoke-static            v9 v7 v15 v12 v10 Lcom/macrovideo/sdk/obf/k;->a(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)Ljava/lang/StringBuilder;
+0309 dex@00786a72 move-result-object       v7 
+030a dex@00786a74 const-string             v9 <string-content-excluded>
+030c dex@00786a78 const-string             v15 <string-content-excluded>
+030e dex@00786a7c invoke-static            v5 v3 v9 v15 v7 Lcom/macrovideo/sdk/obf/l;->a(IILjava/lang/String;Ljava/lang/String;Ljava/lang/StringBuilder;)Ljava/lang/StringBuilder;
+0311 dex@00786a82 move-result-object       v7 
+0312 dex@00786a84 invoke-virtual           v7 v6 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0315 dex@00786a8a const-string             v9 <string-content-excluded>
+0317 dex@00786a8e invoke-virtual           v7 v9 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+031a dex@00786a94 invoke-static            v11 Lcom/macrovideo/sdk/tools/Functions;->byte2hex([B)Ljava/lang/String;
+031d dex@00786a9a move-result-object       v9 
+031e dex@00786a9c invoke-virtual           v7 v9 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0321 dex@00786aa2 const-string             v9 <string-content-excluded>
+0323 dex@00786aa6 invoke-virtual           v7 v9 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0326 dex@00786aac invoke-virtual           v7 v13 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0329 dex@00786ab2 invoke-virtual           v7 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+032c dex@00786ab8 move-result-object       v7 
+032d dex@00786aba filled-new-array         v7 [Ljava/lang/Object;
+0330 dex@00786ac0 move-result-object       v7 
+0331 dex@00786ac2 const-string             v9 <string-content-excluded>
+0333 dex@00786ac6 invoke-static            v9 v7 Lcom/macrovideo/sdk/tools/LogUtils;->i(Ljava/lang/String;[Ljava/lang/Object;)V
+0336 dex@00786acc const/16                 v7 #103 
+0338 dex@00786ad0 invoke-static            v14 v7 Lcom/macrovideo/sdk/tools/Functions;->BytesToShort([BI)I
+033b dex@00786ad6 move-result              v7 
+033c dex@00786ad8 const/16                 v9 #105 
+033e dex@00786adc invoke-static            v14 v9 Lcom/macrovideo/sdk/tools/Functions;->BytesToShort([BI)I
+0341 dex@00786ae2 move-result              v9 
+0342 dex@00786ae4 const/16                 v11 #107 
+0344 dex@00786ae8 invoke-static            v14 v11 Lcom/macrovideo/sdk/tools/Functions;->BytesToShort([BI)I
+0347 dex@00786aee move-result              v11 
+0348 dex@00786af0 const/16                 v15 #113 
+034a dex@00786af4 aget-byte                v15 v14 v15 
+034c dex@00786af8 move/from16              v38 v15 
+034e dex@00786afc sget                     v15 Lcom/macrovideo/sdk/media/LoginHelper;->g:I
+0350 dex@00786b00 if-ne                    v0 v15  -> 04a4
+0352 dex@00786b04 invoke-virtual           v8 v4 Lcom/macrovideo/sdk/media/LoginHandle;->setRealRet(I)V
+0355 dex@00786b0a const/16                 v0 #1001 
+0357 dex@00786b0e if-ne                    v4 v0  -> 0481
+0359 dex@00786b12 div-int/lit8             v0 v43 #100 
+035b dex@00786b16 mul-int/lit8             v0 v0 #100 
+035d dex@00786b1a sub-int                  v0 v43 v0 
+035f dex@00786b1e invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setRealRet(I)V
+0362 dex@00786b24 const/4                  v4 #-2 
+0363 dex@00786b26 if-ne                    v0 v4  -> 036c
+0365 dex@00786b2a const/16                 v4 #-263 
+0367 dex@00786b2e invoke-virtual           v8 v4 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+036a dex@00786b34 const/4                  v4 #1 
+036b dex@00786b36 goto                      -> 0385
+036c dex@00786b38 const/4                  v4 #-1 
+036d dex@00786b3a if-ne                    v0 v4  -> 0375
+036f dex@00786b3e const/16                 v4 #-259 
+0371 dex@00786b42 invoke-virtual           v8 v4 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+0374 dex@00786b48 goto                      -> 036a
+0375 dex@00786b4a if-nez                   v0  -> 037d
+0377 dex@00786b4e const/16                 v4 #-260 
+0379 dex@00786b52 invoke-virtual           v8 v4 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+037c dex@00786b58 goto                      -> 036a
+037d dex@00786b5a const/4                  v4 #1 
+037e dex@00786b5c if-ne                    v0 v4  -> 0385
+0380 dex@00786b60 const/16                 v15 #-261 
+0382 dex@00786b64 invoke-virtual           v8 v15 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+0385 dex@00786b6a if-nez                   v0  -> 04d1
+0387 dex@00786b6e const/16                 v15 #256 
+0389 dex@00786b72 invoke-virtual           v8 v15 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+038c dex@00786b78 const/16                 v0 #64 
+038e dex@00786b7c aget-byte                v0 v14 v0 
+0390 dex@00786b80 if-ne                    v0 v4  -> 0394
+0392 dex@00786b84 move                     v0 v4 
+0393 dex@00786b86 goto                      -> 0395
+0394 dex@00786b88 const/4                  v0 #0 
+0395 dex@00786b8a const/16                 v15 #66 
+0397 dex@00786b8e aget-byte                v15 v14 v15 
+0399 dex@00786b92 if-ne                    v15 v4  -> 039d
+039b dex@00786b96 move                     v15 v4 
+039c dex@00786b98 goto                      -> 039e
+039d dex@00786b9a const/4                  v15 #0 
+039e dex@00786b9c const/16                 v17 #67 
+03a0 dex@00786ba0 move/from16              v42 v6 
+03a2 dex@00786ba4 aget-byte                v6 v14 v17 
+03a4 dex@00786ba8 if-ne                    v6 v4  -> 03a8
+03a6 dex@00786bac move                     v6 v4 
+03a7 dex@00786bae goto                      -> 03a9
+03a8 dex@00786bb0 const/4                  v6 #0 
+03a9 dex@00786bb2 const/16                 v17 #68 
+03ab dex@00786bb6 move/from16              v43 v3 
+03ad dex@00786bba aget-byte                v3 v14 v17 
+03af dex@00786bbe if-ne                    v3 v4  -> 03b3
+03b1 dex@00786bc2 move                     v3 v4 
+03b2 dex@00786bc4 goto                      -> 03b4
+03b3 dex@00786bc6 const/4                  v3 #0 
+03b4 dex@00786bc8 const/16                 v17 #69 
+03b6 dex@00786bcc move/from16              v39 v5 
+03b8 dex@00786bd0 aget-byte                v5 v14 v17 
+03ba dex@00786bd4 if-ne                    v5 v4  -> 03c2
+03bc dex@00786bd8 const/16                 v4 #70 
+03be dex@00786bdc aget-byte                v4 v14 v4 
+03c0 dex@00786be0 const/4                  v5 #1 
+03c1 dex@00786be2 goto                      -> 03c4
+03c2 dex@00786be4 const/4                  v4 #0 
+03c3 dex@00786be6 const/4                  v5 #0 
+03c4 dex@00786be8 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setbAudio(Z)V
+03c7 dex@00786bee invoke-virtual           v8 v6 Lcom/macrovideo/sdk/media/LoginHandle;->setbPTZ(Z)V
+03ca dex@00786bf4 invoke-virtual           v8 v13 Lcom/macrovideo/sdk/media/LoginHandle;->setPtzType(I)V
+03cd dex@00786bfa invoke-virtual           v8 v5 Lcom/macrovideo/sdk/media/LoginHandle;->setbPTZX(Z)V
+03d0 dex@00786c00 invoke-virtual           v8 v3 Lcom/macrovideo/sdk/media/LoginHandle;->setbReversePRI(Z)V
+03d3 dex@00786c06 invoke-virtual           v8 v15 Lcom/macrovideo/sdk/media/LoginHandle;->setbSpeak(Z)V
+03d6 dex@00786c0c invoke-virtual           v8 v4 Lcom/macrovideo/sdk/media/LoginHandle;->setnPTZXCount(I)V
+03d9 dex@00786c12 const/4                  v3 #1 
+03da dex@00786c14 invoke-virtual           v8 v3 Lcom/macrovideo/sdk/media/LoginHandle;->setbInLan(Z)V
+03dd dex@00786c1a invoke-virtual           v8 v1 Lcom/macrovideo/sdk/media/LoginHandle;->setStrIP(Ljava/lang/String;)V
+03e0 dex@00786c20 invoke-virtual           v8 v1 Lcom/macrovideo/sdk/media/LoginHandle;->setStrLanIP(Ljava/lang/String;)V
+03e3 dex@00786c26 invoke-virtual           v8 v2 Lcom/macrovideo/sdk/media/LoginHandle;->setnPort(I)V
+03e6 dex@00786c2c move/from16              v0 v37 
+03e8 dex@00786c30 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setDeviceType(I)V
+03eb dex@00786c36 move/from16              v0 v36 
+03ed dex@00786c3a invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setCamType(I)V
+03f0 dex@00786c40 move-wide/from16         v0 v32 
+03f2 dex@00786c44 invoke-virtual           v8 v0 v1 Lcom/macrovideo/sdk/media/LoginHandle;->setlHandle(J)V
+03f5 dex@00786c4a const/4                  v1 #0 
+03f6 dex@00786c4c invoke-virtual           v8 v1 Lcom/macrovideo/sdk/media/LoginHandle;->setMRMode(Z)V
+03f9 dex@00786c52 invoke-virtual           v8 v7 Lcom/macrovideo/sdk/media/LoginHandle;->setPanoX(I)V
+03fc dex@00786c58 invoke-virtual           v8 v9 Lcom/macrovideo/sdk/media/LoginHandle;->setPanoY(I)V
+03ff dex@00786c5e invoke-virtual           v8 v11 Lcom/macrovideo/sdk/media/LoginHandle;->setPanoRad(I)V
+0402 dex@00786c64 move/from16              v0 v31 
+0404 dex@00786c68 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setChannelNum(I)V
+0407 dex@00786c6e move/from16              v0 v30 
+0409 dex@00786c72 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setVersion(I)V
+040c dex@00786c78 move-wide/from16         v2 v26 
+040e dex@00786c7c invoke-virtual           v8 v2 v3 Lcom/macrovideo/sdk/media/LoginHandle;->setlTokenSession(J)V
+0411 dex@00786c82 if-nez                   v16  -> 0419
+0413 dex@00786c86 invoke-virtual           v8 v1 Lcom/macrovideo/sdk/media/LoginHandle;->setLightStatus(I)V
+0416 dex@00786c8c move/from16              v0 v29 
+0418 dex@00786c90 goto                      -> 0436
+0419 dex@00786c92 move/from16              v0 v16 
+041b dex@00786c96 const/4                  v1 #1 
+041c dex@00786c98 if-ne                    v0 v1  -> 0424
+041e dex@00786c9c const/16                 v0 #1001 
+0420 dex@00786ca0 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setLightStatus(I)V
+0423 dex@00786ca6 goto                      -> 0416
+0424 dex@00786ca8 const/4                  v1 #2 
+0425 dex@00786caa if-ne                    v0 v1  -> 042d
+0427 dex@00786cae const/16                 v0 #1002 
+0429 dex@00786cb2 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setLightStatus(I)V
+042c dex@00786cb8 goto                      -> 0416
+042d dex@00786cba const/4                  v1 #3 
+042e dex@00786cbc if-ne                    v0 v1  -> 0416
+0430 dex@00786cc0 const/16                 v0 #1003 
+0432 dex@00786cc4 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setLightStatus(I)V
+0435 dex@00786cca goto                      -> 0416
+0436 dex@00786ccc invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setVoiceResult(I)V
+0439 dex@00786cd2 move/from16              v0 v23 
+043b dex@00786cd6 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setnStarLightStatus(I)V
+043e dex@00786cdc move/from16              v0 v25 
+0440 dex@00786ce0 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setSensitivityStatus(I)V
+0443 dex@00786ce6 move/from16              v0 v24 
+0445 dex@00786cea invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setMotionTrackStats(I)V
+0448 dex@00786cf0 move/from16              v0 v22 
+044a dex@00786cf4 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setZoom(I)V
+044d dex@00786cfa move/from16              v0 v28 
+044f dex@00786cfe invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setmIsTopo(I)V
+0452 dex@00786d04 invoke-virtual           v8 v12 Lcom/macrovideo/sdk/media/LoginHandle;->setThemalData(I)V
+0455 dex@00786d0a move/from16              v0 v45 
+0457 dex@00786d0e invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setTouchAlarm(I)V
+045a dex@00786d14 invoke-virtual           v8 v10 Lcom/macrovideo/sdk/media/LoginHandle;->setNewDeviceType(I)V
+045d dex@00786d1a move/from16              v0 v39 
+045f dex@00786d1e invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setPersonalizedTimer(I)V
+0462 dex@00786d24 move/from16              v0 v43 
+0464 dex@00786d28 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setElectricity(I)V
+0467 dex@00786d2e move/from16              v0 v42 
+0469 dex@00786d32 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setNetworkFreq(I)V
+046c dex@00786d38 move/from16              v0 v34 
+046e dex@00786d3c invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setPrivateMode(I)V
+0471 dex@00786d42 move/from16              v0 v35 
+0473 dex@00786d46 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setLinkageCalibrate(I)V
+0476 dex@00786d4c move/from16              v0 v38 
+0478 dex@00786d50 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setVideoSplicing(I)V
+047b dex@00786d56 move/from16              v0 v18 
+047d dex@00786d5a invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setResolutionSp(I)V
+0480 dex@00786d60 goto                      -> 04d1
+0481 dex@00786d62 const/16                 v0 #1012 
+0483 dex@00786d66 if-eq                    v4 v0  -> 049e
+0485 dex@00786d6a const/16                 v0 #2002 
+0487 dex@00786d6e if-ne                    v4 v0  -> 048a
+0489 dex@00786d72 goto                      -> 049e
+048a dex@00786d74 const/16                 v0 #1011 
+048c dex@00786d78 if-ne                    v4 v0  -> 0494
+048e dex@00786d7c const/16                 v0 #-260 
+0490 dex@00786d80 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+0493 dex@00786d86 goto                      -> 04d1
+0494 dex@00786d88 const/16                 v0 #1018 
+0496 dex@00786d8c if-ne                    v4 v0  -> 04d1
+0498 dex@00786d90 const/16                 v0 #-263 
+049a dex@00786d94 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+049d dex@00786d9a goto                      -> 04d1
+049e dex@00786d9c const/16                 v0 #-261 
+04a0 dex@00786da0 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setnResult(I)V
+04a3 dex@00786da6 goto                      -> 04d1
+04a4 dex@00786da8 const/16                 v0 #10006 
+04a6 dex@00786dac invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setRealRet(I)V
+04a9 dex@00786db2 goto                      -> 04d1
+04aa dex@00786db4 move-object/from16       v21 v12 
+04ac dex@00786db8 move-object/from16       v19 v13 
+04ae dex@00786dbc const/16                 v0 #10005 
+04b0 dex@00786dc0 invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setRealRet(I)V
+04b3 dex@00786dc6 goto                      -> 04d1
+04b4 dex@00786dc8 move-object/from16       v21 v12 
+04b6 dex@00786dcc move-object/from16       v19 v13 
+04b8 dex@00786dd0 if-eqz                   v21  -> 04bd
+04ba dex@00786dd4 invoke-virtual/range     v21..21 Ljava/io/OutputStream;->close()V
+04bd dex@00786dda if-eqz                   v19  -> 04c2
+04bf dex@00786dde invoke-virtual/range     v19..19 Ljava/io/InputStream;->close()V
+04c2 dex@00786de4 invoke-virtual/range     v20..20 Ljava/net/Socket;->close()V
+04c5 dex@00786dea const/16                 v0 #10004 
+04c7 dex@00786dee invoke-virtual           v8 v0 Lcom/macrovideo/sdk/media/LoginHandle;->setRealRet(I)V
+04ca dex@00786df4 return-object            v8 
+04cb dex@00786df6 move-object/from16       v20 v9 
+04cd dex@00786dfa move-object/from16       v21 v12 
+04cf dex@00786dfe move-object/from16       v19 v13 
+04d1 dex@00786e02 if-eqz                   v21  -> 04d6
+04d3 dex@00786e06 invoke-virtual/range     v21..21 Ljava/io/OutputStream;->close()V
+04d6 dex@00786e0c if-eqz                   v19  -> 04db
+04d8 dex@00786e10 invoke-virtual/range     v19..19 Ljava/io/InputStream;->close()V
+04db dex@00786e16 invoke-virtual/range     v20..20 Ljava/net/Socket;->close()V
+04de dex@00786e1c return-object            v8 

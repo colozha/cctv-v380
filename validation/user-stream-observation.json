@@ -1,0 +1,35 @@
+{
+  "source": "user-provided v380-lan-diagnostics.json",
+  "source_sha256": "9b64a75e9e9b9587ba76bb3ad250bdf8c0b04ea3641b85b2e4abc8269c7ae98f",
+  "schema": 1,
+  "agent_connected_to_camera": false,
+  "user_reported_local_login_and_video": true,
+  "first_render_callback_observed_in_log": true,
+  "protocol_family_inference": "IoT LAN, based on CAPABILITIES event exclusive to IoT adapter in this app version",
+  "ptz_motor_confirmed": false,
+  "full_firmware_compatibility_verified": false,
+  "disconnect_cause_proved_by_original_log": false,
+  "sessions": [
+    {
+      "duration_until_failure_ms": 10782,
+      "first_render_after_stream_start_ms": 500,
+      "failure_stage_in_old_client": "AUTH"
+    },
+    {
+      "duration_until_failure_ms": 9659,
+      "first_render_after_stream_start_ms": 537,
+      "failure_stage_in_old_client": "AUTH"
+    },
+    {
+      "duration_until_failure_ms": 366,
+      "first_render_after_stream_start_ms": null,
+      "failure_stage_in_old_client": "AUTH"
+    },
+    {
+      "duration_until_failure_ms": 5651,
+      "first_render_after_stream_start_ms": 2916,
+      "failure_stage_in_old_client": "AUTH"
+    }
+  ],
+  "privacy": "Raw trace, local IP, credentials, keys, session material and footage are not copied into this summary."
+}

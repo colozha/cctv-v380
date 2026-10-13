@@ -1,0 +1,11 @@
+{
+  "canonical_evidence_count": 43,
+  "sanitized_excerpt_count": 2,
+  "supplementary_json_count": 4,
+  "failed_probe_count": 1,
+  "unknown_evidence_ids": [],
+  "missing_local_links": [],
+  "apk_sha256_after_analysis": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "all_json_parsed": true,
+  "collector_scripts_parse": true
+}

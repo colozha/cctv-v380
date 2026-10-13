@@ -1,0 +1,186 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_e5f64e44e036367a0df51f5d8186731934b203d0af36736b49fb652d1643735f",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_class",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.DeviceNetworkSetting"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceNetworkSetting",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "reported_signature": "<clinit>(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.setting.IPConfigInfo): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(java.lang.String, java.lang.String, java.lang.String, int, int): com.macrovideo.sdk.setting.IPConfigInfo",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(int, int, int, com.macrovideo.sdk.media.LoginHandle, java.lang.String, java.lang.String, java.lang.String): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 2,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(int, int, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 3,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(java.lang.String, int, java.lang.String, java.lang.String): java.util.ArrayList",
+        "overload_index": 4,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "b",
+        "reported_signature": "b(java.lang.String, java.lang.String, java.lang.String, int, int): com.macrovideo.sdk.setting.IPConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "b",
+        "reported_signature": "b(int, int, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "c",
+        "reported_signature": "c(java.lang.String, java.lang.String, java.lang.String, int, int): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "d",
+        "reported_signature": "d(java.lang.String, java.lang.String, java.lang.String, int, int): java.util.ArrayList",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "e",
+        "reported_signature": "e(java.lang.String, java.lang.String, java.lang.String, int, int): java.util.ArrayList",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getIPConfig",
+        "reported_signature": "getIPConfig(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.IPConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getNetworkConfig",
+        "reported_signature": "getNetworkConfig(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getVisibleWifiListFormDevice",
+        "reported_signature": "getVisibleWifiListFormDevice(com.macrovideo.sdk.media.LoginHandle, com.macrovideo.sdk.objects.DeviceInfo, boolean): java.util.List<com.macrovideo.sdk.setting.WifiInfo>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setIPConfig",
+        "reported_signature": "setIPConfig(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.setting.IPConfigInfo, com.macrovideo.sdk.media.LoginHandle): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setNetworkAP",
+        "reported_signature": "setNetworkAP(com.macrovideo.sdk.objects.DeviceInfo, boolean, java.lang.String, java.lang.String, boolean, java.lang.String, java.lang.String, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setNetworkConfig",
+        "reported_signature": "setNetworkConfig(com.macrovideo.sdk.media.LoginHandle, com.macrovideo.sdk.objects.DeviceInfo, int, java.lang.String, java.lang.String): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setNetworkWithBSSID",
+        "reported_signature": "setNetworkWithBSSID(com.macrovideo.sdk.objects.DeviceInfo, int, java.lang.String, java.lang.String, java.lang.String, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setWiFiAPConfig",
+        "reported_signature": "setWiFiAPConfig(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, java.lang.String, java.lang.String): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "a",
+        "reported_type": "byte[]"
+      },
+      {
+        "name": "b",
+        "reported_type": "byte[]"
+      },
+      {
+        "name": "c",
+        "reported_type": "boolean"
+      }
+    ],
+    "inner_classes": []
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "redaction": "All string literals except JSON field names, UTF encodings and cipher algorithm names removed. Original raw body not retained."
+}

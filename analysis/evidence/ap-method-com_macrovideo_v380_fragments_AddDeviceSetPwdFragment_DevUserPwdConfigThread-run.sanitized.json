@@ -1,0 +1,47 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_1a0c18d6c9837aa8f5775b3c906ca76a85032d3ec7299937b7fb0894523599a3",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_method",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceSetPwdFragment.DevUserPwdConfigThread",
+    "method_name": "run"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceSetPwdFragment.DevUserPwdConfigThread",
+    "method": {
+      "name": "run",
+      "reported_signature": "run(): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "        @Override // java.lang.Thread, java.lang.Runnable\n        public void run() throws IOException {\n            LoginHandle loginHandle = this.loginHandle;\n            if (loginHandle == null || loginHandle.getnResult() != 256) {\n                try {\n                    this.loginHandle = Functions.SettingLogin(this.deviceInfo, AddDeviceSetPwdFragment.this.mActivity);\n                } catch (IOException e) {\n                    e.printStackTrace();\n                }\n            }\n            LogUtil.d(AddDeviceSetPwdFragment.TAG, \"<redacted literal>\" + this.loginHandle);\n            if (this.mSetThread != AddDeviceSetPwdFragment.this.mSetUserConfigThreadID || interrupted()) {\n                return;\n            }\n            LoginHandle loginHandle2 = this.loginHandle;\n            int i = ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL;\n            if (loginHandle2 != null && loginHandle2.getnResult() == 256) {\n                AddDeviceSetPwdFragment.this.mLoginHandle = this.loginHandle;\n                AccountConfigInfo accountConfig = null;\n                for (int i2 = 0; i2 < this.runCount && this.mSetThread == AddDeviceSetPwdFragment.this.mSetUserConfigThreadID; i2++) {\n                    accountConfig = DeviceAccountSetting.setAccountConfig(this.deviceInfo, this.m_newUsername, this.m_newPassword, 0, this.loginHandle);\n                    if (accountConfig != null && accountConfig.getnResult() == -257) {\n                        AddDeviceSetPwdFragment.this.mStrDevUserNameTemp = this.m_newUsername;\n                        AddDeviceSetPwdFragment.this.mStrDevPwdTemp = this.m_newPassword;\n                    }\n                    if (accountConfig == null || accountConfig.getnResult() != -276 || this.mSetThread != AddDeviceSetPwdFragment.this.mSetUserConfigThreadID) {\n                        break;\n                    }\n                    try {\n                        LoginHandle loginHandleSettingLogin = Functions.SettingLogin(this.deviceInfo, AddDeviceSetPwdFragment.this.mActivity);\n                        this.loginHandle = loginHandleSettingLogin;\n                        if (loginHandleSettingLogin != null && ((loginHandleSettingLogin.getnResult() == -260 || this.loginHandle.getnResult() == -261) && this.mSetThread == AddDeviceSetPwdFragment.this.mSetUserConfigThreadID && AddDeviceSetPwdFragment.this.mStrDevUserNameTemp != null && AddDeviceSetPwdFragment.this.mStrDevUserNameTemp.length() != 0 && AddDeviceSetPwdFragment.this.mStrDevPwdTemp != null && !AddDeviceSetPwdFragment.this.mStrDevUserNameTemp.equals(this.deviceInfo.getStrUsername()) && !AddDeviceSetPwdFragment.this.mStrDevPwdTemp.equals(this.deviceInfo.getStrPassword()))) {\n                            this.deviceInfo.setStrUsername(AddDeviceSetPwdFragment.this.mStrDevUserNameTemp);\n                            this.deviceInfo.setStrPassword(AddDeviceSetPwdFragment.this.mStrDevPwdTemp);\n                            this.loginHandle = Functions.SettingLogin(this.deviceInfo, AddDeviceSetPwdFragment.this.mActivity);\n                        }\n                        LoginHandle loginHandle3 = this.loginHandle;\n                        if (loginHandle3 == null || loginHandle3.getnResult() != 256) {\n                            break;\n                            break;\n                        }\n                        AddDeviceSetPwdFragment.this.mLoginHandle = this.loginHandle;\n                        AddDeviceSetPwdFragment.this.mDeviceInfo.setStrUsername(this.loginHandle.getStrUsername());\n                        AddDeviceSetPwdFragment.this.mDeviceInfo.setStrPassword(this.loginHandle.getStrPassword());\n                    } catch (IOException e2) {\n                        e2.printStackTrace();\n                    }\n                }\n                LogUtil.d(AddDeviceSetPwdFragment.TAG, \"<redacted literal>\" + accountConfig);\n                if (accountConfig != null) {\n                    if (this.mSetThread != AddDeviceSetPwdFragment.this.mSetUserConfigThreadID || interrupted()) {\n                        return;\n                    }\n                    if (accountConfig.getnResult() == 256) {\n                        AddDeviceSetPwdFragment.this.strDeviceUserNames = this.m_newUsername;\n                        AddDeviceSetPwdFragment.this.strDevicePassword = this.m_newPassword;\n                        DeviceInfo deviceFromDBByDevID = DeviceManager.getInstance().getDeviceFromDBByDevID(this.deviceInfo.getnDevID());\n                        if (deviceFromDBByDevID != null) {\n                            deviceFromDBByDevID.setStrUsername(this.m_newUsername);\n                            deviceFromDBByDevID.setStrPassword(this.m_newPassword);\n                            if (DeviceManager.getInstance().modifyDeviceFromManually(deviceFromDBByDevID) == 0 && DeviceManager.getInstance().getSynchronizedCode(this.deviceInfo.getnDevID()) != 1) {\n                                DeviceManager.getInstance().updateSynchronizedCode(this.deviceInfo.getnDevID(), 2);\n                            }\n                        }\n                        if (AddDeviceSetPwdFragment.this.mBaseFragmentHandler == null) {\n                            return;\n                        }\n                        AddDeviceSetPwdFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceSetPwdFragment.DevUserPwdConfigThread.1\n                            @Override // java.lang.Runnable\n                            public void run() {\n                                if (AddDeviceSetPwdFragment.this.mActivity == null) {\n                                    return;\n                                }\n                                AddDeviceSetPwdFragment.this.mActivity.dismissLoadingDialog();\n                                AddDeviceSetPwdFragment.this.onBackPressed();\n                            }\n                        });\n                        return;\n                    }\n                    doOnFail(accountConfig.getnResult());\n                    return;\n                }\n                doOnFail(ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL);\n                return;\n            }\n            LoginHandle loginHandle4 = this.loginHandle;\n            if (loginHandle4 != null) {\n                i = loginHandle4.getnResult();\n            }\n            doOnFail(i);\n        }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "redaction": "All string literals except JSON field names, UTF encodings and cipher algorithm names removed. Original raw body not retained."
+}

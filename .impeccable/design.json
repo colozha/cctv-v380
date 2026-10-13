@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-13T21:27:55.789205+00:00",
+  "title": "Design System: V380 LAN",
+  "extensions": {
+    "colorMeta": {
+      "light-primary": {
+        "role": "primary",
+        "displayName": "Light Primary",
+        "tonalRamp": [
+          "oklch(15% 0.07915 164.27)",
+          "oklch(26% 0.07915 164.27)",
+          "oklch(38% 0.07915 164.27)",
+          "oklch(49% 0.07915 164.27)",
+          "oklch(61% 0.07915 164.27)",
+          "oklch(72% 0.07915 164.27)",
+          "oklch(84% 0.07915 164.27)",
+          "oklch(95% 0.07915 164.27)"
+        ]
+      },
+      "light-secondary": {
+        "role": "secondary",
+        "displayName": "Light Secondary",
+        "tonalRamp": [
+          "oklch(15% 0.04217 156.77)",
+          "oklch(26% 0.04217 156.77)",
+          "oklch(38% 0.04217 156.77)",
+          "oklch(49% 0.04217 156.77)",
+          "oklch(61% 0.04217 156.77)",
+          "oklch(72% 0.04217 156.77)",
+          "oklch(84% 0.04217 156.77)",
+          "oklch(95% 0.04217 156.77)"
+        ]
+      },
+      "light-surface": {
+        "role": "neutral",
+        "displayName": "Light Surface",
+        "tonalRamp": [
+          "oklch(15% 0.00567 128.52)",
+          "oklch(26% 0.00567 128.52)",
+          "oklch(38% 0.00567 128.52)",
+          "oklch(49% 0.00567 128.52)",
+          "oklch(61% 0.00567 128.52)",
+          "oklch(72% 0.00567 128.52)",
+          "oklch(84% 0.00567 128.52)",
+          "oklch(95% 0.00567 128.52)"
+        ]
+      },
+      "dark-primary": {
+        "role": "primary",
+        "displayName": "Dark Primary",
+        "tonalRamp": [
+          "oklch(15% 0.08432 158.91)",
+          "oklch(26% 0.08432 158.91)",
+          "oklch(38% 0.08432 158.91)",
+          "oklch(49% 0.08432 158.91)",
+          "oklch(61% 0.08432 158.91)",
+          "oklch(72% 0.08432 158.91)",
+          "oklch(84% 0.08432 158.91)",
+          "oklch(95% 0.08432 158.91)"
+        ]
+      },
+      "dark-secondary": {
+        "role": "secondary",
+        "displayName": "Dark Secondary",
+        "tonalRamp": [
+          "oklch(15% 0.03322 158.17)",
+          "oklch(26% 0.03322 158.17)",
+          "oklch(38% 0.03322 158.17)",
+          "oklch(49% 0.03322 158.17)",
+          "oklch(61% 0.03322 158.17)",
+          "oklch(72% 0.03322 158.17)",
+          "oklch(84% 0.03322 158.17)",
+          "oklch(95% 0.03322 158.17)"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "Dark Surface",
+        "tonalRamp": [
+          "oklch(15% 0.01113 151.08)",
+          "oklch(26% 0.01113 151.08)",
+          "oklch(38% 0.01113 151.08)",
+          "oklch(49% 0.01113 151.08)",
+          "oklch(61% 0.01113 151.08)",
+          "oklch(72% 0.01113 151.08)",
+          "oklch(84% 0.01113 151.08)",
+          "oklch(95% 0.01113 151.08)"
+        ]
+      },
+      "video-background": {
+        "role": "neutral",
+        "displayName": "Video Background",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0.00)",
+          "oklch(26% 0.00000 0.00)",
+          "oklch(38% 0.00000 0.00)",
+          "oklch(49% 0.00000 0.00)",
+          "oklch(61% 0.00000 0.00)",
+          "oklch(72% 0.00000 0.00)",
+          "oklch(84% 0.00000 0.00)",
+          "oklch(95% 0.00000 0.00)"
+        ]
+      },
+      "video-text": {
+        "role": "neutral",
+        "displayName": "Video Text",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26% 0.00000 89.88)",
+          "oklch(38% 0.00000 89.88)",
+          "oklch(49% 0.00000 89.88)",
+          "oklch(61% 0.00000 89.88)",
+          "oklch(72% 0.00000 89.88)",
+          "oklch(84% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headlineMedium": {
+        "displayName": "headlineMedium",
+        "purpose": "Inherited MaterialTheme.typography."
+      },
+      "headlineSmall": {
+        "displayName": "headlineSmall",
+        "purpose": "Inherited MaterialTheme.typography."
+      },
+      "titleLarge": {
+        "displayName": "titleLarge",
+        "purpose": "Inherited MaterialTheme.typography."
+      },
+      "titleMedium": {
+        "displayName": "titleMedium",
+        "purpose": "Inherited MaterialTheme.typography."
+      },
+      "titleSmall": {
+        "displayName": "titleSmall",
+        "purpose": "Inherited MaterialTheme.typography."
+      },
+      "bodyLarge": {
+        "displayName": "bodyLarge",
+        "purpose": "Inherited MaterialTheme.typography."
+      },
+      "bodyMedium": {
+        "displayName": "bodyMedium",
+        "purpose": "Inherited MaterialTheme.typography."
+      },
+      "bodySmall": {
+        "displayName": "bodySmall",
+        "purpose": "Inherited MaterialTheme.typography."
+      },
+      "labelLarge": {
+        "displayName": "labelLarge",
+        "purpose": "Inherited MaterialTheme.typography."
+      }
+    },
+    "platform": {
+      "name": "Android",
+      "implementation": "Kotlin / Compose Material 3",
+      "material3Version": "1.4.0",
+      "mode": "operate",
+      "nativeUnits": {
+        "spacing": "dp",
+        "type": "sp"
+      },
+      "minimumTouchTarget": "48dp",
+      "previewNotice": "Illustrative native component translations. CSS pixels map nominally to dp at scale 1; browser fonts, state layers and platform behavior are approximations. Native source and captured Android rendering are authoritative. Tonal ramps are synthesized panel metadata, not an implemented green Material palette.",
+      "themeNotice": "Only primary, secondary, surface and background are overridden. Other Material roles remain defaults, including purple primaryContainer and dark onPrimary.",
+      "sources": [
+        "app/src/main/java/dev/cctv/v380/ui/MainActivity.kt",
+        "app/src/main/java/dev/cctv/v380/ui/LivePlayerScreen.kt",
+        "app/src/main/java/dev/cctv/v380/ui/ProvisioningScreen.kt",
+        "app/src/main/java/dev/cctv/v380/ui/DiagnosticsScreen.kt",
+        "app/src/main/java/dev/cctv/v380/ui/CameraViewModel.kt",
+        ".impeccable/review/phone-light-v2.png",
+        ".impeccable/review/phone-dark-large-v2.png",
+        ".impeccable/review/phone-ap-v2.png",
+        ".impeccable/review/phone-diagnostics-v2.png",
+        ".impeccable/review/phone-player-v2.png",
+        ".impeccable/review/phone-ptz-v2.png",
+        ".impeccable/review/phone-editor-v2.png"
+      ],
+      "evidenceNotice": "Seven existing API37 phone captures include dark home at font scale 1.3 and a disconnected, explicitly synthetic profile. They predate the latest PTZ cleanup and two validation-copy spacing corrections. Active live controls and later AP setup phases are source-reviewed only; these captures do not prove camera interoperability. No new captures or connection tests were performed for this documentation pass."
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "Primary action (light)",
+      "kind": "button",
+      "description": "Illustrative HTML translation of the native Android component; not runtime evidence.",
+      "html": "<button class=\"ds-primary-light\">Cari di Wi-Fi</button>",
+      "css": ".ds-primary-light{min-height:48px;padding:10px 24px;border:0;border-radius:999px;background:#185C43;color:#FFFFFF;font:500 14px/20px sans-serif;letter-spacing:.1px}.ds-primary-light:hover{filter:brightness(.96)}.ds-primary-light:focus-visible{outline:2px solid #185C43;outline-offset:3px}.ds-primary-light:active{filter:brightness(.9)}",
+      "refersTo": "button-primary"
+    },
+    {
+      "name": "Primary action (dark)",
+      "kind": "button",
+      "description": "Illustrative HTML translation of the native Android component; not runtime evidence.",
+      "html": "<button class=\"ds-primary-dark\">Cari di Wi-Fi</button>",
+      "css": ".ds-primary-dark{min-height:48px;padding:10px 24px;border:0;border-radius:999px;background:#95D6B1;color:#381E72;font:500 14px/20px sans-serif;letter-spacing:.1px}.ds-primary-dark:hover{filter:brightness(.96)}.ds-primary-dark:focus-visible{outline:2px solid #95D6B1;outline-offset:3px}.ds-primary-dark:active{filter:brightness(.9)}",
+      "refersTo": "button-primary-dark"
+    },
+    {
+      "name": "Secondary text action",
+      "kind": "button",
+      "description": "Illustrative HTML translation of the native Android component; not runtime evidence.",
+      "html": "<button class=\"ds-text\">Tambah manual</button>",
+      "css": ".ds-text{min-height:48px;padding:10px 12px;border:0;border-radius:999px;background:transparent;color:#185C43;font:500 14px/20px sans-serif}.ds-text:hover{background:#185C4314}.ds-text:focus-visible{outline:2px solid #185C43;outline-offset:2px}.ds-text:active{background:#185C4320}",
+      "refersTo": "button-text"
+    },
+    {
+      "name": "Outlined profile field",
+      "kind": "input",
+      "description": "Illustrative HTML translation of the native Android component; not runtime evidence.",
+      "html": "<label class=\"ds-field\">Nama kamera<input aria-label=\"Nama kamera\" placeholder=\"Nama kamera\"></label>",
+      "css": ".ds-field{display:grid;gap:4px;font:400 12px/16px sans-serif;color:#49454F}.ds-field input{min-height:56px;padding:0 16px;border:1px solid #79747E;border-radius:4px;background:#F8FAF6;color:#1D1B20;font:400 16px/24px sans-serif}.ds-field input:hover{border-color:#1D1B20}.ds-field input:focus-visible{outline:2px solid #185C43;outline-offset:-2px}"
+    },
+    {
+      "name": "Top app bar",
+      "kind": "nav",
+      "description": "Illustrative HTML translation of the native Android component; not runtime evidence.",
+      "html": "<nav class=\"ds-nav\"><strong>V380 LAN</strong><button>Cari</button></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;min-height:64px;padding:0 16px;background:#F8FAF6;color:#1D1B20;font:400 22px/28px sans-serif}.ds-nav strong{font-weight:600}.ds-nav button{min-height:48px;border:0;border-radius:999px;padding:0 12px;background:transparent;color:#185C43;font:500 14px/20px sans-serif}.ds-nav button:hover{background:#185C4314}.ds-nav button:focus-visible{outline:2px solid #185C43}.ds-nav button:active{background:#185C4320}"
+    },
+    {
+      "name": "Video quality (disconnected)",
+      "kind": "chip",
+      "description": "Illustrative disconnected state: neither quality is selected. Native chips enable for available qualities only in Streaming and reflect Negotiating/Streaming selection; this preview is not camera evidence.",
+      "html": "<div class=\"ds-quality\" aria-label=\"Kualitas video belum tersedia\"><button disabled aria-pressed=\"false\">SD</button><button disabled aria-pressed=\"false\">HD</button></div>",
+      "css": ".ds-quality{display:flex;gap:12px}.ds-quality button{min-height:32px;padding:0 16px;border:1px solid #1D1B201F;border-radius:8px;background:transparent;color:#1D1B2061;font:500 14px/20px sans-serif}.ds-quality button[aria-pressed=true]{background:#1D1B201F;border-color:transparent}"
+    },
+    {
+      "name": "PTZ stop (disconnected)",
+      "kind": "button",
+      "description": "Illustrative disconnected state. Native Stop enables only in Streaming with confirmed PTZ support; directional controls additionally respect axis capabilities. This preview is not runtime evidence.",
+      "html": "<button class=\"ds-ptz\" disabled>Stop</button>",
+      "css": ".ds-ptz{min-width:72px;min-height:56px;border:1px solid #1D1B201F;border-radius:999px;background:transparent;color:#1D1B2061;font:500 14px/20px sans-serif}"
+    },
+    {
+      "name": "Error notice",
+      "kind": "custom",
+      "description": "Illustrative Material error notice with the current UnsupportedProtocol recovery message; this is one error state, not a blanket player gate.",
+      "html": "<div class=\"ds-error\" role=\"status\">Generasi protokol kamera belum dapat dipastikan atau belum didukung. Jalankan pencarian dan periksa diagnostik.</div>",
+      "css": ".ds-error{padding:16px;border-radius:12px;background:#F9DEDC;color:#410E0B;font:400 14px/20px sans-serif;letter-spacing:.2px}",
+      "refersTo": "error-notice"
+    },
+    {
+      "name": "Video surface (disconnected)",
+      "kind": "custom",
+      "description": "Illustrative disconnected overlay on the native black video area, fixed above scrolling controls with bounded height. Native state text changes during connection and disappears after the rendered-frame callback enters Streaming; this preview is not runtime evidence.",
+      "html": "<div class=\"ds-video\"><svg viewBox=\"0 0 24 24\" width=\"40\" height=\"40\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M3 5h13v4l5-3v12l-5-3v4H3z\"/></svg><span>Belum terhubung</span></div>",
+      "css": ".ds-video{aspect-ratio:16/9;background:#000;color:#FFF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font:500 16px/24px sans-serif}.ds-video svg{color:#FFFFFFA6}",
+      "refersTo": "video-surface"
+    }
+  ],
+  "narrative": {
+    "northStar": "Native Material 3 camera interface",
+    "overview": "The confirmed direction uses Android platform conventions, Indonesian copy, a compact camera list and one foreground player. Clear status, readable controls and familiar form behavior define the interface.\n\nThis record describes the current Android interface in `app/src/main/java/dev/cctv/v380/ui`, including the experimental debug player, AP setup and diagnostics. It preserves the user-approved Material direction; it does not certify camera connectivity. Tokens use Android `dp` and `sp`; component heights are minimums where the source uses `heightIn`.",
+    "keyCharacteristics": [
+      "Native Compose Material 3 components and system typography.",
+      "System-selected light and dark themes with green primary accents.",
+      "Scrollable phone layouts, explicit connection status and controls gated by streaming state and camera capabilities."
+    ],
+    "rules": [
+      {
+        "name": "The Inherited Roles Rule",
+        "body": "Overriding primary does not regenerate the Material palette. `onPrimary`, `primaryContainer`, `onPrimaryContainer` and error roles retain library defaults; the visible FAB and camera-row icon container can therefore be purple. Do not describe the current build as a complete green tonal palette.",
+        "section": "colors"
+      },
+      {
+        "name": "The Platform Type Rule",
+        "body": "Keep text in Material roles and allow wrapping and system scaling instead of fixing text containers to a single line height.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "**Do** use native Material components, system font scaling and the system-selected theme.",
+      "**Do** preserve Indonesian labels, explicit connection status and state/capability gating for unavailable controls.",
+      "**Do** use the shared spacing rhythm and minimum interactive target sizing."
+    ],
+    "donts": [
+      "**Don't** infer a regenerated green palette from the customized primary color.",
+      "**Don't** use invented footage, decorative imagery or dashboard metrics in this camera interface.",
+      "**Don't** present synthetic tests, a selected quality chip or the black player surface as proof of camera interoperability."
+    ]
+  }
+}

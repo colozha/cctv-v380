@@ -1,0 +1,47 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_b66a1c91dc8f24aedc81c01f6712b739cc5c6f55fc9ad15bd8b3e62b292fab40",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_method",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment",
+    "method_name": "sendPinCode"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment",
+    "method": {
+      "name": "sendPinCode",
+      "reported_signature": "sendPinCode(java.lang.String): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    /* JADX INFO: Access modifiers changed from: private */\n    public void sendPinCode(String str) {\n        int i;\n        int i2;\n        LogUtil.feedback().d(TAG, \"<redacted literal>\" + str + \"<redacted literal>\");\n        if (!checkIsConnectedSpecifiedAP()) {\n            showConnectSpecifiedAPDialog();\n            return;\n        }\n        if (str == null) {\n            String inputText = ((FragmentAddDeviceApBinding) this.binding).customPinCodeView.getInputText();\n            if (inputText == null || inputText.length() != 4) {\n                this.mActivity.showToast(R.string.please_input_correct_pin_code, new int[0]);\n                return;\n            }\n            try {\n                i2 = Integer.parseInt(inputText);\n            } catch (Exception unused) {\n                i2 = 0;\n            }\n            if (i2 == 0) {\n                ((FragmentAddDeviceApBinding) this.binding).customPinCodeView.clearInput();\n                this.mActivity.showToast(R.string.please_input_correct_pin_code, new int[0]);\n                return;\n            }\n            i = i2;\n        } else {\n            i = 0;\n        }\n        this.mIsPinCodeSending = true;\n        this.mActivity.showLoadingDialog(false, \"\", new LoadingDialog.LoadingDialogOnCancelListener() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.34\n            @Override // com.macrovideo.v380.fragments.dialogfragments.LoadingDialog.LoadingDialogOnCancelListener\n            public void onCancel() {\n            }\n        });\n        String strGenerateConfigNetQRContent = QRContentUtils.generateConfigNetQRContent(0, this.mWifiName, this.mWifiPassword, this.mBindToken);\n        GlobalDefines.sSendApConfigNetActionTimestamp = System.currentTimeMillis();\n        int i3 = this.mSendPinCodeThreadId + 1;\n        this.mSendPinCodeThreadId = i3;\n        new Thread(new AnonymousClass35(i3, str, i, strGenerateConfigNetQRContent)).start();\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "redaction": "All string literals except JSON field names, UTF encodings and cipher algorithm names removed. Original raw body not retained."
+}

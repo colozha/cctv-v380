@@ -1,0 +1,1652 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_0938ef63954ec9b789c9daa7913bff4eb8984c1f697cc2badb0752489a469924",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_class",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "reported_signature": "<clinit>(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$000",
+        "reported_signature": "access$000(com.macrovideo.v380.fragments.AddDeviceApFragment): com.macrovideo.v380.activities.AddDeviceActivity",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$100",
+        "reported_signature": "access$100(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1000",
+        "reported_signature": "access$1000(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1002",
+        "reported_signature": "access$1002(java.lang.String): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1100",
+        "reported_signature": "access$1100(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1202",
+        "reported_signature": "access$1202(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1302",
+        "reported_signature": "access$1302(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1402",
+        "reported_signature": "access$1402(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1502",
+        "reported_signature": "access$1502(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1600",
+        "reported_signature": "access$1600(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1700",
+        "reported_signature": "access$1700(com.macrovideo.v380.fragments.AddDeviceApFragment, java.lang.String, android.net.wifi.ScanResult, boolean, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1800",
+        "reported_signature": "access$1800(com.macrovideo.v380.fragments.AddDeviceApFragment): android.net.wifi.ScanResult",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$1900",
+        "reported_signature": "access$1900(com.macrovideo.v380.fragments.AddDeviceApFragment, android.net.wifi.ScanResult, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$200",
+        "reported_signature": "access$200(com.macrovideo.v380.fragments.AddDeviceApFragment): android.net.ConnectivityManager$NetworkCallback",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2000",
+        "reported_signature": "access$2000(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$202",
+        "reported_signature": "access$202(com.macrovideo.v380.fragments.AddDeviceApFragment, android.net.ConnectivityManager$NetworkCallback): android.net.ConnectivityManager$NetworkCallback",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2100",
+        "reported_signature": "access$2100(com.macrovideo.v380.fragments.AddDeviceApFragment): com.macrovideo.sdk.objects.DeviceInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2200",
+        "reported_signature": "access$2200(com.macrovideo.v380.fragments.AddDeviceApFragment): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2300",
+        "reported_signature": "access$2300(com.macrovideo.v380.fragments.AddDeviceApFragment): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2400",
+        "reported_signature": "access$2400(com.macrovideo.v380.fragments.AddDeviceApFragment, java.lang.String, android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2500",
+        "reported_signature": "access$2500(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2602",
+        "reported_signature": "access$2602(boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2700",
+        "reported_signature": "access$2700(com.macrovideo.v380.fragments.AddDeviceApFragment): com.macrovideo.v380.fragments.AddDeviceApFragment$ConnectHotTimer",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2800",
+        "reported_signature": "access$2800(com.macrovideo.v380.fragments.AddDeviceApFragment, android.net.wifi.ScanResult): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$2900",
+        "reported_signature": "access$2900(com.macrovideo.v380.fragments.AddDeviceApFragment, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$300",
+        "reported_signature": "access$300(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3000",
+        "reported_signature": "access$3000(com.macrovideo.v380.fragments.AddDeviceApFragment): android.net.wifi.ScanResult",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3100",
+        "reported_signature": "access$3100(com.macrovideo.v380.fragments.AddDeviceApFragment, android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3200",
+        "reported_signature": "access$3200(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3202",
+        "reported_signature": "access$3202(boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3300",
+        "reported_signature": "access$3300(com.macrovideo.v380.fragments.AddDeviceApFragment, android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3400",
+        "reported_signature": "access$3400(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3500",
+        "reported_signature": "access$3500(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3600",
+        "reported_signature": "access$3600(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3700",
+        "reported_signature": "access$3700(com.macrovideo.v380.fragments.AddDeviceApFragment, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3800",
+        "reported_signature": "access$3800(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$3900",
+        "reported_signature": "access$3900(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$400",
+        "reported_signature": "access$400(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4000",
+        "reported_signature": "access$4000(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4100",
+        "reported_signature": "access$4100(com.macrovideo.v380.fragments.AddDeviceApFragment): long",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4200",
+        "reported_signature": "access$4200(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4302",
+        "reported_signature": "access$4302(com.macrovideo.v380.fragments.AddDeviceApFragment, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.media.LoginHandle",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4400",
+        "reported_signature": "access$4400(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4500",
+        "reported_signature": "access$4500(com.macrovideo.v380.fragments.AddDeviceApFragment): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4600",
+        "reported_signature": "access$4600(com.macrovideo.v380.fragments.AddDeviceApFragment): android.net.ConnectivityManager",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4702",
+        "reported_signature": "access$4702(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4802",
+        "reported_signature": "access$4802(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$4900",
+        "reported_signature": "access$4900(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$500",
+        "reported_signature": "access$500(com.macrovideo.v380.fragments.AddDeviceApFragment): com.macrovideo.v380.ui.CommonBottomDialog",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5000",
+        "reported_signature": "access$5000(com.macrovideo.v380.fragments.AddDeviceApFragment): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5100",
+        "reported_signature": "access$5100(com.macrovideo.v380.fragments.AddDeviceApFragment): java.lang.Runnable",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5200",
+        "reported_signature": "access$5200(com.macrovideo.v380.fragments.AddDeviceApFragment): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5300",
+        "reported_signature": "access$5300(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5400",
+        "reported_signature": "access$5400(com.macrovideo.v380.fragments.AddDeviceApFragment): java.util.Timer",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5500",
+        "reported_signature": "access$5500(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5600",
+        "reported_signature": "access$5600(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5700",
+        "reported_signature": "access$5700(com.macrovideo.v380.fragments.AddDeviceApFragment): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5702",
+        "reported_signature": "access$5702(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5800",
+        "reported_signature": "access$5800(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5900",
+        "reported_signature": "access$5900(com.macrovideo.v380.fragments.AddDeviceApFragment): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$5902",
+        "reported_signature": "access$5902(com.macrovideo.v380.fragments.AddDeviceApFragment, java.lang.String): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$600",
+        "reported_signature": "access$600(com.macrovideo.v380.fragments.AddDeviceApFragment): android.media.MediaPlayer",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6000",
+        "reported_signature": "access$6000(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6100",
+        "reported_signature": "access$6100(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6200",
+        "reported_signature": "access$6200(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6300",
+        "reported_signature": "access$6300(com.macrovideo.v380.fragments.AddDeviceApFragment): android.net.wifi.ScanResult",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6402",
+        "reported_signature": "access$6402(com.macrovideo.v380.fragments.AddDeviceApFragment, int): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6502",
+        "reported_signature": "access$6502(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6600",
+        "reported_signature": "access$6600(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6602",
+        "reported_signature": "access$6602(com.macrovideo.v380.fragments.AddDeviceApFragment, int): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6676",
+        "reported_signature": "access$6676(com.macrovideo.v380.fragments.AddDeviceApFragment, int): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6700",
+        "reported_signature": "access$6700(com.macrovideo.v380.fragments.AddDeviceApFragment, android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6800",
+        "reported_signature": "access$6800(com.macrovideo.v380.fragments.AddDeviceApFragment, android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$6900",
+        "reported_signature": "access$6900(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$700",
+        "reported_signature": "access$700(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$7000",
+        "reported_signature": "access$7000(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$708",
+        "reported_signature": "access$708(com.macrovideo.v380.fragments.AddDeviceApFragment): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$7100",
+        "reported_signature": "access$7100(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$7200",
+        "reported_signature": "access$7200(com.macrovideo.v380.fragments.AddDeviceApFragment, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$7300",
+        "reported_signature": "access$7300(com.macrovideo.v380.fragments.AddDeviceApFragment): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$800",
+        "reported_signature": "access$800(com.macrovideo.v380.fragments.AddDeviceApFragment, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "access$902",
+        "reported_signature": "access$902(boolean): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "apNetworkStateChanged",
+        "reported_signature": "apNetworkStateChanged(android.net.NetworkInfo$State): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "backMethod",
+        "reported_signature": "backMethod(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "bindClickId",
+        "reported_signature": "bindClickId(): int[]",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "bindNetwork",
+        "reported_signature": "bindNetwork(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "broadcastPinCode",
+        "reported_signature": "broadcastPinCode(int, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "cancelConnectTimer",
+        "reported_signature": "cancelConnectTimer(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "cancelWifiConfig",
+        "reported_signature": "cancelWifiConfig(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "changePinCodePlayView",
+        "reported_signature": "changePinCodePlayView(boolean, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "changeSelectWiFiViewByNetType",
+        "reported_signature": "changeSelectWiFiViewByNetType(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "checkAndRemoveBlackList",
+        "reported_signature": "checkAndRemoveBlackList(java.lang.String, com.macrovideo.v380.activities.AddDeviceActivity$ReleaseBlackoutCallback): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "checkIsConnectedSpecifiedAP",
+        "reported_signature": "checkIsConnectedSpecifiedAP(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "checkPermissionCamera",
+        "reported_signature": "checkPermissionCamera(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "checkPwd",
+        "reported_signature": "checkPwd(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "configHotspotToWifi",
+        "reported_signature": "configHotspotToWifi(java.lang.String, android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "configNetWorkForAndroidQ",
+        "reported_signature": "configNetWorkForAndroidQ(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "connectToHotspot",
+        "reported_signature": "connectToHotspot(android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "connectWifiManually",
+        "reported_signature": "connectWifiManually(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "dealWithLoginResult",
+        "reported_signature": "dealWithLoginResult(android.os.Message): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "dealWithSearchResult",
+        "reported_signature": "dealWithSearchResult(android.os.Message): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "dismissBreakConfigTips",
+        "reported_signature": "dismissBreakConfigTips(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getBindToken",
+        "reported_signature": "getBindToken(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getCurrentWiFiName",
+        "reported_signature": "getCurrentWiFiName(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getCurrentWifi",
+        "reported_signature": "getCurrentWifi(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "goToConnectAP",
+        "reported_signature": "goToConnectAP(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "handleMessage",
+        "reported_signature": "handleMessage(android.os.Message): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "handleUserNameOrPwdError",
+        "reported_signature": "handleUserNameOrPwdError(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "initInstruction",
+        "reported_signature": "initInstruction(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "initViews",
+        "reported_signature": "initViews(android.view.View): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "initWifiList",
+        "reported_signature": "initWifiList(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "m853lambda$initInstruction$0$commacrovideov380fragmentsAddDeviceApFragment",
+        "reported_signature": "m853lambda$initInstruction$0$commacrovideov380fragmentsAddDeviceApFragment(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "m854lambda$initInstruction$1$commacrovideov380fragmentsAddDeviceApFragment",
+        "reported_signature": "m854lambda$initInstruction$1$commacrovideov380fragmentsAddDeviceApFragment(com.macrovideo.v380.entities.InstructionInfo[]): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "moveCurrentWiFiToTop",
+        "reported_signature": "moveCurrentWiFiToTop(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "newInstance",
+        "reported_signature": "newInstance(): com.macrovideo.v380.fragments.AddDeviceApFragment",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "newInstance",
+        "reported_signature": "newInstance(int, java.lang.String): com.macrovideo.v380.fragments.AddDeviceApFragment",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "notifyDataChange",
+        "reported_signature": "notifyDataChange(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onActivityResult",
+        "reported_signature": "onActivityResult(int, int, android.content.Intent): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onAttach",
+        "reported_signature": "onAttach(android.content.Context): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onClicked",
+        "reported_signature": "onClicked(android.view.View): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onCreate",
+        "reported_signature": "onCreate(android.os.Bundle): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onDestroy",
+        "reported_signature": "onDestroy(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onHotspotSelected",
+        "reported_signature": "onHotspotSelected(android.net.wifi.ScanResult): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onPause",
+        "reported_signature": "onPause(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onResume",
+        "reported_signature": "onResume(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onStart",
+        "reported_signature": "onStart(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onStop",
+        "reported_signature": "onStop(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onWifiSelected",
+        "reported_signature": "onWifiSelected(android.net.wifi.ScanResult, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "onWifiStateChanged",
+        "reported_signature": "onWifiStateChanged(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "playTipSound",
+        "reported_signature": "playTipSound(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "querySupperConfigNetWay",
+        "reported_signature": "querySupperConfigNetWay(android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "reConnectToSpecifiedWifi",
+        "reported_signature": "reConnectToSpecifiedWifi(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "refreshWifiList",
+        "reported_signature": "refreshWifiList(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "requestWPS",
+        "reported_signature": "requestWPS(android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "selectAP",
+        "reported_signature": "selectAP(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "sendPinCode",
+        "reported_signature": "sendPinCode(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "sendWPS",
+        "reported_signature": "sendWPS(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "set5gWifiTips",
+        "reported_signature": "set5gWifiTips(boolean, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCurrentWiFi",
+        "reported_signature": "setCurrentWiFi(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStartConfigTime",
+        "reported_signature": "setStartConfigTime(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setWiFi",
+        "reported_signature": "setWiFi(java.lang.String, android.net.wifi.ScanResult, boolean, boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showAndBroadcastPinCode",
+        "reported_signature": "showAndBroadcastPinCode(android.net.wifi.ScanResult, java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showBindTimeoutResetDialog",
+        "reported_signature": "showBindTimeoutResetDialog(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showBreakConfigTips",
+        "reported_signature": "showBreakConfigTips(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showConnectAPTips",
+        "reported_signature": "showConnectAPTips(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showConnectApLayout",
+        "reported_signature": "showConnectApLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showConnectSpecifiedAPDialog",
+        "reported_signature": "showConnectSpecifiedAPDialog(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showConnectWifiLayout",
+        "reported_signature": "showConnectWifiLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showDoorBellDeviceResetLayout",
+        "reported_signature": "showDoorBellDeviceResetLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showGunDeviceResetLayout",
+        "reported_signature": "showGunDeviceResetLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showManualEnterDeviceIdLayout",
+        "reported_signature": "showManualEnterDeviceIdLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showNotification",
+        "reported_signature": "showNotification(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showPinCodeLayout",
+        "reported_signature": "showPinCodeLayout(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showResetLayout",
+        "reported_signature": "showResetLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showResetLightDescriptionLayout",
+        "reported_signature": "showResetLightDescriptionLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showResetLightLayout",
+        "reported_signature": "showResetLightLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showSelectAPLayout",
+        "reported_signature": "showSelectAPLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showSendWPSFailDialog",
+        "reported_signature": "showSendWPSFailDialog(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showWPSLayout",
+        "reported_signature": "showWPSLayout(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showWPSResetDialog",
+        "reported_signature": "showWPSResetDialog(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showWPSTimeoutLayout",
+        "reported_signature": "showWPSTimeoutLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showWifiConfigFailLayout",
+        "reported_signature": "showWifiConfigFailLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "showWifiConfigLayout",
+        "reported_signature": "showWifiConfigLayout(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startBroadcastPinCode",
+        "reported_signature": "startBroadcastPinCode(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startCheckNetwork",
+        "reported_signature": "startCheckNetwork(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startGetDeviceStateFromServer",
+        "reported_signature": "startGetDeviceStateFromServer(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startRefreshAnimation",
+        "reported_signature": "startRefreshAnimation(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "stopBroadcastPinCode",
+        "reported_signature": "stopBroadcastPinCode(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "stopGetDeviceStateFromServer",
+        "reported_signature": "stopGetDeviceStateFromServer(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "stopSendPinCode",
+        "reported_signature": "stopSendPinCode(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "unBindNetwork",
+        "reported_signature": "unBindNetwork(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "KEY_START_TYPE",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "LAYOUT_TYPE_CONNECT_AP",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_CONNECT_NETWORKING",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_CONNECT_NETWORK_FAIL",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_CONNECT_WIFI",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_MANUAL_ENTER_DEVICE_ID",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_PIN_CODE",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_RESET_DEVICE",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_RESET_DEVICE_INSTRUCT_LIGHT",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_RESET_DEVICE_INSTRUCT_LIGHT_DESCRIPTION",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_WPS",
+        "reported_type": "int"
+      },
+      {
+        "name": "LAYOUT_TYPE_WPS_TIMEOUT",
+        "reported_type": "int"
+      },
+      {
+        "name": "REQUEST_CODE_FOR_QRCODE",
+        "reported_type": "int"
+      },
+      {
+        "name": "REQUEST_CODE_PERMISSION_CAMERA",
+        "reported_type": "int"
+      },
+      {
+        "name": "RESULT_DEVICE_LAN_LOGIN_FAILED",
+        "reported_type": "int"
+      },
+      {
+        "name": "RESULT_DEVICE_LAN_LOGIN_LOGINHANDLE_NULL",
+        "reported_type": "int"
+      },
+      {
+        "name": "RESULT_DEVICE_NETWORK_CONFIG_OK",
+        "reported_type": "int"
+      },
+      {
+        "name": "RESULT_DEVICE_SEARCH_FAIL",
+        "reported_type": "int"
+      },
+      {
+        "name": "RESULT_DEVICE_SEARCH_OK",
+        "reported_type": "int"
+      },
+      {
+        "name": "RE_CONNECT_HOST_MAX",
+        "reported_type": "int"
+      },
+      {
+        "name": "START_TYPE_AP",
+        "reported_type": "int"
+      },
+      {
+        "name": "START_TYPE_DOOR_BELL",
+        "reported_type": "int"
+      },
+      {
+        "name": "START_TYPE_FROM_QR",
+        "reported_type": "int"
+      },
+      {
+        "name": "START_TYPE_GUN_DEVICE",
+        "reported_type": "int"
+      },
+      {
+        "name": "START_TYPE_NEARBY",
+        "reported_type": "int"
+      },
+      {
+        "name": "START_TYPE_WIFI_LOW_POWER",
+        "reported_type": "int"
+      },
+      {
+        "name": "START_TYPE_WIFI_LOW_POWER_FROM_QR",
+        "reported_type": "int"
+      },
+      {
+        "name": "TAG",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "WIFI_SETTING_REQUEST_CODE",
+        "reported_type": "int"
+      },
+      {
+        "name": "connectivityManager",
+        "reported_type": "android.net.ConnectivityManager"
+      },
+      {
+        "name": "isGoToConnectAP",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "isSelectedRepeaterStationNet",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "isSelectedWiFi",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "isShowNotification",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mActivity",
+        "reported_type": "com.macrovideo.v380.activities.AddDeviceActivity"
+      },
+      {
+        "name": "mAddDeviceApAdapter",
+        "reported_type": "com.macrovideo.v380.adapters.AddDeviceApAdapter"
+      },
+      {
+        "name": "mApPassword",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mApSSID",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mBindToken",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mBreakConfigDialog",
+        "reported_type": "com.macrovideo.v380.ui.QRConfigNetBottomDialog"
+      },
+      {
+        "name": "mBroadcastPinCodeId",
+        "reported_type": "int"
+      },
+      {
+        "name": "mBroadcastPinCodeTimer",
+        "reported_type": "java.util.Timer"
+      },
+      {
+        "name": "mCheckNetworkRunnable",
+        "reported_type": "java.lang.Runnable"
+      },
+      {
+        "name": "mCommonBottomDialog",
+        "reported_type": "com.macrovideo.v380.ui.CommonBottomDialog"
+      },
+      {
+        "name": "mConfigHotspotToWifiID",
+        "reported_type": "int"
+      },
+      {
+        "name": "mConnectHotTimer",
+        "reported_type": "com.macrovideo.v380.fragments.AddDeviceApFragment$ConnectHotTimer"
+      },
+      {
+        "name": "mConnectedNotSpecifiedAPTipDialog",
+        "reported_type": "com.macrovideo.v380.ui.CommonBottomDialog"
+      },
+      {
+        "name": "mCurrentLayoutType",
+        "reported_type": "int"
+      },
+      {
+        "name": "mDeviceId",
+        "reported_type": "int"
+      },
+      {
+        "name": "mDeviceInfo",
+        "reported_type": "com.macrovideo.sdk.objects.DeviceInfo"
+      },
+      {
+        "name": "mFastPin",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mGetStateID",
+        "reported_type": "int"
+      },
+      {
+        "name": "mHotspotPwdInputDialog",
+        "reported_type": "com.macrovideo.v380.ui.CommonInputDialog"
+      },
+      {
+        "name": "mHotspotScanResult",
+        "reported_type": "android.net.wifi.ScanResult"
+      },
+      {
+        "name": "mIoTDevApSSID",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mIoTDevApScanResult",
+        "reported_type": "android.net.wifi.ScanResult"
+      },
+      {
+        "name": "mIsConfigingToWifi",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mIsConnectingToHotspot",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mIsIotDeviceFormNearby",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mIsKnowSupportConfigNetWay",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mIsPinCodeSending",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mIsReConnectingToHotspot",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mIsStateGetting",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mKnowSupportConfigNetWay",
+        "reported_type": "int"
+      },
+      {
+        "name": "mKnowSupportConfigNetWayDid",
+        "reported_type": "int"
+      },
+      {
+        "name": "mLoginHandle",
+        "reported_type": "com.macrovideo.sdk.media.LoginHandle"
+      },
+      {
+        "name": "mLoginTimes",
+        "reported_type": "int"
+      },
+      {
+        "name": "mNeedConnectAPName",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mPlatform",
+        "reported_type": "int"
+      },
+      {
+        "name": "mProgressCountDownTimer",
+        "reported_type": "com.macrovideo.v380.fragments.AddDeviceApFragment$ProgressCountDownTimer"
+      },
+      {
+        "name": "mQueryIoTDevConfigNetWayThreadId",
+        "reported_type": "int"
+      },
+      {
+        "name": "mScanInfoWifi",
+        "reported_type": "java.util.List<com.macrovideo.v380.entities.WifiScanInfo>"
+      },
+      {
+        "name": "mSendPinCodeThreadId",
+        "reported_type": "int"
+      },
+      {
+        "name": "mSendWPSThreadId",
+        "reported_type": "int"
+      },
+      {
+        "name": "mStartType",
+        "reported_type": "int"
+      },
+      {
+        "name": "mTipSoundPlayer",
+        "reported_type": "android.media.MediaPlayer"
+      },
+      {
+        "name": "mUserNameOrPwdInputDialog",
+        "reported_type": "com.macrovideo.v380.ui.CommonInputDialog"
+      },
+      {
+        "name": "mWiFiPwdInputDialog",
+        "reported_type": "com.macrovideo.v380.ui.CommonInputDialog"
+      },
+      {
+        "name": "mWifiName",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mWifiPassword",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mWifiScanResult",
+        "reported_type": "android.net.wifi.ScanResult"
+      },
+      {
+        "name": "networkCallback",
+        "reported_type": "android.net.ConnectivityManager$NetworkCallback"
+      },
+      {
+        "name": "qrModel",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "reConnectToHostCount",
+        "reported_type": "int"
+      },
+      {
+        "name": "sIsTimerFinish",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "sStrDeviceIDForCheck",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "selectedWiFiSupport24G",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "selectedWiFiSupport5G",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "startConfigTime",
+        "reported_type": "long"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass1",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass10",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass11",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass12",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass13",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass14",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass15",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass16",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass17",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass18",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass19",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass2",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass20",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass21",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass22",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass23",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass24",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass25",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass26",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass27",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass28",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass29",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass3",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass30",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass31",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass32",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass33",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass34",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass35",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass36",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass37",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass38",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass39",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass4",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass40",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass41",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass42",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass43",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass44",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass45",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass46",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass5",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass6",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass7",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass8",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass9",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.ConfigHotspotToWifiThread",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.ConnectHotTimer",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.GetDeviceStateRunnable",
+      "com.macrovideo.v380.fragments.AddDeviceApFragment.ProgressCountDownTimer"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "redaction": "All string literals except JSON field names, UTF encodings and cipher algorithm names removed. Original raw body not retained."
+}

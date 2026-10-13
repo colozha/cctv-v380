@@ -1,0 +1,827 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_4faf41c75096355ff94f671bd434d60e83e94d790eb6da76aa70af9229e529e3",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_class",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "reported_signature": "<clinit>(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, int, com.macrovideo.sdk.media.LoginHandle, long, int, org.json.JSONObject, boolean, java.net.Socket, java.io.InputStream, java.io.OutputStream): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, int, com.macrovideo.sdk.media.LoginHandle, long, java.util.List): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, com.macrovideo.sdk.media.LoginHandle, long, int, int, org.json.JSONObject): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 2,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(byte[], int): com.macrovideo.sdk.setting.AIHumanDetectConfigInfo",
+        "overload_index": 3,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(byte[], int, int): com.macrovideo.sdk.setting.AlarmConfigInfo",
+        "overload_index": 4,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(int, int, int, com.macrovideo.sdk.media.LoginHandle, java.lang.String, java.lang.String, java.lang.String): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 5,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(com.macrovideo.sdk.media.LoginHandle, java.lang.String, int, int, int): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 6,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(com.macrovideo.sdk.setting.DeviceConfigInfo, java.util.List): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 7,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, int, com.macrovideo.sdk.media.LoginHandle, com.macrovideo.sdk.setting.DeviceConfigInfo): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 8,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, int, com.macrovideo.sdk.media.LoginHandle, java.util.ArrayList, java.net.Socket): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 9,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, int, com.macrovideo.sdk.media.LoginHandle, java.util.List): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 10,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, int, com.macrovideo.sdk.media.LoginHandle, java.util.List, java.net.Socket, java.io.InputStream, java.io.OutputStream): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 11,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, int, com.macrovideo.sdk.media.LoginHandle, java.util.List, java.net.Socket, java.io.InputStream, java.io.OutputStream, boolean): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 12,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(boolean, int, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.RepeaterStationDeviceListInfo",
+        "overload_index": 13,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "a",
+        "reported_signature": "a(com.macrovideo.sdk.json.RepeaterStationWanCutOffScheduleJsonParse$DayBean): com.macrovideo.sdk.setting.RepeaterStationWanCutOffScheduleInfo$DayBean",
+        "overload_index": 14,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "appendStrTime",
+        "reported_signature": "appendStrTime(int, int, int): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "b",
+        "reported_signature": "b(boolean, int, com.macrovideo.sdk.media.LoginHandle, long, int, org.json.JSONObject, boolean, java.net.Socket, java.io.InputStream, java.io.OutputStream): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "b",
+        "reported_signature": "b(boolean, com.macrovideo.sdk.media.LoginHandle, long, int, int, org.json.JSONObject): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "b",
+        "reported_signature": "b(byte[], int): com.macrovideo.sdk.setting.CPEInfo",
+        "overload_index": 2,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "b",
+        "reported_signature": "b(boolean, int, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 3,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "b",
+        "reported_signature": "b(boolean, int, com.macrovideo.sdk.media.LoginHandle, com.macrovideo.sdk.setting.DeviceConfigInfo): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 4,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "c",
+        "reported_signature": "c(byte[], int): com.macrovideo.sdk.setting.CarDetectConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "configSettingV1AndActionV3NewPlatform",
+        "reported_signature": "configSettingV1AndActionV3NewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, java.util.List<org.json.JSONObject>, long, org.json.JSONObject, boolean): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createActionJsonObj",
+        "reported_signature": "createActionJsonObj(long, int, boolean, org.json.JSONObject): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createActionJsonObj",
+        "reported_signature": "createActionJsonObj(long, org.json.JSONObject): org.json.JSONObject",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createAlarmConfigPidList",
+        "reported_signature": "createAlarmConfigPidList(com.macrovideo.sdk.setting.AlarmConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createAlarmConfigPidList1",
+        "reported_signature": "createAlarmConfigPidList1(com.macrovideo.sdk.setting.AlarmConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createAudioCodeConfigPidList",
+        "reported_signature": "createAudioCodeConfigPidList(com.macrovideo.sdk.setting.AudioCodeInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createBooleanValueJsonObj",
+        "reported_signature": "createBooleanValueJsonObj(long, boolean): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createBooleanValueJsonObj",
+        "reported_signature": "createBooleanValueJsonObj(long, boolean, int): org.json.JSONObject",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createDateTimeConfigPidList",
+        "reported_signature": "createDateTimeConfigPidList(com.macrovideo.sdk.setting.DateTimeConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createDeviceXParamConfigPidList",
+        "reported_signature": "createDeviceXParamConfigPidList(com.macrovideo.sdk.objects.DeviceXParam): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createDoubleValueJsonObj",
+        "reported_signature": "createDoubleValueJsonObj(long, double): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createDoubleValueJsonObj",
+        "reported_signature": "createDoubleValueJsonObj(long, double, int): org.json.JSONObject",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createFloatValueJsonObj",
+        "reported_signature": "createFloatValueJsonObj(long, float): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createFloatValueJsonObj",
+        "reported_signature": "createFloatValueJsonObj(long, float, int): org.json.JSONObject",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createIPConfigPidList",
+        "reported_signature": "createIPConfigPidList(com.macrovideo.sdk.setting.IPConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createIntValueJsonObj",
+        "reported_signature": "createIntValueJsonObj(long, int): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createIntValueJsonObj",
+        "reported_signature": "createIntValueJsonObj(long, int, int): org.json.JSONObject",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createJSONObjectValueJsonObj",
+        "reported_signature": "createJSONObjectValueJsonObj(long, org.json.JSONObject): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createJSONObjectValueJsonObj",
+        "reported_signature": "createJSONObjectValueJsonObj(long, org.json.JSONObject, int): org.json.JSONObject",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createLongValueJsonObj",
+        "reported_signature": "createLongValueJsonObj(long, long): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createLongValueJsonObj",
+        "reported_signature": "createLongValueJsonObj(long, long, int): org.json.JSONObject",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createMqDeviceXParamConfigPidList",
+        "reported_signature": "createMqDeviceXParamConfigPidList(com.macrovideo.sdk.objects.DeviceXParam): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createNetworkConfigPidList",
+        "reported_signature": "createNetworkConfigPidList(com.macrovideo.sdk.setting.NetworkConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createNewLowPowerConfigPidList",
+        "reported_signature": "createNewLowPowerConfigPidList(com.macrovideo.sdk.setting.NewLowPowerInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createPTZXCruiseConfigPidList",
+        "reported_signature": "createPTZXCruiseConfigPidList(com.macrovideo.sdk.setting.PTZXCruiseConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createPromptConfigPidList",
+        "reported_signature": "createPromptConfigPidList(com.macrovideo.sdk.setting.DevicePromptInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createRecordConfigPidList",
+        "reported_signature": "createRecordConfigPidList(com.macrovideo.sdk.setting.RecordConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createSocket",
+        "reported_signature": "createSocket(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): java.net.Socket",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createSocketFromCommon",
+        "reported_signature": "createSocketFromCommon(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, boolean): java.net.Socket",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createSocketFromMQ",
+        "reported_signature": "createSocketFromMQ(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, boolean): java.net.Socket",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createStringValueJsonObj",
+        "reported_signature": "createStringValueJsonObj(long, java.lang.String): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createStringValueJsonObj",
+        "reported_signature": "createStringValueJsonObj(long, java.lang.String, int): org.json.JSONObject",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createThermalConfigPidList",
+        "reported_signature": "createThermalConfigPidList(com.macrovideo.sdk.setting.ThermalConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "createWhiteLightConfigPidList",
+        "reported_signature": "createWhiteLightConfigPidList(com.macrovideo.sdk.setting.WhiteLightConfigInfo): java.util.List<org.json.JSONObject>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "d",
+        "reported_signature": "d(byte[], int): com.macrovideo.sdk.setting.DateTimeConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "e",
+        "reported_signature": "e(byte[], int): com.macrovideo.sdk.objects.DeviceXParam",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "f",
+        "reported_signature": "f(byte[], int): com.macrovideo.sdk.setting.IPConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "g",
+        "reported_signature": "g(byte[], int): com.macrovideo.sdk.setting.NetworkConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getBooleanValue",
+        "reported_signature": "getBooleanValue(java.lang.Object): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDevAbilityAndStatus",
+        "reported_signature": "getDevAbilityAndStatus(com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.objects.IoTDevAbilityAndStatus",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDevAbilityAndStatusFromMqSocket",
+        "reported_signature": "getDevAbilityAndStatusFromMqSocket(java.net.Socket, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.objects.IoTDevAbilityAndStatus",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceAbilityFormDevice",
+        "reported_signature": "getDeviceAbilityFormDevice(com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.objects.IoTDevAbility",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceAbilityFormDevice",
+        "reported_signature": "getDeviceAbilityFormDevice(boolean, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.objects.IoTDevAbility",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceAbilityFormDeviceByAP",
+        "reported_signature": "getDeviceAbilityFormDeviceByAP(): com.macrovideo.sdk.objects.IoTDevAbility",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceConfigure",
+        "reported_signature": "getDeviceConfigure(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceConfigureNewPlatform",
+        "reported_signature": "getDeviceConfigureNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, android.content.Context): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceConfigureNewPlatform",
+        "reported_signature": "getDeviceConfigureNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, android.content.Context, boolean, boolean): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceConfigureNewPlatformFromMQ",
+        "reported_signature": "getDeviceConfigureNewPlatformFromMQ(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, java.net.Socket): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceConfigureNewPlatformFromMQ",
+        "reported_signature": "getDeviceConfigureNewPlatformFromMQ(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, java.net.Socket, boolean): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceSDCardInfo",
+        "reported_signature": "getDeviceSDCardInfo(com.macrovideo.sdk.media.LoginHandle, com.macrovideo.sdk.setting.DeviceConfigInfo, com.macrovideo.sdk.objects.DeviceInfo, android.content.Context): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceStatusFromMqSocket",
+        "reported_signature": "getDeviceStatusFromMqSocket(java.net.Socket, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDeviceStatusNewPlatform",
+        "reported_signature": "getDeviceStatusNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getIntValue",
+        "reported_signature": "getIntValue(java.lang.Object): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getLongValue",
+        "reported_signature": "getLongValue(java.lang.Object): long",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getNewPlatformDeviceConfig",
+        "reported_signature": "getNewPlatformDeviceConfig(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, java.util.List<java.lang.Long>): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getRepeaterStationAccessPointInfoAndDeviceList",
+        "reported_signature": "getRepeaterStationAccessPointInfoAndDeviceList(com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.RepeaterStationInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getRepeaterStationAccessPointInfoAndDeviceListAndWanCutOff",
+        "reported_signature": "getRepeaterStationAccessPointInfoAndDeviceListAndWanCutOff(com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.RepeaterStationInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getRepeaterStationConfig",
+        "reported_signature": "getRepeaterStationConfig(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getRepeaterStationDevList",
+        "reported_signature": "getRepeaterStationDevList(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.RepeaterStationDeviceListInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStringValue",
+        "reported_signature": "getStringValue(java.lang.Object): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getValueType",
+        "reported_signature": "getValueType(java.lang.Object): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getVersionConfigInfoNewPlatform",
+        "reported_signature": "getVersionConfigInfoNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.VersionConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "h",
+        "reported_signature": "h(byte[], int): com.macrovideo.sdk.setting.PTZXCruiseConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "i",
+        "reported_signature": "i(byte[], int): com.macrovideo.sdk.setting.PetDetectConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "j",
+        "reported_signature": "j(byte[], int): com.macrovideo.sdk.setting.PirWakeUpConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "k",
+        "reported_signature": "k(byte[], int): com.macrovideo.sdk.setting.PrivateModeInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "l",
+        "reported_signature": "l(byte[], int): com.macrovideo.sdk.setting.RecordConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "m",
+        "reported_signature": "m(byte[], int): com.macrovideo.sdk.setting.ThermalConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "n",
+        "reported_signature": "n(byte[], int): com.macrovideo.sdk.setting.TimeBacktrackingConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "o",
+        "reported_signature": "o(byte[], int): com.macrovideo.sdk.setting.VersionConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "p",
+        "reported_signature": "p(byte[], int): com.macrovideo.sdk.setting.WhiteLightConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "searchVideoCallAutoTestStatus",
+        "reported_signature": "searchVideoCallAutoTestStatus(com.macrovideo.sdk.objects.DeviceInfo): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setConfigInfoNewPlatform",
+        "reported_signature": "setConfigInfoNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, java.util.List<org.json.JSONObject>): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setConfigInfoNewPlatform",
+        "reported_signature": "setConfigInfoNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, java.util.List<org.json.JSONObject>, java.net.Socket, java.io.InputStream, java.io.OutputStream, boolean): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setConfigInfoNewPlatform",
+        "reported_signature": "setConfigInfoNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, java.util.List<org.json.JSONObject>, boolean): com.macrovideo.sdk.setting.DeviceConfigInfo",
+        "overload_index": 2,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startActionNewPlatform",
+        "reported_signature": "startActionNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, long, int, org.json.JSONObject): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startActionNewPlatform",
+        "reported_signature": "startActionNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, long, org.json.JSONObject): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startActionNewPlatformV3",
+        "reported_signature": "startActionNewPlatformV3(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, long, int, org.json.JSONObject, boolean): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startActionNewPlatformV3",
+        "reported_signature": "startActionNewPlatformV3(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, long, int, org.json.JSONObject, boolean, java.net.Socket, java.io.InputStream, java.io.OutputStream): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 1,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startActionNewPlatformV3",
+        "reported_signature": "startActionNewPlatformV3(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, long, org.json.JSONObject, boolean): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 2,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startActionNewPlatformV3",
+        "reported_signature": "startActionNewPlatformV3(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, long, org.json.JSONObject, boolean, java.net.Socket, java.io.InputStream, java.io.OutputStream): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 3,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startActionRecOpt",
+        "reported_signature": "startActionRecOpt(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle, long, java.util.List<com.macrovideo.sdk.setting.RecOpt>): com.macrovideo.sdk.objects.ActionResult",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "startVideoCallAutoTest",
+        "reported_signature": "startVideoCallAutoTest(com.macrovideo.sdk.objects.DeviceInfo, int, int, int, int, int): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "ALARMTAG",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "a",
+        "reported_type": "byte[]"
+      },
+      {
+        "name": "b",
+        "reported_type": "int"
+      },
+      {
+        "name": "c",
+        "reported_type": "java.util.List"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass1",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass10",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass11",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass12",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass13",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass14",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass15",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass16",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass17",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass18",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass19",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass2",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass20",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass21",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass22",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass23",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass24",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass25",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass26",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass27",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass3",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass4",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass5",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass6",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass7",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass8",
+      "com.macrovideo.sdk.setting.DeviceConfigSetting.AnonymousClass9"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "redaction": "All string literals except JSON field names, UTF encodings and cipher algorithm names removed. Original raw body not retained."
+}

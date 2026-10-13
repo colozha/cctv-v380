@@ -1,0 +1,62 @@
+{
+  "evidence_type": "supplementary-bounded-JNI-field-metadata",
+  "source": "lib/arm64-v8a/libhsMediaLibrary.so",
+  "sha256": "1375485cd32a15cba93f8f5b9d9991eefaa6f1dd0fabe00aefd955b6808763bc",
+  "field_names": [
+    {
+      "file_offset": "0x23b5d",
+      "virtual_address": "0x23b5d",
+      "name": "mProtocolVersion",
+      "context": "GetFieldID0x95a9c; fieldID [sp+0x20] -> GetIntField0x95f80 -> tagPlayParam+0x2b8 at0x95f88"
+    },
+    {
+      "file_offset": "0x245fc",
+      "virtual_address": "0x245fc",
+      "name": "protocolType",
+      "context": "GetFieldID0x95b74; fieldID x26 -> GetIntField0x96028 -> tagPlayParam+0x2d0 at0x96030"
+    },
+    {
+      "file_offset": "0x223b3",
+      "virtual_address": "0x223b3",
+      "name": "lLoginHandle",
+      "context": "GetFieldID0x95754 -> fieldID[x29-0x70] -> GetLongField0x96068 -> tagPlayParam+0x20 at0x96070"
+    },
+    {
+      "file_offset": "0x2e62a",
+      "virtual_address": "0x2e62a",
+      "name": "nChannel",
+      "context": "GetFieldID selector -> native tagPlayParam+0x29c"
+    },
+    {
+      "file_offset": "0x2fced",
+      "virtual_address": "0x2fced",
+      "name": "nDeviceId",
+      "context": "GetFieldID selector -> native tagPlayParam+0x14"
+    },
+    {
+      "file_offset": "0x23b54",
+      "virtual_address": "0x23b54",
+      "name": "nDevType",
+      "context": "GetFieldID selector -> native tagPlayParam+0x18"
+    },
+    {
+      "file_offset": "0x219d7",
+      "virtual_address": "0x219d7",
+      "name": "nStreamType",
+      "context": "GetFieldID selector -> native tagPlayParam+0x2a4"
+    },
+    {
+      "file_offset": "0x1dd81",
+      "virtual_address": "0x1dd81",
+      "name": "nP2pIdx",
+      "context": "GetFieldID selector -> native tagPlayParam+0x2a0"
+    },
+    {
+      "file_offset": "0x2fcf7",
+      "virtual_address": "0x2fcf7",
+      "name": "isAudioEnable",
+      "context": "GetFieldID0x95a0c -> fieldID[sp+0xa0] -> GetBooleanField0x960a0 -> tagPlayParam+0x2ad at0x960c0"
+    }
+  ],
+  "restrictions": "Only nine exact null-terminated Java field names supplied to GetFieldID. No Java object field values or cryptographic data read."
+}

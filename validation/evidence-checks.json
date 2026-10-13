@@ -1,0 +1,8 @@
+{
+  "errors": [],
+  "vendor_runtime_executed": false,
+  "agent_camera_tested": false,
+  "connection_testing_deferred_by_user": true,
+  "user_reported_render_observed": true,
+  "user_trace_sha256": "9b64a75e9e9b9587ba76bb3ad250bdf8c0b04ea3641b85b2e4abc8269c7ae98f"
+}

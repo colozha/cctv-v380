@@ -1,0 +1,57 @@
+{
+  "evidence_type": "supplementary-bounded-static-switch-table",
+  "source": "lib/arm64-v8a/libhsMediaLibrary.so",
+  "sha256": "1375485cd32a15cba93f8f5b9d9991eefaa6f1dd0fabe00aefd955b6808763bc",
+  "virtual_address": "0x30668",
+  "file_offset": "0x30668",
+  "size": 76,
+  "dispatch_instructions": "0x49714..0x49734; frameType21..96",
+  "non_default_entries": [
+    {
+      "frame_type": 21,
+      "branch_target": "0x49738"
+    },
+    {
+      "frame_type": 22,
+      "branch_target": "0x49738"
+    },
+    {
+      "frame_type": 24,
+      "branch_target": "0x49738"
+    },
+    {
+      "frame_type": 25,
+      "branch_target": "0x49738"
+    },
+    {
+      "frame_type": 26,
+      "branch_target": "0x49738"
+    },
+    {
+      "frame_type": 91,
+      "branch_target": "0x498b8"
+    },
+    {
+      "frame_type": 92,
+      "branch_target": "0x498f0"
+    },
+    {
+      "frame_type": 93,
+      "branch_target": "0x49920"
+    },
+    {
+      "frame_type": 94,
+      "branch_target": "0x497ac"
+    },
+    {
+      "frame_type": 95,
+      "branch_target": "0x49970"
+    },
+    {
+      "frame_type": 96,
+      "branch_target": "0x49ab4"
+    }
+  ],
+  "default_target": "0x49984",
+  "restrictions": "Only identified frame-type dispatch table. No crypto key/string contents or runtime data."
+}

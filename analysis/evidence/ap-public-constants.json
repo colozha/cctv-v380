@@ -1,0 +1,19 @@
+{
+  "evidence_type": "supplementary-offline-dex-constants",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "tool": "DEXlib2 shipped in existing JADX 0.7.1 JAR; ap-dex-instructions.java",
+  "observations": {
+    "Defines.DEVICE_PLATFORM_TYPE_OLD": 1,
+    "Defines.DEVICE_PLATFORM_TYPE_NEW": "2 if new/repeater support enabled, sentinel999999 otherwise; ap-defines-platform.dex.txt",
+    "Defines.KEY_ACTION": "action",
+    "Functions.SETTING_VERSION": "initialized2 in clinit; ap-functions-version.dex.txt",
+    "Protocol.IOT_PLATFORM_DEVICE_DEFAULT_PORT": 8089,
+    "Protocol.DAID_NET_CONFIG": {
+      "value": 262656,
+      "source": "IoT agent exact DEX trace Protocol.<clinit> classes5.dex code_item7705436 CU0x22b..237 and MVSPT_IOTC_DAID code_item7711508: ((4&255)<<16)|512|(0&255)"
+    }
+  },
+  "limitations": [
+    "Only selected public protocol/algorithm constants retained; no credential/account literals or runtime observation."
+  ]
+}

@@ -1,0 +1,24 @@
+APK SHA-256 7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b
+Offline DEX static field encoded values and exact bounded methods via JADX bundled dexlib2. No APK execution.
+classes5.dex STREAM_TYPE_HD=1
+classes5.dex STREAM_TYPE_SD=0
+
+SD encoded default0; no STREAM_TYPE writes in full clinit below.
+DEX classes5.dex method Lcom/macrovideo/sdk/media/HSMediaPlayer;-><clinit>()V code_item_offset=7806308 registers=1
+0000 dex@00771d74 new-instance             v0 Ljava/lang/Object;
+0002 dex@00771d78 invoke-direct            v0 Ljava/lang/Object;-><init>()V
+0005 dex@00771d7e sput-object              v0 Lcom/macrovideo/sdk/media/HSMediaPlayer;->H0:Ljava/lang/Object;
+0007 dex@00771d82 new-instance             v0 Ljava/lang/Object;
+0009 dex@00771d86 invoke-direct            v0 Ljava/lang/Object;-><init>()V
+000c dex@00771d8c sput-object              v0 Lcom/macrovideo/sdk/media/HSMediaPlayer;->I0:Ljava/lang/Object;
+000e dex@00771d90 return-void              
+
+DEX classes5.dex method Lcom/macrovideo/sdk/media/HSMediaPlayer;->isHeightStream()Z code_item_offset=7819048 registers=4
+0000 dex@00774f38 iget-object              v0 v3 Lcom/macrovideo/sdk/media/HSMediaPlayer;->u:Lcom/macrovideo/sdk/media/VideoPlayParams;
+0002 dex@00774f3c const/4                  v1 #0 
+0003 dex@00774f3e if-eqz                   v0  -> 000b
+0005 dex@00774f42 iget                     v0 v0 Lcom/macrovideo/sdk/media/VideoPlayParams;->nStreamType:I
+0007 dex@00774f46 const/4                  v2 #1 
+0008 dex@00774f48 if-ne                    v0 v2  -> 000b
+000a dex@00774f4c move                     v1 v2 
+000b dex@00774f4e return                   v1 

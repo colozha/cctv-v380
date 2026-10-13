@@ -1,0 +1,11 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/Defines;-><clinit>()V code_item_offset=7694680 registers=5
+0000 dex@00756968 sget-boolean             v0 Lcom/macrovideo/sdk/GlobalConfiguration;->sIsSupportNewPlatform:Z
+0002 dex@0075696c if-nez                   v0  -> 000d
+0004 dex@00756970 sget-boolean             v0 Lcom/macrovideo/sdk/GlobalConfiguration;->sIsSupportNewPlatformRepeater:Z
+0006 dex@00756974 if-eqz                   v0  -> 0009
+0008 dex@00756978 goto                      -> 000d
+0009 dex@0075697a const                    v0 #999999 
+000c dex@00756980 goto                      -> 000e
+000d dex@00756982 const/4                  v0 #2 
+000e dex@00756984 sput                     v0 Lcom/macrovideo/sdk/defines/Defines;->DEVICE_PLATFORM_TYPE_NEW:I
+0010 dex@00756988 sget-boolean             v0 Lcom/macrovideo/sdk/GlobalConfiguration;->sIsCustomized:Z

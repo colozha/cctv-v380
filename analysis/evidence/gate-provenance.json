@@ -1,0 +1,75 @@
+{
+  "evidence_type": "supplementary-gate-artifact-provenance",
+  "apk_path": "/home/husain/Downloads/v380-6-4-90.apk",
+  "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "files": [
+    {
+      "path": "gate-JNI-field-names.json",
+      "sha256": "ae3602bbfaed0340b3bd297f9569231e7a88b07af98a5dc0b2e59d8728305c77",
+      "size": 2135
+    },
+    {
+      "path": "gate-LoginHelper-b.dex.txt",
+      "sha256": "6f4ceab4f97375d6fcbeeec38e03d112f2862d855e4f544252cd1623f3a612f5",
+      "size": 42801
+    },
+    {
+      "path": "gate-LoginHelper-clinit.sanitized.json",
+      "sha256": "516ee9b2161b3f84977dd4d0c370e3eccc02ce50eafdcaa5f93f560c8c124365",
+      "size": 927
+    },
+    {
+      "path": "gate-changeDevLoginProtocol.json",
+      "sha256": "1ffc77071014b8175567ffb2768fa2788722b8ee2c5daf6358bfba0c91223086",
+      "size": 19947
+    },
+    {
+      "path": "gate-changeDevPwd.json",
+      "sha256": "66332f8964fc88051526c5a2fa98e0fa1dcdc1924b178fdf5c33bff58448437b",
+      "size": 12480
+    },
+    {
+      "path": "gate-collect-native.py",
+      "sha256": "24652c9a6115c5b80c4ff794365cbc9a081e530ae747534b216ddf90b7c5c190",
+      "size": 3867
+    },
+    {
+      "path": "gate-dex-instructions.java",
+      "sha256": "52b835b607f4a2f7077a541dc501b9d4ea6a40c27a97d212465aa1efb1a992fc",
+      "size": 3689
+    },
+    {
+      "path": "gate-frame-type-switch.json",
+      "sha256": "ad2bec4b8a6e3cc9cfa33ef6be309e05848cc3f5f3893448394ead14bdadbc81",
+      "size": 1278
+    },
+    {
+      "path": "gate-getStrTimeWhenLANLogin.json",
+      "sha256": "f68fe61cc066ae3271983cd21c438235286fffb3217c07ffd38054be92be3064",
+      "size": 15007
+    },
+    {
+      "path": "gate-md5.json",
+      "sha256": "ad79162d39dec108fc83b3047bf4040bf5c668502ad1f118372cf29d26ab97ec",
+      "size": 13704
+    },
+    {
+      "path": "gate-md5_16.json",
+      "sha256": "dd88eda3d1d9ceaa2f97d7f039cd953f1ede5595fd1d5f5014602c023b9a19d6",
+      "size": 12262
+    },
+    {
+      "path": "gate-native.json",
+      "sha256": "68f80f8c0031aa2c42e69a2a364427be7e1108f5fe5b1816c1adb1888f744654",
+      "size": 1482893
+    },
+    {
+      "path": "gate-stream-prefixes.json",
+      "sha256": "e8eca6edc63f1d7a506d32ed43dd9fdd7ffbdbc2c02131e3007f42d9241de0dc",
+      "size": 870
+    }
+  ],
+  "dex_tool": "dexlib2 bundled in existing JADX headless MCP JAR0.7.1; GateDex.java bounded offline instruction collector; no string or array payload values emitted.",
+  "native_tool": "Capstone5.0.6 + GNU readelf; selected symbols only, six key-immediate instructions redacted.",
+  "runtime": "Not executed; no camera, device, network or cloud communication."
+}

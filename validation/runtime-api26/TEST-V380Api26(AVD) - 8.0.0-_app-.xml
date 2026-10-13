@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="26" failures="0" errors="0" skipped="0" time="9.742" timestamp="2026-10-13T21:11:06" hostname="localhost">
+  <testsuite name="dev.cctv.v380.ProvisioningRestoreTest" tests="1" failures="0" errors="0" skipped="0" time="0.04" timestamp="2026-10-13T21:11:06" hostname="localhost">
+    <properties>
+      <property name="device" value="V380Api26(AVD) - 8.0.0" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="processRestartRestoresVerificationWithoutRepeatingWifiConfigurationOrLogin" classname="dev.cctv.v380.ProvisioningRestoreTest" time="0.04" />
+  </testsuite>
+  <testsuite name="dev.cctv.v380.SessionVideoTest" tests="1" failures="0" errors="0" skipped="0" time="1.961" timestamp="2026-10-13T21:11:06" hostname="localhost">
+    <properties>
+      <property name="device" value="V380Api26(AVD) - 8.0.0" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="syntheticPeerAuthenticatesStreamsToSurfaceAndReceivesPtzStop" classname="dev.cctv.v380.SessionVideoTest" time="1.961" />
+  </testsuite>
+  <testsuite name="dev.cctv.v380.StorageTest" tests="3" failures="0" errors="0" skipped="0" time="0.102" timestamp="2026-10-13T21:11:06" hostname="localhost">
+    <properties>
+      <property name="device" value="V380Api26(AVD) - 8.0.0" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="migratesVersionOneWithoutChangingIdentityOrCiphertext" classname="dev.cctv.v380.StorageTest" time="0.026" />
+    <testcase name="pendingSetupPersistsMetadataWithoutCredentialsAndCanBeCleared" classname="dev.cctv.v380.StorageTest" time="0.0" />
+    <testcase name="encryptedRoundTripFreshIvTamperingMissingKeyAndDelete" classname="dev.cctv.v380.StorageTest" time="0.076" />
+  </testsuite>
+  <testsuite name="dev.cctv.v380.UiTest" tests="3" failures="0" errors="0" skipped="0" time="5.577" timestamp="2026-10-13T21:11:06" hostname="localhost">
+    <properties>
+      <property name="device" value="V380Api26(AVD) - 8.0.0" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="apDraftSurvivesRecreationButHotspotPasswordDoesNot" classname="dev.cctv.v380.UiTest" time="1.482" />
+    <testcase name="addEditAndDeleteProfileWithoutStoringPassword" classname="dev.cctv.v380.UiTest" time="1.859" />
+    <testcase name="rotationPreservesNonsecretDraftAndClearsPassword" classname="dev.cctv.v380.UiTest" time="2.236" />
+  </testsuite>
+  <testsuite name="dev.cctv.v380.VideoDecoderTest" tests="1" failures="0" errors="0" skipped="0" time="1.233" timestamp="2026-10-13T21:11:06" hostname="localhost">
+    <properties>
+      <property name="device" value="V380Api26(AVD) - 8.0.0" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="platformEncodedSyntheticFrameRendersToSurface" classname="dev.cctv.v380.VideoDecoderTest" time="1.233" />
+  </testsuite>
+  <testsuite name="dev.cctv.v380.protocol.IoTMediaProtocolTest" tests="3" failures="0" errors="0" skipped="0" time="0.006" timestamp="2026-10-13T21:11:06" hostname="localhost">
+    <properties>
+      <property name="device" value="V380Api26(AVD) - 8.0.0" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="readsNegotiatedCodecAndPtzCapabilitiesAndBuildsFiniteSteps" classname="dev.cctv.v380.protocol.IoTMediaProtocolTest" time="0.002" />
+    <testcase name="decryptsSparseCbcAndEcbWithoutChainingAcrossPlaintextGaps" classname="dev.cctv.v380.protocol.IoTMediaProtocolTest" time="0.002" />
+    <testcase name="parsesPlainFramesAndRejectsUnsafeChunkMetadata" classname="dev.cctv.v380.protocol.IoTMediaProtocolTest" time="0.002" />
+  </testsuite>
+  <testsuite name="dev.cctv.v380.protocol.IoTProtocolTest" tests="4" failures="0" errors="0" skipped="0" time="0.029" timestamp="2026-10-13T21:11:06" hostname="localhost">
+    <properties>
+      <property name="device" value="V380Api26(AVD) - 8.0.0" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="returnsTypedDeviceFailuresAndApHeader" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.001" />
+    <testcase name="rejectsCorruptDigestLowOrderPointAndRepeatedExchange" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.026" />
+    <testcase name="lanHandshakeUsesRfc7748AgreementAndAuthenticatesDigest" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.001" />
+    <testcase name="rejectsUncorrelatedOversizedAndTruncatedPackets" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.001" />
+  </testsuite>
+  <testsuite name="dev.cctv.v380.protocol.LegacyProtocolTest" tests="10" failures="0" errors="0" skipped="0" time="0.036" timestamp="2026-10-13T21:11:06" hostname="localhost">
+    <properties>
+      <property name="device" value="V380Api26(AVD) - 8.0.0" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="passwordThresholdCountsUtf16AndHashesMiddleHexAsText" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001" />
+    <testcase name="mediaCipherSelectsNativeModesAndRejectsUseAfterClose" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001" />
+    <testcase name="streamAndPtzPacketsUseRecoveredNativeLayouts" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001" />
+    <testcase name="initialResponsePaddingIsBoundedAndOnlyAllowedBeforeFirstFrame" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001" />
+    <testcase name="authSerializerUses520BytesDateNonceAndTwoIndependentPkcs5Layers" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001" />
+    <testcase name="innerTypesDetermineCodecKeyframeAndAudioWithoutPayloadGuessing" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001" />
+    <testcase name="streamResponseRejectsNegativeStatusesImpossibleDimensionsAndUnknownModes" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001" />
+    <testcase name="reassemblyRejectsMissingDuplicateOversizedAndInconsistentFragments" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.026" />
+    <testcase name="loginValidatesEverySuccessConditionAndPreservesUnsignedFields" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001" />
+    <testcase name="arbitraryTcpSplitsAndCoalescingPreserveNativeFrameMetadata" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.002" />
+  </testsuite>
+</testsuites>

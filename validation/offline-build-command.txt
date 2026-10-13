@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd /home/husain/Documents/Works/Github/cctv-v380
+export JAVA_HOME=/home/husain/.local/share/java/temurin-21
+export ANDROID_HOME=/home/husain/Android/Sdk
+./gradlew --offline :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug :app:testDebugUnitTest \
+  --tests 'dev.cctv.v380.protocol.*' \
+  --tests 'dev.cctv.v380.ApProtocolTest' \
+  --tests 'dev.cctv.v380.DiagnosticsTest' \
+  --tests 'dev.cctv.v380.CoreTest.discoveryChecksLengthSourceIdentityAndPort' \
+  --tests 'dev.cctv.v380.CoreTest.exactReaderHandlesPartialCoalescedAndZeroReads' \
+  --tests 'dev.cctv.v380.CoreTest.sparseCipherMatchesIndependentBlockEncryptionAndPreservesTails' \
+  --tests 'dev.cctv.v380.CoreTest.annexBSupportsBothPrefixesAndBothCodecs' \
+  --tests 'dev.cctv.v380.CoreTest.profileValidationUsesEncodedByteLength' \
+  --tests 'dev.cctv.v380.CoreTest.ptzStopLeaseRenewalAndDirectionChange' \
+  --tests 'dev.cctv.v380.CoreTest.watchdogStopTransportFailureDoesNotEscapeItsBackgroundJob' \
+  --console=plain

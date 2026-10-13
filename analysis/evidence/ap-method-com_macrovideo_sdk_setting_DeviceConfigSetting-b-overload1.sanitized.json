@@ -1,0 +1,18 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_ee0a41072a851dc7ad0aec02c3eecf8b7d9f0272a7766bb2516db3e6a170b9db",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_method",
+  "parameters": {
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method_name": "b",
+    "overload_index": 1
+  },
+  "source_excerpt": "byte sid = (byte) loginHandle.getSid();\nint iCreateRandomId = Protocol.createRandomId();\nJSONObject jSONObjectCreateActionJsonObj = createActionJsonObj(j, i2, false, jSONObject);\nbyte[] bArrCreateCommonJsonRequestBuffer = Protocol.createCommonJsonRequestBuffer(z, 1, Protocol.CMD_COMMON_IOT, Protocol.METHOD_ID_ACTION_REQUEST, (short) 1, (byte) 2, sid, (byte) 0, iCreateRandomId, jSONObjectCreateActionJsonObj, loginHandle.getsKey());\n// The inspected method validates CMD_COMMON_IOT and Protocol.isResultOk(...,1,iCreateRandomId,responseHeader,Protocol.METHOD_ID_ACTION_RESPONSE).",
+  "redaction": "Short derivative of returned REA source; all credential-bearing calls/logs omitted. Complete method source not retained.",
+  "limitations": [
+    "Static source, no APK/camera execution.",
+    "The unprovided z=true cloud relay flow is excluded."
+  ]
+}

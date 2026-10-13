@@ -1,0 +1,5599 @@
+{
+  "evidence_type": "supplementary-shell-static-elf",
+  "source_extraction_evidence_id": "ev_f2eaec0ee202bdfaab2d678c927f134eae42d7df9523d26a818a0c13cba2959d",
+  "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "tools": [
+    "Python standard library: hashlib, struct",
+    "GNU readelf (static ELF metadata)"
+  ],
+  "scope": "All extracted lib/*/*.so headers/hashes; dynamic dependencies and selected function names for core media, utility, provision and codec libraries. No application or native library execution; no credential/token/key values read.",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libHSMbedtls.so",
+      "sha256": "1996572fc1746a23e340e032853e429aab714049b7ad4e6c1d1677b051cfd774",
+      "size": 162560,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libHSMbedtls.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "mvt_cipher_start",
+          "virtual_address": "0xe3f8",
+          "file_offset": "0xe3f8",
+          "size": 376,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "mvt_cipher_process",
+          "virtual_address": "0xe614",
+          "file_offset": "0xe614",
+          "size": 880,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "mvt_cipher_finish",
+          "virtual_address": "0xe984",
+          "file_offset": "0xe984",
+          "size": 220,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/arm64-v8a/libHSToneUtils.so",
+      "sha256": "0b4090624793ea8a767ce99e05465173e697ee9f95accdcbbbc2c029ed6c2f80",
+      "size": 12056,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libHYFisheyePano.so",
+      "sha256": "eb38ea2b7b9f84ddec936c5e61b2e36eef55f86fd11c17a9dcdf59445fcfafe1",
+      "size": 1060640,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libInno.so",
+      "sha256": "51494eac150a905e51c86489ca7a5b32409059576a5d82d8cddc95c5029a4b05",
+      "size": 113496,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libInnoSecure.so",
+      "sha256": "abfc4ad1768b70b4474f92d74ba5a87a3d5121e93164673d8082613d36aec684",
+      "size": 67664,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libPglbizssdk_ml.so",
+      "sha256": "000063803e28064c52fa83d78fb74ddc3beeb3d96970a76cafbd40a58397ea45",
+      "size": 1137040,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libWebrtcAec.so",
+      "sha256": "1257aad5e9b4be8b68a893b356db3be2ddcc22fdfe84976d4b8b490d0f27433d",
+      "size": 4458904,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libadscope_security.so",
+      "sha256": "17fc246bd8381e86394131d4473011b23c9f3dd0dc846f886f756df14d51707b",
+      "size": 342880,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libaes.so",
+      "sha256": "f1e4eae24df2683866385e416f6d324000460711fad124962eeed38178ff9020",
+      "size": 19360,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libaes.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "media_data_encrypt",
+          "virtual_address": "0x3f5c",
+          "file_offset": "0x3f5c",
+          "size": 160,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "media_data_decrypt",
+          "virtual_address": "0x3ffc",
+          "file_offset": "0x3ffc",
+          "size": 160,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "media_data_decrypt_pre_2k",
+          "virtual_address": "0x409c",
+          "file_offset": "0x409c",
+          "size": 112,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_tools_AESUtils_aes128_1ecb_1encrypt"
+      ]
+    },
+    {
+      "path": "lib/arm64-v8a/libattrDetached.so",
+      "sha256": "5cebf02949f7e97b216cca9b8883d6fe056add9b31be7fc64fc4bf3c02bfaed9",
+      "size": 4480,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libavcodec.so",
+      "sha256": "fa5defaf5f2e34f206e859e39fc43099205ac13ae324dc776da88aebec285493",
+      "size": 14556456,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "libswresample.so",
+        "libavutil.so",
+        "libm.so",
+        "libdl.so",
+        "libz.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libavcodec.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "poll@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/arm64-v8a/libavfilter.so",
+      "sha256": "c74e3d314f1f4b66285ed598fd37fba36999933415d3eb0604a39871f0f2de37",
+      "size": 3671480,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libavformat.so",
+      "sha256": "d245f39c9cabe03bb6fdd4d26d5a99c99753905ea272d1ecd92e35a547b6ba2c",
+      "size": 2229688,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "libavcodec.so",
+        "libavutil.so",
+        "libm.so",
+        "libz.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libavformat.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "av_thread_message_queue_recv@LIBAVUTIL_57",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "av_thread_message_queue_send@LIBAVUTIL_57",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "send@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "bind@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "av_thread_message_queue_set_err_recv@LIBAVUTIL_57",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "sendto@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "listen@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "connect@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "poll@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "recvfrom@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "setsockopt@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "recv@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "socket@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "accept@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "av_thread_message_queue_set_err_send@LIBAVUTIL_57",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "avio_accept@@LIBAVFORMAT_59",
+          "virtual_address": "0x623d0",
+          "file_offset": "0x623d0",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "11"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/arm64-v8a/libavmdl_lite.so",
+      "sha256": "29168eb09dda5d9e8b969d4567ce09760b9575d642b7b569335d4b1bf608983c",
+      "size": 747584,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libavutil.so",
+      "sha256": "b0854dc4fa18554abc805a4198525c055f636c76375d97bd6d345e24aee05f86",
+      "size": 593272,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "libm.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libavutil.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "av_thread_message_queue_set_err_recv@@LIBAVUTIL_57",
+          "virtual_address": "0x4aa20",
+          "file_offset": "0x4aa20",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "11"
+        },
+        {
+          "name": "av_thread_message_queue_recv@@LIBAVUTIL_57",
+          "virtual_address": "0x4a930",
+          "file_offset": "0x4a930",
+          "size": 184,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "11"
+        },
+        {
+          "name": "av_thread_message_queue_set_err_send@@LIBAVUTIL_57",
+          "virtual_address": "0x4a9e8",
+          "file_offset": "0x4a9e8",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "11"
+        },
+        {
+          "name": "av_thread_message_queue_send@@LIBAVUTIL_57",
+          "virtual_address": "0x4a884",
+          "file_offset": "0x4a884",
+          "size": 172,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "11"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/arm64-v8a/libcj_mobile_zf_base.so",
+      "sha256": "12c73873d43acec9aa75d184863a10534c327e19807a81e2abccb6c8e7d88ab1",
+      "size": 633088,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libcjaf.so",
+      "sha256": "38737f1abd493316c28e93d5cdc116c0dd7beb2f4b04a06ada6dd2c9da92edfc",
+      "size": 231480,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libcommonV2DevInfo.so",
+      "sha256": "fd15383390e6fd1f43ab354a2b3bb2df032903772ecbcf965ee5971f092bedd7",
+      "size": 325552,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libcommonV2DevInfo.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0x21354",
+          "file_offset": "0x21354",
+          "size": 176,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/arm64-v8a/libdevInfo.so",
+      "sha256": "0ed46f92f51b5b06bba78fd04982a83830a80c8c40b30f27b7d646de02d08380",
+      "size": 325552,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libdevInfo.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0x21354",
+          "file_offset": "0x21354",
+          "size": 176,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/arm64-v8a/libed25519.so",
+      "sha256": "b8a4662a2d194965f110b109f0610834df57057e42d1a2e8f31a42042de921c5",
+      "size": 68296,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libed25519.so"
+      ],
+      "selected_symbols": [],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_tools_ED25519Utils_curve25519_1CalculatePublicKey",
+        "Java_com_macrovideo_sdk_tools_ED25519Utils_curve25519_1CreateSharedKey"
+      ]
+    },
+    {
+      "path": "lib/arm64-v8a/libfaac.so",
+      "sha256": "9add0cd5147e471caf5d84779174318e34894aa1faa5382fe8fe101775db8156",
+      "size": 83656,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libfaad.so",
+      "sha256": "2d1dd4db3a40bd969e8f5bad172185bb30302a2ff7c122afb999df0e98f482d3",
+      "size": 294592,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libffavc.so",
+      "sha256": "1e214164a6c153f74f25018c1625f3e71d1d5ba601f6592c4dd89385dcc4b0bc",
+      "size": 1161456,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libffavc.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "Java_org_ffavc_DecoderFactory_GetHandle",
+          "virtual_address": "0x56548",
+          "file_offset": "0x56548",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "15"
+        }
+      ],
+      "jni_exports": [
+        "Java_org_ffavc_DecoderFactory_GetHandle"
+      ]
+    },
+    {
+      "path": "lib/arm64-v8a/libhsMediaLibrary.so",
+      "sha256": "1375485cd32a15cba93f8f5b9d9991eefaa6f1dd0fabe00aefd955b6808763bc",
+      "size": 702920,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "libHYFisheyePano.so",
+        "libavcodec.so",
+        "libpostproc.so",
+        "libavfilter.so",
+        "libavformat.so",
+        "libavutil.so",
+        "libswresample.so",
+        "libswscale.so",
+        "libmideaCodec.so",
+        "libaes.so",
+        "libfaac.so",
+        "libHSMbedtls.so",
+        "libed25519.so",
+        "liblog.so",
+        "libGLESv3.so",
+        "libEGL.so",
+        "libhsUtils.so",
+        "libattrDetached.so",
+        "libfaad.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libhsMediaLibrary.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "sendto@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "socket@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "setsockopt@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "connect@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "recvfrom@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "media_data_decrypt_pre_2k",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "media_data_decrypt",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "media_data_encrypt",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "h265_parse_sps",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "h264_parse_sps",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "initMediaDecoder",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "decodeFrameData",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "releaseMediaDecoder",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "mvt_cipher_start",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "mvt_cipher_process",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "mvt_cipher_finish",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter9initParamEP12tagPlayParam",
+          "virtual_address": "0x4f380",
+          "file_offset": "0x4f380",
+          "size": 468,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter22sendSpeakAudioToServerEiPci",
+          "virtual_address": "0x4a850",
+          "file_offset": "0x4a850",
+          "size": 3172,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter24refreshIpPortHandleTokenEPKcS1_iiS1_",
+          "virtual_address": "0x544a4",
+          "file_offset": "0x544a4",
+          "size": 320,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlay",
+          "virtual_address": "0x96b50",
+          "file_offset": "0x96b50",
+          "size": 296,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter30callbackVideoSizeWithAudioFreqEiii",
+          "virtual_address": "0x3d3b4",
+          "file_offset": "0x3d3b4",
+          "size": 204,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterD0Ev",
+          "virtual_address": "0x4f060",
+          "file_offset": "0x4f060",
+          "size": 36,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter24setMotionTrackParamMultiEPiiii",
+          "virtual_address": "0x3ce90",
+          "file_offset": "0x3ce90",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18callbackWiFiSignalEP17tagWiFiSingleInfo",
+          "virtual_address": "0x3d55c",
+          "file_offset": "0x3d55c",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN14HSMediaManager11setPTZParamEiibibibbbbi",
+          "virtual_address": "0x80f24",
+          "file_offset": "0x80f24",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter24speakAudioSendThreadFuncEv",
+          "virtual_address": "0x438b8",
+          "file_offset": "0x438b8",
+          "size": 328,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter10startSpeakEv",
+          "virtual_address": "0x543dc",
+          "file_offset": "0x543dc",
+          "size": 8,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17callbackVideoSizeEii",
+          "virtual_address": "0x3d2f0",
+          "file_offset": "0x3d2f0",
+          "size": 196,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_Z25iotc_ms_frame_cipher_initP30_media_stream_frame_trans_infohhPhS1_",
+          "virtual_address": "0x93578",
+          "file_offset": "0x93578",
+          "size": 720,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter20actionCtrlThreadFuncEv",
+          "virtual_address": "0x427ec",
+          "file_offset": "0x427ec",
+          "size": 4280,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTI23HSLiveDataV3Transmitter",
+          "virtual_address": "0xb88a0",
+          "file_offset": "0xa88a0",
+          "size": 24,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "16"
+        },
+        {
+          "name": "_ZN12HSLivePlayer21videoDecodeThreadFuncEi",
+          "virtual_address": "0x8610c",
+          "file_offset": "0x8610c",
+          "size": 5396,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter10startSpeakEv",
+          "virtual_address": "0x3cf94",
+          "file_offset": "0x3cf94",
+          "size": 20,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter22sendSpeakAudioToServerEiPci",
+          "virtual_address": "0x41cb4",
+          "file_offset": "0x41cb4",
+          "size": 2132,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter15stopTransmitterEv",
+          "virtual_address": "0x3cc68",
+          "file_offset": "0x3cc68",
+          "size": 108,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter14pauseVideoCallEv",
+          "virtual_address": "0x3cfe4",
+          "file_offset": "0x3cfe4",
+          "size": 28,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17callbackPtzCruiseEP16tagPTZCruiseInfo",
+          "virtual_address": "0x3d688",
+          "file_offset": "0x3d688",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter16startTransmitterEP12tagPlayParamP23HSBaseTransmitterHandle",
+          "virtual_address": "0x3cbc0",
+          "file_offset": "0x3cbc0",
+          "size": 168,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter13setLightParamEiib",
+          "virtual_address": "0x3ce54",
+          "file_offset": "0x3ce54",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterD2Ev",
+          "virtual_address": "0x43b08",
+          "file_offset": "0x43b08",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter25getDataFromDeviceOrServerEibPcS0_iS0_mS0_m",
+          "virtual_address": "0x4f554",
+          "file_offset": "0x4f554",
+          "size": 19988,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN12HSLivePlayer11setPTZParamEibibibbbbi",
+          "virtual_address": "0x85d84",
+          "file_offset": "0x85d84",
+          "size": 64,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter22sendSpeakAudioToDeviceEi",
+          "virtual_address": "0x49ca0",
+          "file_offset": "0x49ca0",
+          "size": 2992,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTS23HSLiveDataV2Transmitter",
+          "virtual_address": "0x306b4",
+          "file_offset": "0x306b4",
+          "size": 26,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "10"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter15callbackCamZoomEP14tagCamZoomInfo",
+          "virtual_address": "0x3d6ec",
+          "file_offset": "0x3d6ec",
+          "size": 132,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter17parseFrameDataV13EPciP12tagFrameData",
+          "virtual_address": "0x41394",
+          "file_offset": "0x41394",
+          "size": 380,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter19setMotionTrackParamEiii",
+          "virtual_address": "0x3ce74",
+          "file_offset": "0x3ce74",
+          "size": 28,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter27releaseSpeakAudioCacheQueueEv",
+          "virtual_address": "0x3cb48",
+          "file_offset": "0x3cb48",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterD1Ev",
+          "virtual_address": "0x43b08",
+          "file_offset": "0x43b08",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshMqKeyExchangeInfo",
+          "virtual_address": "0xa0dd8",
+          "file_offset": "0xa0dd8",
+          "size": 564,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18sendSpeakVideoDataEPciiiiiiil",
+          "virtual_address": "0x3d138",
+          "file_offset": "0x3d138",
+          "size": 296,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter15exitTransmitterEv",
+          "virtual_address": "0x3ccd4",
+          "file_offset": "0x3ccd4",
+          "size": 8,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterC2Ev",
+          "virtual_address": "0x4ee78",
+          "file_offset": "0x4ee78",
+          "size": 356,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter5resetEv",
+          "virtual_address": "0x4f29c",
+          "file_offset": "0x4f29c",
+          "size": 228,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17updateLoginHandleEll",
+          "virtual_address": "0x3ce00",
+          "file_offset": "0x3ce00",
+          "size": 8,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter19callbackPrivateModeEh",
+          "virtual_address": "0x3d7e0",
+          "file_offset": "0x3d7e0",
+          "size": 108,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter20callbackRunningStateEP19tagRunningStateInfo",
+          "virtual_address": "0x3d624",
+          "file_offset": "0x3d624",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter13setAudioParamEb",
+          "virtual_address": "0x3ce3c",
+          "file_offset": "0x3ce3c",
+          "size": 24,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter28refreshIpPortHandleTokenUuidEPKcS1_iiS1_S1_S1_S1_",
+          "virtual_address": "0x3d85c",
+          "file_offset": "0x3d85c",
+          "size": 8,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17parseFrameDataV13EPciP12tagFrameData",
+          "virtual_address": "0x49ae4",
+          "file_offset": "0x49ae4",
+          "size": 444,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter25resetSpeakAudioCacheQueueEv",
+          "virtual_address": "0x3d260",
+          "file_offset": "0x3d260",
+          "size": 72,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter24speakAudioSendThreadFuncEv",
+          "virtual_address": "0x3eb10",
+          "file_offset": "0x3eb10",
+          "size": 252,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter16startTransmitterEP12tagPlayParamP23HSBaseTransmitterHandle",
+          "virtual_address": "0x43ba0",
+          "file_offset": "0x43ba0",
+          "size": 284,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN12HSLivePlayer8stopPlayEv",
+          "virtual_address": "0x85aa8",
+          "file_offset": "0x85aa8",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlayback",
+          "virtual_address": "0x9ba28",
+          "file_offset": "0x9ba28",
+          "size": 300,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_updateLoginHandle",
+          "virtual_address": "0x9bd0c",
+          "file_offset": "0x9bd0c",
+          "size": 36,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterD0Ev",
+          "virtual_address": "0x43b7c",
+          "file_offset": "0x43b7c",
+          "size": 36,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterC1Ev",
+          "virtual_address": "0x4ee78",
+          "file_offset": "0x4ee78",
+          "size": 356,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleTokenSession",
+          "virtual_address": "0xa100c",
+          "file_offset": "0xa100c",
+          "size": 468,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter24resetSpeakRingCacheQueueEv",
+          "virtual_address": "0x3d2a8",
+          "file_offset": "0x3d2a8",
+          "size": 72,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTV23HSLiveDataV1Transmitter",
+          "virtual_address": "0xb86f0",
+          "file_offset": "0xa86f0",
+          "size": 128,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "16"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter12setZoomParamEiibb",
+          "virtual_address": "0x3cf20",
+          "file_offset": "0x3cf20",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_Z14cipherJsonData21_mvt_cipher_operationiPciS0_PKcS2_",
+          "virtual_address": "0x93e24",
+          "file_offset": "0x93e24",
+          "size": 304,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_Z24iotc_ms_frame_cipher_endP30_media_stream_frame_trans_info",
+          "virtual_address": "0x93b80",
+          "file_offset": "0x93b80",
+          "size": 60,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter9stopSpeakEv",
+          "virtual_address": "0x3cfa8",
+          "file_offset": "0x3cfa8",
+          "size": 16,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter15stopTransmitterEv",
+          "virtual_address": "0x4f22c",
+          "file_offset": "0x4f22c",
+          "size": 112,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter28refreshIpPortHandleTokenUuidEPKcS1_iiS1_S1_S1_S1_",
+          "virtual_address": "0x545e4",
+          "file_offset": "0x545e4",
+          "size": 660,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlayAll",
+          "virtual_address": "0x96c78",
+          "file_offset": "0x96c78",
+          "size": 268,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTV25HSLiveDataBaseTransmitter",
+          "virtual_address": "0xb8660",
+          "file_offset": "0xa8660",
+          "size": 128,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "16"
+        },
+        {
+          "name": "_Z20iotc_ms_frame_cipherP30_media_stream_frame_trans_infoh",
+          "virtual_address": "0x9394c",
+          "file_offset": "0x9394c",
+          "size": 564,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_startPlayback",
+          "virtual_address": "0x98ca8",
+          "file_offset": "0x98ca8",
+          "size": 312,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17getDataFromServerEiPciS0_S0_ibi",
+          "virtual_address": "0x461b8",
+          "file_offset": "0x461b8",
+          "size": 13264,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter21callbackDeviceAbilityEP12_dev_ability",
+          "virtual_address": "0x3da9c",
+          "file_offset": "0x3da9c",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleToken",
+          "virtual_address": "0xa08fc",
+          "file_offset": "0xa08fc",
+          "size": 400,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter24refreshMqKeyExchangeInfoEPKcS1_S1_",
+          "virtual_address": "0x54878",
+          "file_offset": "0x54878",
+          "size": 236,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter5resetEv",
+          "virtual_address": "0x3ccdc",
+          "file_offset": "0x3ccdc",
+          "size": 112,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter17getDataFromServerEiPciS0_S0_i",
+          "virtual_address": "0x403c4",
+          "file_offset": "0x403c4",
+          "size": 4048,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter20actionCtrlThreadFuncEv",
+          "virtual_address": "0x4b8cc",
+          "file_offset": "0x4b8cc",
+          "size": 10140,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTI23HSLiveDataV1Transmitter",
+          "virtual_address": "0xb8770",
+          "file_offset": "0xa8770",
+          "size": 24,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "16"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17setStarLightParamEiib",
+          "virtual_address": "0x3ceb0",
+          "file_offset": "0x3ceb0",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter14refreshSessionEiPKc",
+          "virtual_address": "0x3d84c",
+          "file_offset": "0x3d84c",
+          "size": 8,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterD2Ev",
+          "virtual_address": "0x3ecd0",
+          "file_offset": "0x3ecd0",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter17dataGetThreadFuncEv",
+          "virtual_address": "0x4b4c8",
+          "file_offset": "0x4b4c8",
+          "size": 1008,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter10setLinkageEii",
+          "virtual_address": "0x3d874",
+          "file_offset": "0x3d874",
+          "size": 24,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17parseFrameDataV20EPciP12tagFrameDatai",
+          "virtual_address": "0x495fc",
+          "file_offset": "0x495fc",
+          "size": 1256,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter29callbackIotPropertiesResponseEPc",
+          "virtual_address": "0x3dca0",
+          "file_offset": "0x3dca0",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17dataGetThreadFuncEv",
+          "virtual_address": "0x4251c",
+          "file_offset": "0x4251c",
+          "size": 700,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter20callbackDeviceStatusEP19tagDeviceStatusInfo",
+          "virtual_address": "0x3db00",
+          "file_offset": "0x3db00",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter17dataGetThreadFuncEv",
+          "virtual_address": "0x3dd7c",
+          "file_offset": "0x3dd7c",
+          "size": 600,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter22setCamImageOrientationEi",
+          "virtual_address": "0x3cf7c",
+          "file_offset": "0x3cf7c",
+          "size": 24,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter19setSensitivityParamEi",
+          "virtual_address": "0x3ced0",
+          "file_offset": "0x3ced0",
+          "size": 24,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTS23HSLiveDataV3Transmitter",
+          "virtual_address": "0x306dd",
+          "file_offset": "0x306dd",
+          "size": 26,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "10"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_changeVsChn",
+          "virtual_address": "0x9e7b0",
+          "file_offset": "0x9e7b0",
+          "size": 48,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter28callbackMqRefreshKeyExchangeEv",
+          "virtual_address": "0x3dbc8",
+          "file_offset": "0x3dbc8",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter12changeStreamEii",
+          "virtual_address": "0x3ce08",
+          "file_offset": "0x3ce08",
+          "size": 28,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN14HSMediaManager8stopPlayEi",
+          "virtual_address": "0x80ba0",
+          "file_offset": "0x80ba0",
+          "size": 40,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterD1Ev",
+          "virtual_address": "0x3ecd0",
+          "file_offset": "0x3ecd0",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter12updateAesKeyEv",
+          "virtual_address": "0x44094",
+          "file_offset": "0x44094",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter16startTransmitterEP12tagPlayParamP23HSBaseTransmitterHandle",
+          "virtual_address": "0x3ed58",
+          "file_offset": "0x3ed58",
+          "size": 244,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter22callbackKeyExchangeResEP20_key_exchange_result",
+          "virtual_address": "0x3db64",
+          "file_offset": "0x3db64",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterC2Ev",
+          "virtual_address": "0x43a00",
+          "file_offset": "0x43a00",
+          "size": 264,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter15stopTransmitterEv",
+          "virtual_address": "0x43cbc",
+          "file_offset": "0x43cbc",
+          "size": 88,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleTokenUuid",
+          "virtual_address": "0xa0a8c",
+          "file_offset": "0xa0a8c",
+          "size": 844,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17getDataFromDeviceEiPcS0_i",
+          "virtual_address": "0x441b8",
+          "file_offset": "0x441b8",
+          "size": 8192,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter24refreshIpPortHandleTokenEPKcS1_iiS1_",
+          "virtual_address": "0x3d854",
+          "file_offset": "0x3d854",
+          "size": 8,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitterD2Ev",
+          "virtual_address": "0x3ca90",
+          "file_offset": "0x3ca90",
+          "size": 168,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter9initParamEP12tagPlayParam",
+          "virtual_address": "0x3ef14",
+          "file_offset": "0x3ef14",
+          "size": 520,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_startPlay",
+          "virtual_address": "0x969d0",
+          "file_offset": "0x969d0",
+          "size": 384,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterD0Ev",
+          "virtual_address": "0x3ed34",
+          "file_offset": "0x3ed34",
+          "size": 36,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter5resetEv",
+          "virtual_address": "0x43d14",
+          "file_offset": "0x43d14",
+          "size": 168,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter24refreshMqKeyExchangeInfoEPKcS1_S1_",
+          "virtual_address": "0x3d864",
+          "file_offset": "0x3d864",
+          "size": 8,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterC1Ev",
+          "virtual_address": "0x43a00",
+          "file_offset": "0x43a00",
+          "size": 264,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN12HSLivePlayer9startPlayEP12tagPlayParam",
+          "virtual_address": "0x85350",
+          "file_offset": "0x85350",
+          "size": 1880,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitterD1Ev",
+          "virtual_address": "0x3ca90",
+          "file_offset": "0x3ca90",
+          "size": 168,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter20actionCtrlThreadFuncEv",
+          "virtual_address": "0x3dfe8",
+          "file_offset": "0x3dfe8",
+          "size": 2836,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter11setPTZParamEibibibbbbi",
+          "virtual_address": "0x3cee8",
+          "file_offset": "0x3cee8",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter23callbackMqErrorStartP2pEv",
+          "virtual_address": "0x3dd04",
+          "file_offset": "0x3dd04",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTV23HSLiveDataV2Transmitter",
+          "virtual_address": "0xb8788",
+          "file_offset": "0xa8788",
+          "size": 128,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "16"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter31refreshIpPortHandleTokenSessionEPKcS1_iiS1_iS1_",
+          "virtual_address": "0x54964",
+          "file_offset": "0x54964",
+          "size": 392,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter14refreshSessionEiPKc",
+          "virtual_address": "0x543e4",
+          "file_offset": "0x543e4",
+          "size": 192,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter15stopTransmitterEv",
+          "virtual_address": "0x3ee4c",
+          "file_offset": "0x3ee4c",
+          "size": 88,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17updateLoginHandleEll",
+          "virtual_address": "0x44170",
+          "file_offset": "0x44170",
+          "size": 72,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitterD0Ev",
+          "virtual_address": "0x3cbbc",
+          "file_offset": "0x3cbbc",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN14HSMediaManager9startPlayEP12tagPlayParam",
+          "virtual_address": "0x80a50",
+          "file_offset": "0x80a50",
+          "size": 336,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN14HSMediaManager13startPlaybackEP15tagRecFileParam",
+          "virtual_address": "0x812e0",
+          "file_offset": "0x812e0",
+          "size": 48,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter10getSysTimeEv",
+          "virtual_address": "0x49588",
+          "file_offset": "0x49588",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPTZParam",
+          "virtual_address": "0x978f8",
+          "file_offset": "0x978f8",
+          "size": 332,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter24speakAudioSendThreadFuncEv",
+          "virtual_address": "0x4e07c",
+          "file_offset": "0x4e07c",
+          "size": 3580,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter21callbackChannelStatusEib",
+          "virtual_address": "0x3d770",
+          "file_offset": "0x3d770",
+          "size": 112,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPTZXParam",
+          "virtual_address": "0x97640",
+          "file_offset": "0x97640",
+          "size": 224,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter15hangupVideoCallEv",
+          "virtual_address": "0x3cfd0",
+          "file_offset": "0x3cfd0",
+          "size": 20,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTI23HSLiveDataV2Transmitter",
+          "virtual_address": "0xb8808",
+          "file_offset": "0xa8808",
+          "size": 24,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "16"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter12setPTZXParamEiii",
+          "virtual_address": "0x3cf60",
+          "file_offset": "0x3cf60",
+          "size": 28,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter9initParamEP12tagPlayParam",
+          "virtual_address": "0x43dbc",
+          "file_offset": "0x43dbc",
+          "size": 728,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter21callbackIotComJsonMsgEiPc",
+          "virtual_address": "0x3dc2c",
+          "file_offset": "0x3dc2c",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_initLogFile",
+          "virtual_address": "0x95578",
+          "file_offset": "0x95578",
+          "size": 124,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter22sendSpeakAudioToDeviceEi",
+          "virtual_address": "0x41510",
+          "file_offset": "0x41510",
+          "size": 1956,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_initJavaVM",
+          "virtual_address": "0x953fc",
+          "file_offset": "0x953fc",
+          "size": 380,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter26releaseSpeakRingCacheQueueEv",
+          "virtual_address": "0x3cb80",
+          "file_offset": "0x3cb80",
+          "size": 60,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter9initParamEP12tagPlayParam",
+          "virtual_address": "0x3cd4c",
+          "file_offset": "0x3cd4c",
+          "size": 180,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18callbackPreviewResEiibbbiPKc",
+          "virtual_address": "0x3d994",
+          "file_offset": "0x3d994",
+          "size": 264,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17callbackMediaInfoEP16_live_media_info",
+          "virtual_address": "0x3d480",
+          "file_offset": "0x3d480",
+          "size": 220,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN14HSMediaManager11stopPlayAllEv",
+          "virtual_address": "0x80bc8",
+          "file_offset": "0x80bc8",
+          "size": 96,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTS25HSLiveDataBaseTransmitter",
+          "virtual_address": "0x30486",
+          "file_offset": "0x30486",
+          "size": 28,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "10"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterC2Ev",
+          "virtual_address": "0x3ec0c",
+          "file_offset": "0x3ec0c",
+          "size": 196,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTS23HSLiveDataV1Transmitter",
+          "virtual_address": "0x30640",
+          "file_offset": "0x30640",
+          "size": 26,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "10"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18setTouchAlarmParamEbib",
+          "virtual_address": "0x3cf40",
+          "file_offset": "0x3cf40",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshSession",
+          "virtual_address": "0xa0834",
+          "file_offset": "0xa0834",
+          "size": 200,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN12HSLivePlayer21audioDecodeThreadFuncEv",
+          "virtual_address": "0x84ad4",
+          "file_offset": "0x84ad4",
+          "size": 1268,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTV23HSLiveDataV3Transmitter",
+          "virtual_address": "0xb8820",
+          "file_offset": "0xa8820",
+          "size": 128,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "16"
+        },
+        {
+          "name": "_ZN14HSMediaManager12stopPlaybackEi",
+          "virtual_address": "0x81394",
+          "file_offset": "0x81394",
+          "size": 40,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter11changeVsChnEi",
+          "virtual_address": "0x3ce24",
+          "file_offset": "0x3ce24",
+          "size": 24,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter16requestVideoCallEliii",
+          "virtual_address": "0x3cfb8",
+          "file_offset": "0x3cfb8",
+          "size": 24,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter23callbackBatteryCapacityEP14tagBatteryInfo",
+          "virtual_address": "0x3d5c0",
+          "file_offset": "0x3d5c0",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterD2Ev",
+          "virtual_address": "0x4efdc",
+          "file_offset": "0x4efdc",
+          "size": 132,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN12HSLivePlayer12setPTZXParamEiii",
+          "virtual_address": "0x85df4",
+          "file_offset": "0x85df4",
+          "size": 16,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZTI25HSLiveDataBaseTransmitter",
+          "virtual_address": "0xb86e0",
+          "file_offset": "0xa86e0",
+          "size": 16,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "16"
+        },
+        {
+          "name": "_ZN14HSMediaManager12setPTZXParamEiiii",
+          "virtual_address": "0x8100c",
+          "file_offset": "0x8100c",
+          "size": 52,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter16startTransmitterEP12tagPlayParamP23HSBaseTransmitterHandle",
+          "virtual_address": "0x4f084",
+          "file_offset": "0x4f084",
+          "size": 424,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter10getSysTimeEv",
+          "virtual_address": "0x54368",
+          "file_offset": "0x54368",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterC1Ev",
+          "virtual_address": "0x3ec0c",
+          "file_offset": "0x3ec0c",
+          "size": 196,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_setZoomParam",
+          "virtual_address": "0x97808",
+          "file_offset": "0x97808",
+          "size": 240,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18sendSpeakAudioDataEPciiil",
+          "virtual_address": "0x3d000",
+          "file_offset": "0x3d000",
+          "size": 312,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter31refreshIpPortHandleTokenSessionEPKcS1_iiS1_iS1_",
+          "virtual_address": "0x3d86c",
+          "file_offset": "0x3d86c",
+          "size": 8,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter5resetEv",
+          "virtual_address": "0x3eea4",
+          "file_offset": "0x3eea4",
+          "size": 112,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter17getDataFromDeviceEiPcS0_i",
+          "virtual_address": "0x3f1c0",
+          "file_offset": "0x3f1c0",
+          "size": 4612,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterD1Ev",
+          "virtual_address": "0x4efdc",
+          "file_offset": "0x4efdc",
+          "size": 132,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN12HSLivePlayer15onRecvFrameDataEP12tagFrameData",
+          "virtual_address": "0x87780",
+          "file_offset": "0x87780",
+          "size": 928,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18callbackPreviewReqEiibbbiPKc",
+          "virtual_address": "0x3d88c",
+          "file_offset": "0x3d88c",
+          "size": 264,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitterC2Ev",
+          "virtual_address": "0x3c99c",
+          "file_offset": "0x3c99c",
+          "size": 244,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPlayBackSpeed",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlay",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_sendDensityToNative",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_screenShot",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_screenShotThermal",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_cipherFileData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setDisplayType",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setLightParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_changePlaybackVsSpec",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopTimeSceneFileMerge",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setMotionTrackParamMulti",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startRecord2",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_getPcmDB",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startAlarmShortVideoDownloadMerge",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setThermalEnable",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_pcmVolumeAdjust",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setTouchAlarmParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPlaybackIndex",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_AddUserInfoToMP4File",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopAlarmShortVideoDownloadMerge",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshMqKeyExchangeInfo",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_sendSpeakAudioData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startSpeak",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlayback",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_updateLoginHandle",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleTokenSession",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setSensitivityParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startTimeSceneFileMerge",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_continuePlayNextUCloudRecFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlayAll",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startRecord",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_putTimeSceneFileData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startPlayback",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleToken",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setLinkage",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_CancelCustomAlarmAudio",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_updateMultiMode",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_AdpcmEncode",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_ConvertYUV2RGB",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_hangupVideoCall",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_changeVsChn",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_readAlarmShortVideoDataFinish",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_cipherJsonData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setThumbWinEnable",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleTokenUuid",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startPlay",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_sample8kTo16k",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_SendCustomAlarmAudio",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_continueReadNextFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_exitPlaybackDownload",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_seek2TimeSegment",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_StartCustomAlarmAudio",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setStarLightParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPTZParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPTZXParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_requestVideoCall",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopSpeak",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_readFileFinish",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setSeekPlayUCloudRecFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_initLogFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_initJavaVM",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopRecord",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopDownload",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_AdpcmDecode",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setCamImageOrientation",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_continueReadNextUCloudRecFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshSession",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_continueNextSegmentIndex",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_screenShotDoubleChannel",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setMotionTrackParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_pauseVideoCall",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_sendSpeakVideoData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setZoomParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startDownload",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_putAlarmShortVideoData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setAudioParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_pausePlayImageRelateCloudVideo",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_changeStream"
+      ]
+    },
+    {
+      "path": "lib/arm64-v8a/libhsUtils.so",
+      "sha256": "c74464e6dc1149c584d9e0735ae7d3fe045a0c113f83375088b78f8286254b48",
+      "size": 369392,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libattrDetached.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libhsUtils.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "socket@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "h264_parse_sps",
+          "virtual_address": "0x293d0",
+          "file_offset": "0x293d0",
+          "size": 6108,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0x3552c",
+          "file_offset": "0x3552c",
+          "size": 220,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "h265_parse_sps",
+          "virtual_address": "0x2b508",
+          "file_offset": "0x2b508",
+          "size": 4548,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_tools_LogUtils_cout",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackD",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackE",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackI",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackV",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackW"
+      ]
+    },
+    {
+      "path": "lib/arm64-v8a/libjcplayer.so",
+      "sha256": "44aaf57398c9fc14bed43f613b30c9ba1bf8eca88eea3e422be4e2919b151b5a",
+      "size": 80952,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libjutils.so",
+      "sha256": "0285b571c330011019c82bd567982670fd05e8b56e00aaf70dc126b79cc98295",
+      "size": 1525304,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/liblywmAliAgainstId.so",
+      "sha256": "7055f986ae6f900f56f077caf1a8d85da8681f926884f051a5b6defceacb64c8",
+      "size": 257144,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libmideaCodec.so",
+      "sha256": "43938dcd760acde7dd31b93ec1c132d2936137f3d9d38d6261e709b33c6717df",
+      "size": 632480,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "libfaad.so",
+        "libfaac.so",
+        "libavcodec.so",
+        "libpostproc.so",
+        "libavfilter.so",
+        "libavformat.so",
+        "libavutil.so",
+        "libswresample.so",
+        "libswscale.so",
+        "libhsUtils.so",
+        "liblog.so",
+        "libattrDetached.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libmideaCodec.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "_ZN19HSFFMPEGH265Decoder10decodeDataEP12tagFrameDataS1_",
+          "virtual_address": "0x28ba4",
+          "file_offset": "0x28ba4",
+          "size": 880,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN19HSFFMPEGH264Decoder11initDecoderEPv",
+          "virtual_address": "0x27f88",
+          "file_offset": "0x27f88",
+          "size": 220,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN19HSFFMPEGH264Decoder10decodeDataEP12tagFrameDataS1_",
+          "virtual_address": "0x28138",
+          "file_offset": "0x28138",
+          "size": 880,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "initMediaDecoder",
+          "virtual_address": "0x23880",
+          "file_offset": "0x23880",
+          "size": 96,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "releaseMediaDecoder",
+          "virtual_address": "0x238e0",
+          "file_offset": "0x238e0",
+          "size": 52,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "decodeFrameData",
+          "virtual_address": "0x23930",
+          "file_offset": "0x23930",
+          "size": 44,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_Z13createDecoder16HSMEDIA_CODEC_ID",
+          "virtual_address": "0x23a38",
+          "file_offset": "0x23a38",
+          "size": 280,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        },
+        {
+          "name": "_ZN19HSFFMPEGH265Decoder11initDecoderEPv",
+          "virtual_address": "0x289f4",
+          "file_offset": "0x289f4",
+          "size": 220,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_tools_Mp3EncodeUtil_convertPcmToMp3",
+        "Java_com_macrovideo_sdk_tools_Mp3EncodeUtil_Mp3Resample"
+      ]
+    },
+    {
+      "path": "lib/arm64-v8a/libmp4FilePlayer.so",
+      "sha256": "827892198f532cfa0725e89d1179eb4a0032aad5093a8e095333770ead2c8060",
+      "size": 50592,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "libhsUtils.so",
+        "libfaad.so",
+        "libfaac.so",
+        "libattrDetached.so",
+        "libavcodec.so",
+        "libpostproc.so",
+        "libavfilter.so",
+        "libavformat.so",
+        "libavutil.so",
+        "libswresample.so",
+        "libswscale.so",
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libmp4FilePlayer.so"
+      ],
+      "selected_symbols": [],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_getVideoFileInfoWithStartTime",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_startPlayMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_stopPlayMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_pausePlayMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_clearResource",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_seekTimeMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_resumePlayMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_getVideoFileInfo"
+      ]
+    },
+    {
+      "path": "lib/arm64-v8a/liboctopus.so",
+      "sha256": "d6d9234ec10d73545a9786e5eb5a772a3765cfcbc021b7b0bc6493318c3045a9",
+      "size": 339456,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libpag.so",
+      "sha256": "5eb379ea2521479a8b4b0376c6f66d9d7dd3933f3c8590563b4447c9288e8ae9",
+      "size": 3665048,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libpanglearmor.so",
+      "sha256": "f0df70c5ad69d08bd9cc34444011740370108cc5c7a6b98565099d15ef8e77fd",
+      "size": 278864,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libpangleflipped.so",
+      "sha256": "7b720f58660593429c827b2331783c6776e79c42cbad384deb617f4b8865a4dc",
+      "size": 7384,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libpl_droidsonroids_gif.so",
+      "sha256": "63b7b6901695bbf7a4f03a58211bedc2df9cac1c16ccd594a04aa30a6e47f019",
+      "size": 43016,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libplt-base.so",
+      "sha256": "ce8da064e9af0cd3a6ee98fbeb977322947330002ed647176996609b157fe77d",
+      "size": 376632,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libpostproc.so",
+      "sha256": "72fe3db0da4a8eea47bfd990692d2446df84d459267c869d327022b2663aa8ff",
+      "size": 67000,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libqmcheat.so",
+      "sha256": "7ac39b7fb669267d8db521211ce264602fade935bae557a7910d6c9b65bf8381",
+      "size": 10008,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libqysdk_simd.so",
+      "sha256": "db2f47bd67f37061646f6a60c4674de25d310a5ad616e5ebd23a035f40704734",
+      "size": 10184,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libscannative.so",
+      "sha256": "bf77bd7cc0702d5bad546c1bcbea34ff92720848edfba06d54772fe1c7baa7e8",
+      "size": 2616400,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libsgcore.so",
+      "sha256": "9acbf3b825ff9bc6215fc7c0e1ee7580581883efdc5a271b7c5fa557741e4ed0",
+      "size": 88264,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libsoundtouch.so",
+      "sha256": "30f5d8c97a9a8ddc897bec1c4dac5dc9c523b45f5b0dd6822a0f0312cd47b1be",
+      "size": 321728,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libspeexdsp.so",
+      "sha256": "327fbe67a9ea9e8b507bb46ce86462720852a93c0b0754f0841bc519c22998c3",
+      "size": 120608,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libstub000.so",
+      "sha256": "e5d237deb6158f87f8ee7e97afd9c41b2ebfaa45b1f457ae2875ec88506d5dce",
+      "size": 117488,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libswresample.so",
+      "sha256": "31d0e036aa2beb11c5e201cb7df5d3154293289bd1d2795301f6d4234285df14",
+      "size": 132464,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libswscale.so",
+      "sha256": "3ed09c989bf3fb257edcb5024d24789fa82225abff1f731a3cc29f9b0492cc27",
+      "size": 525752,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libsys_misc.so",
+      "sha256": "3869224045ef2060a4f58d94c6a697c712fb0c9bc62c8dbc7066da50287de074",
+      "size": 1357648,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libz.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ],
+      "soname": [
+        "libda2-lock.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "poll@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0xb600c",
+          "file_offset": "0xb600c",
+          "size": 1348,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "15"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/arm64-v8a/libti-monitor.so",
+      "sha256": "bf084a2f33dbfad40b8b696f243e3d574d0ea5772accee016e967c4633826ddf",
+      "size": 115872,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libtobEmbedEncrypt.so",
+      "sha256": "75cdf49b230cc24d1c92c0591d7e5654b620360791385f2ae7526aa723e168aa",
+      "size": 51720,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libtt_ugen_layout.so",
+      "sha256": "e4408e300f4faaf7978dd372c5d5512c2a371d910526ab91d651cdcd876a991f",
+      "size": 440672,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libttmplayer_lite.so",
+      "sha256": "90ca6c9666da0250f1df9fbff521db1a7066c14fd4accccbc6258db7120a7529",
+      "size": 1502480,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libyuvUtils.so",
+      "sha256": "07cb97c73e65ac554f6bc94e913561b185bacf79561344b8bbca31d496ae5dcf",
+      "size": 500832,
+      "elf_class": 64,
+      "machine": "AArch64"
+    },
+    {
+      "path": "lib/arm64-v8a/libzerolink.so",
+      "sha256": "a806d9c8f0248edff6b952b4ae58d1f290576c6ae1fe86de036dcf3261ee3af1",
+      "size": 13160,
+      "elf_class": 64,
+      "machine": "AArch64",
+      "needed": [
+        "liblog.so",
+        "libattrDetached.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libzerolink.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "sendto@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "socket@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "setsockopt@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "doconnect",
+          "virtual_address": "0x15cc",
+          "file_offset": "0x15cc",
+          "size": 268,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "udp_create_connect_send",
+          "virtual_address": "0x152c",
+          "file_offset": "0x152c",
+          "size": 160,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_smartlink_IoTManagerNative_StopSmartConnection",
+        "Java_com_macrovideo_sdk_smartlink_IoTManagerNative_Scan",
+        "Java_com_macrovideo_sdk_smartlink_IoTManagerNative_getSmartConnectionVersion",
+        "Java_com_macrovideo_sdk_smartlink_IoTManagerNative_StartSmartConnection"
+      ]
+    },
+    {
+      "path": "lib/armeabi-v7a/libHSMbedtls.so",
+      "sha256": "75dbd851770580e8fb8d5793e198ca382de6496e6434b7da50d7b7e981418912",
+      "size": 127128,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libHSMbedtls.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "mvt_cipher_start",
+          "virtual_address": "0xa011",
+          "file_offset": "0xa011",
+          "size": 232,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "mvt_cipher_process",
+          "virtual_address": "0xa131",
+          "file_offset": "0xa131",
+          "size": 596,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "mvt_cipher_finish",
+          "virtual_address": "0xa385",
+          "file_offset": "0xa385",
+          "size": 148,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/armeabi-v7a/libHSToneUtils.so",
+      "sha256": "d3faead8ff26395cfac457bbb9d6927485585bc3ffe954260bf830d448fc3f12",
+      "size": 7728,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libHYFisheyePano.so",
+      "sha256": "670767690a16f9e25ff2d255255fc27bcf516f2e4d56612bdf4f437dc600139f",
+      "size": 849604,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libInno.so",
+      "sha256": "49786b65657b425ad236d9ffef7ca98dd2d3fac5666340fa25e660249ed4ddfa",
+      "size": 84348,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libInnoSecure.so",
+      "sha256": "c802afeef53fef9c0e8bfee9f123e14d15bb2705a1bdd2ba4702fa62e3d487e7",
+      "size": 42704,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libWebrtcAec.so",
+      "sha256": "ed1a1fb2d2e1cdad2c227ac7780bf27b7f8e93573935dd699bec977c4dfebb20",
+      "size": 2733948,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libadscope_security.so",
+      "sha256": "4dc7eb98126e4ae46d0c46d8c1a971cbff73b083d56d3dc195dd9c2d7112b2d8",
+      "size": 208976,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libaes.so",
+      "sha256": "88cb1dc7b823faa9b577ff5cfb308bbe56c00b99ec431f9d95ce971ee8432e00",
+      "size": 16740,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libaes.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "media_data_encrypt",
+          "virtual_address": "0x3801",
+          "file_offset": "0x3801",
+          "size": 106,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "media_data_decrypt",
+          "virtual_address": "0x386b",
+          "file_offset": "0x386b",
+          "size": 100,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "media_data_decrypt_pre_2k",
+          "virtual_address": "0x38cf",
+          "file_offset": "0x38cf",
+          "size": 54,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_tools_AESUtils_aes128_1ecb_1encrypt"
+      ]
+    },
+    {
+      "path": "lib/armeabi-v7a/libattrDetached.so",
+      "sha256": "b7e58e63f670cf4b30c03de72a8c6f8bbbb824791f75a7688f6c7008c38bec79",
+      "size": 3136,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libavcodec.so",
+      "sha256": "8a8a87863255bd078bc06adfcdaf4c5c63e4497b3809313243b537668d6d3f4c",
+      "size": 15085536,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "libswresample.so",
+        "libavutil.so",
+        "libm.so",
+        "libdl.so",
+        "libz.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libavcodec.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "poll@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/armeabi-v7a/libavfilter.so",
+      "sha256": "ed545c342419ae4ef207c49e14da9a2f5cdcba974dc51b7dbe67203f133049e4",
+      "size": 3294308,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libavformat.so",
+      "sha256": "f17a8b98335d00781ca70ee6961f9604aa16b6c26858009087bd90e42b341b25",
+      "size": 2237540,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "libavcodec.so",
+        "libavutil.so",
+        "libm.so",
+        "libz.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libavformat.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "recv@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "send@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "recvfrom@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "sendto@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "av_thread_message_queue_set_err_recv@LIBAVUTIL_57",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "av_thread_message_queue_send@LIBAVUTIL_57",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "av_thread_message_queue_set_err_send@LIBAVUTIL_57",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "av_thread_message_queue_recv@LIBAVUTIL_57",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "socket@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "listen@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "poll@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "setsockopt@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "accept@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "bind@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "connect@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "avio_accept@@LIBAVFORMAT_59",
+          "virtual_address": "0x4679c",
+          "file_offset": "0x4679c",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "12"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/armeabi-v7a/libavutil.so",
+      "sha256": "63cf1ba19cadfcafcc2e8db5bde63cfe84e3937838c77531fb881ff928999061",
+      "size": 596368,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "libm.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libavutil.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "av_thread_message_queue_set_err_recv@@LIBAVUTIL_57",
+          "virtual_address": "0x52390",
+          "file_offset": "0x52390",
+          "size": 48,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "12"
+        },
+        {
+          "name": "av_thread_message_queue_recv@@LIBAVUTIL_57",
+          "virtual_address": "0x5228c",
+          "file_offset": "0x5228c",
+          "size": 212,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "12"
+        },
+        {
+          "name": "av_thread_message_queue_set_err_send@@LIBAVUTIL_57",
+          "virtual_address": "0x52360",
+          "file_offset": "0x52360",
+          "size": 48,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "12"
+        },
+        {
+          "name": "av_thread_message_queue_send@@LIBAVUTIL_57",
+          "virtual_address": "0x521c0",
+          "file_offset": "0x521c0",
+          "size": 204,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "12"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/armeabi-v7a/libcj_mobile_zf_base.so",
+      "sha256": "06c6df00b44dd331069dd7549ddfcc91ee66580aac500220f3e67e76424c27b7",
+      "size": 349924,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libcjaf.so",
+      "sha256": "46740619fe8295fb3dda751bca996d0962230f09b86995c8fbb54868a736ae7a",
+      "size": 116316,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libcommonV2DevInfo.so",
+      "sha256": "b74d0087ca09d9ec4823a77c7eb48bcef5d58b15d222132fafeb51d5532c1e19",
+      "size": 197232,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libcommonV2DevInfo.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0x11071",
+          "file_offset": "0x11071",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/armeabi-v7a/libdevInfo.so",
+      "sha256": "948abb0c7546f23dc4a7fa48cb9e1053f131c24a48e4da14d1ec48a5f863409c",
+      "size": 197200,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libdevInfo.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0x11059",
+          "file_offset": "0x11059",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "14"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/armeabi-v7a/libed25519.so",
+      "sha256": "7305b6a6b2d9af7ca6a784f2bdcb18c578f2eaa85bc2bc05ff3f597174929c9b",
+      "size": 68036,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libed25519.so"
+      ],
+      "selected_symbols": [],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_tools_ED25519Utils_curve25519_1CalculatePublicKey",
+        "Java_com_macrovideo_sdk_tools_ED25519Utils_curve25519_1CreateSharedKey"
+      ]
+    },
+    {
+      "path": "lib/armeabi-v7a/libfaac.so",
+      "sha256": "22cbd9a4090c137fcc8cf88f992946aadb2ea40213056b1c5ebf9b6f74ef1f84",
+      "size": 64004,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libfaad.so",
+      "sha256": "7d4b2d9dd9b158769752e49fba7f1d17a8b6829be51efaf1de579d8167daabac",
+      "size": 242756,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libffavc.so",
+      "sha256": "1b846b1a3f836265b59c6b9728cd7ee9b36ed9f2333e53b9018c1102864cb127",
+      "size": 979696,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libffavc.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "Java_org_ffavc_DecoderFactory_GetHandle",
+          "virtual_address": "0x220e9",
+          "file_offset": "0x220e9",
+          "size": 12,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "15"
+        }
+      ],
+      "jni_exports": [
+        "Java_org_ffavc_DecoderFactory_GetHandle"
+      ]
+    },
+    {
+      "path": "lib/armeabi-v7a/libhsMediaLibrary.so",
+      "sha256": "3f0b28a3dd6d585332789a49a76f54c750a2a465992b4369973113cb417b66cc",
+      "size": 525980,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "libHYFisheyePano.so",
+        "libavcodec.so",
+        "libpostproc.so",
+        "libavfilter.so",
+        "libavformat.so",
+        "libavutil.so",
+        "libswresample.so",
+        "libswscale.so",
+        "libmideaCodec.so",
+        "libaes.so",
+        "libfaac.so",
+        "libHSMbedtls.so",
+        "libed25519.so",
+        "liblog.so",
+        "libGLESv3.so",
+        "libEGL.so",
+        "libhsUtils.so",
+        "libattrDetached.so",
+        "libfaad.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libhsMediaLibrary.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "sendto@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "socket@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "setsockopt@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "connect@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "recvfrom@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "media_data_decrypt_pre_2k",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "media_data_decrypt",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "media_data_encrypt",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "releaseMediaDecoder",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "h265_parse_sps",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "h264_parse_sps",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "initMediaDecoder",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "decodeFrameData",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "mvt_cipher_start",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "mvt_cipher_process",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "mvt_cipher_finish",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter9initParamEP12tagPlayParam",
+          "virtual_address": "0x3b577",
+          "file_offset": "0x3b577",
+          "size": 482,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18sendSpeakAudioDataEPciiix",
+          "virtual_address": "0x2cbb5",
+          "file_offset": "0x2cbb5",
+          "size": 200,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter22sendSpeakAudioToServerEiPci",
+          "virtual_address": "0x37521",
+          "file_offset": "0x37521",
+          "size": 2284,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter24refreshIpPortHandleTokenEPKcS1_iiS1_",
+          "virtual_address": "0x3fff9",
+          "file_offset": "0x3fff9",
+          "size": 228,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlay",
+          "virtual_address": "0x73f71",
+          "file_offset": "0x73f71",
+          "size": 196,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter30callbackVideoSizeWithAudioFreqEiii",
+          "virtual_address": "0x2ce11",
+          "file_offset": "0x2ce11",
+          "size": 124,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterD0Ev",
+          "virtual_address": "0x3b2f5",
+          "file_offset": "0x3b2f5",
+          "size": 20,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter24setMotionTrackParamMultiEPiiii",
+          "virtual_address": "0x2caa7",
+          "file_offset": "0x2caa7",
+          "size": 24,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18callbackWiFiSignalEP17tagWiFiSingleInfo",
+          "virtual_address": "0x2cf55",
+          "file_offset": "0x2cf55",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN14HSMediaManager11setPTZParamEiibibibbbbi",
+          "virtual_address": "0x638fb",
+          "file_offset": "0x638fb",
+          "size": 84,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter24speakAudioSendThreadFuncEv",
+          "virtual_address": "0x31d1d",
+          "file_offset": "0x31d1d",
+          "size": 204,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter10startSpeakEv",
+          "virtual_address": "0x3ff69",
+          "file_offset": "0x3ff69",
+          "size": 10,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17callbackVideoSizeEii",
+          "virtual_address": "0x2cd9d",
+          "file_offset": "0x2cd9d",
+          "size": 116,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_Z25iotc_ms_frame_cipher_initP30_media_stream_frame_trans_infohhPhS1_",
+          "virtual_address": "0x71941",
+          "file_offset": "0x71941",
+          "size": 524,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter20actionCtrlThreadFuncEv",
+          "virtual_address": "0x30e45",
+          "file_offset": "0x30e45",
+          "size": 3784,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTI23HSLiveDataV3Transmitter",
+          "virtual_address": "0x7fb30",
+          "file_offset": "0x7eb30",
+          "size": 12,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "15"
+        },
+        {
+          "name": "_ZN12HSLivePlayer21videoDecodeThreadFuncEi",
+          "virtual_address": "0x676ed",
+          "file_offset": "0x676ed",
+          "size": 4556,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter10startSpeakEv",
+          "virtual_address": "0x2cb5b",
+          "file_offset": "0x2cb5b",
+          "size": 10,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter22sendSpeakAudioToServerEiPci",
+          "virtual_address": "0x305cd",
+          "file_offset": "0x305cd",
+          "size": 1624,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter15stopTransmitterEv",
+          "virtual_address": "0x2c931",
+          "file_offset": "0x2c931",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter14pauseVideoCallEv",
+          "virtual_address": "0x2cb9b",
+          "file_offset": "0x2cb9b",
+          "size": 26,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17callbackPtzCruiseEP16tagPTZCruiseInfo",
+          "virtual_address": "0x2d021",
+          "file_offset": "0x2d021",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter16startTransmitterEP12tagPlayParamP23HSBaseTransmitterHandle",
+          "virtual_address": "0x2c8d5",
+          "file_offset": "0x2c8d5",
+          "size": 92,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter13setLightParamEiib",
+          "virtual_address": "0x2ca85",
+          "file_offset": "0x2ca85",
+          "size": 18,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterD2Ev",
+          "virtual_address": "0x31ef9",
+          "file_offset": "0x31ef9",
+          "size": 92,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN12HSLivePlayer11setPTZParamEibibibbbbi",
+          "virtual_address": "0x67391",
+          "file_offset": "0x67391",
+          "size": 64,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter22sendSpeakAudioToDeviceEi",
+          "virtual_address": "0x36d31",
+          "file_offset": "0x36d31",
+          "size": 2032,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTS23HSLiveDataV2Transmitter",
+          "virtual_address": "0x29ed0",
+          "file_offset": "0x29ed0",
+          "size": 26,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "11"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter15callbackCamZoomEP14tagCamZoomInfo",
+          "virtual_address": "0x2d065",
+          "file_offset": "0x2d065",
+          "size": 120,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter17parseFrameDataV13EPciP12tagFrameData",
+          "virtual_address": "0x2ff49",
+          "file_offset": "0x2ff49",
+          "size": 284,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter19setMotionTrackParamEiii",
+          "virtual_address": "0x2ca97",
+          "file_offset": "0x2ca97",
+          "size": 16,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter27releaseSpeakAudioCacheQueueEv",
+          "virtual_address": "0x2c881",
+          "file_offset": "0x2c881",
+          "size": 38,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterD1Ev",
+          "virtual_address": "0x31ef9",
+          "file_offset": "0x31ef9",
+          "size": 92,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshMqKeyExchangeInfo",
+          "virtual_address": "0x7a9c9",
+          "file_offset": "0x7a9c9",
+          "size": 408,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter15exitTransmitterEv",
+          "virtual_address": "0x2c975",
+          "file_offset": "0x2c975",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterC2Ev",
+          "virtual_address": "0x3b119",
+          "file_offset": "0x3b119",
+          "size": 356,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter5resetEv",
+          "virtual_address": "0x3b48d",
+          "file_offset": "0x3b48d",
+          "size": 234,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17updateLoginHandleEll",
+          "virtual_address": "0x2ca59",
+          "file_offset": "0x2ca59",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter19callbackPrivateModeEh",
+          "virtual_address": "0x2d129",
+          "file_offset": "0x2d129",
+          "size": 76,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter20callbackRunningStateEP19tagRunningStateInfo",
+          "virtual_address": "0x2cfdd",
+          "file_offset": "0x2cfdd",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter13setAudioParamEb",
+          "virtual_address": "0x2ca77",
+          "file_offset": "0x2ca77",
+          "size": 14,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter28refreshIpPortHandleTokenUuidEPKcS1_iiS1_S1_S1_S1_",
+          "virtual_address": "0x2d17d",
+          "file_offset": "0x2d17d",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17parseFrameDataV13EPciP12tagFrameData",
+          "virtual_address": "0x36bdd",
+          "file_offset": "0x36bdd",
+          "size": 340,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter25resetSpeakAudioCacheQueueEv",
+          "virtual_address": "0x2cd35",
+          "file_offset": "0x2cd35",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter24speakAudioSendThreadFuncEv",
+          "virtual_address": "0x2e0cd",
+          "file_offset": "0x2e0cd",
+          "size": 160,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter16startTransmitterEP12tagPlayParamP23HSBaseTransmitterHandle",
+          "virtual_address": "0x31f69",
+          "file_offset": "0x31f69",
+          "size": 200,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN12HSLivePlayer8stopPlayEv",
+          "virtual_address": "0x67175",
+          "file_offset": "0x67175",
+          "size": 96,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlayback",
+          "virtual_address": "0x77195",
+          "file_offset": "0x77195",
+          "size": 196,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_updateLoginHandle",
+          "virtual_address": "0x77369",
+          "file_offset": "0x77369",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterD0Ev",
+          "virtual_address": "0x31f55",
+          "file_offset": "0x31f55",
+          "size": 20,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18sendSpeakVideoDataEPciiiiiiix",
+          "virtual_address": "0x2cc7d",
+          "file_offset": "0x2cc7d",
+          "size": 184,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterC1Ev",
+          "virtual_address": "0x3b119",
+          "file_offset": "0x3b119",
+          "size": 356,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleTokenSession",
+          "virtual_address": "0x7ab61",
+          "file_offset": "0x7ab61",
+          "size": 272,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter24resetSpeakRingCacheQueueEv",
+          "virtual_address": "0x2cd6d",
+          "file_offset": "0x2cd6d",
+          "size": 48,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTV23HSLiveDataV1Transmitter",
+          "virtual_address": "0x7fa58",
+          "file_offset": "0x7ea58",
+          "size": 64,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "15"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter12setZoomParamEiibb",
+          "virtual_address": "0x2cb0d",
+          "file_offset": "0x2cb0d",
+          "size": 26,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_Z14cipherJsonData21_mvt_cipher_operationiPciS0_PKcS2_",
+          "virtual_address": "0x71f75",
+          "file_offset": "0x71f75",
+          "size": 196,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_Z24iotc_ms_frame_cipher_endP30_media_stream_frame_trans_info",
+          "virtual_address": "0x71d99",
+          "file_offset": "0x71d99",
+          "size": 34,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter9stopSpeakEv",
+          "virtual_address": "0x2cb65",
+          "file_offset": "0x2cb65",
+          "size": 10,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter15stopTransmitterEv",
+          "virtual_address": "0x3b435",
+          "file_offset": "0x3b435",
+          "size": 88,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter28refreshIpPortHandleTokenUuidEPKcS1_iiS1_S1_S1_S1_",
+          "virtual_address": "0x400dd",
+          "file_offset": "0x400dd",
+          "size": 572,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlayAll",
+          "virtual_address": "0x74035",
+          "file_offset": "0x74035",
+          "size": 188,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTV25HSLiveDataBaseTransmitter",
+          "virtual_address": "0x7fa10",
+          "file_offset": "0x7ea10",
+          "size": 64,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "15"
+        },
+        {
+          "name": "_Z20iotc_ms_frame_cipherP30_media_stream_frame_trans_infoh",
+          "virtual_address": "0x71c25",
+          "file_offset": "0x71c25",
+          "size": 372,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_startPlayback",
+          "virtual_address": "0x753e5",
+          "file_offset": "0x753e5",
+          "size": 208,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17getDataFromServerEiPciS0_S0_ibi",
+          "virtual_address": "0x33dd1",
+          "file_offset": "0x33dd1",
+          "size": 10668,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter21callbackDeviceAbilityEP12_dev_ability",
+          "virtual_address": "0x2d301",
+          "file_offset": "0x2d301",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleToken",
+          "virtual_address": "0x7a6a5",
+          "file_offset": "0x7a6a5",
+          "size": 232,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter24refreshMqKeyExchangeInfoEPKcS1_S1_",
+          "virtual_address": "0x40319",
+          "file_offset": "0x40319",
+          "size": 256,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter5resetEv",
+          "virtual_address": "0x2c979",
+          "file_offset": "0x2c979",
+          "size": 98,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter17getDataFromServerEiPciS0_S0_i",
+          "virtual_address": "0x2f369",
+          "file_offset": "0x2f369",
+          "size": 3040,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter20actionCtrlThreadFuncEv",
+          "virtual_address": "0x38189",
+          "file_offset": "0x38189",
+          "size": 8912,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTI23HSLiveDataV1Transmitter",
+          "virtual_address": "0x7fa98",
+          "file_offset": "0x7ea98",
+          "size": 12,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "15"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17setStarLightParamEiib",
+          "virtual_address": "0x2cabf",
+          "file_offset": "0x2cabf",
+          "size": 18,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter14refreshSessionEiPKc",
+          "virtual_address": "0x2d175",
+          "file_offset": "0x2d175",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterD2Ev",
+          "virtual_address": "0x2e229",
+          "file_offset": "0x2e229",
+          "size": 80,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter17dataGetThreadFuncEv",
+          "virtual_address": "0x37e1d",
+          "file_offset": "0x37e1d",
+          "size": 860,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter10setLinkageEii",
+          "virtual_address": "0x2d189",
+          "file_offset": "0x2d189",
+          "size": 14,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17parseFrameDataV20EPciP12tagFrameDatai",
+          "virtual_address": "0x367d5",
+          "file_offset": "0x367d5",
+          "size": 1032,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter29callbackIotPropertiesResponseEPc",
+          "virtual_address": "0x2d45d",
+          "file_offset": "0x2d45d",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17dataGetThreadFuncEv",
+          "virtual_address": "0x30c35",
+          "file_offset": "0x30c35",
+          "size": 512,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter20callbackDeviceStatusEP19tagDeviceStatusInfo",
+          "virtual_address": "0x2d345",
+          "file_offset": "0x2d345",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter17dataGetThreadFuncEv",
+          "virtual_address": "0x2d4f5",
+          "file_offset": "0x2d4f5",
+          "size": 440,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter22setCamImageOrientationEi",
+          "virtual_address": "0x2cb4f",
+          "file_offset": "0x2cb4f",
+          "size": 12,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter19setSensitivityParamEi",
+          "virtual_address": "0x2cad1",
+          "file_offset": "0x2cad1",
+          "size": 12,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTS23HSLiveDataV3Transmitter",
+          "virtual_address": "0x29efa",
+          "file_offset": "0x29efa",
+          "size": 26,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "11"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_changeVsChn",
+          "virtual_address": "0x790d5",
+          "file_offset": "0x790d5",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter28callbackMqRefreshKeyExchangeEv",
+          "virtual_address": "0x2d3cd",
+          "file_offset": "0x2d3cd",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter12changeStreamEii",
+          "virtual_address": "0x2ca5d",
+          "file_offset": "0x2ca5d",
+          "size": 14,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN14HSMediaManager8stopPlayEi",
+          "virtual_address": "0x636b5",
+          "file_offset": "0x636b5",
+          "size": 28,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterD1Ev",
+          "virtual_address": "0x2e229",
+          "file_offset": "0x2e229",
+          "size": 80,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter12updateAesKeyEv",
+          "virtual_address": "0x323c1",
+          "file_offset": "0x323c1",
+          "size": 48,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter16startTransmitterEP12tagPlayParamP23HSBaseTransmitterHandle",
+          "virtual_address": "0x2e28d",
+          "file_offset": "0x2e28d",
+          "size": 172,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter22callbackKeyExchangeResEP20_key_exchange_result",
+          "virtual_address": "0x2d389",
+          "file_offset": "0x2d389",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterC2Ev",
+          "virtual_address": "0x31de9",
+          "file_offset": "0x31de9",
+          "size": 272,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter15stopTransmitterEv",
+          "virtual_address": "0x32031",
+          "file_offset": "0x32031",
+          "size": 60,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleTokenUuid",
+          "virtual_address": "0x7a78d",
+          "file_offset": "0x7a78d",
+          "size": 572,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17getDataFromDeviceEiPcS0_i",
+          "virtual_address": "0x32481",
+          "file_offset": "0x32481",
+          "size": 6480,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter24refreshIpPortHandleTokenEPKcS1_iiS1_",
+          "virtual_address": "0x2d179",
+          "file_offset": "0x2d179",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitterD2Ev",
+          "virtual_address": "0x2c7f1",
+          "file_offset": "0x2c7f1",
+          "size": 132,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter9initParamEP12tagPlayParam",
+          "virtual_address": "0x2e3ed",
+          "file_offset": "0x2e3ed",
+          "size": 460,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_startPlay",
+          "virtual_address": "0x73e5d",
+          "file_offset": "0x73e5d",
+          "size": 276,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterD0Ev",
+          "virtual_address": "0x2e279",
+          "file_offset": "0x2e279",
+          "size": 20,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter5resetEv",
+          "virtual_address": "0x3206d",
+          "file_offset": "0x3206d",
+          "size": 190,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter24refreshMqKeyExchangeInfoEPKcS1_S1_",
+          "virtual_address": "0x2d181",
+          "file_offset": "0x2d181",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2TransmitterC1Ev",
+          "virtual_address": "0x31de9",
+          "file_offset": "0x31de9",
+          "size": 272,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN12HSLivePlayer9startPlayEP12tagPlayParam",
+          "virtual_address": "0x66b85",
+          "file_offset": "0x66b85",
+          "size": 1520,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitterD1Ev",
+          "virtual_address": "0x2c7f1",
+          "file_offset": "0x2c7f1",
+          "size": 132,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter20actionCtrlThreadFuncEv",
+          "virtual_address": "0x2d6bd",
+          "file_offset": "0x2d6bd",
+          "size": 2560,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter25getDataFromDeviceOrServerEibPcS0_iS0_jS0_j",
+          "virtual_address": "0x3b759",
+          "file_offset": "0x3b759",
+          "size": 18360,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter11setPTZParamEibibibbbbi",
+          "virtual_address": "0x2cadd",
+          "file_offset": "0x2cadd",
+          "size": 48,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter23callbackMqErrorStartP2pEv",
+          "virtual_address": "0x2d4a1",
+          "file_offset": "0x2d4a1",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTV23HSLiveDataV2Transmitter",
+          "virtual_address": "0x7faa4",
+          "file_offset": "0x7eaa4",
+          "size": 64,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "15"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter31refreshIpPortHandleTokenSessionEPKcS1_iiS1_iS1_",
+          "virtual_address": "0x40419",
+          "file_offset": "0x40419",
+          "size": 276,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter14refreshSessionEiPKc",
+          "virtual_address": "0x3ff75",
+          "file_offset": "0x3ff75",
+          "size": 132,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter15stopTransmitterEv",
+          "virtual_address": "0x2e339",
+          "file_offset": "0x2e339",
+          "size": 60,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter17updateLoginHandleEll",
+          "virtual_address": "0x32445",
+          "file_offset": "0x32445",
+          "size": 60,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitterD0Ev",
+          "virtual_address": "0x2c8d3",
+          "file_offset": "0x2c8d3",
+          "size": 2,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN14HSMediaManager9startPlayEP12tagPlayParam",
+          "virtual_address": "0x635e1",
+          "file_offset": "0x635e1",
+          "size": 212,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN14HSMediaManager13startPlaybackEP15tagRecFileParam",
+          "virtual_address": "0x63bf1",
+          "file_offset": "0x63bf1",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter10getSysTimeEv",
+          "virtual_address": "0x3677d",
+          "file_offset": "0x3677d",
+          "size": 88,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPTZParam",
+          "virtual_address": "0x74821",
+          "file_offset": "0x74821",
+          "size": 200,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter24speakAudioSendThreadFuncEv",
+          "virtual_address": "0x3a469",
+          "file_offset": "0x3a469",
+          "size": 3248,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter21callbackChannelStatusEib",
+          "virtual_address": "0x2d0dd",
+          "file_offset": "0x2d0dd",
+          "size": 76,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPTZXParam",
+          "virtual_address": "0x7466d",
+          "file_offset": "0x7466d",
+          "size": 136,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter15hangupVideoCallEv",
+          "virtual_address": "0x2cb87",
+          "file_offset": "0x2cb87",
+          "size": 20,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTI23HSLiveDataV2Transmitter",
+          "virtual_address": "0x7fae4",
+          "file_offset": "0x7eae4",
+          "size": 12,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "15"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter12setPTZXParamEiii",
+          "virtual_address": "0x2cb3d",
+          "file_offset": "0x2cb3d",
+          "size": 18,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV2Transmitter9initParamEP12tagPlayParam",
+          "virtual_address": "0x3212d",
+          "file_offset": "0x3212d",
+          "size": 660,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter21callbackIotComJsonMsgEiPc",
+          "virtual_address": "0x2d411",
+          "file_offset": "0x2d411",
+          "size": 76,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_initLogFile",
+          "virtual_address": "0x73131",
+          "file_offset": "0x73131",
+          "size": 78,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter22sendSpeakAudioToDeviceEi",
+          "virtual_address": "0x30065",
+          "file_offset": "0x30065",
+          "size": 1384,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_initJavaVM",
+          "virtual_address": "0x7300d",
+          "file_offset": "0x7300d",
+          "size": 292,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter26releaseSpeakRingCacheQueueEv",
+          "virtual_address": "0x2c8a7",
+          "file_offset": "0x2c8a7",
+          "size": 44,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter9initParamEP12tagPlayParam",
+          "virtual_address": "0x2c9dd",
+          "file_offset": "0x2c9dd",
+          "size": 124,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18callbackPreviewResEiibbbiPKc",
+          "virtual_address": "0x2d24d",
+          "file_offset": "0x2d24d",
+          "size": 180,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter17callbackMediaInfoEP16_live_media_info",
+          "virtual_address": "0x2ce8d",
+          "file_offset": "0x2ce8d",
+          "size": 200,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN14HSMediaManager11stopPlayAllEv",
+          "virtual_address": "0x636d1",
+          "file_offset": "0x636d1",
+          "size": 54,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTS25HSLiveDataBaseTransmitter",
+          "virtual_address": "0x29e62",
+          "file_offset": "0x29e62",
+          "size": 28,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "11"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterC2Ev",
+          "virtual_address": "0x2e16d",
+          "file_offset": "0x2e16d",
+          "size": 188,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTS23HSLiveDataV1Transmitter",
+          "virtual_address": "0x29e7e",
+          "file_offset": "0x29e7e",
+          "size": 26,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "11"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18setTouchAlarmParamEbib",
+          "virtual_address": "0x2cb27",
+          "file_offset": "0x2cb27",
+          "size": 22,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshSession",
+          "virtual_address": "0x7a639",
+          "file_offset": "0x7a639",
+          "size": 108,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN12HSLivePlayer21audioDecodeThreadFuncEv",
+          "virtual_address": "0x664c9",
+          "file_offset": "0x664c9",
+          "size": 1004,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTV23HSLiveDataV3Transmitter",
+          "virtual_address": "0x7faf0",
+          "file_offset": "0x7eaf0",
+          "size": 64,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "15"
+        },
+        {
+          "name": "_ZN14HSMediaManager12stopPlaybackEi",
+          "virtual_address": "0x63c6b",
+          "file_offset": "0x63c6b",
+          "size": 28,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter11changeVsChnEi",
+          "virtual_address": "0x2ca6b",
+          "file_offset": "0x2ca6b",
+          "size": 12,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter16requestVideoCallEliii",
+          "virtual_address": "0x2cb6f",
+          "file_offset": "0x2cb6f",
+          "size": 24,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter23callbackBatteryCapacityEP14tagBatteryInfo",
+          "virtual_address": "0x2cf99",
+          "file_offset": "0x2cf99",
+          "size": 68,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterD2Ev",
+          "virtual_address": "0x3b27d",
+          "file_offset": "0x3b27d",
+          "size": 120,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN12HSLivePlayer12setPTZXParamEiii",
+          "virtual_address": "0x67403",
+          "file_offset": "0x67403",
+          "size": 16,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZTI25HSLiveDataBaseTransmitter",
+          "virtual_address": "0x7fa50",
+          "file_offset": "0x7ea50",
+          "size": 8,
+          "type": "OBJECT",
+          "binding": "GLOBAL",
+          "section": "15"
+        },
+        {
+          "name": "_ZN14HSMediaManager12setPTZXParamEiiii",
+          "virtual_address": "0x639a9",
+          "file_offset": "0x639a9",
+          "size": 38,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter16startTransmitterEP12tagPlayParamP23HSBaseTransmitterHandle",
+          "virtual_address": "0x3b309",
+          "file_offset": "0x3b309",
+          "size": 300,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3Transmitter10getSysTimeEv",
+          "virtual_address": "0x3ff11",
+          "file_offset": "0x3ff11",
+          "size": 88,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1TransmitterC1Ev",
+          "virtual_address": "0x2e16d",
+          "file_offset": "0x2e16d",
+          "size": 188,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "Java_com_macrovideo_sdk_media_HSMediaLibrary_setZoomParam",
+          "virtual_address": "0x74789",
+          "file_offset": "0x74789",
+          "size": 152,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter31refreshIpPortHandleTokenSessionEPKcS1_iiS1_iS1_",
+          "virtual_address": "0x2d185",
+          "file_offset": "0x2d185",
+          "size": 4,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter5resetEv",
+          "virtual_address": "0x2e375",
+          "file_offset": "0x2e375",
+          "size": 118,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV1Transmitter17getDataFromDeviceEiPcS0_i",
+          "virtual_address": "0x2e60d",
+          "file_offset": "0x2e60d",
+          "size": 3420,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN23HSLiveDataV3TransmitterD1Ev",
+          "virtual_address": "0x3b27d",
+          "file_offset": "0x3b27d",
+          "size": 120,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN12HSLivePlayer15onRecvFrameDataEP12tagFrameData",
+          "virtual_address": "0x689c1",
+          "file_offset": "0x689c1",
+          "size": 756,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitter18callbackPreviewReqEiibbbiPKc",
+          "virtual_address": "0x2d199",
+          "file_offset": "0x2d199",
+          "size": 180,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN25HSLiveDataBaseTransmitterC2Ev",
+          "virtual_address": "0x2c719",
+          "file_offset": "0x2c719",
+          "size": 216,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPlayBackSpeed",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlay",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_sendDensityToNative",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_screenShot",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_screenShotThermal",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_cipherFileData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setDisplayType",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setLightParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_changePlaybackVsSpec",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopTimeSceneFileMerge",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setMotionTrackParamMulti",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startRecord2",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_getPcmDB",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startAlarmShortVideoDownloadMerge",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setThermalEnable",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_pcmVolumeAdjust",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setTouchAlarmParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPlaybackIndex",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_AddUserInfoToMP4File",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopAlarmShortVideoDownloadMerge",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshMqKeyExchangeInfo",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_sendSpeakAudioData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startSpeak",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlayback",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_updateLoginHandle",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleTokenSession",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setSensitivityParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startTimeSceneFileMerge",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_continuePlayNextUCloudRecFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopPlayAll",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startRecord",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_putTimeSceneFileData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startPlayback",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleToken",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setLinkage",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_CancelCustomAlarmAudio",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_updateMultiMode",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_AdpcmEncode",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_ConvertYUV2RGB",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_hangupVideoCall",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_changeVsChn",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_readAlarmShortVideoDataFinish",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_cipherJsonData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setThumbWinEnable",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshIpPortHandleTokenUuid",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startPlay",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_sample8kTo16k",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_SendCustomAlarmAudio",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_continueReadNextFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_exitPlaybackDownload",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_seek2TimeSegment",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_StartCustomAlarmAudio",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setStarLightParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPTZParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setPTZXParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_requestVideoCall",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopSpeak",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_readFileFinish",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setSeekPlayUCloudRecFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_initLogFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_initJavaVM",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopRecord",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_stopDownload",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_AdpcmDecode",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setCamImageOrientation",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_continueReadNextUCloudRecFile",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_refreshSession",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_continueNextSegmentIndex",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_screenShotDoubleChannel",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setMotionTrackParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_pauseVideoCall",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_sendSpeakVideoData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setZoomParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_startDownload",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_putAlarmShortVideoData",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_setAudioParam",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_pausePlayImageRelateCloudVideo",
+        "Java_com_macrovideo_sdk_media_HSMediaLibrary_changeStream"
+      ]
+    },
+    {
+      "path": "lib/armeabi-v7a/libhsUtils.so",
+      "sha256": "4351b2ae52ad39a590d9bb3ce12ce4e9598dbf7105c73d90a974d3f982002c35",
+      "size": 266228,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libattrDetached.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libhsUtils.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "socket@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "h264_parse_sps",
+          "virtual_address": "0x16619",
+          "file_offset": "0x16619",
+          "size": 4372,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "h265_parse_sps",
+          "virtual_address": "0x17d21",
+          "file_offset": "0x17d21",
+          "size": 3972,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0x1f101",
+          "file_offset": "0x1f101",
+          "size": 160,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackD",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackE",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackI",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackV",
+        "Java_com_macrovideo_sdk_tools_FeedbackLogUtils_feedbackW",
+        "Java_com_macrovideo_sdk_tools_LogUtils_cout"
+      ]
+    },
+    {
+      "path": "lib/armeabi-v7a/liblywmAliAgainstId.so",
+      "sha256": "c45240f24e1149105e002280b49402bd7dae529c2b3762503ec25b1452363f1c",
+      "size": 127504,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libmideaCodec.so",
+      "sha256": "de40895beca57cfdb2a22116703af1f2db4e6bb21ba9cb1685e7b48a416e5c5b",
+      "size": 558488,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "libfaad.so",
+        "libfaac.so",
+        "libavcodec.so",
+        "libpostproc.so",
+        "libavfilter.so",
+        "libavformat.so",
+        "libavutil.so",
+        "libswresample.so",
+        "libswscale.so",
+        "libhsUtils.so",
+        "liblog.so",
+        "libattrDetached.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libmideaCodec.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "_Z13createDecoder16HSMEDIA_CODEC_ID",
+          "virtual_address": "0x2e5f1",
+          "file_offset": "0x2e5f1",
+          "size": 180,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "decodeFrameData",
+          "virtual_address": "0x2e54d",
+          "file_offset": "0x2e54d",
+          "size": 30,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN19HSFFMPEGH265Decoder11initDecoderEPv",
+          "virtual_address": "0x32203",
+          "file_offset": "0x32203",
+          "size": 144,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN19HSFFMPEGH265Decoder10decodeDataEP12tagFrameDataS1_",
+          "virtual_address": "0x32319",
+          "file_offset": "0x32319",
+          "size": 720,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "releaseMediaDecoder",
+          "virtual_address": "0x2e51d",
+          "file_offset": "0x2e51d",
+          "size": 32,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "initMediaDecoder",
+          "virtual_address": "0x2e4e5",
+          "file_offset": "0x2e4e5",
+          "size": 56,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN19HSFFMPEGH264Decoder11initDecoderEPv",
+          "virtual_address": "0x31a3f",
+          "file_offset": "0x31a3f",
+          "size": 144,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "_ZN19HSFFMPEGH264Decoder10decodeDataEP12tagFrameDataS1_",
+          "virtual_address": "0x31b55",
+          "file_offset": "0x31b55",
+          "size": 720,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_tools_Mp3EncodeUtil_Mp3Resample",
+        "Java_com_macrovideo_sdk_tools_Mp3EncodeUtil_convertPcmToMp3"
+      ]
+    },
+    {
+      "path": "lib/armeabi-v7a/libmp4FilePlayer.so",
+      "sha256": "d7abd3f895a3ab78df0d730487039522cceeb28a9cc067c7fd0dd392ad254da9",
+      "size": 20832,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "libhsUtils.so",
+        "libfaad.so",
+        "libfaac.so",
+        "libattrDetached.so",
+        "libavcodec.so",
+        "libpostproc.so",
+        "libavfilter.so",
+        "libavformat.so",
+        "libavutil.so",
+        "libswresample.so",
+        "libswscale.so",
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libmp4FilePlayer.so"
+      ],
+      "selected_symbols": [],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_getVideoFileInfoWithStartTime",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_startPlayMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_stopPlayMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_pausePlayMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_clearResource",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_seekTimeMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_resumePlayMP4File",
+        "Java_com_macrovideo_sdk_media_NVFilePlayer_getVideoFileInfo"
+      ]
+    },
+    {
+      "path": "lib/armeabi-v7a/liboctopus.so",
+      "sha256": "3c7b8d696e5ac6a9289397ab29599bdb3d59627fa5801753a370636a3dc22df8",
+      "size": 264164,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libpag.so",
+      "sha256": "db7d4316b0bac5fce1ba39ac3e8d373b5c7ec1dff274c4c65e68cd1ae7f03f0d",
+      "size": 2492796,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libpangleflipped.so",
+      "sha256": "f29ef239ff8fa618b9f7a341f106eb41dbcae39f93916ec5ac7b7a138dd2ebc3",
+      "size": 5180,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libpl_droidsonroids_gif.so",
+      "sha256": "f74681ce68cec284771fd275f07ffa5e23efcb5ae4135d1a967cb0bc3b3e1883",
+      "size": 46812,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libplt-base.so",
+      "sha256": "bdefd2993f0435cb5488f596d19d9b0c249dc319f77484ef440ea482678b6a98",
+      "size": 245956,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libpostproc.so",
+      "sha256": "16b4d97a2c496173d2b8145db85a49d48bf1ef93eba05093c0b49e1c67b44af0",
+      "size": 33796,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libqmcheat.so",
+      "sha256": "e0d4cd0ec0cca9a9415e8514cf0ff7907c976edc9e1df13bc7403da403eeb90e",
+      "size": 17944,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libqysdk_simd.so",
+      "sha256": "b3ac34d45f6087ed4b3be2037b7c16c56017d7ec2414c33e40d05686656d67c6",
+      "size": 13996,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libscannative.so",
+      "sha256": "dc7f9ab6d4d5de9b0755ad96e559cf67f9b52051364264783f469ea303762d6a",
+      "size": 1606212,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libsgcore.so",
+      "sha256": "89f5b074b29b3937c09f0e38965298ce905bd9b247ebeb2c2494eb7b8e307879",
+      "size": 116596,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libsoundtouch.so",
+      "sha256": "ed12989a4ec0431de13f3ff97812609ed8b4c628837abeaadbafb3008944a38f",
+      "size": 231900,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libspeexdsp.so",
+      "sha256": "20a6977ac096154609bd1078dd91e13cdc9e68d6463ac9c5a22f316419cabbac",
+      "size": 85924,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libstub000.so",
+      "sha256": "729e26e8f668efde7958e772d703896fd397c63775bca7bc6089a960c21a79e9",
+      "size": 66712,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libswresample.so",
+      "sha256": "5b4fdb217344026fca85f5cd6c3b89fcfde4a8ba440089e60609affdf69fa808",
+      "size": 91236,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libswscale.so",
+      "sha256": "92bc918b7fcdf778a7b211d6919ad1f5f3fcab9150265ebc54681caa4823b200",
+      "size": 513124,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libsys_misc-x86.so",
+      "sha256": "0e472bee6bb24c9c4040c7ff560c0bff93934580f6931847d07b8148e097da2f",
+      "size": 1065000,
+      "elf_class": 32,
+      "machine": "Intel 80386",
+      "needed": [
+        "liblog.so",
+        "libz.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ],
+      "soname": [
+        "libda2-lock.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0x7b520",
+          "file_offset": "0x7b520",
+          "size": 920,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "15"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/armeabi-v7a/libsys_misc.so",
+      "sha256": "404fdb0b9325983d6e708af83f1a2cc6ce7bf2b0e3340a847d92ce3b0df32a10",
+      "size": 790560,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libz.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ],
+      "soname": [
+        "libda2-lock.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "poll@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "JNI_OnLoad",
+          "virtual_address": "0x5ea3d",
+          "file_offset": "0x5ea3d",
+          "size": 1064,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "16"
+        }
+      ],
+      "jni_exports": []
+    },
+    {
+      "path": "lib/armeabi-v7a/libti-monitor.so",
+      "sha256": "312acd1ac1c1eaf6efc3c791d9a29d1582e1ec24c68a052c5c55266ed45eb6d8",
+      "size": 66324,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libyuvUtils.so",
+      "sha256": "18e8f7d9871796ba58af0f365e1a05b4528fa8e2d118dad9dc09a2358bd854ea",
+      "size": 357276,
+      "elf_class": 32,
+      "machine": "ARM"
+    },
+    {
+      "path": "lib/armeabi-v7a/libzerolink.so",
+      "sha256": "5a68941010a2583aa9b46fac7daa222e82d90fca95ca3d42eae2353923010477",
+      "size": 9216,
+      "elf_class": 32,
+      "machine": "ARM",
+      "needed": [
+        "liblog.so",
+        "libattrDetached.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "soname": [
+        "libzerolink.so"
+      ],
+      "selected_symbols": [
+        {
+          "name": "sendto@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "socket@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "setsockopt@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "select@LIBC",
+          "virtual_address": "0x0",
+          "file_offset": null,
+          "size": 0,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "UND"
+        },
+        {
+          "name": "doconnect",
+          "virtual_address": "0xdc1",
+          "file_offset": "0xdc1",
+          "size": 176,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        },
+        {
+          "name": "udp_create_connect_send",
+          "virtual_address": "0xd51",
+          "file_offset": "0xd51",
+          "size": 112,
+          "type": "FUNC",
+          "binding": "GLOBAL",
+          "section": "13"
+        }
+      ],
+      "jni_exports": [
+        "Java_com_macrovideo_sdk_smartlink_IoTManagerNative_StopSmartConnection",
+        "Java_com_macrovideo_sdk_smartlink_IoTManagerNative_Scan",
+        "Java_com_macrovideo_sdk_smartlink_IoTManagerNative_getSmartConnectionVersion",
+        "Java_com_macrovideo_sdk_smartlink_IoTManagerNative_StartSmartConnection"
+      ]
+    }
+  ],
+  "limitations": [
+    "Symbol names and DT_NEEDED establish linkage/API presence only, not observed behavior or exact wire protocol.",
+    "Native internal control flow, dynamically registered JNI, crypto negotiation, addresses/ports and packet fields not recovered here.",
+    "No native decompiler provider configured; supplementary analysis is not REA native function analysis."
+  ]
+}

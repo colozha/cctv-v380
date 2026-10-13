@@ -1,0 +1,19 @@
+{
+  "evidence_type": "sanitized-excerpt",
+  "source_evidence_id": "ev_c659bf74adb1c3a57bc29976d505c4f714a8f82c07d64656f0e91c02f2236ee6",
+  "operation": "inspect_android_method",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "observations": {
+    "login_algorithm_key_byte_length": 16,
+    "source": "LoginHelper.<clinit>"
+  },
+  "redactions": "All initializer values excluded; runtime accounts, credentials, tokens and sessions not read."
+}

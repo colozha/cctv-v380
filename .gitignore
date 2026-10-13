@@ -1,0 +1,22 @@
+.gradle/
+.kotlin/
+**/build/
+local.properties
+*.jks
+*.keystore
+captures/
+
+# Local IDE settings
+.idea/
+.vscode/
+*.iml
+
+# Python tooling cache
+__pycache__/
+*.py[cod]
+
+# Downloaded reference repositories
+/analysis/references/
+
+# Local camera diagnostics
+/v380-lan-diagnostics*.json

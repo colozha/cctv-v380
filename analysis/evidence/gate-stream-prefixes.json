@@ -1,0 +1,28 @@
+{
+  "evidence_type": "supplementary-bounded-protocol-constant-read",
+  "source": "lib/arm64-v8a/libhsMediaLibrary.so",
+  "sha256": "1375485cd32a15cba93f8f5b9d9991eefaa6f1dd0fabe00aefd955b6808763bc",
+  "reads": [
+    {
+      "file_offset": "0x30618",
+      "virtual_address": "0x30618",
+      "size": 8,
+      "little_endian_u32": [
+        303,
+        12289
+      ],
+      "context": "V2 packet prefix loaded by0x44f88 and stored before sendto0x44fd4"
+    },
+    {
+      "file_offset": "0x30630",
+      "virtual_address": "0x30630",
+      "size": 8,
+      "little_endian_u32": [
+        8193,
+        12289
+      ],
+      "context": "V1 packet prefix loaded by0x3f648 and stored before sendto0x3f694"
+    }
+  ],
+  "restrictions": "Only two8B packet prefixes already identified by store-to-send control flow. No credential/token/crypto key/string/data region search."
+}

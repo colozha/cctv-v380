@@ -1,0 +1,5 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/tools/Functions;-><clinit>()V code_item_offset=8704764 registers=6
+0002 dex@0084d310 invoke-direct            v0 Ljava/util/HashMap;-><init>()V
+0005 dex@0084d316 sput-object              v0 Lcom/macrovideo/sdk/tools/Functions;->mLoginResultMap:Ljava/util/HashMap;
+0007 dex@0084d31a const/4                  v0 #2 
+0008 dex@0084d31c sput                     v0 Lcom/macrovideo/sdk/tools/Functions;->SETTING_VERSION:I

@@ -1,0 +1,47 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_950da6c5fec6fe1740fe9e9bf718260fbabd3acb1c6f118dc0184d363127a740",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_method",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.media.LoginHelper",
+    "method_name": "requestBindIotDeviceByAP"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.sdk.media.LoginHelper",
+    "method": {
+      "name": "requestBindIotDeviceByAP",
+      "reported_signature": "requestBindIotDeviceByAP(int, java.lang.String, int, java.lang.String, long, long): int",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public static int requestBindIotDeviceByAP(int i2, String str, int i3, String str2, long j2, long j3) {\n        OutputStream outputStream;\n        boolean z;\n        InputStream inputStream;\n        LogUtils.d(\"<redacted literal>\", \"<redacted literal>\" + i2 + \"<redacted literal>\" + str + \"<redacted literal>\" + i3 + \"<redacted literal>\" + str2 + \"<redacted literal>\" + j2 + \"<redacted literal>\" + j3 + \"<redacted literal>\");\n        Socket socketConnectToServer = Functions.connectToServer(\"<redacted literal>\", Protocol.IOT_PLATFORM_DEVICE_DEFAULT_PORT, 5000, new int[0]);\n        StringBuilder sb = new StringBuilder(\"<redacted literal>\");\n        sb.append(i2);\n        sb.append(\"<redacted literal>\");\n        sb.append(socketConnectToServer);\n        LogUtils.d(\"<redacted literal>\", sb.toString());\n        int code = ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL;\n        if (socketConnectToServer == null) {\n            LogUtils.e(\"<redacted literal>\", \"<redacted literal>\");\n            return ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL;\n        }\n        BaseResultJsonParse baseResultJsonParse = null;\n        try {\n            if (socketConnectToServer.isConnected()) {\n                outputStream = socketConnectToServer.getOutputStream();\n                try {\n                    inputStream = socketConnectToServer.getInputStream();\n                    z = true;\n                } catch (IOException unused) {\n                    z = false;\n                    inputStream = null;\n                }\n            } else {\n                z = false;\n                outputStream = null;\n                inputStream = null;\n            }\n        } catch (IOException unused2) {\n            outputStream = null;\n        }\n        if (z) {\n            int iCreateRandomId = Protocol.createRandomId();\n            JSONObject jSONObjectCreateBindInfoJsonObj = Protocol.createBindInfoJsonObj(i2, str, i3, str2, j2, j3);\n            byte[] bArrCreateCommonJsonRequestBuffer = Protocol.createCommonJsonRequestBuffer(false, 1, Protocol.CMD_COMMON_IOT, Protocol.METHOD_ID_IOTC_BIND_ACK_REQUEST, (short) 1, (byte) 0, (byte) 0, (byte) 0, iCreateRandomId, jSONObjectCreateBindInfoJsonObj, null);\n            LogUtils.d(\"<redacted literal>\", F.a(jSONObjectCreateBindInfoJsonObj, m.a(\"<redacted literal>\", iCreateRandomId, \"<redacted literal>\")));\n            if (bArrCreateCommonJsonRequestBuffer == null) {\n                Functions.closeSocket(socketConnectToServer, inputStream, outputStream);\n                LogUtils.e(\"<redacted literal>\", \"<redacted literal>\");\n                return ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL;\n            }\n            try {\n                outputStream.write(bArrCreateCommonJsonRequestBuffer, 0, bArrCreateCommonJsonRequestBuffer.length);\n                outputStream.flush();\n                byte[] bArr = new byte[16];\n                Arrays.fill(bArr, (byte) 0);\n                LogUtils.d(\"<redacted literal>\", j.a(Functions.readBuffer(inputStream, bArr, 0, 16, 8000), \"<redacted literal>\"));\n                ResponseHeader responseHeader = Protocol.parseResponseHeader(bArr);\n                StringBuilder sb2 = new StringBuilder(\"<redacted literal>\");\n                sb2.append(responseHeader != null ? responseHeader.toString() : null);\n                LogUtils.d(\"<redacted literal>\", sb2.toString());\n                if (responseHeader == null || responseHeader.cmd != 939722776) {\n                    Functions.closeSocket(socketConnectToServer, inputStream, outputStream);\n                    LogUtils.e(\"<redacted literal>\", \"<redacted literal>\");\n                    return ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL;\n                }\n                int i4 = responseHeader.dataSize;\n                if (i4 > 0) {\n                    byte[] bArr2 = new byte[i4];\n                    Arrays.fill(bArr2, (byte) 0);\n                    int buffer = Functions.readBuffer(inputStream, bArr2, 0, responseHeader.dataSize, 8000);\n                    LogUtils.d(\"<redacted literal>\", t.a(bArr2, m.a(\"<redacted literal>\", buffer, \"<redacted literal>\")));\n                    int i5 = responseHeader.dataSize;\n                    if (buffer < i5) {\n                        LogUtils.e(\"<redacted literal>\", n.a(m.a(\"<redacted literal>\", buffer, \"<redacted literal>\"), responseHeader.dataSize, \"<redacted literal>\"));\n                        Functions.closeSocket(socketConnectToServer, inputStream, outputStream);\n                        return ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL;\n                    }\n                    String strDecryptJsonData = Protocol.decryptJsonData(bArr2, i5, responseHeader.secureType, null);\n                    LogUtils.d(\"<redacted literal>\", c.a(\"<redacted literal>\", strDecryptJsonData));\n                    try {\n                        baseResultJsonParse = (BaseResultJsonParse) new Gson().fromJson(strDecryptJsonData, BaseResultJsonParse.class);\n                    } catch (Exception e2) {\n                        LogUtils.e(\"<redacted literal>\", E.a(e2, new StringBuilder(\"<redacted literal>\")));\n                    }\n                    if (baseResultJsonParse == null) {\n                        LogUtils.e(\"<redacted literal>\", \"<redacted literal>\");\n                        Functions.closeSocket(socketConnectToServer, inputStream, outputStream);\n                        return ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL;\n                    }\n                    if (Protocol.isResultOk(baseResultJsonParse, 1, iCreateRandomId, responseHeader, Protocol.METHOD_ID_IOTC_BIND_ACK_RESPONSE)) {\n                        code = baseResultJsonParse.getResult().getCode();\n                    }\n                }\n            } catch (IOException e3) {\n                LogUtils.e(\"<redacted literal>\", G.a(e3, s.a(socketConnectToServer, inputStream, outputStream, \"<redacted literal>\")));\n                return ResultCode.RESULT_CODE_FAIL_SERVER_CONNECT_FAIL;\n            }\n        }\n        Functions.closeSocket(socketConnectToServer, inputStream, outputStream);\n        return code;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "redaction": "All string literals except JSON field names, UTF encodings and cipher algorithm names removed. Original raw body not retained."
+}

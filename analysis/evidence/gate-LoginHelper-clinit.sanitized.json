@@ -1,0 +1,30 @@
+{
+  "evidence_type": "sanitized-excerpt",
+  "source_evidence_id": "ev_4b38c7e12b64ddb4c49a0b4d19a6a9568a9f7b5081d22155a49546c04aa1820c",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "operation": "inspect_android_method",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.media.LoginHelper",
+    "method_name": "<clinit>"
+  },
+  "observed_int_assignments": {
+    "a": 0,
+    "b": 1167,
+    "c": 1168,
+    "d": 31167,
+    "e": 31168,
+    "f": 1167,
+    "g": 1168,
+    "h": 0
+  },
+  "redactions": "Excluded sRandomKey string and static byte[] initializer; no credential, token or key value retained. This projection is not canonical REA Evidence."
+}

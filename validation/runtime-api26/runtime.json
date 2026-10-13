@@ -1,0 +1,7 @@
+{
+  "api": 26,
+  "serial": "emulator-5558",
+  "physical_device": false,
+  "source_sha256": "10c7438a9c788d254800eb022a1e9b15cfd0ed25ef753adbded829aaedf2e006",
+  "scope": "synthetic vectors, storage, Compose UI, loopback camera session and rendered AVC; Wi-Fi/AP radio and real camera not tested"
+}

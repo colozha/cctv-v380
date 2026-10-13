@@ -1,0 +1,8 @@
+{
+  "user_instruction": "Continue without connection testing",
+  "latest_attempt": "IoT synthetic session test failed during ActivityScenario teardown (PAUSED instead of DESTROYED); no passing result claimed",
+  "final_source_connection_tests_run": false,
+  "physical_camera_tested": false,
+  "api35_runtime_tests_run": false,
+  "prior_successes": "26 Android tests each on API26/API30/API37; source changed afterward"
+}

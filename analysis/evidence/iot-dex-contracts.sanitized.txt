@@ -1,0 +1,361 @@
+source_evidence_id: ev_2799c5a183b5fbc79ab95840e58c0717c5fb3496dac52825929ba0dfffc4b4bb (class inventory)
+
+apk_sha256: 7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b
+
+Supplementary dexlib2 static instructions; no APK execution. String and payload contents excluded.
+
+DEX classes5.dex method Lcom/macrovideo/sdk/objects/IoTDevAbility;->getPtzType()I code_item_offset=8045908 registers=6
+0000 dex@007ac564 iget-object              v0 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+0002 dex@007ac568 const/4                  v1 #0 
+0003 dex@007ac56a if-eqz                   v0  -> 0098
+0005 dex@007ac56e invoke-interface         v0 Ljava/util/List;->isEmpty()Z
+0008 dex@007ac574 move-result              v0 
+0009 dex@007ac576 if-nez                   v0  -> 0098
+000b dex@007ac57a move                     v0 v1 
+000c dex@007ac57c iget-object              v2 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+000e dex@007ac580 invoke-interface         v2 Ljava/util/List;->size()I
+0011 dex@007ac586 move-result              v2 
+0012 dex@007ac588 if-ge                    v0 v2  -> 00d0
+0014 dex@007ac58c iget-object              v2 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+0016 dex@007ac590 invoke-interface         v2 v0 Ljava/util/List;->get(I)Ljava/lang/Object;
+0019 dex@007ac596 move-result-object       v2 
+001a dex@007ac598 check-cast               v2 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+001c dex@007ac59c invoke-static            v2 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+001f dex@007ac5a2 move-result-object       v2 
+0020 dex@007ac5a4 if-eqz                   v2  -> 0094
+0022 dex@007ac5a8 sget-object              v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_CTRL:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0024 dex@007ac5ac invoke-virtual           v2 Ljava/lang/Enum;->ordinal()I
+0027 dex@007ac5b2 move-result              v3 
+0028 dex@007ac5b4 iget-object              v4 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+002a dex@007ac5b8 invoke-interface         v4 v0 Ljava/util/List;->get(I)Ljava/lang/Object;
+002d dex@007ac5be move-result-object       v4 
+002e dex@007ac5c0 check-cast               v4 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+0030 dex@007ac5c4 invoke-static            v4 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0033 dex@007ac5ca move-result-object       v4 
+0034 dex@007ac5cc invoke-interface         v4 Ljava/util/List;->size()I
+0037 dex@007ac5d2 move-result              v4 
+0038 dex@007ac5d4 if-ge                    v3 v4  -> 0094
+003a dex@007ac5d8 iget-object              v3 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+003c dex@007ac5dc invoke-interface         v3 v0 Ljava/util/List;->get(I)Ljava/lang/Object;
+003f dex@007ac5e2 move-result-object       v3 
+0040 dex@007ac5e4 check-cast               v3 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+0042 dex@007ac5e8 invoke-static            v3 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0045 dex@007ac5ee move-result-object       v3 
+0046 dex@007ac5f0 invoke-virtual           v2 Ljava/lang/Enum;->ordinal()I
+0049 dex@007ac5f6 move-result              v4 
+004a dex@007ac5f8 invoke-interface         v3 v4 Ljava/util/List;->get(I)Ljava/lang/Object;
+004d dex@007ac5fe move-result-object       v3 
+004e dex@007ac600 check-cast               v3 Ljava/lang/Integer;
+0050 dex@007ac604 invoke-virtual           v3 Ljava/lang/Integer;->intValue()I
+0053 dex@007ac60a move-result              v3 
+0054 dex@007ac60c sget                     v4 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_NOT_SUPPORT:I
+0056 dex@007ac610 if-eq                    v3 v4  -> 0094
+0058 dex@007ac614 iget-object              v1 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+005a dex@007ac618 invoke-interface         v1 v0 Ljava/util/List;->get(I)Ljava/lang/Object;
+005d dex@007ac61e move-result-object       v1 
+005e dex@007ac620 check-cast               v1 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+0060 dex@007ac624 invoke-static            v1 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0063 dex@007ac62a move-result-object       v1 
+0064 dex@007ac62c invoke-virtual           v2 Ljava/lang/Enum;->ordinal()I
+0067 dex@007ac632 move-result              v3 
+0068 dex@007ac634 invoke-interface         v1 v3 Ljava/util/List;->get(I)Ljava/lang/Object;
+006b dex@007ac63a move-result-object       v1 
+006c dex@007ac63c check-cast               v1 Ljava/lang/Integer;
+006e dex@007ac640 invoke-virtual           v1 Ljava/lang/Integer;->intValue()I
+0071 dex@007ac646 move-result              v1 
+0072 dex@007ac648 sget                     v3 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_HORIZONTAL:I
+0074 dex@007ac64c and-int/2addr            v1 v3 
+0075 dex@007ac64e iget-object              v3 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+0077 dex@007ac652 invoke-interface         v3 v0 Ljava/util/List;->get(I)Ljava/lang/Object;
+007a dex@007ac658 move-result-object       v0 
+007b dex@007ac65a check-cast               v0 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+007d dex@007ac65e invoke-static            v0 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0080 dex@007ac664 move-result-object       v0 
+0081 dex@007ac666 invoke-virtual           v2 Ljava/lang/Enum;->ordinal()I
+0084 dex@007ac66c move-result              v2 
+0085 dex@007ac66e invoke-interface         v0 v2 Ljava/util/List;->get(I)Ljava/lang/Object;
+0088 dex@007ac674 move-result-object       v0 
+0089 dex@007ac676 check-cast               v0 Ljava/lang/Integer;
+008b dex@007ac67a invoke-virtual           v0 Ljava/lang/Integer;->intValue()I
+008e dex@007ac680 move-result              v0 
+008f dex@007ac682 sget                     v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_VERTICAL:I
+0091 dex@007ac686 and-int/2addr            v0 v2 
+0092 dex@007ac688 or-int/2addr             v0 v1 
+0093 dex@007ac68a return                   v0 
+0094 dex@007ac68c add-int/lit8             v0 v0 #1 
+0096 dex@007ac690 goto/16                   -> 000c
+0098 dex@007ac694 iget-object              v0 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->ctrl:Ljava/util/List;
+009a dex@007ac698 if-eqz                   v0  -> 00d0
+009c dex@007ac69c sget-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_CTRL:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+009e dex@007ac6a0 invoke-virtual           v0 Ljava/lang/Enum;->ordinal()I
+00a1 dex@007ac6a6 move-result              v2 
+00a2 dex@007ac6a8 iget-object              v3 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->ctrl:Ljava/util/List;
+00a4 dex@007ac6ac invoke-interface         v3 Ljava/util/List;->size()I
+00a7 dex@007ac6b2 move-result              v3 
+00a8 dex@007ac6b4 if-ge                    v2 v3  -> 00d0
+00aa dex@007ac6b8 iget-object              v1 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->ctrl:Ljava/util/List;
+00ac dex@007ac6bc invoke-virtual           v0 Ljava/lang/Enum;->ordinal()I
+00af dex@007ac6c2 move-result              v2 
+00b0 dex@007ac6c4 invoke-interface         v1 v2 Ljava/util/List;->get(I)Ljava/lang/Object;
+00b3 dex@007ac6ca move-result-object       v1 
+00b4 dex@007ac6cc check-cast               v1 Ljava/lang/Integer;
+00b6 dex@007ac6d0 invoke-virtual           v1 Ljava/lang/Integer;->intValue()I
+00b9 dex@007ac6d6 move-result              v1 
+00ba dex@007ac6d8 sget                     v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_HORIZONTAL:I
+00bc dex@007ac6dc and-int/2addr            v1 v2 
+00bd dex@007ac6de iget-object              v2 v5 Lcom/macrovideo/sdk/objects/IoTDevAbility;->ctrl:Ljava/util/List;
+00bf dex@007ac6e2 invoke-virtual           v0 Ljava/lang/Enum;->ordinal()I
+00c2 dex@007ac6e8 move-result              v0 
+00c3 dex@007ac6ea invoke-interface         v2 v0 Ljava/util/List;->get(I)Ljava/lang/Object;
+00c6 dex@007ac6f0 move-result-object       v0 
+00c7 dex@007ac6f2 check-cast               v0 Ljava/lang/Integer;
+00c9 dex@007ac6f6 invoke-virtual           v0 Ljava/lang/Integer;->intValue()I
+00cc dex@007ac6fc move-result              v0 
+00cd dex@007ac6fe sget                     v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_VERTICAL:I
+00cf dex@007ac702 goto                      -> 0091
+00d0 dex@007ac704 return                   v1 
+DEX classes5.dex method Lcom/macrovideo/sdk/objects/IoTDevAbility;->getPtzType(I)I code_item_offset=8046344 registers=6
+0000 dex@007ac718 iget-object              v0 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+0002 dex@007ac71c const/4                  v1 #0 
+0003 dex@007ac71e if-eqz                   v0  -> 0098
+0005 dex@007ac722 invoke-interface         v0 Ljava/util/List;->isEmpty()Z
+0008 dex@007ac728 move-result              v0 
+0009 dex@007ac72a if-nez                   v0  -> 0098
+000b dex@007ac72e if-ltz                   v5  -> 0097
+000d dex@007ac732 iget-object              v0 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+000f dex@007ac736 invoke-interface         v0 Ljava/util/List;->size()I
+0012 dex@007ac73c move-result              v0 
+0013 dex@007ac73e if-lt                    v5 v0  -> 0017
+0015 dex@007ac742 goto/16                   -> 0097
+0017 dex@007ac746 iget-object              v0 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+0019 dex@007ac74a invoke-interface         v0 v5 Ljava/util/List;->get(I)Ljava/lang/Object;
+001c dex@007ac750 move-result-object       v0 
+001d dex@007ac752 check-cast               v0 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+001f dex@007ac756 invoke-static            v0 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0022 dex@007ac75c move-result-object       v0 
+0023 dex@007ac75e if-eqz                   v0  -> 00d5
+0025 dex@007ac762 sget-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_CTRL:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0027 dex@007ac766 invoke-virtual           v0 Ljava/lang/Enum;->ordinal()I
+002a dex@007ac76c move-result              v2 
+002b dex@007ac76e iget-object              v3 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+002d dex@007ac772 invoke-interface         v3 v5 Ljava/util/List;->get(I)Ljava/lang/Object;
+0030 dex@007ac778 move-result-object       v3 
+0031 dex@007ac77a check-cast               v3 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+0033 dex@007ac77e invoke-static            v3 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0036 dex@007ac784 move-result-object       v3 
+0037 dex@007ac786 invoke-interface         v3 Ljava/util/List;->size()I
+003a dex@007ac78c move-result              v3 
+003b dex@007ac78e if-ge                    v2 v3  -> 00d5
+003d dex@007ac792 iget-object              v2 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+003f dex@007ac796 invoke-interface         v2 v5 Ljava/util/List;->get(I)Ljava/lang/Object;
+0042 dex@007ac79c move-result-object       v2 
+0043 dex@007ac79e check-cast               v2 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+0045 dex@007ac7a2 invoke-static            v2 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0048 dex@007ac7a8 move-result-object       v2 
+0049 dex@007ac7aa invoke-virtual           v0 Ljava/lang/Enum;->ordinal()I
+004c dex@007ac7b0 move-result              v3 
+004d dex@007ac7b2 invoke-interface         v2 v3 Ljava/util/List;->get(I)Ljava/lang/Object;
+0050 dex@007ac7b8 move-result-object       v2 
+0051 dex@007ac7ba check-cast               v2 Ljava/lang/Integer;
+0053 dex@007ac7be invoke-virtual           v2 Ljava/lang/Integer;->intValue()I
+0056 dex@007ac7c4 move-result              v2 
+0057 dex@007ac7c6 sget                     v3 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_NOT_SUPPORT:I
+0059 dex@007ac7ca if-eq                    v2 v3  -> 00d5
+005b dex@007ac7ce iget-object              v1 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+005d dex@007ac7d2 invoke-interface         v1 v5 Ljava/util/List;->get(I)Ljava/lang/Object;
+0060 dex@007ac7d8 move-result-object       v1 
+0061 dex@007ac7da check-cast               v1 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+0063 dex@007ac7de invoke-static            v1 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0066 dex@007ac7e4 move-result-object       v1 
+0067 dex@007ac7e6 invoke-virtual           v0 Ljava/lang/Enum;->ordinal()I
+006a dex@007ac7ec move-result              v2 
+006b dex@007ac7ee invoke-interface         v1 v2 Ljava/util/List;->get(I)Ljava/lang/Object;
+006e dex@007ac7f4 move-result-object       v1 
+006f dex@007ac7f6 check-cast               v1 Ljava/lang/Integer;
+0071 dex@007ac7fa invoke-virtual           v1 Ljava/lang/Integer;->intValue()I
+0074 dex@007ac800 move-result              v1 
+0075 dex@007ac802 sget                     v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_HORIZONTAL:I
+0077 dex@007ac806 and-int/2addr            v1 v2 
+0078 dex@007ac808 iget-object              v2 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->msc:Ljava/util/List;
+007a dex@007ac80c invoke-interface         v2 v5 Ljava/util/List;->get(I)Ljava/lang/Object;
+007d dex@007ac812 move-result-object       v5 
+007e dex@007ac814 check-cast               v5 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;
+0080 dex@007ac818 invoke-static            v5 Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;->access$000(Lcom/macrovideo/sdk/objects/IoTDevAbility$MscBean;)Ljava/util/List;
+0083 dex@007ac81e move-result-object       v5 
+0084 dex@007ac820 invoke-virtual           v0 Ljava/lang/Enum;->ordinal()I
+0087 dex@007ac826 move-result              v0 
+0088 dex@007ac828 invoke-interface         v5 v0 Ljava/util/List;->get(I)Ljava/lang/Object;
+008b dex@007ac82e move-result-object       v5 
+008c dex@007ac830 check-cast               v5 Ljava/lang/Integer;
+008e dex@007ac834 invoke-virtual           v5 Ljava/lang/Integer;->intValue()I
+0091 dex@007ac83a move-result              v5 
+0092 dex@007ac83c sget                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_VERTICAL:I
+0094 dex@007ac840 and-int/2addr            v5 v0 
+0095 dex@007ac842 or-int/2addr             v5 v1 
+0096 dex@007ac844 return                   v5 
+0097 dex@007ac846 return                   v1 
+0098 dex@007ac848 if-eqz                   v5  -> 009b
+009a dex@007ac84c return                   v1 
+009b dex@007ac84e iget-object              v5 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->ctrl:Ljava/util/List;
+009d dex@007ac852 if-eqz                   v5  -> 00d5
+009f dex@007ac856 sget-object              v5 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_CTRL:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+00a1 dex@007ac85a invoke-virtual           v5 Ljava/lang/Enum;->ordinal()I
+00a4 dex@007ac860 move-result              v0 
+00a5 dex@007ac862 iget-object              v2 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->ctrl:Ljava/util/List;
+00a7 dex@007ac866 invoke-interface         v2 Ljava/util/List;->size()I
+00aa dex@007ac86c move-result              v2 
+00ab dex@007ac86e if-ge                    v0 v2  -> 00d5
+00ad dex@007ac872 iget-object              v0 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->ctrl:Ljava/util/List;
+00af dex@007ac876 invoke-virtual           v5 Ljava/lang/Enum;->ordinal()I
+00b2 dex@007ac87c move-result              v1 
+00b3 dex@007ac87e invoke-interface         v0 v1 Ljava/util/List;->get(I)Ljava/lang/Object;
+00b6 dex@007ac884 move-result-object       v0 
+00b7 dex@007ac886 check-cast               v0 Ljava/lang/Integer;
+00b9 dex@007ac88a invoke-virtual           v0 Ljava/lang/Integer;->intValue()I
+00bc dex@007ac890 move-result              v0 
+00bd dex@007ac892 sget                     v1 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_HORIZONTAL:I
+00bf dex@007ac896 and-int/2addr            v0 v1 
+00c0 dex@007ac898 iget-object              v1 v4 Lcom/macrovideo/sdk/objects/IoTDevAbility;->ctrl:Ljava/util/List;
+00c2 dex@007ac89c invoke-virtual           v5 Ljava/lang/Enum;->ordinal()I
+00c5 dex@007ac8a2 move-result              v5 
+00c6 dex@007ac8a4 invoke-interface         v1 v5 Ljava/util/List;->get(I)Ljava/lang/Object;
+00c9 dex@007ac8aa move-result-object       v5 
+00ca dex@007ac8ac check-cast               v5 Ljava/lang/Integer;
+00cc dex@007ac8b0 invoke-virtual           v5 Ljava/lang/Integer;->intValue()I
+00cf dex@007ac8b6 move-result              v5 
+00d0 dex@007ac8b8 sget                     v1 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_VERTICAL:I
+00d2 dex@007ac8bc and-int/2addr            v5 v1 
+00d3 dex@007ac8be or-int/2addr             v5 v0 
+00d4 dex@007ac8c0 return                   v5 
+00d5 dex@007ac8c2 return                   v1 
+
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><clinit>()V code_item_offset=7700724 registers=3
+0000 dex@00758104 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0002 dex@00758108 const-string             v1 <string-content-excluded>
+0004 dex@0075810c const/4                  v2 #0 
+0005 dex@0075810e invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+0008 dex@00758114 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_CTRL:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+000a dex@00758118 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+000c dex@0075811c const-string             v1 <string-content-excluded>
+000e dex@00758120 const/4                  v2 #1 
+000f dex@00758122 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+0012 dex@00758128 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_PRESETS:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0014 dex@0075812c new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0016 dex@00758130 const-string             v1 <string-content-excluded>
+0018 dex@00758134 const/4                  v2 #2 
+0019 dex@00758136 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+001c dex@0075813c sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_AUTO_CRUISE:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+001e dex@00758140 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0020 dex@00758144 const-string             v1 <string-content-excluded>
+0022 dex@00758148 const/4                  v2 #3 
+0023 dex@0075814a invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+0026 dex@00758150 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_CRUISE_SCHE:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0028 dex@00758154 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+002a dex@00758158 const-string             v1 <string-content-excluded>
+002c dex@0075815c const/4                  v2 #4 
+002d dex@0075815e invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+0030 dex@00758164 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_ZOOM:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0032 dex@00758168 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0034 dex@0075816c const-string             v1 <string-content-excluded>
+0036 dex@00758170 const/4                  v2 #5 
+0037 dex@00758172 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+003a dex@00758178 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_RESERVE1:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+003c dex@0075817c new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+003e dex@00758180 const-string             v1 <string-content-excluded>
+0040 dex@00758184 const/4                  v2 #6 
+0041 dex@00758186 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+0044 dex@0075818c sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_RESERVE2:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0046 dex@00758190 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0048 dex@00758194 const-string             v1 <string-content-excluded>
+004a dex@00758198 const/4                  v2 #7 
+004b dex@0075819a invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+004e dex@007581a0 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_PT_SPEED:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0050 dex@007581a4 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0052 dex@007581a8 const-string             v1 <string-content-excluded>
+0054 dex@007581ac const/16                 v2 #8 
+0056 dex@007581b0 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;-><init>(Ljava/lang/String;I)V
+0059 dex@007581b6 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->MVS_DCTRL_ABLC_NUM:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+005b dex@007581ba invoke-static            Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->$values()[Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+005e dex@007581c0 move-result-object       v0 
+005f dex@007581c2 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;->$VALUES:[Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_ctrl_ability_code;
+0061 dex@007581c6 return-void              
+
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;-><clinit>()V code_item_offset=7699252 registers=1
+0000 dex@00757b44 const/4                  v0 #1 
+0001 dex@00757b46 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0004 dex@00757b4c move-result              v0 
+0005 dex@00757b4e sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_HORIZONTAL:I
+0007 dex@00757b52 const/4                  v0 #2 
+0008 dex@00757b54 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+000b dex@00757b5a move-result              v0 
+000c dex@00757b5c sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_VERTICAL:I
+000e dex@00757b60 const/4                  v0 #3 
+000f dex@00757b62 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0012 dex@00757b68 move-result              v0 
+0013 dex@00757b6a sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_SPEED:I
+0015 dex@00757b6e const/4                  v0 #4 
+0016 dex@00757b70 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0019 dex@00757b76 move-result              v0 
+001a dex@00757b78 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_OBJTRACK:I
+001c dex@00757b7c const/4                  v0 #5 
+001d dex@00757b7e invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0020 dex@00757b84 move-result              v0 
+0021 dex@00757b86 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_RECAL:I
+0023 dex@00757b8a const/4                  v0 #6 
+0024 dex@00757b8c invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0027 dex@00757b92 move-result              v0 
+0028 dex@00757b94 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_pt_ctrl_bmpc32;->ABL_PT_CTRL_AUTO_RECAL:I
+002a dex@00757b98 return-void              
+
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->BMPC(I)I code_item_offset=7703692 registers=2
+0000 dex@00758c9c const/4                  v0 #1 
+0001 dex@00758c9e sub-int/2addr            v1 v0 
+0002 dex@00758ca0 shl-int                  v1 v0 v1 
+0004 dex@00758ca4 return                   v1 
+
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/Protocol;->createMagicNum()B code_item_offset=7713672 registers=2
+0000 dex@0075b398 new-instance             v0 Ljava/util/Random;
+0002 dex@0075b39c invoke-direct            v0 Ljava/util/Random;-><init>()V
+0005 dex@0075b3a2 const/16                 v1 #127 
+0007 dex@0075b3a6 invoke-virtual           v0 v1 Ljava/util/Random;->nextInt(I)I
+000a dex@0075b3ac move-result              v0 
+000b dex@0075b3ae add-int/lit8             v0 v0 #1 
+000d dex@0075b3b2 int-to-byte              v0 v0 
+000e dex@0075b3b4 return                   v0 
+
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/Protocol;->createRandomId()I code_item_offset=7713720 registers=2
+0000 dex@0075b3c8 new-instance             v0 Ljava/util/Random;
+0002 dex@0075b3cc invoke-direct            v0 Ljava/util/Random;-><init>()V
+0005 dex@0075b3d2 const                    v1 #999999 
+0008 dex@0075b3d8 invoke-virtual           v0 v1 Ljava/util/Random;->nextInt(I)I
+000b dex@0075b3de move-result              v0 
+000c dex@0075b3e0 add-int/lit8             v0 v0 #10 
+000e dex@0075b3e4 return                   v0 
+
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J code_item_offset=7711508 registers=6
+0000 dex@0075ab24 int-to-long              v0 v4 
+0001 dex@0075ab26 const-wide/16            v2 #255 
+0003 dex@0075ab2a and-long/2addr           v0 v2 
+0004 dex@0075ab2c const/16                 v4 #16 
+0006 dex@0075ab30 shl-long/2addr           v0 v4 
+0007 dex@0075ab32 const-wide/16            v2 #512 
+0009 dex@0075ab36 or-long/2addr            v0 v2 
+000a dex@0075ab38 and-int/lit16            v4 v5 #255 
+000c dex@0075ab3c int-to-long              v4 v4 
+000d dex@0075ab3e or-long/2addr            v4 v0 
+000e dex@0075ab40 return-wide              v4 
+
+
+VerifyBean field inventory (supplementary static DEX):
+
+classes5.dex Lcom/macrovideo/sdk/json/KeyExchangeLanJsonParse$DataBean$VerifyBean;->dK:Ljava/lang/String; null
+classes5.dex Lcom/macrovideo/sdk/json/KeyExchangeLanJsonParse$DataBean$VerifyBean;->dS:Ljava/lang/String; null
+classes5.dex Lcom/macrovideo/sdk/json/KeyExchangeLanJsonParse$DataBean$VerifyBean;->origin:I null
+classes5.dex Lcom/macrovideo/sdk/json/KeyExchangeLanJsonParse$DataBean$VerifyBean;->perm:J null
+classes5.dex Lcom/macrovideo/sdk/json/KeyExchangeLanJsonParse$DataBean$VerifyBean;->sid:I null

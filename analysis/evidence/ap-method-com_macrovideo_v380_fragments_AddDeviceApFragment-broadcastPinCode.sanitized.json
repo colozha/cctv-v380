@@ -1,0 +1,47 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_880bb484320cff14eb024d141cf2eacafc297f3114a3972a9322ed54feaf710a",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_method",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment",
+    "method_name": "broadcastPinCode"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment",
+    "method": {
+      "name": "broadcastPinCode",
+      "reported_signature": "broadcastPinCode(int, boolean): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    private void broadcastPinCode(final int i, final boolean z) {\n        LogUtil.d(TAG, \"<redacted literal>\" + i + \"<redacted literal>\" + z + \"<redacted literal>\");\n        if (z) {\n            this.mActivity.showLoadingDialog(false, \"\", new LoadingDialog.LoadingDialogOnCancelListener() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.32\n                @Override // com.macrovideo.v380.fragments.dialogfragments.LoadingDialog.LoadingDialogOnCancelListener\n                public void onCancel() {\n                }\n            });\n        }\n        Timer timer = this.mBroadcastPinCodeTimer;\n        if (timer != null) {\n            timer.cancel();\n        }\n        Timer timer2 = new Timer();\n        this.mBroadcastPinCodeTimer = timer2;\n        timer2.schedule(new TimerTask() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.33\n            @Override // java.util.TimerTask, java.lang.Runnable\n            public void run() {\n                if (AddDeviceApFragment.this.checkIsConnectedSpecifiedAP()) {\n                    final int iRequestBindIotDeviceByAP = 0;\n                    for (int i2 = 0; i2 < 2 && i == AddDeviceApFragment.this.mBroadcastPinCodeId; i2++) {\n                        iRequestBindIotDeviceByAP = LoginHelper.requestBindIotDeviceByAP(1, null, 0, \"\", GlobalDefines.sLoginUserId, 0L);\n                        LogUtil.d(AddDeviceApFragment.TAG, \"<redacted literal>\" + iRequestBindIotDeviceByAP);\n                        if (iRequestBindIotDeviceByAP != -257) {\n                            break;\n                        }\n                    }\n                    if (iRequestBindIotDeviceByAP == 1000) {\n                        AddDeviceApFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.33.2\n                            @Override // java.lang.Runnable\n                            public void run() {\n                                if (i == AddDeviceApFragment.this.mBroadcastPinCodeId) {\n                                    if (z) {\n                                        AddDeviceApFragment.this.mActivity.dismissLoadingDialog();\n                                    }\n                                    AddDeviceApFragment.this.changePinCodePlayView(true, 0);\n                                }\n                            }\n                        });\n                        return;\n                    } else {\n                        AddDeviceApFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.33.3\n                            @Override // java.lang.Runnable\n                            public void run() {\n                                if (i != AddDeviceApFragment.this.mBroadcastPinCodeId) {\n                                    return;\n                                }\n                                if (z) {\n                                    AddDeviceApFragment.this.mActivity.dismissLoadingDialog();\n                                }\n                                if (AddDeviceApFragment.this.mIsPinCodeSending) {\n                                    return;\n                                }\n                                AddDeviceApFragment.this.changePinCodePlayView(false, iRequestBindIotDeviceByAP);\n                            }\n                        });\n                        return;\n                    }\n                }\n                AddDeviceApFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.33.1\n                    @Override // java.lang.Runnable\n                    public void run() {\n                        if (i != AddDeviceApFragment.this.mBroadcastPinCodeId) {\n                            return;\n                        }\n                        if (z) {\n                            AddDeviceApFragment.this.mActivity.dismissLoadingDialog();\n                        }\n                        AddDeviceApFragment.this.mBroadcastPinCodeTimer.cancel();\n                        AddDeviceApFragment.this.showConnectSpecifiedAPDialog();\n                    }\n                });\n            }\n        }, 0L, 10000L);\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "redaction": "All string literals except JSON field names, UTF encodings and cipher algorithm names removed. Original raw body not retained."
+}

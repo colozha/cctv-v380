@@ -1,0 +1,48 @@
+{
+  "derived_sanitized_excerpt": true,
+  "noncanonical": true,
+  "source_evidence_id": "ev_e129da87fa3487289f709dfe60608c74bbc20b0e0da5740a4b91a60ed425cc28",
+  "subject_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "operation": "inspect_android_method",
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.objects.DeviceAsSearch",
+    "method_name": "<init>",
+    "overload_index": 1
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.sdk.objects.DeviceAsSearch",
+    "method": {
+      "name": "<init>",
+      "reported_signature": "<init>(int, int, int, java.lang.String, java.lang.String, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, int, int): void",
+      "overload_index": 1,
+      "is_constructor": true,
+      "dex_descriptor": null
+    },
+    "overload_count": 3,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public DeviceAsSearch(int i, int i2, int i3, String str, String str2, int i4, String str3, String str4, String str5, String str6, int i5, int i6) {\n        this.nDeviceType = 0;\n        this.strFatherId = \"\";\n        this.nFatherType = 0;\n        this.nAlarmStat = 1;\n        this.bindState = -1;\n        this.configNetAbility = 0;\n        this.specDevType = 0;\n        this.nID = i;\n        this.bIsMRMode = false;\n        this.strName = str;\n        this.strIP = str2;\n        this.nPort = i4;\n        this.strUsername = str3;\n        this.strPassword = str4;\n        this.strDomain = str6;\n        this.nSaveType = i5;\n        this.nDevID = i2;\n        this.strMac = str5;\n        this.nConfigId = i3;\n        this.isAlarmOn = i6;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "redaction": "All string literals except JSON field names, UTF encodings and cipher algorithm names removed. Original raw body not retained."
+}

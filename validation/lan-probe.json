@@ -1,0 +1,16 @@
+{
+  "time_utc": "2026-10-13T15:37:41.997522+00:00",
+  "interface": "wlp0s20f3",
+  "computer_ip": "192.168.200.85",
+  "subnet": "192.168.200.0/24",
+  "request": "NVDEVSEARCH^100",
+  "destination_port": 10008,
+  "sender_port": 10008,
+  "receiver_port": 10009,
+  "duration_seconds": 3,
+  "authentication_attempted": false,
+  "credentials_collected": false,
+  "received_datagrams": 0,
+  "candidates": [],
+  "limitation": "No response does not prove camera offline or unsupported; camera IP and matching subnet, isolation, firewall and protocol remain unverified."
+}
