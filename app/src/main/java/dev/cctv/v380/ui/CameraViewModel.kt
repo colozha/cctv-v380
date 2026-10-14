@@ -349,11 +349,14 @@ class CameraViewModel @JvmOverloads constructor(application: Application,
         cancelFeature()
         clearRecordingStorage()
         mutableFeatures.update { it.copy(tab = tab, error = null, notice = null, draft = emptyMap(), paused = true) }
+        val profileId = features.value.profileId
         connectionJob?.cancel()
         connectionJob = viewModelScope.launch {
             session.stopMedia()
             if (tab == CameraTab.LIVE && session.connectedProfile != null)
                 renderSurface?.takeIf { it.isValid }?.let { session.play(it, Quality.HD) }
+            else if (tab == CameraTab.SETTINGS && features.value.tab == tab && profileId != null &&
+                features.value.profileId == profileId && session.isAuthenticated(profileId)) loadSettings()
         }
     }
 

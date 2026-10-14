@@ -7,7 +7,6 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -45,6 +44,10 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
             }
             if (authenticated) Text("Akses kamera tersambung", style = MaterialTheme.typography.bodySmall, color = scheme.primary)
             else CameraPanel { CameraAccess(model, profile, session, onConnect) }
+            OutlinedButton(onClick = model::loadSettings, enabled = !feature.busy && authenticated && feature.pendingAp == null,
+                modifier = Modifier.heightIn(min = 48.dp)) {
+                Icon(Icons.Default.Refresh, null); Spacer(Modifier.width(8.dp)); Text("Muat ulang")
+            }
             feature.error?.let { SettingsNotice(it, error = true) }
             feature.notice?.let { SettingsNotice(it) }
             if (feature.busy && !feature.apBusy && feature.managementLoading == null) LinearProgressIndicator(Modifier.fillMaxWidth())
@@ -137,10 +140,6 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
                     Text("Format menghapus rekaman pada kartu. Fitur belum diaktifkan karena status akhir format belum terverifikasi.",
                         style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
                 }
-            }
-            Button(onClick = model::loadSettings, enabled = !feature.busy && authenticated && feature.pendingAp == null,
-                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
-                Icon(Icons.Default.Settings, null); Spacer(Modifier.width(8.dp)); Text("Muat pengaturan kamera")
             }
             if (feature.draft.isNotEmpty()) {
                 Button(onClick = model::saveSettings, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
