@@ -1,0 +1,656 @@
+[
+  {
+    "source_evidence_id": "ev_9ebd68cd68180696ace7e2be798fea71cecabca0da2672d60d6b3c70808b28f0",
+    "class_name": "com.macrovideo.sdk.media.RecordFileHelper",
+    "fields": [
+      {
+        "name": "FILE_TYPE_ALARM",
+        "reported_type": "int"
+      },
+      {
+        "name": "FILE_TYPE_ALL",
+        "reported_type": "int"
+      },
+      {
+        "name": "FILE_TYPE_MINIATURE",
+        "reported_type": "int"
+      },
+      {
+        "name": "FILE_TYPE_MOTION",
+        "reported_type": "int"
+      },
+      {
+        "name": "FILE_TYPE_NORMAL",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_EVENT_TYPE_AREA",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_EVENT_TYPE_CRY",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_EVENT_TYPE_DOORBELL",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_EVENT_TYPE_HUMANOID",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_EVENT_TYPE_MOVE",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_EVENT_TYPE_PIR",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_EVENT_TYPE_SMOKE",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_EVENT_TYPE_STAY",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_TYPE_ALARM",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_TYPE_ALL",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_TYPE_AOV",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_TYPE_AUTO",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_REC_TYPE_MINIATURE",
+        "reported_type": "int"
+      },
+      {
+        "name": "NO_REC_VALUE",
+        "reported_type": "int"
+      }
+    ],
+    "method_names": [
+      "<clinit>",
+      "<init>",
+      "Cloud_getRecordFileServer",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "b",
+      "b",
+      "cancel",
+      "cancelOperation",
+      "coverRecType",
+      "createRecSearchType",
+      "getRecordFiles",
+      "getRecordFiles",
+      "getRecordFilesSegment",
+      "getRecordFilesSegment",
+      "getRecordFilesSegmentNewPlatform",
+      "getRecordOPHandle",
+      "getRecordVideoInTFCard"
+    ],
+    "coverage": "Full non-synthetic method inventory; compiler access$ bridges omitted. Names alone do not establish absence of an obfuscated implementation."
+  },
+  {
+    "source_evidence_id": "ev_39d4a4f58800e6a3f50d4c426ba3fc27405a6d1bf26e97f618bc61e4f8e15170",
+    "class_name": "com.macrovideo.v380.fragments.ReplaySDCardFragment",
+    "fields": [
+      {
+        "name": "REC_DATA_REFRESH_TYPE_GET",
+        "reported_type": "int"
+      },
+      {
+        "name": "REC_DATA_REFRESH_TYPE_REFRESH",
+        "reported_type": "int"
+      },
+      {
+        "name": "lSelectedAiTagTimestamp",
+        "reported_type": "long"
+      },
+      {
+        "name": "mAiDetectionRecInfoList",
+        "reported_type": "java.util.List<com.macrovideo.v380.entities.AiTagInfo>"
+      },
+      {
+        "name": "mAiTagRecListPosition",
+        "reported_type": "int"
+      },
+      {
+        "name": "mAllRecInfoList",
+        "reported_type": "java.util.List<com.macrovideo.v380.entities.SDCardRecFileInfo>"
+      },
+      {
+        "name": "mConcentrateDownloadCurrentFrames",
+        "reported_type": "int"
+      },
+      {
+        "name": "mConcentrateDownloadDefaultFrames",
+        "reported_type": "int"
+      },
+      {
+        "name": "mCurrentFirstDownloadRecName",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mCurrentSelectedDate",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "mDLFileListPosition",
+        "reported_type": "int"
+      },
+      {
+        "name": "mDownloadFilePathList",
+        "reported_type": "java.util.List<java.lang.String>"
+      },
+      {
+        "name": "mGetRecFileThreadID",
+        "reported_type": "int"
+      },
+      {
+        "name": "mIsContainsMiniatureRec",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mIsRecording",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mIsSearchingRecData",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "mLatestRecInfoList",
+        "reported_type": "java.util.List<com.macrovideo.v380.entities.SDCardRecFileInfo>"
+      },
+      {
+        "name": "mPeriodRecInfoList",
+        "reported_type": "java.util.List<com.macrovideo.v380.entities.SDCardRecFileInfo>"
+      },
+      {
+        "name": "mRecDataRefreshType",
+        "reported_type": "int"
+      },
+      {
+        "name": "mRecDownloadList",
+        "reported_type": "java.util.List<com.macrovideo.v380.entities.SDCardRecDownloadInfo>"
+      },
+      {
+        "name": "mRecDownloadUpdateList",
+        "reported_type": "java.util.List<java.lang.Integer>"
+      },
+      {
+        "name": "mRecFileDownloader",
+        "reported_type": "com.macrovideo.sdk.media.HSFileDownloader"
+      },
+      {
+        "name": "mRecListPosition",
+        "reported_type": "int"
+      },
+      {
+        "name": "mRecordCountDownTimer",
+        "reported_type": "com.macrovideo.v380.fragments.ReplaySDCardFragment$RecordCountDownTimer"
+      },
+      {
+        "name": "mRecordDuration",
+        "reported_type": "long"
+      },
+      {
+        "name": "mRecordingFilePathList",
+        "reported_type": "java.util.List<java.lang.String>"
+      },
+      {
+        "name": "mSdCardRecFileInfo",
+        "reported_type": "com.macrovideo.v380.entities.SDCardRecFileInfo"
+      },
+      {
+        "name": "mSearchRecDay",
+        "reported_type": "int"
+      },
+      {
+        "name": "mSearchRecMonth",
+        "reported_type": "int"
+      },
+      {
+        "name": "mSearchRecYear",
+        "reported_type": "int"
+      }
+    ],
+    "method_names": [
+      "<init>",
+      "addAiDetectionTagInfo",
+      "aiTagAssociation",
+      "aiTagAssociationOldDevice",
+      "backMethod",
+      "bindClickId",
+      "cancelConnectTimeOutTimer",
+      "cancelDownloadRecFile",
+      "changeDate",
+      "changeDeviceStatusView",
+      "changePlaySpeed",
+      "changeRecordingView",
+      "changeViewEnable",
+      "checkShouldShowGunBallButtons",
+      "clickOperate",
+      "clickRecording",
+      "clickedScreenshotDialog",
+      "closeCloudRecordTips",
+      "closeReplayGuidePage",
+      "concentrateDownloadParamSetting",
+      "concentrateRecordSetting",
+      "copyOldRecInfo",
+      "dealWithAiTagSearch",
+      "dismissPlayModeSetting",
+      "doDownloadRecFile",
+      "doInOnDestroy",
+      "doInOnPause",
+      "doInOnResume",
+      "doOnInitMultiPlayer",
+      "doOnReleaseMultiPlayer",
+      "downloadRecFile",
+      "exitPrivateMode",
+      "expandBottomLayout",
+      "extendedShowPlayerOperationBar",
+      "getArgumentsData",
+      "getCurSeekBarPositionTime",
+      "getDeviceInfo",
+      "getLatestRecFile",
+      "getNextRecFile",
+      "getOldDeviceRecTimestamp",
+      "getOnRealFourEyeStateChange",
+      "getOnRealThreeEyeStateChange",
+      "getPlayID",
+      "getRecDownloadTitle",
+      "getRecFileDuration",
+      "getRecPositionDuration",
+      "getRefreshDownloadBtnPosition",
+      "getReplaySpeed",
+      "getSearchRecFileData",
+      "goToAlbum",
+      "gotoDeviceSettingActivity",
+      "gunBallDisplayModeSetting",
+      "handleCheckAiDetectionStatus",
+      "handleLoginHandleExpired",
+      "handleMessage",
+      "handlePlayerSingleTap",
+      "handleSaveFileFailed",
+      "handleSeekbarStopTrackingTouch",
+      "handleSessionExpired",
+      "hideLayoutBeforeShowNoRecFile",
+      "hideLayoutBeforeShowWithRecFile",
+      "hideOperationBar",
+      "hideTimeRulerRecDownloadProgressLayout",
+      "imageSwitch",
+      "initAiDetectionLayout",
+      "initAiTagTimeRulerList",
+      "initBottomOperationBar",
+      "initCalendarWithPeriodDialog",
+      "initCloudRecordTipsLayout",
+      "initCloudServiceInfo",
+      "initConcentrateDownloadParam",
+      "initConnectTimeOutTimer",
+      "initDeviceInfo",
+      "initEventGroup",
+      "initList",
+      "initModeStatus",
+      "initMultiCamLabel",
+      "initNewCloudStorageView",
+      "initOverlayHeight",
+      "initP2PConnectTimeOutTimer",
+      "initPlayModeLayout",
+      "initPlaySpeedView",
+      "initPlayer",
+      "initPlayerBackSeekBar",
+      "initPlayerLayout",
+      "initRecTimeRulersView",
+      "initRecordingView",
+      "initSeekBarTimeLayout",
+      "initSharePreferences",
+      "initTimeRulerDownloadLayout",
+      "initViews",
+      "isCoverEventGroupFirstRow",
+      "isCoverTimeRulerBottom",
+      "isCoverTimeRulerTop",
+      "isDoubleMode",
+      "isFourMode",
+      "isMiniatureRec",
+      "isRealFourCam",
+      "isRealThreeCam",
+      "isReplayRestrict4G",
+      "isThreeBallDevice",
+      "isThreeCam",
+      "isToolBarVisible",
+      "isTrebleMode",
+      "lambda$screenshot$4",
+      "lambda$startDownloadRecFile$6",
+      "lambda$startRecord$5",
+      "m1028lambda$showOrientationView$0$commacrovideov380fragmentsReplaySDCardFragment",
+      "m1029lambda$showOrientationView$1$commacrovideov380fragmentsReplaySDCardFragment",
+      "m1030lambda$showOrientationView$2$commacrovideov380fragmentsReplaySDCardFragment",
+      "m1031lambda$showOrientationView$3$commacrovideov380fragmentsReplaySDCardFragment",
+      "newInstance",
+      "newInstance",
+      "notifyAdapter",
+      "onAttach",
+      "onClicked",
+      "onConfigurationChanged",
+      "onDestroy",
+      "onDestroyView",
+      "onHiddenChanged",
+      "onPause",
+      "onResume",
+      "onStop",
+      "onTimeRulerMoveFinish",
+      "picInPicPositionSetting",
+      "picInPicSetting",
+      "playFirstOrLastVideo",
+      "playNextRecFile",
+      "playOrPauseVideo",
+      "readNextFile",
+      "realChangePlaySpeed",
+      "recFilePlayFallBack",
+      "refreshAiAlertServiceStatus",
+      "refreshAiDetectionTAGStatus",
+      "refreshAiDetectionTagLayout",
+      "refreshBottomOperationBarLayout",
+      "refreshDownloadBtn",
+      "refreshExpandBottomLayout",
+      "refreshGLFisheyeView",
+      "refreshOperationBarLayout",
+      "refreshPlayer",
+      "refreshRecData",
+      "refreshRecDownloadUpdateList",
+      "refreshRecPlayStatus",
+      "refreshTimerRulerAndEventGroupView",
+      "removeGLFisheyeView",
+      "resetData",
+      "resetRecList",
+      "resetSeekbarProgress",
+      "screenRecFileByPeriod",
+      "screenshot",
+      "scrollToAiTagRecListCurrentPosition",
+      "scrollToCurrentPosition",
+      "searchNextDayRecFile",
+      "searchPreviousDayRecFile",
+      "seekToReplay",
+      "sendRecEmptyMsg",
+      "setAction",
+      "setBindStatus",
+      "setCurrentRePlayInfo",
+      "setDeviceID",
+      "setDeviceInfo",
+      "setDisplayMode0",
+      "setDisplayMode4",
+      "setHSMediaPlayer",
+      "setIsClickStop",
+      "setIsNeedShowConnectTimeOutDialog",
+      "setLoginHandle",
+      "setLoginResult",
+      "setOnlySupportSDCardReplay",
+      "setPlayerContainerDimensionRatio",
+      "setPrivateMode",
+      "setSearchRecFileDate",
+      "setSwitchScreenEnable",
+      "setTimeRulerListener",
+      "setTimeRulerViewCurrentTime",
+      "showAiTagToast",
+      "showAlterRecordingDialog",
+      "showCalendarDialog",
+      "showConnectTimeOutDialog",
+      "showConnectTimeOutTips",
+      "showDeviceOfflineLayout",
+      "showDownloadingTips",
+      "showEventGroupMode",
+      "showModeSetting",
+      "showNoRecFileLayout",
+      "showNoSDCardLayout",
+      "showNormalModeLayoutAndSearchRecData",
+      "showOperationBar",
+      "showOrHideBottomOperationBar",
+      "showOrHidePlayerOperationBar",
+      "showOrHidePlayerOperationBar",
+      "showOrientationView",
+      "showPlayModeSetting",
+      "showPrivateModeLayout",
+      "showReplayGuidePage",
+      "showSDCardReplayView",
+      "showScreenshotDialog",
+      "showTimeRulerDownloadProgressLayout",
+      "showTimeRulerMode",
+      "showWithRecFileLayout",
+      "showWithSDCardLayout",
+      "sortAiTagInfoList",
+      "sortAiTagInfoListAscendingOrder",
+      "sortList",
+      "startAction",
+      "startConnectTimeOutTimer",
+      "startDeviceConfigureManagerThread",
+      "startDownloadRecFile",
+      "startGetAiTagPointData",
+      "startGetCurrentSelectedDayRecFile",
+      "startGetRecData",
+      "startGetRecDataNew",
+      "startGetRecFileThread",
+      "startLoadingUI",
+      "startP2PConnectTimeOutTimer",
+      "startPlayAiTagVideo",
+      "startRecord",
+      "startReplay",
+      "startReplay",
+      "startUpdateDownloadProgress",
+      "stopDeviceConfigureManagerThread",
+      "stopDownLoadRec",
+      "stopDownload",
+      "stopGetAiTagPointData",
+      "stopGetRecData",
+      "stopLoadingUI",
+      "stopPlayAndReleasePlayer",
+      "stopRecord",
+      "stopReplay",
+      "stopReplay",
+      "stopUpdateDownloadProgress",
+      "switchFourEyeScreen",
+      "switchToCloudReplay",
+      "switchToEventGroupMode",
+      "switchToLiveFragment",
+      "switchToTimeRulerViewMode",
+      "updateDownloadProgress",
+      "updateFourEyePlayerBorderVisible",
+      "updateHorizontalDisplayMode0Btn",
+      "updateHorizontalDisplayMode4Btn",
+      "updateMultiCamLabelTxt",
+      "updatePlaySpeedUI",
+      "updateRecFileDownloadProgress",
+      "updateRecFileDownloadProgressView",
+      "updateRecordingPagFile",
+      "updateReplayFinish",
+      "updateReplayProgress",
+      "updateThreeEyePlayerBorderVisible",
+      "voiceSwitch"
+    ],
+    "coverage": "Full non-synthetic method inventory; compiler access$ bridges omitted. Names alone do not establish absence of an obfuscated implementation."
+  },
+  {
+    "source_evidence_id": "ev_334c4380c914723908fba21b751f26a36850415ca1ddba9ff5f658a1383cae96",
+    "class_name": "com.macrovideo.sdk.defines.Protocol",
+    "fields": [
+      {
+        "name": "DAID_PT_RECAL",
+        "reported_type": "long"
+      },
+      {
+        "name": "DAID_RECORD_SEG_STATE_CTRL",
+        "reported_type": "long"
+      },
+      {
+        "name": "DPID_PT_AUTO_RECAL",
+        "reported_type": "long"
+      },
+      {
+        "name": "DPID_RECORD_AUDIO",
+        "reported_type": "long"
+      },
+      {
+        "name": "DPID_RECORD_LOOP",
+        "reported_type": "long"
+      },
+      {
+        "name": "DPID_RECORD_MODE",
+        "reported_type": "long"
+      },
+      {
+        "name": "DPID_RECORD_QUALITY",
+        "reported_type": "long"
+      },
+      {
+        "name": "DPID_SELECTED",
+        "reported_type": "long"
+      },
+      {
+        "name": "FILE_FLAG_DATA",
+        "reported_type": "int"
+      },
+      {
+        "name": "FILE_FLAG_EOF",
+        "reported_type": "int"
+      },
+      {
+        "name": "IOT_PLATFORM_DEVICE_DEFAULT_PORT",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_CTRL_REQUEST",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_CTRL_RESPONSE",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_DOWNLOAD_REQUEST",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_DOWNLOAD_RESPONSE",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_INFORMATION",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_LIST_REQUEST",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_LIST_RESPONSE",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_UPLOAD_REQUEST",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_FILE_UPLOAD_RESPONSE",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_REC_FILE_LIST_REQUEST",
+        "reported_type": "int"
+      },
+      {
+        "name": "METHOD_ID_REC_FILE_LIST_RESPONSE",
+        "reported_type": "int"
+      },
+      {
+        "name": "RECORD_QUALITY_FHD",
+        "reported_type": "int"
+      },
+      {
+        "name": "RECORD_QUALITY_HD",
+        "reported_type": "int"
+      },
+      {
+        "name": "RECORD_QUALITY_INVALID",
+        "reported_type": "int"
+      },
+      {
+        "name": "RECORD_QUALITY_SD",
+        "reported_type": "int"
+      },
+      {
+        "name": "RESULT_CODE_REC_NOT_EXIST",
+        "reported_type": "int"
+      },
+      {
+        "name": "SIGNAL_CALL_TYPE_DOWNLOAD_FILE",
+        "reported_type": "byte"
+      },
+      {
+        "name": "SIGNAL_CALL_TYPE_FILE_CTRL",
+        "reported_type": "byte"
+      },
+      {
+        "name": "SIGNAL_CALL_TYPE_FILE_LIST",
+        "reported_type": "byte"
+      },
+      {
+        "name": "SIGNAL_CALL_TYPE_REC_SEARCH",
+        "reported_type": "byte"
+      },
+      {
+        "name": "SIGNAL_CALL_TYPE_UPLOAD_FILE",
+        "reported_type": "byte"
+      }
+    ],
+    "method_names": [
+      "<clinit>",
+      "<init>",
+      "BMPC",
+      "IS_VIDEO_SPLICING_FOUR_EYE_IOT",
+      "IS_VIDEO_SPLICING_TRIPLE_EYE_IOT",
+      "MVSPT_DPAE_START",
+      "MVSPT_IOTC_DAID",
+      "MVSPT_IOTC_DEID",
+      "MVSPT_IOTC_DFID",
+      "MVSPT_IOTC_DPID",
+      "cipherJsonData",
+      "createBindInfoJsonObj",
+      "createCommonFileListCtrlJsonHeader",
+      "createCommonFileListQueryJsonHeader",
+      "createCommonJsonHeader",
+      "createCommonJsonRequestBuffer",
+      "createCommonJsonRequestBuffer2",
+      "createForwardDataBuffer",
+      "createForwardRequestBuffer",
+      "createMagicNum",
+      "createRandomId",
+      "decryptJsonData",
+      "initCommonDataSendBuffer",
+      "isResultOk",
+      "parseForwardResponseHeader",
+      "parseResponseHeader",
+      "sendShutDown"
+    ],
+    "coverage": "Full non-synthetic method inventory; compiler access$ bridges omitted. Names alone do not establish absence of an obfuscated implementation."
+  }
+]

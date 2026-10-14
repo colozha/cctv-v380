@@ -1,6 +1,10 @@
 package dev.cctv.v380
 
 import android.media.MediaExtractor
+import android.net.Uri
+import dev.cctv.v380.media.copyRecording
+import dev.cctv.v380.media.verifyRecordingCopy
+import kotlinx.coroutines.runBlocking
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.cctv.v380.media.RecordingExporter
 import dev.cctv.v380.session.CameraProfile
@@ -107,15 +111,20 @@ class FeatureStorageAndExportTest {
         val frames = syntheticAvcFrames()
         val exporter = RecordingExporter(context.cacheDir)
         var result: File? = null
+        val destination = File.createTempFile("v380-synthetic-copy-", ".mp4", context.cacheDir)
         try {
             frames.forEachIndexed { index, frame ->
                 exporter.write(EncodedFrame(VideoCodec.AVC, 0, frame.keyframe, index * 100000L, frame.bytes), 64, 64)
             }
             result = exporter.finish()
             assertTrue(result.length() > 0)
+            runBlocking {
+                copyRecording(result, context.contentResolver.openOutputStream(Uri.fromFile(destination), "wt")!!)
+                verifyRecordingCopy(result, context.contentResolver.openInputStream(Uri.fromFile(destination))!!)
+            }
             val extractor = MediaExtractor()
             try {
-                extractor.setDataSource(result.path); assertEquals(1, extractor.trackCount)
+                extractor.setDataSource(destination.path); assertEquals(1, extractor.trackCount)
                 assertEquals("video/avc", extractor.getTrackFormat(0).getString("mime"))
                 extractor.selectTrack(0)
                 var count = 0; var last = -1L
@@ -126,7 +135,7 @@ class FeatureStorageAndExportTest {
                 }
                 assertEquals(frames.size, count); assertEquals((frames.size - 1) * 100000L, last)
             } finally { extractor.release() }
-        } finally { exporter.close() }
+        } finally { exporter.close(); destination.delete() }
         assertFalse(result!!.exists())
     }
 }

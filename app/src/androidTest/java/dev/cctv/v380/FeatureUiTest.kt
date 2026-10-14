@@ -42,7 +42,7 @@ class FeatureUiTest {
         compose.onNodeWithText(profile.name).performClick()
         compose.onNodeWithText("Rekaman").performClick()
         compose.onNodeWithText("Sambungkan kamera").assertIsDisplayed()
-        compose.onNodeWithText("Muat rekaman").assertIsNotEnabled()
+        compose.onNodeWithContentDescription("Muat ulang rekaman").assertIsNotEnabled()
         capture("recordings-disconnected")
         compose.onNodeWithText("Pengaturan").performClick()
         compose.onNodeWithText("Muat pengaturan kamera").assertIsDisplayed().assertIsNotEnabled()

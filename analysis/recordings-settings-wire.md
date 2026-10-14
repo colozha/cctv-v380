@@ -54,3 +54,27 @@ Playback memakai antrean bounded dengan backpressure dan pacing timestamp kamera
 Fitur baru memilih sesi IoT lokal yang sudah ada; Legacy mengembalikan unsupported. Jalur Java pver≥5 dapat memilih MQ, sedangkan native memiliki jalur direct LAN bersyarat SID. Kontrak native tersebut mendasari implementasi eksperimental, bukan bukti kompatibilitas offline firmware pengguna. Tidak ada fallback cloud. Sensitivitas/schedule lampu, variasi dialect, dan enum terminal format tetap gated sampai bukti cukup.
 
 Build, parser, lint dan status runtime aktual: [validation/recordings-settings/results.json](../validation/recordings-settings/results.json). Instruksi menunda pengujian koneksi tetap berlaku; kamera, loopback session, download nyata, pengaturan nyata dan format kartu tidak diuji.
+
+## Perbaikan tab Rekaman — 14 Oktober 2026
+
+Tombol Simpan tidak lagi membutuhkan checkbox video-only. SAF CreateDocument tetap digunakan; grant URI dari picker tidak membutuhkan izin storage menyeluruh. Playback dihentikan sebelum picker, handoff tidak menjalankan cleanup background biasa, dan metadata profil/segmen disimpan dalam SavedStateHandle tanpa credential. Tujuan yang sudah dipilih menunggu autentikasi jika sesi hilang; perubahan profil/tanggal/filter atau pembatalan membuang permintaan. Status selesai memerlukan transfer lengkap, validasi MP4, copy, flush dan penutupan stream tujuan. Error ruang lokal, tujuan, transfer dan MP4 dibedakan.
+
+Player dan daftar menggunakan formatter rentang tanggal/waktu yang sama. Urutan presentasi default descending, dapat diubah lokal menjadi ascending dengan tie-break start/end/jenis. Status/kapasitas SD dibaca lewat GET khusus dua properti, terpisah dari daftar dan draft pengaturan. Ambang ≥90% membandingkan remaining≤total/10 sebelum pembulatan; unit kapasitas tetap tidak diasumsikan. Snapshot kapasitas dibuang ketika sesi/profil/tab berubah.
+
+**Penghapusan rekaman SD belum diaktifkan.** [Inventaris REA](evidence/recordings-delete-inventory.sanitized.json) mencatat RecordFileHelper, ReplaySDCardFragment dan Protocol. Tidak ditemukan kontrak delete TF per segmen pada jalur yang ditelusuri. Nama method yang diobfuscate membatasi kesimpulan ini: tidak mengklaim semua firmware mustahil mendukung penghapusan.
+
+[Kontrol file generik dan xref](evidence/recordings-file-control.sanitized.json) memang menunjukkan enum DELETE dan bentuk `{dfid,ctrl,cnt,list}`. Namun pemanggil DeviceFileSetting.fileListCtrl hanya `DeviceConfigSettingActivity.doDeletePromptSounds` dan `doRenamePromptSound` pada inventaris xref lengkap. Tidak ada bukti pemetaan dfid/list ke identitas `RecordingSegment`, cakupan source/pre-roll, ataupun readback penghapusan TF. Karena itu tidak mengirim opcode tebakan, tidak memakai format kartu sebagai pengganti, dan tidak menambahkan pilihan batch yang tidak bisa dijalankan. UI menampilkan alasan serta tombol hapus nonaktif sesuai keputusan pengguna.
+
+Validasi perbaikan ini dicatat terpisah di [hasil terbaru](../validation/recordings-fixes/results.json). Hasil historis di atas tidak dianggap pengujian source terbaru.
+
+## Desain dan diagnosis replay 0.4.3
+
+Penyebab kegagalan 297KB belum diketahui dari screenshot. Pesan lama membungkus semua exception penerimaan sebagai IOException generik, sehingga `CameraSession.reason` menyatakan NetworkUnavailable bahkan untuk timeout/penolakan/paket rusak. RecordingExportException sekarang mempertahankan reason, detail, pesan terarah dan cause; diagnostik diambil sebelum cleanup dan cleanup tidak menimpa exception transfer pertama. Timestamp di luar batas replay dilaporkan tersendiri. Batas source/pre-roll +60detik yang ada belum dilonggarkan tanpa bukti baru.
+
+Receive loop playback/download bersama dipindah ke RecordingReplay agar dapat menjalankan transcript socket terenkripsi dalam memori. Wire tetap memakai mode0/2, pts/sourceStart+1, window100/refill setiap90, korelasi ACK, SID/cipher/time_id, parser media dan notifikasi info_id3. Fixture melintasi245 frame, metadata, ACK refill, pre-roll, EOF tanpa notifikasi akhir, timeout, penolakan1109, ID/time_id/SID salah dan timestamp invalid. Fixture bukan capture firmware pengguna.
+
+Schema4 menambah detail fase replay/MP4/tujuan serta fields opsional framesReceived, downloadBytes dan timeId. Event hanya pada fase, window dan kegagalan; buffer tetap80 event. Tidak ada payload, frame bytes, string exception bebas, SID, session key atau credential yang disimpan. Byte counter adalah payload yang berhasil diserahkan ke consumer, bukan ukuran file MP4.
+
+Simpan dari daftar tidak membuat Surface atau memulai playback. Metadata picker mencatat apakah sebelumnya mode player. Kehilangan Surface selama Choosing/Awaiting/Downloading/Saving tidak mengantrekan stopMedia baru. File tujuan wajib dapat dibaca ulang dan dibandingkan dengan MP4 cache sebelum Complete. Kegagalan readback dibedakan dari write; pembatalan/error tetap membersihkan file parsial best effort.
+
+Tanggal/filter dibaca otomatis oleh satu pemicu UI; pemilihan nilai yang sama tidak mengosongkan daftar. Commit daftar mensyaratkan generation fitur, profil, tanggal dan filter yang masih sama. Pemilihan urutan hanya mengubah presentasi. Hapus SD tetap gated seperti bagian sebelumnya. [Hasil 0.4.3](../validation/recordings-redesign/results.json).

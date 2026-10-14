@@ -2,6 +2,11 @@ package dev.cctv.v380.protocol
 
 import dev.cctv.v380.session.CameraSettings
 import dev.cctv.v380.session.RecordingSegment
+import dev.cctv.v380.ui.RecordingOrder
+import dev.cctv.v380.ui.recordingRange
+import dev.cctv.v380.ui.recordingStorageWarning
+import java.time.LocalDateTime
+import java.time.ZoneId
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.*
@@ -54,6 +59,43 @@ class CameraFeatureProtocolTest {
         assertEquals(50, remaining("32768|16384|0"))
         assertNull(remaining("32768,16384,0")); assertNull(remaining("0|0|0"))
         assertNull(remaining("10|11|0")); assertNull(remaining("10|-1|0"))
+    }
+
+    @Test fun storageWarningUsesExactNinetyPercentThresholdAndFullStatusOverridesMissingCapacity() {
+        fun settings(raw: String, status: Int = 1) = CameraSettings(mapOf(
+            CameraSettingsProtocol.SD_CAPACITY to raw, CameraSettingsProtocol.SD_STATUS to status), emptyMap())
+        assertNull(recordingStorageWarning(settings("1000|101|0"))) // 89.9%, not 90%.
+        assertEquals("Kartu SD hampir penuh — 90% terpakai", recordingStorageWarning(settings("1000|100|0")))
+        assertEquals("Kartu SD penuh", recordingStorageWarning(settings("1000|0|0")))
+        assertEquals("Kartu SD penuh", recordingStorageWarning(settings("invalid", 3)))
+        assertNull(recordingStorageWarning(settings("1000|0|0", 5)))
+        for (raw in listOf("invalid", "0|0|0", "100|101|0", "100|-1|0", "99999999999999999999|0|0"))
+            assertNull(recordingStorageWarning(settings(raw)))
+        assertFalse(CameraSettingsProtocol.capacity(settings("1001|101|0"))!!.almostFull)
+        assertTrue(CameraSettingsProtocol.capacity(settings("1001|100|0"))!!.almostFull)
+        assertFalse(CameraSettingsProtocol.capacity(settings("${Long.MAX_VALUE}|${Long.MAX_VALUE}|0"))!!.almostFull)
+        assertTrue(CameraSettingsProtocol.capacity(settings("${Long.MAX_VALUE}|0|0"))!!.almostFull)
+    }
+
+    @Test fun recordingOrderUsesNumericTimestampsAndStableTieBreaksWithoutChangingSelectionOrInput() {
+        val rows = listOf(RecordingSegment(9000, 12000, 1), RecordingSegment(1000, 3000, 2),
+            RecordingSegment(9000, 10000, 2), RecordingSegment(9000, 10000, 1))
+        val selected = rows[2]
+        val ascending = listOf(rows[1], rows[3], rows[2], rows[0])
+        assertEquals(ascending, RecordingOrder.OLDEST_FIRST.sort(rows))
+        assertEquals(ascending.reversed(), RecordingOrder.NEWEST_FIRST.sort(rows))
+        assertSame(selected, rows[2])
+        assertEquals(9000, rows[0].startMs)
+        assertTrue(RecordingOrder.NEWEST_FIRST.sort(emptyList()).isEmpty())
+    }
+
+    @Test fun recordingLabelsIncludeDatesAndBothDatesAcrossMidnightInTheQueryTimeZone() {
+        val zone = ZoneId.of("Asia/Jakarta")
+        fun at(text: String) = LocalDateTime.parse(text).atZone(zone).toInstant().toEpochMilli()
+        assertEquals("14 Oktober 2026\n00:01:04 – 00:05:04", recordingRange(
+            RecordingSegment(at("2026-10-14T00:01:04"), at("2026-10-14T00:05:04"), 1), zone))
+        assertEquals("14 Oktober 2026, 23:59:00\n– 15 Oktober 2026, 00:03:00", recordingRange(
+            RecordingSegment(at("2026-10-14T23:59:00"), at("2026-10-15T00:03:00"), 1), zone))
     }
 
     @Test fun recordPagesHaveCorrelatedSlicesBoundedOffsetsAndExplicitCompletion() {

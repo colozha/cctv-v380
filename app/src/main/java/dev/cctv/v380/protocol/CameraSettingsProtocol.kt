@@ -4,6 +4,13 @@ import dev.cctv.v380.session.CameraSettings
 import org.json.JSONArray
 import org.json.JSONObject
 
+data class SdCapacity(val total: Long, val remaining: Long) {
+    val remainingPercent: Int get() = (remaining.toDouble() / total * 100).toInt()
+    val usedPercent: Int get() = ((total - remaining).toDouble() / total * 100).toInt()
+    // Integer comparison keeps 89.9% below the threshold, without overflow or rounding.
+    val almostFull: Boolean get() = remaining <= total / 10
+}
+
 /** V380 6.4.90 Java property API. The native live controller uses a different PID dialect. */
 object CameraSettingsProtocol {
     const val GET = 197376
@@ -97,14 +104,15 @@ object CameraSettingsProtocol {
     }
 
     fun formatParams(): JSONObject = IoTControlProtocol.actionParams(FORMAT)
-    fun remainingPercent(settings: CameraSettings): Int? {
+    fun capacity(settings: CameraSettings): SdCapacity? {
         val parts = (settings.values[SD_CAPACITY] as? String)?.split('|') ?: return null
         if (parts.size != 3) return null
         val total = parts[0].toLongOrNull() ?: return null
         val remaining = parts[1].toLongOrNull() ?: return null
         if (total <= 0 || remaining !in 0..total) return null
-        return (remaining.toDouble() / total * 100).toInt()
+        return SdCapacity(total, remaining)
     }
+    fun remainingPercent(settings: CameraSettings): Int? = capacity(settings)?.remainingPercent
     /** Native DAID8/action0 uses input action=1; no guessed flip enum or local Surface rotation. */
     fun flipParams(): JSONObject = IoTControlProtocol.actionParams(FLIP, JSONObject().put("action", 1))
     private fun malformed(): Nothing = throw IoTProtocolException(IoTFailure.MalformedPacket)

@@ -1,0 +1,306 @@
+[
+  {
+    "source_evidence_id": "ev_0a6d5c38b989b826410bd8cb0792766c179547918d3f399bb0c4b93a5c76e467",
+    "parameters": {
+      "class_name": "com.macrovideo.sdk.defines.Protocol",
+      "method_name": "createCommonFileListCtrlJsonHeader",
+      "overload_index": 0
+    },
+    "normalized_result": {
+      "engine": {
+        "name": "jadx-headless-mcp",
+        "version": "0.7.1",
+        "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+        "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+        "worker_count": 1,
+        "heap_limit_mib": 3072
+      },
+      "class_name": "com.macrovideo.sdk.defines.Protocol",
+      "method": {
+        "name": "createCommonFileListCtrlJsonHeader",
+        "reported_signature": "createCommonFileListCtrlJsonHeader(long, com.macrovideo.sdk.defines.Protocol$FileListCtrl, org.json.JSONArray): org.json.JSONObject",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      "overload_count": 1,
+      "representation": "java",
+      "body_status": "available",
+      "fell_back": false,
+      "markers": [],
+      "source": {
+        "status": "complete",
+        "text": "    public static JSONObject createCommonFileListCtrlJsonHeader(long j, FileListCtrl fileListCtrl, JSONArray jSONArray) {\n        JSONObject jSONObject = new JSONObject();\n        try {\n            jSONObject.put(\"dfid\", j);\n            jSONObject.put(\"ctrl\", fileListCtrl.getValue());\n            jSONObject.put(\"cnt\", jSONArray.length());\n            jSONObject.put(\"list\", jSONArray);\n        } catch (JSONException e) {\n            LogUtils.e(TAG, H.a(e, I.a(e, \"createCommonFileListCtrlJsonHeader: jsonData put fail, exception=\")));\n        }\n        return jSONObject;\n    }",
+        "reported_total_bytes": null
+      }
+    }
+  },
+  {
+    "source_evidence_id": "ev_31b6b32c1daac6dae36046a3796d4df898b34fc9f621eeb015a553b3e188f178",
+    "parameters": {
+      "class_name": "com.macrovideo.sdk.defines.Protocol",
+      "method_name": "createCommonFileListCtrlJsonHeader"
+    },
+    "normalized_result": {
+      "engine": {
+        "name": "jadx-headless-mcp",
+        "version": "0.7.1",
+        "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+        "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+        "worker_count": 1,
+        "heap_limit_mib": 3072
+      },
+      "class_name": "com.macrovideo.sdk.defines.Protocol",
+      "method_name": "createCommonFileListCtrlJsonHeader",
+      "total": 2,
+      "references": [
+        {
+          "kind": "method",
+          "name": "fileListCtrl",
+          "reported_full_name": "com.macrovideo.sdk.setting.DeviceFileSetting.fileListCtrl",
+          "containing_class": "com.macrovideo.sdk.setting.DeviceFileSetting",
+          "top_class": "com.macrovideo.sdk.setting.DeviceFileSetting",
+          "source_line": null,
+          "dex_offset": null
+        },
+        {
+          "kind": "method",
+          "name": "fileListCtrlByMq",
+          "reported_full_name": "com.macrovideo.sdk.setting.DeviceFileSetting.fileListCtrlByMq",
+          "containing_class": "com.macrovideo.sdk.setting.DeviceFileSetting",
+          "top_class": "com.macrovideo.sdk.setting.DeviceFileSetting",
+          "source_line": null,
+          "dex_offset": null
+        }
+      ],
+      "coverage": "complete"
+    }
+  },
+  {
+    "source_evidence_id": "ev_cd5468aea7208b7b61c79ae6ad7ee5562dcc25e84c6889fdb33358cf2d940f38",
+    "parameters": {
+      "class_name": "com.macrovideo.sdk.defines.Protocol.FileListCtrl"
+    },
+    "normalized_result": {
+      "engine": {
+        "name": "jadx-headless-mcp",
+        "version": "0.7.1",
+        "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+        "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+        "worker_count": 1,
+        "heap_limit_mib": 3072
+      },
+      "class_name": "com.macrovideo.sdk.defines.Protocol.FileListCtrl",
+      "methods": [
+        {
+          "name": "$values",
+          "reported_signature": "$values(): com.macrovideo.sdk.defines.Protocol$FileListCtrl[]",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "<clinit>",
+          "reported_signature": "<clinit>(): void",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "<init>",
+          "reported_signature": "<init>(java.lang.String, int, int): void",
+          "overload_index": 0,
+          "is_constructor": true,
+          "dex_descriptor": null
+        },
+        {
+          "name": "getValue",
+          "reported_signature": "getValue(): int",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "valueOf",
+          "reported_signature": "valueOf(java.lang.String): com.macrovideo.sdk.defines.Protocol$FileListCtrl",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "values",
+          "reported_signature": "values(): com.macrovideo.sdk.defines.Protocol$FileListCtrl[]",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        }
+      ],
+      "fields": [
+        {
+          "name": "$VALUES",
+          "reported_type": "com.macrovideo.sdk.defines.Protocol$FileListCtrl[]"
+        },
+        {
+          "name": "DELETE",
+          "reported_type": "com.macrovideo.sdk.defines.Protocol$FileListCtrl"
+        },
+        {
+          "name": "RENAME",
+          "reported_type": "com.macrovideo.sdk.defines.Protocol$FileListCtrl"
+        },
+        {
+          "name": "value",
+          "reported_type": "int"
+        }
+      ],
+      "inner_classes": []
+    }
+  },
+  {
+    "source_evidence_id": "ev_3fb6c1d0e98b01670ef5db524329f81fd9201266c931fcd52a5cf311e8377d3c",
+    "parameters": {
+      "class_name": "com.macrovideo.sdk.setting.DeviceFileSetting"
+    },
+    "normalized_result": {
+      "engine": {
+        "name": "jadx-headless-mcp",
+        "version": "0.7.1",
+        "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+        "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+        "worker_count": 1,
+        "heap_limit_mib": 3072
+      },
+      "class_name": "com.macrovideo.sdk.setting.DeviceFileSetting",
+      "methods": [
+        {
+          "name": "<init>",
+          "reported_signature": "<init>(): void",
+          "overload_index": 0,
+          "is_constructor": true,
+          "dex_descriptor": null
+        },
+        {
+          "name": "downloadFile",
+          "reported_signature": "downloadFile(boolean, com.macrovideo.sdk.media.LoginHandle, int, long, java.lang.String, long, org.json.JSONObject, java.lang.String): int",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "downloadFile2",
+          "reported_signature": "downloadFile2(boolean, com.macrovideo.sdk.media.LoginHandle, java.util.List<com.macrovideo.sdk.setting.DeviceFileSetting$DownloadFileParams>): int",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "downloadFileFromMQ",
+          "reported_signature": "downloadFileFromMQ(boolean, com.macrovideo.sdk.media.LoginHandle, int, long, java.lang.String, long, org.json.JSONObject, java.lang.String): int",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "downloadFileFromMQ2",
+          "reported_signature": "downloadFileFromMQ2(boolean, com.macrovideo.sdk.media.LoginHandle, java.util.List<com.macrovideo.sdk.setting.DeviceFileSetting$DownloadFileParams>): int",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "fileListCtrl",
+          "reported_signature": "fileListCtrl(boolean, com.macrovideo.sdk.media.LoginHandle, long, com.macrovideo.sdk.defines.Protocol$FileListCtrl, org.json.JSONArray): com.macrovideo.sdk.setting.IoTFileListCtrlRes",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "fileListCtrlByMq",
+          "reported_signature": "fileListCtrlByMq(boolean, com.macrovideo.sdk.media.LoginHandle, long, com.macrovideo.sdk.defines.Protocol$FileListCtrl, org.json.JSONArray): com.macrovideo.sdk.setting.IoTFileListCtrlRes",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "fileListQuery",
+          "reported_signature": "fileListQuery(boolean, com.macrovideo.sdk.media.LoginHandle, long, int, int, org.json.JSONObject): com.macrovideo.sdk.setting.IoTFileListQueryRes",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "fileListQueryByMq",
+          "reported_signature": "fileListQueryByMq(boolean, com.macrovideo.sdk.media.LoginHandle, long, int, int, org.json.JSONObject): com.macrovideo.sdk.setting.IoTFileListQueryRes",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "uploadFile",
+          "reported_signature": "uploadFile(boolean, com.macrovideo.sdk.media.LoginHandle, int, long, java.lang.String, com.macrovideo.sdk.defines.Protocol$FileListFt, org.json.JSONObject, java.lang.String): com.macrovideo.sdk.setting.IoTFileUploadRes",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        },
+        {
+          "name": "uploadFileFromMQ",
+          "reported_signature": "uploadFileFromMQ(boolean, com.macrovideo.sdk.media.LoginHandle, int, long, java.lang.String, com.macrovideo.sdk.defines.Protocol$FileListFt, org.json.JSONObject, java.lang.String): com.macrovideo.sdk.setting.IoTFileUploadRes",
+          "overload_index": 0,
+          "is_constructor": false,
+          "dex_descriptor": null
+        }
+      ],
+      "fields": [],
+      "inner_classes": [
+        "com.macrovideo.sdk.setting.DeviceFileSetting.AnonymousClass1",
+        "com.macrovideo.sdk.setting.DeviceFileSetting.AnonymousClass2",
+        "com.macrovideo.sdk.setting.DeviceFileSetting.AnonymousClass3",
+        "com.macrovideo.sdk.setting.DeviceFileSetting.AnonymousClass4",
+        "com.macrovideo.sdk.setting.DeviceFileSetting.AnonymousClass5",
+        "com.macrovideo.sdk.setting.DeviceFileSetting.DownloadFileCallback",
+        "com.macrovideo.sdk.setting.DeviceFileSetting.DownloadFileParams"
+      ]
+    }
+  },
+  {
+    "source_evidence_id": "ev_72342df4e6b4a12571ab550db73b049b95ff162ccb492f3a4ec3cc92f1df9e19",
+    "parameters": {
+      "class_name": "com.macrovideo.sdk.setting.DeviceFileSetting",
+      "method_name": "fileListCtrl"
+    },
+    "normalized_result": {
+      "engine": {
+        "name": "jadx-headless-mcp",
+        "version": "0.7.1",
+        "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+        "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+        "worker_count": 1,
+        "heap_limit_mib": 3072
+      },
+      "class_name": "com.macrovideo.sdk.setting.DeviceFileSetting",
+      "method_name": "fileListCtrl",
+      "total": 2,
+      "references": [
+        {
+          "kind": "method",
+          "name": "doDeletePromptSounds",
+          "reported_full_name": "com.macrovideo.v380.activities.DeviceConfigSettingActivity.doDeletePromptSounds",
+          "containing_class": "com.macrovideo.v380.activities.DeviceConfigSettingActivity",
+          "top_class": "com.macrovideo.v380.activities.DeviceConfigSettingActivity",
+          "source_line": null,
+          "dex_offset": null
+        },
+        {
+          "kind": "method",
+          "name": "doRenamePromptSound",
+          "reported_full_name": "com.macrovideo.v380.activities.DeviceConfigSettingActivity.doRenamePromptSound",
+          "containing_class": "com.macrovideo.v380.activities.DeviceConfigSettingActivity",
+          "top_class": "com.macrovideo.v380.activities.DeviceConfigSettingActivity",
+          "source_line": null,
+          "dex_offset": null
+        }
+      ],
+      "coverage": "complete"
+    }
+  }
+]

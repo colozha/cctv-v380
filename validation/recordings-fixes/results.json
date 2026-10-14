@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Asia/Jakarta",
+  "source_sha256": "270f0039b63cc1a12c3d424ea71d693f535cddf38459629d16e05f79c04cad38",
+  "build": {
+    "status": "passed",
+    "command": "./gradlew :app:testDebugUnitTest :app:lintDebug :app:assembleDebug :app:assembleDebugAndroidTest --console=plain"
+  },
+  "unit_tests": {
+    "tests": 79,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "lint": {
+    "Warning": 16,
+    "Hint": 1
+  },
+  "regressions": [
+    "Same-date and cross-midnight recording labels in Asia/Jakarta",
+    "Numeric ascending/descending order with end/kind tie breaks and unchanged source selection",
+    "89.9%, 90%, 100%, unknown/invalid capacity and overflow-safe threshold",
+    "Full cache rejects export before creating a partial file",
+    "Copy preserves every byte and closes streams on write/flush error or cancellation"
+  ],
+  "artifacts": [
+    {
+      "path": "app/build/outputs/apk/debug/app-debug.apk",
+      "sha256": "f52eb1a58369667306ac55773575b90b89e5cb0cac13edd60abaa048ffe4cdf2",
+      "bytes": 15207551
+    },
+    {
+      "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+      "sha256": "8f6a805bffad1d00fc1758acdd1c38eabebbfc022ae18486677527f56b0c76d9",
+      "bytes": 1294994
+    }
+  ],
+  "instrumentation": {
+    "status": "blocked_no_connected_devices",
+    "compiled": true,
+    "executed_tests": 0,
+    "command": "./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=dev.cctv.v380.RecordingWorkflowTest,dev.cctv.v380.FeatureStorageAndExportTest --console=plain",
+    "emulator_attempts": [
+      {
+        "api": 35,
+        "acceleration": "KVM",
+        "renderer": "swiftshader, Vulkan disabled",
+        "exit_code": 139,
+        "boot_completed": false
+      },
+      {
+        "api": 26,
+        "acceleration": "off (software TCG)",
+        "renderer": "swiftshader, Vulkan disabled",
+        "exit_code": 139,
+        "boot_completed": false
+      }
+    ]
+  },
+  "visual_qa": {
+    "status": "not_run_emulator_boot_crashes",
+    "new_screenshots": false,
+    "unverified": [
+      "Light/dark theme",
+      "Portrait/landscape",
+      "Large fonts",
+      "Native picker lifecycle and recreation",
+      "MediaMuxer and real document-provider runtime"
+    ]
+  },
+  "camera_acceptance": {
+    "status": "not_run",
+    "owner_camera_connected": false,
+    "real_recordings_exported_or_deleted": false
+  },
+  "sd_deletion": {
+    "status": "disabled_contract_unverified",
+    "multi_select_enabled": false,
+    "reason": "Generic DELETE fileListCtrl references point to prompt-sound deletion/renaming; mapping and completion semantics for TF recording segments are not established. No guessed deletion command is sent.",
+    "evidence": [
+      "analysis/evidence/recordings-delete-inventory.sanitized.json",
+      "analysis/evidence/recordings-file-control.sanitized.json"
+    ]
+  }
+}

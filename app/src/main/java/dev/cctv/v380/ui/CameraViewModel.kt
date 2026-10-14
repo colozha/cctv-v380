@@ -6,6 +6,7 @@ import android.view.Surface
 import android.view.SurfaceView
 import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dev.cctv.v380.discovery.DiscoveredCamera
 import dev.cctv.v380.discovery.LanDiscovery
@@ -19,6 +20,10 @@ import dev.cctv.v380.protocol.*
 import dev.cctv.v380.protocol.IoTProtocolException
 import dev.cctv.v380.protocol.IoTFailure
 import dev.cctv.v380.media.RecordingExporter
+import dev.cctv.v380.media.RecordingExportException
+import dev.cctv.v380.media.RecordingStorageFullException
+import dev.cctv.v380.media.copyRecording
+import dev.cctv.v380.media.verifyRecordingCopy
 import dev.cctv.v380.media.VideoFrameCapture
 import android.provider.DocumentsContract
 import java.time.LocalDate
@@ -30,6 +35,9 @@ import kotlinx.coroutines.flow.update
 import java.net.BindException
 import dev.cctv.v380.protocol.ApHotspotProtocol
 import android.os.Build
+import android.os.Bundle
+import android.system.ErrnoException
+import android.system.OsConstants
 
 data class CameraUiState(
     val profiles: List<CameraProfile> = emptyList(), val discovered: List<DiscoveredCamera> = emptyList(),
@@ -42,7 +50,7 @@ enum class RestartPhase { IDLE, SENDING, WAITING, RECONNECTED, NOT_SENT, REJECTE
 enum class AreaCapturePhase { IDLE, CAPTURING, EDITING, STAGED, ERROR }
 data class CameraAreaImage(val reference: AreaReference, val bitmap: Bitmap)
 
-enum class DownloadPhase { IDLE, AWAITING_ACCESS, DOWNLOADING, SAVING, COMPLETE, CANCELLED, FAILED }
+enum class DownloadPhase { IDLE, CHOOSING_DESTINATION, AWAITING_ACCESS, DOWNLOADING, SAVING, COMPLETE, CANCELLED, FAILED }
 enum class SdFormatPhase { IDLE, SENDING, CHECKING, UNKNOWN, REJECTED }
 enum class ApEditPhase { IDLE, CHECKING, SENDING, RECONNECTING, WAITING_WIFI, VERIFYING, VERIFIED, NOT_SENT, REJECTED, UNKNOWN }
 data class CameraFeatureState(
@@ -51,6 +59,9 @@ data class CameraFeatureState(
     val settings: CameraSettings? = null, val draft: Map<Int, Any> = emptyMap(),
     val date: LocalDate = LocalDate.now(), val eventsOnly: Boolean = false,
     val recordings: List<RecordingSegment> = emptyList(), val recordingsLoaded: Boolean = false,
+    val recordingOrder: RecordingOrder = RecordingOrder.NEWEST_FIRST,
+    val recordingStorage: CameraSettings? = null, val storageLoading: Boolean = false,
+    val storageError: String? = null,
     val selected: RecordingSegment? = null, val paused: Boolean = false,
     val playRequest: Int = 0, val requestedPositionMs: Long = 0,
     val download: DownloadPhase = DownloadPhase.IDLE, val downloadBytes: Long = 0,
@@ -70,7 +81,7 @@ data class CameraFeatureState(
     val areaError: String? = null, val areaRequestId: Int = 0,
 )
 
-class CameraViewModel(application: Application) : AndroidViewModel(application) {
+class CameraViewModel(application: Application, private val savedState: SavedStateHandle = SavedStateHandle()) : AndroidViewModel(application) {
     private val store = ProfileStore(application)
     private val wifi = WifiNetwork(application)
     private val discovery = LanDiscovery(wifi)
@@ -84,11 +95,19 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private var handoffExpiry: Job? = null
     private var expectedHandoff = false
     private var renderSurface: Surface? = null
-    private val mutableFeatures = MutableStateFlow(CameraFeatureState())
+    private val mutableFeatures = MutableStateFlow(restoredExportState())
     val features = mutableFeatures.asStateFlow()
     private var featureJob: Job? = null
     private var featureVersion = 0
-    private var pendingExport: Pair<Uri, RecordingSegment>? = null
+    private var storageJob: Job? = null
+    private var storageVersion = 0
+    private var exportRequest: Bundle?
+        get() = savedState["recordingExport"]
+        set(value) { savedState["recordingExport"] = value }
+    private val pendingExport: Pair<Uri, RecordingSegment>?
+        get() = exportRequest?.let { request ->
+            request.getString("uri")?.let { Uri.parse(it) to exportSegment(request) }
+        }
     private var apWorkRunning = false
     private var managementWorkRunning = false
     private var areaSurface: CompletableDeferred<SurfaceView>? = null
@@ -110,6 +129,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                 if (state is SessionState.Connecting || state is SessionState.Authenticating ||
                     state is SessionState.Reconnecting || state is SessionState.Idle || state is SessionState.Error) {
                     clearAreaReference()
+                    clearRecordingStorage()
                     mutableFeatures.update {
                         it.copy(settings = null, draft = emptyMap(), management = emptyMap(), managementDraft = emptyMap(),
                             managementNotice = if (it.management.isNotEmpty() || it.managementDraft.isNotEmpty())
@@ -211,7 +231,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                     renderSurface?.takeIf { it.isValid }?.let { session.play(it, Quality.HD) }
                 else if (pendingExport != null) startExport()
                 else if (features.value.tab == CameraTab.SETTINGS) loadSettings()
-                else loadRecordings()
+                // The recordings screen owns automatic loading after authentication.
             } catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) { message(CameraSession.reason(error).userMessage()) }
             finally { entered?.fill('\u0000') }
@@ -254,9 +274,12 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     fun onBackground() {
         if (features.value.areaPhase == AreaCapturePhase.CAPTURING) featureJob?.cancel()
         clearAreaReference()
+        // The document picker owns the foreground until its result callback, including recreation.
+        // Stop media before launching it, but retain local authentication and the Wi-Fi binding.
+        if (features.value.download == DownloadPhase.CHOOSING_DESTINATION && exportRequest != null) return
         if (apHandoffUntil > android.os.SystemClock.elapsedRealtime()) return
         cancelScan(); connectionJob?.cancel()
-        cancelFeature()
+        cancelFeature(preserveExport = features.value.download == DownloadPhase.AWAITING_ACCESS)
         val expected = expectedHandoff
         provisioning.onBackground(expected)
         viewModelScope.launch { session.close(); if (!expected) wifi.releaseAp() }
@@ -296,7 +319,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
 
     fun prepareFeatures(profile: CameraProfile) {
         if (features.value.profileId == profile.id) return
-        cancelFeature(); pendingExport = null
+        cancelFeature(); clearRecordingStorage()
         mutableFeatures.value = CameraFeatureState(profileId = profile.id)
         loadRecovery()
     }
@@ -304,6 +327,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     fun selectTab(tab: CameraTab) {
         if (tab == features.value.tab) return
         cancelFeature()
+        clearRecordingStorage()
         mutableFeatures.update { it.copy(tab = tab, error = null, notice = null, draft = emptyMap(), paused = true) }
         connectionJob?.cancel()
         connectionJob = viewModelScope.launch {
@@ -342,8 +366,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             } catch (error: Exception) {
                 val reason = CameraSession.reason(error)
                 diagnostics.record(stage, DiagnosticStatus.FAILED, reason = reason,
-                    code = (error as? IoTProtocolException)?.deviceCode)
-                if (version == featureVersion) mutableFeatures.update { it.copy(error = reason.userMessage(),
+                    detail = (error as? RecordingExportException)?.detail,
+                    code = generateSequence(error as Throwable) { it.cause }.filterIsInstance<IoTProtocolException>().firstOrNull()?.deviceCode)
+                if (version == featureVersion) mutableFeatures.update { it.copy(error = (error as? RecordingExportException)?.userMessage ?: reason.userMessage(),
                     download = if (stage == DiagnosticStage.DOWNLOAD) DownloadPhase.FAILED else it.download,
                     format = if (it.pendingFormat != null) SdFormatPhase.UNKNOWN else it.format) }
             } finally {
@@ -354,19 +379,19 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun cancelFeature() {
+    fun cancelFeature() = cancelFeature(preserveExport = false)
+
+    private fun cancelFeature(preserveExport: Boolean) {
         clearAreaReference()
         featureVersion++
         featureJob?.cancel(); featureJob = null
         clearApSecrets()
         session.invalidateApAccess()
-        val abandoned = pendingExport
-        pendingExport = null
-        if (abandoned != null) viewModelScope.launch(Dispatchers.IO) {
-            runCatching { DocumentsContract.deleteDocument(getApplication<Application>().contentResolver, abandoned.first) }
-        }
+        val abandoned = if (preserveExport) null else pendingExport
+        if (!preserveExport) exportRequest = null
+        if (abandoned != null) viewModelScope.launch { removeIncompleteExport(abandoned.first) }
         mutableFeatures.update { it.copy(busy = apWorkRunning || managementWorkRunning, apBusy = apWorkRunning, paused = true, draft = emptyMap(), managementDraft = emptyMap(),
-            download = if (it.download in setOf(DownloadPhase.AWAITING_ACCESS, DownloadPhase.DOWNLOADING, DownloadPhase.SAVING)) DownloadPhase.CANCELLED else it.download,
+            download = if (!preserveExport && it.download in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS, DownloadPhase.DOWNLOADING, DownloadPhase.SAVING)) DownloadPhase.CANCELLED else it.download,
             format = if (it.pendingFormat != null) SdFormatPhase.UNKNOWN else it.format,
             restart = if (it.pendingRestart != null) RestartPhase.UNKNOWN else it.restart,
             apPhase = if (it.pendingAp != null) ApEditPhase.UNKNOWN else it.apPhase) }
@@ -605,26 +630,73 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun setRecordingDate(date: LocalDate) {
+        if (date == features.value.date) return
         cancelFeature()
         mutableFeatures.update { it.copy(date = date, recordings = emptyList(), recordingsLoaded = false, selected = null) }
         viewModelScope.launch { session.stopMedia() }
     }
     fun setEventsOnly(value: Boolean) {
+        if (value == features.value.eventsOnly) return
         cancelFeature()
         mutableFeatures.update { it.copy(eventsOnly = value, recordings = emptyList(), recordingsLoaded = false, selected = null) }
         viewModelScope.launch { session.stopMedia() }
     }
+
+    fun setRecordingOrder(order: RecordingOrder) {
+        mutableFeatures.update { it.copy(recordingOrder = order) }
+    }
+
+    private fun clearRecordingStorage() {
+        storageVersion++
+        storageJob?.cancel(); storageJob = null
+        mutableFeatures.update { it.copy(recordingStorage = null, storageLoading = false, storageError = null) }
+    }
+
+    fun loadRecordingStorage() {
+        val profileId = features.value.profileId ?: return
+        if (features.value.tab != CameraTab.RECORDINGS || !session.isAuthenticated(profileId) || features.value.pendingAp != null) return
+        storageJob?.cancel()
+        val version = ++storageVersion
+        mutableFeatures.update { it.copy(recordingStorage = null, storageLoading = true, storageError = null) }
+        storageJob = viewModelScope.launch {
+            try {
+                val storage = session.readRecordingStorage()
+                if (version == storageVersion && features.value.profileId == profileId && session.isAuthenticated(profileId))
+                    mutableFeatures.update { it.copy(recordingStorage = storage) }
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (_: Exception) {
+                if (version == storageVersion) mutableFeatures.update {
+                    it.copy(storageError = "Kapasitas kartu SD belum tersedia. Muat ulang untuk memeriksa kembali.")
+                }
+            } finally {
+                if (version == storageVersion) mutableFeatures.update { it.copy(storageLoading = false) }
+            }
+        }
+    }
+
     fun loadRecordings() {
         val date = features.value.date
         val events = features.value.eventsOnly
         val zone = ZoneId.systemDefault()
+        val profileId = features.value.profileId
+        val version = featureVersion + 1
+        loadRecordingStorage()
         launchFeature(DiagnosticStage.RECORDINGS) {
             session.stopMedia()
             val rows = session.listRecordings(date.atStartOfDay(zone).toInstant().toEpochMilli(),
                 date.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli(), events)
-            mutableFeatures.update { it.copy(recordings = rows, recordingsLoaded = true) }
+            currentCoroutineContext().ensureActive()
+            if (version == featureVersion && features.value.profileId == profileId &&
+                features.value.date == date && features.value.eventsOnly == events)
+                mutableFeatures.update { it.copy(recordings = rows, recordingsLoaded = true) }
         }
     }
+    fun returnToRecordingList() {
+        cancelFeature()
+        mutableFeatures.update { it.copy(selected = null, paused = true) }
+        viewModelScope.launch { session.stopMedia() }
+    }
+
     fun requestPlayback(recording: RecordingSegment, positionMs: Long = recording.startMs) {
         mutableFeatures.update { it.copy(selected = recording, paused = false, playRequest = it.playRequest + 1,
             requestedPositionMs = positionMs.coerceIn(recording.startMs, recording.endMs - 1), error = null) }
@@ -636,16 +708,97 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         launchFeature(DiagnosticStage.PLAYBACK) { session.playRecording(surface, recording, state.requestedPositionMs) }
     }
     fun pausePlayback() {
-        if (features.value.download in setOf(DownloadPhase.DOWNLOADING, DownloadPhase.SAVING)) return
+        if (features.value.download in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS,
+                DownloadPhase.DOWNLOADING, DownloadPhase.SAVING)) return
         mutableFeatures.update { it.copy(paused = true) }
         viewModelScope.launch { session.stopMedia() }
     }
 
-    fun exportRecording(uri: Uri, recording: RecordingSegment) {
-        pendingExport = uri to recording
+    private fun exportSegment(request: Bundle) = RecordingSegment(request.getLong("start"), request.getLong("end"),
+        request.getInt("kind"), request.getLong("source"))
+
+    private fun restoredExportState(): CameraFeatureState {
+        val request = exportRequest ?: return CameraFeatureState()
+        val profileId = request.getString("profileId") ?: return CameraFeatureState()
+        val segment = exportSegment(request)
+        if (profileId.isBlank() || segment.startMs < 0 || segment.endMs <= segment.startMs ||
+            segment.durationMs !in 1..3600000 || segment.kind !in setOf(1, 2, 8) ||
+            segment.sourceStartMs !in 0..segment.startMs) {
+            exportRequest = null
+            return CameraFeatureState()
+        }
+        return CameraFeatureState(profileId = profileId, tab = CameraTab.RECORDINGS,
+            selected = if (!request.containsKey("showPlayer") || request.getBoolean("showPlayer")) segment else null, paused = true,
+            date = java.time.Instant.ofEpochMilli(segment.startMs).atZone(ZoneId.systemDefault()).toLocalDate(),
+            download = if (request.getString("uri") == null) DownloadPhase.CHOOSING_DESTINATION else DownloadPhase.AWAITING_ACCESS,
+            notice = if (request.getString("uri") == null) null else "Lokasi penyimpanan sudah dipilih. Sambungkan kamera untuk melanjutkan.")
+    }
+
+    suspend fun beginRecordingExport(recording: RecordingSegment): Boolean {
+        val state = features.value
+        val profileId = state.profileId ?: return false
+        if (state.busy || exportRequest != null || state.pendingAp != null || state.pendingFormat != null ||
+            (state.selected != recording && recording !in state.recordings)) return false
+        storageJob?.cancel()
+        mutableFeatures.update { it.copy(busy = true, paused = true, error = null) }
+        try {
+            session.stopMedia()
+            currentCoroutineContext().ensureActive()
+            if (features.value.profileId != profileId || features.value.tab != CameraTab.RECORDINGS) return false
+            exportRequest = Bundle().apply {
+                putString("profileId", profileId); putLong("start", recording.startMs); putLong("end", recording.endMs)
+                putInt("kind", recording.kind); putLong("source", recording.sourceStartMs)
+                putBoolean("showPlayer", state.selected != null)
+            }
+            mutableFeatures.update { it.copy(download = DownloadPhase.CHOOSING_DESTINATION, notice = null) }
+            return true
+        } finally { mutableFeatures.update { it.copy(busy = false) } }
+    }
+
+    fun completeRecordingExport(uri: Uri?) {
+        val request = exportRequest
+        if (request == null) {
+            // A result can arrive after the user changed profiles or cancelled the pending request.
+            if (uri != null) viewModelScope.launch { removeIncompleteExport(uri) }
+            return
+        }
+        if (uri == null) {
+            exportRequest = null
+            mutableFeatures.update { it.copy(download = DownloadPhase.IDLE) }
+            return
+        }
+        if (request.getString("profileId") != features.value.profileId || features.value.tab != CameraTab.RECORDINGS) {
+            exportRequest = null
+            viewModelScope.launch { removeIncompleteExport(uri) }
+            return
+        }
+        exportRequest = Bundle(request).apply { putString("uri", uri.toString()) }
         mutableFeatures.update { it.copy(download = DownloadPhase.AWAITING_ACCESS, paused = true,
-            notice = if (session.connectedProfile == null) "Lokasi penyimpanan sudah dipilih. Sambungkan kamera untuk melanjutkan." else null) }
-        if (session.connectedProfile?.id == features.value.profileId) startExport()
+            notice = if (!session.isAuthenticated(features.value.profileId!!)) "Lokasi penyimpanan sudah dipilih. Sambungkan kamera untuk melanjutkan." else null) }
+        if (session.isAuthenticated(features.value.profileId!!)) startExport()
+    }
+
+    private suspend fun removeIncompleteExport(uri: Uri) {
+        val removed = withContext(NonCancellable + Dispatchers.IO) {
+            runCatching { DocumentsContract.deleteDocument(getApplication<Application>().contentResolver, uri) }.getOrDefault(false)
+        }
+        if (!removed) message("File tujuan penyalinan mungkin belum lengkap. Hapus file tersebut sebelum mencoba lagi.")
+    }
+
+    private fun storageFull(error: Throwable): Boolean = generateSequence(error) { it.cause }.any {
+        it is RecordingStorageFullException || it is ErrnoException && it.errno == OsConstants.ENOSPC
+    }
+
+    private fun exportFailure(error: Exception, destination: Boolean): RecordingExportException {
+        if (error is CancellationException) throw error
+        if (error is RecordingExportException) return error
+        val message = when {
+            storageFull(error) -> "Ruang penyimpanan lokal tidak cukup. Kosongkan ruang lalu coba lagi."
+            destination -> "File tujuan tidak dapat ditulis. Periksa akses dan ruang penyimpanan, lalu pilih lokasi lain."
+            else -> "Video tidak dapat dibuat menjadi MP4. Rekaman mungkin rusak atau formatnya tidak didukung."
+        }
+        return RecordingExportException(SessionError.ExportFailed,
+            if (destination) DiagnosticDetail.DESTINATION_WRITE else DiagnosticDetail.MP4_SAMPLE, message, error)
     }
 
     private fun startExport() {
@@ -654,44 +807,57 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         val version = featureVersion + 1
         launchFeature(DiagnosticStage.DOWNLOAD, requiresCamera = false) {
             val app = getApplication<Application>()
-            pendingExport = null
+            exportRequest = null
             try {
                 if (session.connectedProfile?.id != profileId || features.value.profileId != profileId)
                     throw CameraFailure(SessionError.AuthenticationFailed)
                 mutableFeatures.update { it.copy(download = DownloadPhase.DOWNLOADING, downloadBytes = 0) }
                 withContext(Dispatchers.IO) {
-                    RecordingExporter(app.cacheDir).use { exporter ->
-                        session.downloadRecording(recording) { frame, width, height ->
-                            currentCoroutineContext().ensureActive()
-                            exporter.write(frame, width, height)
-                            if (version == featureVersion) mutableFeatures.update { it.copy(downloadBytes = exporter.bytesWritten) }
+                    val writer = try { RecordingExporter(app.cacheDir) } catch (error: Exception) { throw exportFailure(error, false) }
+                    writer.use { exporter ->
+                        try {
+                            session.downloadRecording(recording) { frame, width, height ->
+                                currentCoroutineContext().ensureActive()
+                                try { exporter.write(frame, width, height) } catch (error: Exception) { throw exportFailure(error, false) }
+                                if (version == featureVersion) mutableFeatures.update { it.copy(downloadBytes = exporter.bytesWritten) }
+                            }
+                        } catch (error: Exception) {
+                            if (error is CancellationException || error is RecordingExportException) throw error
+                            throw RecordingExportException(CameraSession.reason(error),
+                                diagnostics.events.value.lastOrNull { it.stage == DiagnosticStage.DOWNLOAD && it.status == DiagnosticStatus.FAILED }?.detail
+                                    ?: DiagnosticDetail.REPLAY_FRAME, recordingDownloadMessage(error), error)
                         }
-                        val file = exporter.finish()
+                        diagnostics.record(DiagnosticStage.DOWNLOAD, DiagnosticStatus.STARTED, detail = DiagnosticDetail.MP4_FINALIZE)
+                        val file = try { exporter.finish() } catch (error: Exception) {
+                            val failure = exportFailure(error, false)
+                            throw RecordingExportException(failure.reason, DiagnosticDetail.MP4_FINALIZE, failure.userMessage, error)
+                        }
                         currentCoroutineContext().ensureActive()
                         if (version == featureVersion) mutableFeatures.update { it.copy(download = DownloadPhase.SAVING) }
-                        app.contentResolver.openOutputStream(uri, "wt")?.use { output ->
-                            file.inputStream().use { input ->
-                                val buffer = ByteArray(65536)
-                                while (true) {
-                                    currentCoroutineContext().ensureActive()
-                                    val count = input.read(buffer); if (count < 0) break
-                                    output.write(buffer, 0, count)
-                                }
-                                output.flush()
-                            }
-                        } ?: throw java.io.IOException("No destination")
+                        diagnostics.record(DiagnosticStage.DOWNLOAD, DiagnosticStatus.STARTED, detail = DiagnosticDetail.DESTINATION_WRITE)
+                        try {
+                            copyRecording(file, app.contentResolver.openOutputStream(uri, "wt")
+                                ?: throw java.io.IOException("No destination"))
+                        } catch (error: Exception) { throw exportFailure(error, true) }
+                        diagnostics.record(DiagnosticStage.DOWNLOAD, DiagnosticStatus.STARTED, detail = DiagnosticDetail.DESTINATION_VERIFY)
+                        try {
+                            verifyRecordingCopy(file, app.contentResolver.openInputStream(uri)
+                                ?: throw java.io.IOException("Destination cannot be read"))
+                        } catch (error: Exception) {
+                            if (error is CancellationException) throw error
+                            throw RecordingExportException(SessionError.ExportFailed, DiagnosticDetail.DESTINATION_VERIFY,
+                                "File tujuan belum dapat dibaca kembali secara utuh. Pilih lokasi penyimpanan lain lalu coba lagi.", error)
+                        }
                     }
                 }
                 currentCoroutineContext().ensureActive()
+                diagnostics.record(DiagnosticStage.DOWNLOAD, detail = DiagnosticDetail.DESTINATION_VERIFY)
                 mutableFeatures.update { it.copy(download = DownloadPhase.COMPLETE, notice = "Rekaman video tersimpan tanpa audio.") }
             } catch (error: Exception) {
-                val removed = withContext(NonCancellable + Dispatchers.IO) {
-                    runCatching { DocumentsContract.deleteDocument(app.contentResolver, uri) }.getOrDefault(false)
-                }
                 // Cancellation changes the feature generation; the storage warning must still reach the user.
-                if (!removed) message("File tujuan penyalinan mungkin belum lengkap. Hapus file tersebut sebelum mencoba lagi.")
+                removeIncompleteExport(uri)
                 if (error is CancellationException) throw error
-                throw CameraFailure(SessionError.ExportFailed)
+                throw error
             }
         }
     }

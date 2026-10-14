@@ -29,7 +29,7 @@ enum class SessionError {
     PermissionDenied, NetworkUnavailable, AuthenticationFailed, Timeout, MalformedPacket,
     UnsupportedProtocol, UnsupportedCodec, StorageUnavailable, PairingRequired, OwnerBindingRequired,
     WifiConfigurationRejected, WifiVerificationTimeout, CloudRequired, IdentityMismatch, InvalidInput, DeviceRejected,
-    CameraPermissionDenied, FeatureUnsupported, ExportFailed,
+    CameraPermissionDenied, FeatureUnsupported, ExportFailed, InvalidRecordingTimestamp,
 }
 sealed interface SessionState {
     data object Idle : SessionState

@@ -42,13 +42,15 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     var pendingLeave by remember { mutableStateOf<(() -> Unit)?>(null) }
     LaunchedEffect(profile.id) { model.prepareFeatures(profile) }
     fun leave(action: () -> Unit) {
-        if (feature.busy || feature.areaPhase == AreaCapturePhase.EDITING || feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty()) pendingLeave = action else action()
+        if (feature.busy || feature.download in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS) || feature.areaPhase == AreaCapturePhase.EDITING || feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty()) pendingLeave = action else action()
     }
     val capabilities by model.session.capabilities.collectAsStateWithLifecycle()
     val busy = state is SessionState.Connecting || state is SessionState.Authenticating ||
         state is SessionState.Negotiating || state is SessionState.Reconnecting
     val streaming = state is SessionState.Streaming
-    BackHandler { leave(onBack) }
+    val backAction: () -> Unit = if (feature.tab == CameraTab.RECORDINGS && feature.selected != null)
+        model::returnToRecordingList else onBack
+    BackHandler { leave(backAction) }
     DisposableEffect(profile.id) { onDispose { password = ""; model.surfaceLost(surface) } }
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { password = "" }
     LaunchedEffect(surface, state) {
@@ -56,7 +58,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     }
     Scaffold(topBar = { Column {
         TopAppBar(title = { Text(profile.name) },
-        navigationIcon = { IconButton(onClick = { leave(onBack) }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Kembali") } },
+        navigationIcon = { IconButton(onClick = { leave(backAction) }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, if (feature.tab == CameraTab.RECORDINGS && feature.selected != null) "Kembali ke daftar rekaman" else "Kembali") } },
         actions = {
             IconButton(onClick = { leave(onDiagnostics) }) { Icon(Icons.Default.Info, "Diagnostik LAN") }
             IconButton(onClick = { leave(onEdit) }) { Icon(Icons.Default.Edit, "Edit kamera") }
@@ -67,7 +69,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
         }
     } }) { insets ->
         if (feature.tab == CameraTab.RECORDINGS) {
-            RecordingsScreen(model, profile, state, feature, onConnect, Modifier.padding(insets))
+            RecordingsScreen(model, profile, state, feature, onConnect, Modifier.padding(insets), ::leave)
             return@Scaffold
         }
         if (feature.tab == CameraTab.SETTINGS) {

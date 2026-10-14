@@ -1,0 +1,125 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Asia/Jakarta",
+  "app_version": "0.4.3-experimental",
+  "version_code": 8,
+  "source_sha256": "c7bbe6c424b8fa38dab120100c23a84f29d68fa04126928ed1586ba2d1eaedf7",
+  "build": {
+    "status": "passed",
+    "command": "./gradlew :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug --console=plain"
+  },
+  "unit_tests": {
+    "tests": 83,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "lint": {
+    "Warning": 16,
+    "Hint": 1
+  },
+  "artifacts": [
+    {
+      "path": "app/build/outputs/apk/debug/app-debug.apk",
+      "sha256": "159c190e86e0b900d07d87f6f1277fdea51dffe1f6b85c98326803f4ad44d331",
+      "bytes": 15285755
+    },
+    {
+      "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+      "sha256": "896094bb54097ffcf13375b5e3cb044b6bc068871e08b469607307ce161846e9",
+      "bytes": 1394264
+    }
+  ],
+  "installed_app_sha256": "159c190e86e0b900d07d87f6f1277fdea51dffe1f6b85c98326803f4ad44d331",
+  "native": {
+    "physical_device": true,
+    "model": "M2101K6G",
+    "api": 33,
+    "unique_passed_scenarios": 10,
+    "unresolved_failures": [],
+    "passed": [
+      "dev.cctv.v380.FeatureStorageAndExportTest#grayEncodedSamplesProduceAReadableMp4AndTemporaryFilesAreRemoved",
+      "dev.cctv.v380.FeatureStorageAndExportTest#pendingFormatSurvivesRecreationAndRejectsASecondSubmission",
+      "dev.cctv.v380.FeatureStorageAndExportTest#pendingHotspotIsDurableContainsNoCredentialsAndDoesNotOverwriteOtherRecovery",
+      "dev.cctv.v380.FeatureStorageAndExportTest#restartAndLegacyFormatRecoveryAreIndependentAndStaleCleanupIsRejected",
+      "dev.cctv.v380.RecordingWorkflowTest#backFromPlayerReturnsToListAndRepeatedDateOrFilterKeepsSelection",
+      "dev.cctv.v380.RecordingWorkflowTest#exportSelectionSurvivesPickerHandoffRecreationAndReconnectWaitAndRejectsASecondPicker",
+      "dev.cctv.v380.RecordingWorkflowTest#nativePickerOpensWithoutCheckboxAndCancelPreservesSelectedRecording",
+      "dev.cctv.v380.RecordingWorkflowTest#recordingsExposeSortCapacityWarningAndExplicitUnavailableDeletion",
+      "dev.cctv.v380.RecordingWorkflowTest#stalePickerFromAnotherProfileCannotExportItsRecording",
+      "dev.cctv.v380.RecordingsVisualTest#captureListAndPlayerInLightDarkLargeFontAndLandscape"
+    ],
+    "scope": "Synthetic UI, real CreateDocument launch/cancellation, SavedState/recreation/back handling, attached Surface during scroll, local AtomicFile recovery, platform-generated AVC MP4, ContentResolver file copy and byte-exact destination readback. No camera authentication or footage.",
+    "confirmation_suite": {
+      "tests": 10,
+      "passed": 9,
+      "failures": 1,
+      "reason": "First Compose fixture had no registered hierarchy during MIUI startup; subsequent checks and all visual variants passed."
+    },
+    "targeted_retry": {
+      "tests": 1,
+      "passed": 1,
+      "fix": "Wait for the expected Compose fixture hierarchy before assertions; no production code changed for this test fix."
+    },
+    "launch_note": "MIUI occasionally left an Activity behind the launcher. The test driver returned this app to foreground using an ordinary MAIN intent; security/debugging settings were not changed. No broad connected-test uninstall or data reset was used.",
+    "tested_app_sha256": "490fb5b1885bf92f9f6c501bf7f328e2bcca04922d5f6b7b746d8a99f0ecd3cb",
+    "delivery_delta": "Trailing whitespace in RecordingsScreen.kt was cleaned after the tested installation; final compilation/unit/lint passed. The final app was reinstalled without resetting data. No visual or behavioral code changed after confirmation."
+  },
+  "visual_qa": {
+    "status": "reviewed",
+    "capture_device": "physical Android API33",
+    "synthetic_disconnected_fixture": true,
+    "screenshot_count": 12,
+    "screenshots": [
+      "validation/recordings-redesign/review/recordings-design/list-dark-landscape-recordings.png",
+      "validation/recordings-redesign/review/recordings-design/list-dark-landscape-top.png",
+      "validation/recordings-redesign/review/recordings-design/list-dark-large-portrait-recordings.png",
+      "validation/recordings-redesign/review/recordings-design/list-dark-large-portrait-top.png",
+      "validation/recordings-redesign/review/recordings-design/list-light-portrait-recordings.png",
+      "validation/recordings-redesign/review/recordings-design/list-light-portrait-top.png",
+      "validation/recordings-redesign/review/recordings-design/player-dark-landscape-controls.png",
+      "validation/recordings-redesign/review/recordings-design/player-dark-landscape-top.png",
+      "validation/recordings-redesign/review/recordings-design/player-dark-large-portrait-controls.png",
+      "validation/recordings-redesign/review/recordings-design/player-dark-large-portrait-top.png",
+      "validation/recordings-redesign/review/recordings-design/player-light-portrait-controls.png",
+      "validation/recordings-redesign/review/recordings-design/player-light-portrait-top.png"
+    ],
+    "variants": [
+      "light portrait, font1.0",
+      "dark portrait, font1.3",
+      "dark landscape, font1.0"
+    ],
+    "states": [
+      "list/storage/date/filter/cards",
+      "selected player/unavailable video/error",
+      "seek/play/stop/export controls"
+    ],
+    "review": "One batched inspection followed by one visual correction batch and confirmation. No thumbnails or invented footage. Controls grow for large fonts; player Surface remains attached while its small form scrolls. System-theme variants were local test overrides, not global phone setting changes."
+  },
+  "replay": {
+    "contract_changed": false,
+    "runtime_causes_preserved": true,
+    "diagnostic_schema": 4,
+    "fixtures": [
+      "245 encrypted fragmented frames across multiple refill windows in playback/download modes",
+      "20-second segment with two-second source pre-roll",
+      "EOF without completion",
+      "SocketTimeoutException",
+      "Permission response1109",
+      "Wrong request/session/time ID, including media time ID",
+      "Backward and out-of-bound timestamps"
+    ],
+    "limits": "Existing wire mode/cipher/window/deadline/integrity checks and timestamp bound were retained. Synthetic transcripts do not establish the owner firmware behavior."
+  },
+  "camera_acceptance": {
+    "status": "not_run",
+    "authenticated_owner_camera": false,
+    "owner_recordings_downloaded_or_deleted": false,
+    "original_297kb_failure_root_cause": "not established; the next reproduction will expose typed failure and replay counters"
+  },
+  "sd_delete": {
+    "status": "disabled_contract_unverified",
+    "presentation": "Explanation in per-recording menu; no large disabled delete button"
+  },
+  "installed_app_matches_delivered_apk": true
+}

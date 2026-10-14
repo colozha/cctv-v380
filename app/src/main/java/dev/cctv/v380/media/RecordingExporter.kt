@@ -6,13 +6,59 @@ import android.media.MediaFormat
 import android.media.MediaMuxer
 import dev.cctv.v380.session.EncodedFrame
 import dev.cctv.v380.session.VideoCodec
+import dev.cctv.v380.session.SessionError
+import dev.cctv.v380.session.DiagnosticDetail
 import java.io.File
 import java.io.IOException
+import java.io.OutputStream
+import java.io.InputStream
+import dev.cctv.v380.transport.ExactReader
 import java.nio.ByteBuffer
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+
+class RecordingStorageFullException : IOException("Insufficient local recording space")
+
+class RecordingExportException(val reason: SessionError, val detail: DiagnosticDetail,
+    val userMessage: String, cause: Throwable) : IOException(userMessage, cause)
+
+class RecordingTimestampException : IOException("Recording timestamp outside verified replay bounds")
+
+/** Closes both streams on success, cancellation and provider errors. */
+suspend fun copyRecording(file: File, output: OutputStream) = output.use { destination ->
+    file.inputStream().use { input ->
+        val buffer = ByteArray(65536)
+        while (true) {
+            currentCoroutineContext().ensureActive()
+            val count = input.read(buffer)
+            if (count < 0) break
+            destination.write(buffer, 0, count)
+        }
+        destination.flush()
+    }
+}
+
+/** A provider write is complete only when the destination can be read back intact. */
+suspend fun verifyRecordingCopy(file: File, input: InputStream) = input.use { destination ->
+    file.inputStream().use { source ->
+        val reader = ExactReader(destination)
+        val buffer = ByteArray(65536)
+        while (true) {
+            currentCoroutineContext().ensureActive()
+            val count = source.read(buffer)
+            if (count < 0) break
+            if (!buffer.copyOf(count).contentEquals(reader.read(count))) throw IOException("Recording destination differs")
+        }
+        if (destination.read() != -1) throw IOException("Recording destination has extra bytes")
+    }
+}
 
 /** One bounded, video-only MP4. Network EOF must be verified before finish() is called. */
 class RecordingExporter(cacheDir: File) : AutoCloseable {
-    private val file = File.createTempFile("v380-recording-", ".mp4", cacheDir)
+    private val file = run {
+        if (cacheDir.usableSpace < 1024 * 1024L) throw RecordingStorageFullException()
+        File.createTempFile("v380-recording-", ".mp4", cacheDir)
+    }
     private var muxer: MediaMuxer? = null
     private var track = -1
     private var format: VideoCodec? = null
@@ -28,7 +74,8 @@ class RecordingExporter(cacheDir: File) : AutoCloseable {
     fun write(frame: EncodedFrame, width: Int, height: Int) {
         check(!finished) { "Export is closed" }
         if (frame.bytes.size !in 1..8 * 1024 * 1024 || frame.ptsUs < 0 || width !in 1..8192 || height !in 1..8192 ||
-            width.toLong() * height > 33_554_432 || file.usableSpace < frame.bytes.size + 1024 * 1024L) throw IOException("Export resource limit")
+            width.toLong() * height > 33_554_432) throw IOException("Export resource limit")
+        if (file.usableSpace < frame.bytes.size + 1024 * 1024L) throw RecordingStorageFullException()
         if (format != null && (format != frame.codec || dimensions != width to height)) throw IOException("Recording format changed")
         format = frame.codec; dimensions = width to height
         val required = if (frame.codec == VideoCodec.AVC) setOf(7, 8) else setOf(32, 33, 34)

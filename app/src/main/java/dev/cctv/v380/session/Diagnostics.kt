@@ -10,10 +10,13 @@ enum class DiagnosticStage { WIFI, DISCOVERY, AUTH, CAPABILITIES, STREAM, FRAME,
     RECORDINGS, PLAYBACK, DOWNLOAD, SETTINGS, SD_FORMAT, AP_EDIT, AP_VERIFY, ALARM, PTZ_PRESET, PTZ_CRUISE, PTZ_CALIBRATION, LIGHT_SCHEDULE, DEVICE_INFO, RESTART, RESTART_VERIFY }
 enum class DiagnosticStatus { STARTED, OK, FAILED, CANCELLED }
 enum class DiagnosticDetail { READ_HEADER, READ_BODY, MEDIA_PACKET, CONTROL_JSON, MEDIA_INFO, DECODER,
-    PTZ_WRITE, IGNORED_PACKET, DEVICE_SHUTDOWN, DECODE_FEEDBACK }
+    PTZ_WRITE, IGNORED_PACKET, DEVICE_SHUTDOWN, DECODE_FEEDBACK,
+    REPLAY_START, REPLAY_CONTROL, REPLAY_METADATA, REPLAY_FRAME, REPLAY_REFILL, REPLAY_TIMESTAMP,
+    REPLAY_END, MP4_SAMPLE, MP4_FINALIZE, DESTINATION_WRITE, DESTINATION_VERIFY }
 data class DiagnosticEvent(val stage: DiagnosticStage, val status: DiagnosticStatus, val elapsedMs: Long,
     val code: Int? = null, val bytes: Int? = null, val protocolVersion: Int? = null,
-    val reason: SessionError? = null, val detail: DiagnosticDetail? = null, val command: Int? = null)
+    val reason: SessionError? = null, val detail: DiagnosticDetail? = null, val command: Int? = null,
+    val framesReceived: Int? = null, val downloadBytes: Long? = null, val timeId: Int? = null)
 data class DiagnosticNetwork(val localIpv4: String, val gateway: String?)
 
 /** Structured allowlist only. No free-form strings, request bodies or secret-bearing objects. */
@@ -33,9 +36,11 @@ class Diagnostics {
     @Synchronized
     fun record(stage: DiagnosticStage, status: DiagnosticStatus = DiagnosticStatus.OK,
         code: Int? = null, bytes: Int? = null, protocolVersion: Int? = null,
-        reason: SessionError? = null, detail: DiagnosticDetail? = null, command: Int? = null) {
+        reason: SessionError? = null, detail: DiagnosticDetail? = null, command: Int? = null,
+        framesReceived: Int? = null, downloadBytes: Long? = null, timeId: Int? = null) {
         mutableEvents.value = (mutableEvents.value + DiagnosticEvent(stage, status,
-            (System.nanoTime() - started) / 1_000_000, code, bytes, protocolVersion, reason, detail, command)).takeLast(80)
+            (System.nanoTime() - started) / 1_000_000, code, bytes, protocolVersion, reason, detail, command,
+            framesReceived, downloadBytes, timeId)).takeLast(80)
     }
 
     fun exportJson(): String {
@@ -49,9 +54,12 @@ class Diagnostics {
                     event.reason?.let { put("reason", it.name) }
                     event.detail?.let { put("detail", it.name) }
                     event.command?.let { put("command", it) }
+                    event.framesReceived?.let { put("framesReceived", it) }
+                    event.downloadBytes?.let { put("downloadBytes", it) }
+                    event.timeId?.let { put("timeId", it) }
                 })
         }
-        return JSONObject().put("schema", 3).put("experimental", true)
+        return JSONObject().put("schema", 4).put("experimental", true)
             .put("appVersion", BuildConfig.VERSION_NAME)
             .put("cameraCompatibilityVerified", false).put("events", array).apply {
                 network.value?.let { put("network", JSONObject().put("transport", "WIFI")
@@ -80,4 +88,5 @@ fun SessionError.userMessage(): String = when (this) {
     SessionError.CameraPermissionDenied -> "Kamera tidak mengizinkan tindakan ini. Periksa hak akses lokal kamera."
     SessionError.FeatureUnsupported -> "Fitur ini belum didukung oleh profil kamera yang tersambung."
     SessionError.ExportFailed -> "Rekaman belum berhasil disimpan. Periksa ruang penyimpanan dan lokasi file, lalu coba lagi."
+    SessionError.InvalidRecordingTimestamp -> "Timestamp rekaman tidak valid. Unduhan dihentikan agar file tidak rusak. Buka diagnostik untuk rinciannya."
 }
