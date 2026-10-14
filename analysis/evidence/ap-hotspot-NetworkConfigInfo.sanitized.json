@@ -1,0 +1,268 @@
+{
+  "source_evidence_id": "ev_0a1b807592772c4ace7ab6ee0140277d08bcedf15616517266ff9ceb3c492726",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.NetworkConfigInfo"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.setting.NetworkConfigInfo",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "reported_signature": "<clinit>(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(android.os.Parcel): void",
+        "overload_index": 1,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "describeContents",
+        "reported_signature": "describeContents(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStrApName",
+        "reported_signature": "getStrApName(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStrApPassword",
+        "reported_signature": "getStrApPassword(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStrWifiName",
+        "reported_signature": "getStrWifiName(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStrWifiPassword",
+        "reported_signature": "getStrWifiPassword(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getWifiInfo",
+        "reported_signature": "getWifiInfo(): android.os.Parcelable$Creator<com.macrovideo.sdk.setting.WifiInfo>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getlDpid_net_network_mode",
+        "reported_signature": "getlDpid_net_network_mode(): long",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getnDeviceVersion",
+        "reported_signature": "getnDeviceVersion(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getnMode",
+        "reported_signature": "getnMode(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getnResult",
+        "reported_signature": "getnResult(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isbWifiSet",
+        "reported_signature": "isbWifiSet(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStrApName",
+        "reported_signature": "setStrApName(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStrApPassword",
+        "reported_signature": "setStrApPassword(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStrWifiName",
+        "reported_signature": "setStrWifiName(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStrWifiPassword",
+        "reported_signature": "setStrWifiPassword(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setWifiInfo",
+        "reported_signature": "setWifiInfo(android.os.Parcelable$Creator<com.macrovideo.sdk.setting.WifiInfo>): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setbWifiSet",
+        "reported_signature": "setbWifiSet(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setlDpid_net_network_mode",
+        "reported_signature": "setlDpid_net_network_mode(long): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setnDeviceVersion",
+        "reported_signature": "setnDeviceVersion(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setnMode",
+        "reported_signature": "setnMode(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setnResult",
+        "reported_signature": "setnResult(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "toString",
+        "reported_signature": "toString(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "writeToParcel",
+        "reported_signature": "writeToParcel(android.os.Parcel, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "CREATOR",
+        "reported_type": "android.os.Parcelable$Creator"
+      },
+      {
+        "name": "WifiInfo",
+        "reported_type": "android.os.Parcelable$Creator<com.macrovideo.sdk.setting.WifiInfo>"
+      },
+      {
+        "name": "bWifiSet",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "lDpid_net_network_mode",
+        "reported_type": "long"
+      },
+      {
+        "name": "nDeviceVersion",
+        "reported_type": "int"
+      },
+      {
+        "name": "nMode",
+        "reported_type": "int"
+      },
+      {
+        "name": "nResult",
+        "reported_type": "int"
+      },
+      {
+        "name": "strApName",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "strApPassword",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "strWifiName",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "strWifiPassword",
+        "reported_type": "java.lang.String"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.sdk.setting.NetworkConfigInfo.AnonymousClass1"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true,
+  "redaction": "Noncanonical REA derivative; string literals omitted except JSON keys and selected public encoding constants. No runtime or camera access."
+}

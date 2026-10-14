@@ -38,6 +38,14 @@ Buka detail kamera → **Rekaman** atau **Pengaturan**, lalu sambungkan akses lo
 
 Fitur belum diuji pada kamera pengguna. Tidak ada fallback cloud jika firmware memerlukan MQ/signaling server.
 
+## Ubah hotspot kamera
+
+Pada debug build, buka **Pengaturan → Hotspot kamera** setelah login kamera berhasil. Sambungkan Android langsung ke AP kamera, izinkan akses Wi-Fi/lokasi jika diminta, lalu **Periksa hotspot kamera**. Form hanya aktif jika identitas kamera, SSID jaringan, readback AP, dan capability SoftAP terverifikasi.
+
+Masukkan nama baru (huruf/angka, maksimal 30 karakter) dan password AP 8–30 karakter (huruf, angka, atau `@#_^*%.+`); nama lama boleh dipertahankan. Password tetap wajib ketika hanya mengubah nama. **Simpan hotspot** mengirim satu kali lalu mencoba menyambungkan dan memverifikasi kamera yang sama. Password login kamera tetap terpisah. API26–28 menggunakan pengaturan Wi-Fi Android; API29+ memakai dialog sistem.
+
+ACK belum berarti selesai. Jika hasil belum diketahui/restart, **Sambungkan dan periksa hotspot** hanya membaca/verifikasi, tanpa mengirim perubahan ulang. Password AP tidak disimpan permanen. Legacy/kemampuan yang belum diketahui tetap terkunci; jalur MQ/cloud tidak digunakan. Fitur dan readback password tetap memerlukan acceptance firmware, dan UI runtime baru belum diverifikasi karena emulator crash. [Kontrak, batas, dan validasi](analysis/ap-hotspot-settings-research.md).
+
 ## Setup melalui hotspot/AP kamera
 
 1. Aktifkan mode AP kamera mengikuti petunjuk perangkat; pilih **Setup lewat AP kamera**.

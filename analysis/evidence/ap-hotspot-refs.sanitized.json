@@ -1,0 +1,35 @@
+{
+  "source_evidence_id": "ev_c4c83a6dea77621e00fbb849aad8749e896c6dc8ee00a746b37a0b55e7afddeb",
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceNetworkSetting",
+    "method_name": "setWiFiAPConfig",
+    "total": 1,
+    "references": [
+      {
+        "kind": "method",
+        "name": "run",
+        "reported_full_name": "com.macrovideo.v380.fragments.DeviceConfigSettingNetManagerFragment.4.run",
+        "containing_class": "com.macrovideo.v380.fragments.DeviceConfigSettingNetManagerFragment.AnonymousClass4",
+        "top_class": "com.macrovideo.v380.fragments.DeviceConfigSettingNetManagerFragment",
+        "source_line": null,
+        "dex_offset": null
+      }
+    ],
+    "coverage": "complete"
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "noncanonical": true
+}

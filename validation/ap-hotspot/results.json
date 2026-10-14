@@ -1,0 +1,91 @@
+{
+  "date_local": "2026-10-14",
+  "timezone": "Asia/Jakarta",
+  "implementation": "debug experimental direct IoT SoftAP",
+  "build": {
+    "assembleDebug": "passed",
+    "assembleDebugAndroidTest": "passed",
+    "lintDebug": "passed with warnings"
+  },
+  "unit_tests": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "suites": [
+      {
+        "name": "dev.cctv.v380.ApProtocolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0"
+      },
+      {
+        "name": "dev.cctv.v380.DiagnosticsTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0"
+      },
+      {
+        "name": "dev.cctv.v380.protocol.ApHotspotTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0"
+      },
+      {
+        "name": "dev.cctv.v380.protocol.CameraFeatureProtocolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0"
+      },
+      {
+        "name": "dev.cctv.v380.protocol.IoTMediaProtocolTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0"
+      },
+      {
+        "name": "dev.cctv.v380.protocol.IoTProtocolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0"
+      },
+      {
+        "name": "dev.cctv.v380.protocol.LegacyProtocolTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0"
+      }
+    ]
+  },
+  "new_hotspot_tests": "in-memory socket transcripts; no network connection",
+  "native_ui_storage_tests": "compiled, not executed",
+  "native_render": {
+    "verified": false,
+    "attempt": "API30 FeatureApi30 emulator, no-window/software GPU",
+    "exit_code": 139,
+    "reason": "SIGSEGV during boot"
+  },
+  "physical_camera_tested": false,
+  "camera_configuration_changed": false,
+  "cloud_used": false,
+  "review": {
+    "scope": "source-only generic-agent substitution, Impeccable reviewer contract",
+    "initial_disposition": "fix",
+    "verdict_disposition": "ship",
+    "material_fixes_resolved": 5,
+    "rendered_ui_approval": false
+  },
+  "source_sha256": {
+    "protocol/ApHotspotProtocol.kt": "8dc0144ce35ecab7c2be2028c05268f3ff2cd030d19a45731f26e083bf57a102",
+    "session/CameraSession.kt": "abd49e039e17cb4d918c8303ae111d31265ef96536605f4755f1aabce61b211d",
+    "ui/ApHotspotSettings.kt": "a859d8ce54c0dd61ca0d459419706386111f935fb3330331a68f77e325aa0dbc",
+    "ui/CameraViewModel.kt": "7f643aa0162241edd42825e336616821d4118030b09fc1399fd58528cdee4700",
+    "ui/ProfileStore.kt": "910f47686b71adef379115e1c1f26a12d4d1365b4fc4926a2e8f339630434e60",
+    "transport/WifiNetwork.kt": "4d52eaf9dc7499f049436a03613c31a01919e245f02d7786b67ed8ff6b6763be"
+  },
+  "remaining": [
+    "Firmware AP action and AP_PASSWORD readback acceptance",
+    "Physical Wi-Fi reconnect / Android OEM permissions",
+    "Reboot persistence",
+    "Native UI/storage execution and rendered accessibility verification"
+  ]
+}

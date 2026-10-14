@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.net.BindException
+import dev.cctv.v380.protocol.ApHotspotProtocol
+import android.os.Build
 
 data class CameraUiState(
     val profiles: List<CameraProfile> = emptyList(), val discovered: List<DiscoveredCamera> = emptyList(),
@@ -35,6 +37,7 @@ data class CameraUiState(
 
 enum class DownloadPhase { IDLE, AWAITING_ACCESS, DOWNLOADING, SAVING, COMPLETE, CANCELLED, FAILED }
 enum class SdFormatPhase { IDLE, SENDING, CHECKING, UNKNOWN, REJECTED }
+enum class ApEditPhase { IDLE, CHECKING, SENDING, RECONNECTING, WAITING_WIFI, VERIFYING, VERIFIED, NOT_SENT, REJECTED, UNKNOWN }
 data class CameraFeatureState(
     val profileId: String? = null, val tab: CameraTab = CameraTab.LIVE,
     val busy: Boolean = false, val error: String? = null, val notice: String? = null,
@@ -46,6 +49,9 @@ data class CameraFeatureState(
     val download: DownloadPhase = DownloadPhase.IDLE, val downloadBytes: Long = 0,
     val pendingFormat: PendingSdFormat? = null, val pendingLoaded: Boolean = false,
     val format: SdFormatPhase = SdFormatPhase.IDLE,
+    val pendingAp: PendingApEdit? = null, val apPendingLoaded: Boolean = false, val apStorageFailed: Boolean = false,
+    val apPhase: ApEditPhase = ApEditPhase.IDLE, val apNotice: String? = null,
+    val apBusy: Boolean = false,
 )
 
 class CameraViewModel(application: Application) : AndroidViewModel(application) {
@@ -67,9 +73,20 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private var featureJob: Job? = null
     private var featureVersion = 0
     private var pendingExport: Pair<Uri, RecordingSegment>? = null
+    private var apWorkRunning = false
+    private var apPassword: CharArray? = null
+    private var apCameraPassword: CharArray? = null
+    private var apHandoffUntil = 0L
+
+    private fun clearApSecrets() {
+        apPassword?.fill('\u0000'); apPassword = null
+        apCameraPassword?.fill('\u0000'); apCameraPassword = null
+        apHandoffUntil = 0L
+    }
 
     init {
         viewModelScope.launch { reload() }
+        viewModelScope.launch { wifi.revision.collect { if (it > 0L) session.abort() } }
         viewModelScope.launch(Dispatchers.IO) {
             // Only our temporary files; never delete user-selected documents on startup.
             application.cacheDir.listFiles()?.filter { it.name.startsWith("v380-recording-") && it.extension == "mp4" }?.forEach { it.delete() }
@@ -138,6 +155,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun connect(profile: CameraProfile, entered: CharArray?) {
+        if (apWorkRunning) { entered?.fill('\u0000'); return }
         dismissError()
         val previous = connectionJob
         connectionJob = viewModelScope.launch {
@@ -190,8 +208,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         cancelScan(); expectWifiHandoff(); provisioning.connectAp(ssid, password)
     }
     fun expectWifiHandoff() { expectedHandoff = true }
-    fun onForeground() { expectedHandoff = false; handoffExpiry?.cancel(); handoffExpiry = null }
+    fun onForeground() { expectedHandoff = false; if (apHandoffUntil == 0L) { handoffExpiry?.cancel(); handoffExpiry = null } }
     fun onBackground() {
+        if (apHandoffUntil > android.os.SystemClock.elapsedRealtime()) return
         cancelScan(); connectionJob?.cancel()
         cancelFeature()
         val expected = expectedHandoff
@@ -219,6 +238,17 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             } catch (_: Exception) {
                 mutableFeatures.update { it.copy(error = "Status format sebelumnya tidak dapat dibaca. Format SD dinonaktifkan.") }
             }
+            try {
+                val pending = withContext(Dispatchers.IO) { store.loadPendingApEdit() }
+                if (features.value.profileId == profile.id) mutableFeatures.update {
+                    it.copy(apPendingLoaded = true, pendingAp = pending,
+                        apPhase = if (pending != null) ApEditPhase.UNKNOWN else ApEditPhase.IDLE)
+                }
+            } catch (_: Exception) {
+                if (features.value.profileId == profile.id) mutableFeatures.update {
+                    it.copy(apStorageFailed = true, apNotice = "Catatan perubahan hotspot tidak dapat dibaca. Penyimpanan dinonaktifkan.")
+                }
+            }
         }
     }
 
@@ -235,6 +265,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun launchFeature(stage: DiagnosticStage, requiresCamera: Boolean = true, block: suspend () -> Unit) {
+        if (apWorkRunning || features.value.pendingAp != null) return
         val previous = featureJob
         val version = ++featureVersion
         val expectedProfile = features.value.profileId
@@ -267,14 +298,188 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     fun cancelFeature() {
         featureVersion++
         featureJob?.cancel(); featureJob = null
+        clearApSecrets()
+        session.invalidateApAccess()
         val abandoned = pendingExport
         pendingExport = null
         if (abandoned != null) viewModelScope.launch(Dispatchers.IO) {
             runCatching { DocumentsContract.deleteDocument(getApplication<Application>().contentResolver, abandoned.first) }
         }
-        mutableFeatures.update { it.copy(busy = false, paused = true, draft = emptyMap(),
+        mutableFeatures.update { it.copy(busy = apWorkRunning, apBusy = apWorkRunning, paused = true, draft = emptyMap(),
             download = if (it.download in setOf(DownloadPhase.AWAITING_ACCESS, DownloadPhase.DOWNLOADING, DownloadPhase.SAVING)) DownloadPhase.CANCELLED else it.download,
-            format = if (it.pendingFormat != null) SdFormatPhase.UNKNOWN else it.format) }
+            format = if (it.pendingFormat != null) SdFormatPhase.UNKNOWN else it.format,
+            apPhase = if (it.pendingAp != null) ApEditPhase.UNKNOWN else it.apPhase) }
+    }
+
+    fun loadApHotspot() = launchApWork {
+        mutableFeatures.update { it.copy(apPhase = ApEditPhase.CHECKING) }
+        val id = features.value.profileId ?: throw CameraFailure(SessionError.AuthenticationFailed)
+        session.readApHotspot(id)
+        mutableFeatures.update { it.copy(apPhase = ApEditPhase.IDLE, apNotice = "Hotspot aktif dan identitas kamera telah diperiksa.") }
+    }
+
+    private fun launchApWork(onFinished: () -> Unit = {}, block: suspend () -> Unit) {
+        if (features.value.busy || apWorkRunning) return
+        apWorkRunning = true
+        val version = ++featureVersion
+        val profileId = features.value.profileId
+        mutableFeatures.update { it.copy(busy = true, apBusy = true, apNotice = null) }
+        featureJob = viewModelScope.launch {
+            try { block() }
+            catch (cancelled: CancellationException) { throw cancelled }
+            catch (error: Exception) {
+                if (version == featureVersion && profileId == features.value.profileId) mutableFeatures.update {
+                    it.copy(apPhase = if (it.pendingAp != null) ApEditPhase.UNKNOWN else ApEditPhase.NOT_SENT,
+                        apNotice = if (it.pendingAp != null) "Hasil perubahan belum diketahui. Sambungkan dan periksa hotspot; perintah tidak dikirim ulang."
+                            else CameraSession.reason(error).userMessage())
+                }
+            } finally {
+                if (version != featureVersion) withContext(NonCancellable) {
+                    try {
+                        val pending = withContext(Dispatchers.IO) { store.loadPendingApEdit() }
+                        if (features.value.profileId == profileId) mutableFeatures.update {
+                            it.copy(pendingAp = pending, apPhase = if (pending != null) ApEditPhase.UNKNOWN else ApEditPhase.NOT_SENT)
+                        }
+                    } catch (_: Exception) { mutableFeatures.update { it.copy(apStorageFailed = true) } }
+                }
+                apWorkRunning = false
+                mutableFeatures.update { it.copy(busy = false, apBusy = false) }
+                if (version == featureVersion) {
+                    mutableFeatures.update { it.copy(busy = false,
+                        apPhase = if (it.pendingAp != null && it.apPhase !in setOf(ApEditPhase.WAITING_WIFI, ApEditPhase.VERIFIED)) ApEditPhase.UNKNOWN else it.apPhase) }
+                    if (features.value.apPhase != ApEditPhase.WAITING_WIFI) clearApSecrets()
+                }
+            }
+        }.also { it.invokeOnCompletion { onFinished() } }
+    }
+
+    fun saveApHotspot(profile: CameraProfile, ssid: String, password: CharArray) {
+        val state = features.value
+        val access = session.apAccess.value
+        if (state.busy || apWorkRunning || !state.apPendingLoaded || state.apStorageFailed || state.pendingAp != null ||
+            state.pendingFormat != null || state.draft.isNotEmpty() || state.profileId != profile.id ||
+            !session.canEditAp(profile.id) || access == null || ApHotspotProtocol.inputError(ssid, password, access.ssid) != null) {
+            password.fill('\u0000'); return
+        }
+        clearApSecrets()
+        apPassword = password.copyOf()
+        apCameraPassword = try { session.apReconnectPassword(profile.id) }
+        catch (_: Exception) { clearApSecrets(); password.fill('\u0000'); return }
+        val pending = PendingApEdit(java.util.UUID.randomUUID().toString(), profile.id, profile.deviceId, access.ssid, ssid, System.currentTimeMillis())
+        launchApWork(onFinished = { password.fill('\u0000') }) {
+            val operationVersion = featureVersion
+            var started = false
+            try {
+                mutableFeatures.update { it.copy(apPhase = ApEditPhase.CHECKING) }
+                val result = session.configureApHotspot(profile.id, profile.deviceId, ssid, password,
+                    beforeWrite = {
+                        withContext(NonCancellable + Dispatchers.IO) { store.savePendingApEdit(pending) }
+                        if (operationVersion == featureVersion && features.value.profileId == profile.id) mutableFeatures.update { it.copy(pendingAp = pending) }
+                        currentCoroutineContext().ensureActive()
+                    }, onWriteStarted = {
+                        started = true
+                        mutableFeatures.update { it.copy(apPhase = ApEditPhase.SENDING) }
+                    })
+                if (result == ApWriteResult.REJECTED) {
+                    withContext(NonCancellable + Dispatchers.IO) { store.clearPendingApEdit(pending.operationId) }
+                    mutableFeatures.update { it.copy(pendingAp = null, apPhase = ApEditPhase.REJECTED,
+                        apNotice = "Kamera menolak perubahan hotspot. Sambungkan kembali untuk memeriksa akses dan isian.") }
+                    return@launchApWork
+                }
+                mutableFeatures.update { it.copy(apNotice = if (result == ApWriteResult.ACCEPTED)
+                    "Perintah diterima kamera. Menunggu verifikasi hotspot." else "Respons terputus. Memeriksa apakah hotspot sudah berubah.") }
+                startApHandoff()
+                if (Build.VERSION.SDK_INT < 29) mutableFeatures.update { it.copy(apPhase = ApEditPhase.WAITING_WIFI) }
+                else reconnectAndVerifyAp(pending)
+            } catch (error: Exception) {
+                if (!started) withContext(NonCancellable + Dispatchers.IO) {
+                    if (store.loadPendingApEdit()?.operationId == pending.operationId) store.clearPendingApEdit(pending.operationId)
+                    if (operationVersion == featureVersion && features.value.profileId == profile.id) mutableFeatures.update { it.copy(pendingAp = null, apPhase = ApEditPhase.NOT_SENT) }
+                }
+                throw error
+            } finally { password.fill('\u0000') }
+        }
+    }
+
+    private fun startApHandoff() {
+        apHandoffUntil = android.os.SystemClock.elapsedRealtime() + 120_000
+        handoffExpiry?.cancel()
+        handoffExpiry = viewModelScope.launch {
+            delay(120_000)
+            if (apHandoffUntil != 0L) { cancelFeature(); wifi.releaseAp() }
+        }
+    }
+
+    fun verifyPendingAp(password: CharArray, localPassword: CharArray?) {
+        val pending = features.value.pendingAp
+        if (features.value.busy || apWorkRunning || pending == null || pending.profileId != features.value.profileId || features.value.apStorageFailed) {
+            password.fill('\u0000'); localPassword?.fill('\u0000'); return
+        }
+        clearApSecrets()
+        apPassword = password
+        apCameraPassword = localPassword
+        launchApWork {
+            if (apCameraPassword == null) apCameraPassword = withContext(Dispatchers.IO) { store.password(pending.profileId) }
+            if (apCameraPassword == null) throw CameraFailure(SessionError.AuthenticationFailed)
+            startApHandoff()
+            if (Build.VERSION.SDK_INT < 29) mutableFeatures.update { it.copy(apPhase = ApEditPhase.WAITING_WIFI) }
+            else reconnectAndVerifyAp(pending)
+        }
+    }
+
+    fun resumeManualApVerification() {
+        val pending = features.value.pendingAp ?: return
+        if (features.value.apPhase != ApEditPhase.WAITING_WIFI || apPassword == null || apCameraPassword == null) return
+        launchApWork { reconnectAndVerifyAp(pending) }
+    }
+
+    private suspend fun reconnectAndVerifyAp(pending: PendingApEdit) = withTimeout(
+        if (apHandoffUntil > 0L) (apHandoffUntil - android.os.SystemClock.elapsedRealtime()).coerceIn(1L, 120_000L) else 120_000L
+    ) {
+        val cameraPassword = apCameraPassword?.copyOf() ?: throw CameraFailure(SessionError.AuthenticationFailed)
+        val hotspotPassword = apPassword?.copyOf() ?: throw CameraFailure(SessionError.InvalidInput)
+        try {
+            session.close()
+            mutableFeatures.update { it.copy(apPhase = ApEditPhase.RECONNECTING) }
+            val link = if (Build.VERSION.SDK_INT >= 29) wifi.connectAp(pending.targetSsid, hotspotPassword.copyOf()) else wifi.resolve()
+            apHandoffUntil = 0L
+            if (wifi.currentSsid(link) != pending.targetSsid) throw CameraFailure(SessionError.NetworkUnavailable)
+            mutableFeatures.update { it.copy(apPhase = ApEditPhase.VERIFYING) }
+            val found = discovery.scan(link).firstOrNull { it.deviceId == pending.deviceId && it.platformType == 2 }
+                ?: throw CameraFailure(SessionError.IdentityMismatch)
+            val original = ui.value.profiles.firstOrNull { it.id == pending.profileId && it.deviceId == pending.deviceId }
+                ?: throw CameraFailure(SessionError.IdentityMismatch)
+            if (features.value.profileId != pending.profileId) throw CancellationException()
+            val resolved = original.copy(host = found.host, port = found.port, platformType = found.platformType, discoveryGeneration = found.generation)
+            session.connect(resolved, cameraPassword.copyOf())
+            val access = session.readApHotspot(original.id)
+            if (access.ssid != pending.targetSsid || !session.verifyApReadback(original.id, pending.targetSsid, hotspotPassword))
+                throw CameraFailure(SessionError.WifiVerificationTimeout)
+            currentCoroutineContext().ensureActive()
+            mutableFeatures.update { it.copy(apPhase = ApEditPhase.VERIFIED, apNotice = "Hotspot terverifikasi. Kamera yang sama berhasil tersambung kembali.") }
+            try {
+                withContext(NonCancellable + Dispatchers.IO) {
+                    store.updateVerifiedAddress(original.id, original.deviceId, resolved.host, resolved.port)
+                    store.clearPendingApEdit(pending.operationId)
+                }
+                mutableFeatures.update { it.copy(pendingAp = null) }
+                reload()
+            } catch (_: Exception) {
+                mutableFeatures.update { it.copy(apNotice = "Hotspot terverifikasi, tetapi pembaruan profil lokal gagal. Periksa penyimpanan; jangan kirim perubahan lagi.") }
+            }
+            diagnostics.record(DiagnosticStage.AP_VERIFY)
+        } finally { cameraPassword.fill('\u0000'); hotspotPassword.fill('\u0000') }
+    }
+
+    fun closeApStatus() {
+        val pending = features.value.pendingAp ?: return
+        if (features.value.busy || pending.profileId != features.value.profileId) return
+        launchApWork {
+            withContext(Dispatchers.IO) { store.clearPendingApEdit(pending.operationId) }
+            session.invalidateApAccess()
+            mutableFeatures.update { it.copy(pendingAp = null, apPhase = ApEditPhase.IDLE,
+                apNotice = "Catatan lokal ditutup. Hotspot kamera tidak diubah; sambungkan dan periksa sebelum menyimpan lagi.") }
+        }
     }
 
     fun loadSettings() = launchFeature(DiagnosticStage.SETTINGS) {
@@ -479,5 +684,5 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
     fun message(value: String) { mutableUi.update { it.copy(error = value) } }
     fun dismissError() { mutableUi.update { it.copy(error = null) } }
-    override fun onCleared() { featureJob?.cancel(); provisioning.cancel(); wifi.releaseAp(); session.dispose(); super.onCleared() }
+    override fun onCleared() { featureJob?.cancel(); clearApSecrets(); provisioning.cancel(); wifi.dispose(); session.dispose(); super.onCleared() }
 }

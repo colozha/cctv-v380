@@ -149,6 +149,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     if (pendingLeave != null) AlertDialog(onDismissRequest = { pendingLeave = null },
         title = { Text(if (feature.draft.isNotEmpty()) "Buang perubahan?" else "Tinggalkan pekerjaan ini?") },
         text = { Text(when {
+            feature.pendingAp != null -> "Pemeriksaan hotspot akan berhenti. Perubahan yang mungkin sudah diterapkan tidak dibatalkan; perintah tidak akan dikirim ulang."
             feature.pendingFormat != null -> "Pemeriksaan status akan berhenti. Format yang sudah dikirim tetap berjalan di kamera dan tidak akan dikirim ulang."
             feature.draft.isNotEmpty() -> "Perubahan pengaturan yang belum disimpan akan dibuang."
             else -> "Pekerjaan yang sedang berjalan akan dibatalkan. File yang belum lengkap tidak dinyatakan tersimpan."

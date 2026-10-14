@@ -20,16 +20,17 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
     feature: CameraFeatureState, onConnect: (CharArray?) -> Unit, modifier: Modifier = Modifier) {
     var confirmFormat by remember { mutableStateOf(false) }
     val settings = feature.settings
-    val enabled = !feature.busy && model.session.connectedProfile?.id == profile.id && feature.pendingFormat == null
+    val enabled = !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingFormat == null && feature.pendingAp == null
     fun int(id: Int): Int? = feature.draft[id] as? Int ?: settings?.int(id)
     fun bool(id: Int): Boolean? = feature.draft[id] as? Boolean ?: settings?.bool(id)
     Column(modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)) {
         CameraAccess(model, profile, session, onConnect)
-        FeatureFeedback(feature)
-        Button(onClick = model::loadSettings, enabled = !feature.busy && model.session.connectedProfile?.id == profile.id,
+        FeatureFeedback(feature, showProgress = !feature.apBusy)
+        ApHotspotSettings(model, profile, session, feature)
+        Button(onClick = model::loadSettings, enabled = !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingAp == null,
             modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Muat pengaturan kamera") }
-        if (feature.busy) TextButton(onClick = model::cancelFeature) {
+        if (feature.busy && !feature.apBusy) TextButton(onClick = model::cancelFeature) {
             Text(if (feature.pendingFormat != null) "Hentikan pemeriksaan status" else "Batalkan")
         }
         if (settings == null) Text("Nilai pengaturan akan tampil setelah dibaca dari kamera. Kemampuan setiap kamera dapat berbeda.")
@@ -86,7 +87,7 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
                     else -> "Hasil format sebelumnya belum dapat dipastikan. Perintah tidak akan dikirim ulang secara otomatis."
                 })
                 if (feature.pendingFormat.profileId == profile.id) {
-                    OutlinedButton(onClick = model::loadSettings, enabled = !feature.busy && model.session.connectedProfile?.id == profile.id) { Text("Periksa status kartu") }
+                    OutlinedButton(onClick = model::loadSettings, enabled = !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingAp == null) { Text("Periksa status kartu") }
                     TextButton(onClick = model::acknowledgeFormat, enabled = !feature.busy) { Text("Tutup status setelah kartu diperiksa") }
                 } else Text("Buka kamera yang memiliki pemeriksaan format tertunda terlebih dahulu.")
             }

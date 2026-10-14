@@ -1,0 +1,80 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->a(Lcom/macrovideo/sdk/setting/DeviceConfigInfo;Ljava/util/List;)Lcom/macrovideo/sdk/setting/DeviceConfigInfo; code_item_offset=8375180 registers=47
+01df dex@007fcf5a move-result-wide         v27 
+01e0 dex@007fcf5c sget-wide                v29 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_NETWORK_MODE:J
+01e2 dex@007fcf60 cmp-long                 v2 v27 v29 
+01e4 dex@007fcf64 if-eqz                   v2  -> 020a
+01e6 dex@007fcf68 invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+01e9 dex@007fcf6e move-result-wide         v27 
+01ea dex@007fcf70 sget-wide                v31 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_AP_SSID:J
+01ec dex@007fcf74 cmp-long                 v2 v27 v31 
+01ee dex@007fcf78 if-eqz                   v2  -> 020a
+01f0 dex@007fcf7c invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+01f3 dex@007fcf82 move-result-wide         v27 
+01f4 dex@007fcf84 sget-wide                v31 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_STA_SSID:J
+01f6 dex@007fcf88 cmp-long                 v2 v27 v31 
+01f8 dex@007fcf8c if-eqz                   v2  -> 020a
+01fa dex@007fcf90 invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+01fd dex@007fcf96 move-result-wide         v27 
+01fe dex@007fcf98 sget-wide                v31 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_AP_PWD:J
+0200 dex@007fcf9c cmp-long                 v2 v27 v31 
+0202 dex@007fcfa0 if-nez                   v2  -> 0205
+0204 dex@007fcfa4 goto                      -> 020a
+0205 dex@007fcfa6 move-object              v2 v0 
+0206 dex@007fcfa8 move-object/from16       v27 v14 
+0208 dex@007fcfac goto/16                   -> 027b
+020a dex@007fcfb0 invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getCode()I
+020d dex@007fcfb6 move-result              v2 
+020e dex@007fcfb8 if-eq                    v2 v13  -> 021a
+0210 dex@007fcfbc move-object/from16       v13 v20 
+0212 dex@007fcfc0 move-object/from16       v5 v21 
+0214 dex@007fcfc4 move-object/from16       v6 v24 
+0216 dex@007fcfc8 move-object/from16       v2 v26 
+0218 dex@007fcfcc goto/16                   -> 00a6
+021a dex@007fcfd0 if-nez                   v0  -> 0221
+021c dex@007fcfd4 new-instance             v0 Lcom/macrovideo/sdk/setting/NetworkConfigInfo;
+021e dex@007fcfd8 invoke-direct            v0 Lcom/macrovideo/sdk/setting/NetworkConfigInfo;-><init>()V
+0221 dex@007fcfde invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+0224 dex@007fcfe4 move-result-wide         v27 
+0225 dex@007fcfe6 cmp-long                 v2 v27 v29 
+0227 dex@007fcfea if-nez                   v2  -> 0237
+0229 dex@007fcfee invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getValue()Ljava/lang/Object;
+022c dex@007fcff4 move-result-object       v2 
+022d dex@007fcff6 move-object/from16       v27 v14 
+022f dex@007fcffa invoke-static            v2 Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->getLongValue(Ljava/lang/Object;)J
+0232 dex@007fd000 move-result-wide         v13 
+0233 dex@007fd002 invoke-virtual           v0 v13 v14 Lcom/macrovideo/sdk/setting/NetworkConfigInfo;->setlDpid_net_network_mode(J)V
+0236 dex@007fd008 goto                      -> 027a
+0237 dex@007fd00a move-object/from16       v27 v14 
+0239 dex@007fd00e invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+023c dex@007fd014 move-result-wide         v13 
+023d dex@007fd016 sget-wide                v29 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_AP_SSID:J
+023f dex@007fd01a cmp-long                 v2 v13 v29 
+0241 dex@007fd01e if-nez                   v2  -> 024f
+0243 dex@007fd022 invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getValue()Ljava/lang/Object;
+0246 dex@007fd028 move-result-object       v2 
+0247 dex@007fd02a invoke-static            v2 Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->getStringValue(Ljava/lang/Object;)Ljava/lang/String;
+024a dex@007fd030 move-result-object       v2 
+024b dex@007fd032 invoke-virtual           v0 v2 Lcom/macrovideo/sdk/setting/NetworkConfigInfo;->setStrApName(Ljava/lang/String;)V
+024e dex@007fd038 goto                      -> 027a
+024f dex@007fd03a invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+0252 dex@007fd040 move-result-wide         v13 
+0253 dex@007fd042 sget-wide                v29 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_STA_SSID:J
+0255 dex@007fd046 cmp-long                 v2 v13 v29 
+0257 dex@007fd04a if-nez                   v2  -> 0265
+0259 dex@007fd04e invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getValue()Ljava/lang/Object;
+025c dex@007fd054 move-result-object       v2 
+025d dex@007fd056 invoke-static            v2 Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->getStringValue(Ljava/lang/Object;)Ljava/lang/String;
+0260 dex@007fd05c move-result-object       v2 
+0261 dex@007fd05e invoke-virtual           v0 v2 Lcom/macrovideo/sdk/setting/NetworkConfigInfo;->setStrWifiName(Ljava/lang/String;)V
+0264 dex@007fd064 goto                      -> 027a
+0265 dex@007fd066 invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+0268 dex@007fd06c move-result-wide         v13 
+0269 dex@007fd06e sget-wide                v29 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_AP_PWD:J
+026b dex@007fd072 cmp-long                 v2 v13 v29 
+026d dex@007fd076 if-nez                   v2  -> 027a
+026f dex@007fd07a invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getValue()Ljava/lang/Object;
+0272 dex@007fd080 move-result-object       v2 
+0273 dex@007fd082 invoke-static            v2 Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->getStringValue(Ljava/lang/Object;)Ljava/lang/String;
+0276 dex@007fd088 move-result-object       v2 
+0277 dex@007fd08a invoke-virtual           v0 v2 Lcom/macrovideo/sdk/setting/NetworkConfigInfo;->setStrApPassword(Ljava/lang/String;)V
+027a dex@007fd090 move-object              v2 v0 

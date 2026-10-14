@@ -195,3 +195,9 @@ Disassembly statis dari ekstraksi REA yang cocok; tidak ada eksekusi vendor atau
 | [features-native-contracts.sanitized.json](evidence/features-native-contracts.sanitized.json) | `a9b8b089debf87dd527c51ecce3bf3ac621036406b85c1b76191d31d2a369751` |
 | [features-property-parser.dex.txt](evidence/features-property-parser.dex.txt) | `b4315881fa4db6be74a7a976f9c20175dd4af7f7b24fe10c35cc89b06bb79f68` |
 | [features-rea-index.json](evidence/features-rea-index.json) | `8e4bf0c40f4e6d692d56c5f00be0e25e26c1dd4faa8feeecaa6ee6ce2cf08e50` |
+
+## Riset SSID/password hotspot, 14 Oktober 2026
+
+[Riset AP hotspot](ap-hotspot-settings-research.md) memuat hasil REA tambahan untuk `setWiFiAPConfig`, caller UI, validator, serta jalur legacy. Berkas `ap-hotspot-*.sanitized.json` adalah turunan noncanonical yang mempertahankan source evidence ID dan limitations; tidak ada pengujian koneksi kamera.
+
+Implementasi hotspot menambah [konstanta network](evidence/ap-hotspot-network-constants.sanitized.json), [parser property DEX](evidence/ap-hotspot-property-parser.dex.txt), [capability SoftAP DEX](evidence/ap-hotspot-ability.dex.txt), [resource filter input](evidence/ap-hotspot-input-resources.txt), dan excerpt `ap-hotspot-DeviceConfigSetting-*`/`ap-hotspot-IoTDevAbility-*`. DEX/aapt2 adalah bukti pelengkap statis; excerpt REA tetap noncanonical. [Hasil implementasi dan batas](ap-hotspot-settings-research.md#hasil-implementasi-debug).

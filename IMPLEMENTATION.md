@@ -74,3 +74,9 @@ Pengujian memakai fixture sintetis, loopback, AVC abu-abu dari encoder Android, 
 ## Langkah validasi berikutnya
 
 Pasang APK debug pada Android fisik di LAN kamera. Mulai dengan pencarian dan diagnostik; pilih kamera yang identitasnya sesuai. Masukkan akses lokal langsung di perangkat. Bila autentikasi valid, uji video dan stop PTZ sebelum menguji perubahan Wi-Fi. Simpan hanya diagnostik tersanitasi dan hasil acceptance, tanpa password atau video. Status verified hanya diberikan per firmware setelah seluruh alur yang diminta benar-benar bekerja.
+
+## Pengaturan AP hotspot debug
+
+`ApHotspotProtocol`, guard autentikasi session, form Hotspot kamera, pending marker tanpa credential, serta reconnect/discovery/auth/readback tersedia. Write memakai mode1 dan satu pengiriman; provisioning router tetap mode2. Writer memerlukan capability SoftAP eksplisit, readback AP dan jaringan/identitas yang cocok. Legacy dan unknown tetap terkunci, tanpa cloud/MQ fallback. Status ACK dipisahkan dari verifikasi, dan status pending yang dipulihkan tidak pernah dipakai sebagai antrean write. Update host/port menjaga credential dan metadata profil yang sudah ada.
+
+[Spesifikasi serta batas routing/readback](analysis/ap-hotspot-settings-research.md#hasil-implementasi-debug), [validasi offline](validation/ap-hotspot/results.json). Tidak ada kamera yang dihubungi. Emulator API30 crash SIGSEGV saat boot; native UI/storage tests terkompilasi tetapi belum berjalan, dan kompatibilitas/persistensi firmware belum diklaim.

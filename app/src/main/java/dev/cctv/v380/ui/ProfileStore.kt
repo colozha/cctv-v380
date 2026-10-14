@@ -14,6 +14,10 @@ import java.nio.CharBuffer
 
 data class PendingSetup(val profile: CameraProfile, val targetSsid: String)
 data class PendingSdFormat(val profileId: String, val deviceId: String, val createdAtMs: Long)
+class PendingApEdit(val operationId: String, val profileId: String, val deviceId: String,
+    val oldSsid: String, val targetSsid: String, val createdAtMs: Long) {
+    override fun toString() = "PendingApEdit(redacted)"
+}
 
 /** One atomic, non-backed-up file: metadata and optional ciphertext, never plaintext. */
 class ProfileStore(
@@ -25,6 +29,8 @@ class ProfileStore(
     private val pending = AtomicFile(File(file.parentFile, "pending-${file.name}"))
     // ponytail: one pending format per app; use per-profile files only if simultaneous camera work is introduced.
     private val pendingFormat = AtomicFile(File(file.parentFile, "pending-sd-format.json"))
+    // ponytail: one pending AP edit; split per profile if concurrent camera sessions are introduced.
+    private val pendingAp = AtomicFile(File(file.parentFile, "pending-ap-edit.json"))
     private var migrationNeeded = false
 
     private fun records(): MutableList<JSONObject> {
@@ -102,7 +108,20 @@ class ProfileStore(
     }
 
     @Synchronized
-    fun delete(id: String) { write(records().filterNot { it.getString("id") == id }) }
+    fun delete(id: String) {
+        require(loadPendingApEdit()?.profileId != id) { "Resolve the pending hotspot status before deleting this profile" }
+        write(records().filterNot { it.getString("id") == id })
+    }
+
+    @Synchronized
+    fun updateVerifiedAddress(id: String, deviceId: String, host: String, port: Int) {
+        require(dev.cctv.v380.session.isIpv4(host) && port in 1..65535)
+        val rows = records()
+        val row = rows.firstOrNull { it.getString("id") == id && it.get("deviceId").toString() == deviceId }
+            ?: throw IllegalArgumentException("Profile identity changed")
+        row.put("host", host).put("port", port)
+        write(rows)
+    }
 
     @Synchronized
     fun savePendingSetup(profile: CameraProfile, targetSsid: String) {
@@ -159,6 +178,37 @@ class ProfileStore(
 
     @Synchronized
     fun clearPendingFormat() { pendingFormat.delete() }
+
+    @Synchronized
+    fun savePendingApEdit(value: PendingApEdit) {
+        require(loadPendingApEdit() == null)
+        val bytes = JSONObject().put("version", 1).put("operationId", value.operationId)
+            .put("profileId", value.profileId).put("deviceId", value.deviceId)
+            .put("oldSsid", value.oldSsid).put("targetSsid", value.targetSsid).put("createdAtMs", value.createdAtMs)
+            .toString().toByteArray(Charsets.UTF_8)
+        require(bytes.size <= 4096)
+        val output = pendingAp.startWrite()
+        try { output.write(bytes); pendingAp.finishWrite(output) }
+        catch (error: Throwable) { pendingAp.failWrite(output); throw error }
+    }
+
+    @Synchronized
+    fun loadPendingApEdit(): PendingApEdit? {
+        if (!pendingAp.baseFile.exists() && !File(pendingAp.baseFile.path + ".bak").exists()) return null
+        val json = pendingAp.openRead().use { require(it.channel.size() <= 4096); JSONObject(it.readBytes().toString(Charsets.UTF_8)) }
+        require(json.getInt("version") == 1)
+        return PendingApEdit(json.getString("operationId"), json.getString("profileId"), json.getString("deviceId"),
+            json.getString("oldSsid"), json.getString("targetSsid"), json.getLong("createdAtMs")).also {
+            require(it.operationId.length in 1..128 && it.profileId.length in 1..128 && it.deviceId.length in 1..128 && it.createdAtMs >= 0)
+            require(listOf(it.oldSsid, it.targetSsid).all { s -> s.isNotBlank() && s.toByteArray(Charsets.UTF_8).size <= 32 && s.none(Char::isISOControl) })
+        }
+    }
+
+    @Synchronized
+    fun clearPendingApEdit(operationId: String) {
+        require(loadPendingApEdit()?.operationId == operationId)
+        pendingAp.delete()
+    }
 
     private fun write(rows: List<JSONObject>) {
         val bytes = JSONObject().put("version", 2).put("profiles", JSONArray(rows)).toString().toByteArray(Charsets.UTF_8)

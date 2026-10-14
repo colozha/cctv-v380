@@ -2,7 +2,10 @@ package dev.cctv.v380
 
 import android.graphics.Bitmap
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.unit.dp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -90,6 +93,30 @@ class FeatureUiTest {
         capture("format-confirmation-synthetic")
         compose.onNodeWithText("Batal").performClick()
         compose.runOnIdle { assertEquals(0, confirmations); assertEquals(1, dismissals) }
+    }
+
+    @Test fun hotspotFormIsLockedUntilAuthenticatedAndUsesNativePasswordAndSaveControls() {
+        var editable by mutableStateOf(false)
+        var submissions = 0
+        compose.activityRule.scenario.onActivity { activity ->
+            activity.setContent { V380Theme {
+                Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Text("Contoh hotspot (sintetis)")
+                    ApHotspotForm("CameraNew", {}, "Secret123", {}, false, {}, editable, false,
+                        if (editable) "Sesi autentikasi sintetis, tanpa koneksi kamera." else "Sambungkan kamera terlebih dahulu untuk mengubah hotspot.",
+                        null, { submissions++ }, editable)
+                }
+            } }
+        }
+        compose.onNodeWithText("Nama hotspot kamera").assertIsNotEnabled()
+        compose.onNodeWithText("Password hotspot kamera").assertIsNotEnabled()
+        compose.onNodeWithText("Simpan hotspot").performScrollTo().assertIsNotEnabled()
+        capture("hotspot-locked-synthetic")
+        compose.runOnIdle { editable = true }
+        compose.onNodeWithText("Simpan hotspot").performScrollTo().assertIsEnabled().performClick()
+        compose.runOnIdle { assertEquals(1, submissions) }
+        capture("hotspot-editable-synthetic")
     }
 
     private fun capture(name: String) {

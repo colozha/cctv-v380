@@ -25,6 +25,8 @@ import java.net.Socket
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class CameraFailure(val reason: SessionError) : Exception(reason.name)
 
@@ -40,13 +42,39 @@ class WifiNetwork(private val context: Context) {
     private val manager = context.getSystemService(ConnectivityManager::class.java)
     private val wifi = context.applicationContext.getSystemService(WifiManager::class.java)
     @Volatile private var selected: Network? = null
+    @Volatile private var lastResolved: Network? = null
     private val requestLock = Any()
-    private class ApRequest(val callback: ConnectivityManager.NetworkCallback) {
+    private class ApRequest(val callback: ConnectivityManager.NetworkCallback, val ssid: String) {
         var registered = false
         var disposed = false
         var network: Network? = null
     }
     private var apRequest: ApRequest? = null
+    private val mutableRevision = MutableStateFlow(0L)
+    val revision = mutableRevision.asStateFlow()
+    private val observer = object : ConnectivityManager.NetworkCallback() {
+        override fun onLost(network: Network) {
+            if (network == lastResolved) { if (selected == network) selected = null; mutableRevision.value++ }
+        }
+    }
+    init { manager.registerNetworkCallback(NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).build(), observer) }
+
+    fun isCurrent(link: WifiLink): Boolean = runCatching { resolve().network == link.network }.getOrDefault(false)
+
+    @SuppressLint("MissingPermission")
+    @Suppress("DEPRECATION")
+    fun currentSsid(link: WifiLink): String? = runCatching {
+        if (!isCurrent(link)) return@runCatching null
+        synchronized(requestLock) { apRequest?.takeIf { !it.disposed && it.network == link.network }?.ssid }
+            ?.let { return@runCatching it }
+        val caps = manager.getNetworkCapabilities(link.network)
+        val info = if (Build.VERSION.SDK_INT >= 29) caps?.transportInfo as? android.net.wifi.WifiInfo else null
+        val raw = info?.ssid?.takeUnless { it == WifiManager.UNKNOWN_SSID }
+            ?: if (manager.activeNetwork == link.network) wifi.connectionInfo?.ssid else null
+        raw?.takeUnless { it == WifiManager.UNKNOWN_SSID }?.removeSurrounding("\"")
+    }.getOrNull()
+
+    fun dispose() { releaseAp(); runCatching { manager.unregisterNetworkCallback(observer) } }
 
     fun select(network: Network): WifiLink = link(network).also { selected = network }
 
@@ -58,7 +86,7 @@ class WifiNetwork(private val context: Context) {
         }
         val network = selected?.takeIf { isWifi(it) } ?: manager.activeNetwork?.takeIf { isWifi(it) }
             ?: networks.singleOrNull() ?: throw CameraFailure(SessionError.NetworkUnavailable)
-        return link(network)
+        return link(network).also { lastResolved = network }
     }
 
     private fun link(network: Network): WifiLink {
@@ -113,7 +141,7 @@ class WifiNetwork(private val context: Context) {
                         }
                         override fun onLost(network: Network) { if (selected == network) selected = null }
                     }
-                    registration = ApRequest(callback)
+                    registration = ApRequest(callback, ssid)
                     owned = registration
                     synchronized(requestLock) { apRequest = registration }
                     continuation.invokeOnCancellation { dispose(registration) }

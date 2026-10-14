@@ -45,6 +45,10 @@ sealed interface SessionState {
 }
 
 enum class CameraTab(val label: String) { LIVE("Live"), RECORDINGS("Rekaman"), SETTINGS("Pengaturan") }
+class ApHotspotAccess(val ssid: String, val deviceId: String) {
+    override fun toString() = "ApHotspotAccess(redacted)"
+}
+enum class ApWriteResult { ACCEPTED, REJECTED, UNKNOWN }
 data class RecordingSegment(val startMs: Long, val endMs: Long, val kind: Int, val sourceStartMs: Long = startMs) {
     val id: String get() = "$startMs:$endMs:$kind"
     val durationMs: Long get() = endMs - startMs

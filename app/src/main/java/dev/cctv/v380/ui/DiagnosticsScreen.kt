@@ -65,4 +65,5 @@ private fun stageLabel(stage: DiagnosticStage) = when (stage) {
     DiagnosticStage.RECORDINGS -> "Daftar rekaman"; DiagnosticStage.PLAYBACK -> "Playback rekaman"
     DiagnosticStage.DOWNLOAD -> "Penyalinan rekaman"; DiagnosticStage.SETTINGS -> "Pengaturan kamera"
     DiagnosticStage.SD_FORMAT -> "Format kartu SD"
+    DiagnosticStage.AP_EDIT -> "Perubahan hotspot"; DiagnosticStage.AP_VERIFY -> "Verifikasi hotspot"
 }

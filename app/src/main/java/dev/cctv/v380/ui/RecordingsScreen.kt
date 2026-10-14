@@ -66,6 +66,7 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
                 verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 item { CameraAccess(model, profile, session, onConnect) }
                 item { FeatureFeedback(feature) }
+                if (feature.pendingAp != null) item { Text("Ada status hotspot tertunda. Buka Pengaturan untuk memeriksa hasilnya sebelum memakai rekaman.") }
                 if (feature.busy) item { TextButton(onClick = model::cancelFeature) { Text("Batalkan") } }
                 if (selected != null) item {
                     Text(recordingTime(selected.startMs) + " – " + recordingTime(selected.endMs), style = MaterialTheme.typography.titleMedium)
@@ -81,10 +82,10 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
                             if (session is SessionState.PlayingRecording) model.pausePlayback()
                             else model.requestPlayback(selected, if (session is SessionState.RecordingEnded) selected.startMs
                                 else position.takeIf { it in selected.startMs until selected.endMs } ?: selected.startMs)
-                        }, enabled = !feature.busy && model.session.connectedProfile?.id == profile.id) {
+                        }, enabled = !feature.busy && feature.pendingAp == null && model.session.isAuthenticated(profile.id)) {
                             Text(if (session is SessionState.PlayingRecording) "Jeda" else "Putar")
                         }
-                        OutlinedButton(onClick = model::pausePlayback, enabled = !feature.busy) { Text("Hentikan") }
+                        OutlinedButton(onClick = model::pausePlayback, enabled = !feature.busy && feature.pendingAp == null) { Text("Hentikan") }
                     }
                     var dragging by remember(selected.id) { mutableStateOf(false) }
                     var seek by remember(selected.id) { mutableFloatStateOf(
@@ -92,41 +93,41 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
                     LaunchedEffect(position) { if (!dragging) seek = ((position - selected.startMs).toDouble() / selected.durationMs).toFloat().coerceIn(0f, 1f) }
                     Slider(value = seek, onValueChange = { dragging = true; seek = it },
                         onValueChangeFinished = { dragging = false; model.requestPlayback(selected, selected.startMs + (seek * (selected.durationMs - 1)).toLong()) },
-                        enabled = !feature.busy && model.session.connectedProfile?.id == profile.id,
+                        enabled = !feature.busy && feature.pendingAp == null && model.session.isAuthenticated(profile.id),
                         modifier = Modifier.semantics { contentDescription = "Posisi rekaman ${recordingTime((selected.startMs + seek * selected.durationMs).toLong())}" })
                     Text(recordingTime((selected.startMs + seek * selected.durationMs).toLong()), style = MaterialTheme.typography.bodySmall)
-                    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).toggleable(videoOnly, enabled = !feature.busy,
+                    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).toggleable(videoOnly, enabled = !feature.busy && feature.pendingAp == null,
                         role = Role.Checkbox, onValueChange = { videoOnly = it }), verticalAlignment = Alignment.CenterVertically) {
-                        Checkbox(checked = videoOnly, onCheckedChange = null, enabled = !feature.busy)
+                        Checkbox(checked = videoOnly, onCheckedChange = null, enabled = !feature.busy && feature.pendingAp == null)
                         Text("Simpan video tanpa audio", modifier = Modifier.weight(1f))
                     }
                     Text("Penyalinan saat ini menyimpan satu rekaman penuh. Audio tidak ikut disimpan.", style = MaterialTheme.typography.bodySmall)
                     OutlinedButton(onClick = {
                         model.pausePlayback(); exportSelection = selected
                         save.launch("Rekaman-${DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss").format(Instant.ofEpochMilli(selected.startMs).atZone(ZoneId.systemDefault()))}.mp4")
-                    }, enabled = videoOnly && !feature.busy && feature.pendingFormat == null,
+                    }, enabled = videoOnly && !feature.busy && feature.pendingAp == null && feature.pendingFormat == null,
                         modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Simpan rekaman") }
                     HorizontalDivider()
                 }
                 item {
                     Text("Rekaman di kartu SD", style = MaterialTheme.typography.titleLarge)
-                    TextButton(onClick = { dateDialog = true }, enabled = !feature.busy) {
+                    TextButton(onClick = { dateDialog = true }, enabled = !feature.busy && feature.pendingAp == null) {
                         Text(feature.date.format(DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.forLanguageTag("id-ID"))))
                     }
                     Text("Waktu ${ZoneId.systemDefault().id}. Pastikan zona waktu kamera sesuai.", style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        FilterChip(selected = !feature.eventsOnly, onClick = { model.setEventsOnly(false) }, label = { Text("Semua") }, enabled = !feature.busy)
-                        FilterChip(selected = feature.eventsOnly, onClick = { model.setEventsOnly(true) }, label = { Text("Peristiwa") }, enabled = !feature.busy)
+                        FilterChip(selected = !feature.eventsOnly, onClick = { model.setEventsOnly(false) }, label = { Text("Semua") }, enabled = !feature.busy && feature.pendingAp == null)
+                        FilterChip(selected = feature.eventsOnly, onClick = { model.setEventsOnly(true) }, label = { Text("Peristiwa") }, enabled = !feature.busy && feature.pendingAp == null)
                     }
-                    Button(onClick = model::loadRecordings, enabled = !feature.busy && model.session.connectedProfile?.id == profile.id,
+                    Button(onClick = model::loadRecordings, enabled = !feature.busy && feature.pendingAp == null && model.session.isAuthenticated(profile.id),
                         modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Muat rekaman") }
                 }
                 if (feature.recordingsLoaded && feature.recordings.isEmpty()) item {
                     Text("Tidak ada rekaman pada tanggal ini. Pilih tanggal lain atau periksa pengaturan perekaman kamera.")
                 }
                 items(feature.recordings, key = { it.id }) { recording ->
-                    TextButton(onClick = { model.requestPlayback(recording) }, enabled = !feature.busy && model.session.connectedProfile?.id == profile.id,
+                    TextButton(onClick = { model.requestPlayback(recording) }, enabled = !feature.busy && feature.pendingAp == null && model.session.isAuthenticated(profile.id),
                         modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp)) {
                         Column(Modifier.weight(1f)) {
                             Text(recordingTime(recording.startMs) + " – " + recordingTime(recording.endMs), style = MaterialTheme.typography.titleMedium)
@@ -173,7 +174,7 @@ fun CameraAccess(model: CameraViewModel, profile: CameraProfile, state: SessionS
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { password = "" }
     DisposableEffect(profile.id) { onDispose { password = "" } }
     val connecting = state is SessionState.Connecting || state is SessionState.Authenticating || state is SessionState.Reconnecting
-    if (model.session.connectedProfile?.id == profile.id && !connecting) {
+    if (model.session.isAuthenticated(profile.id) && !connecting) {
         Text("Akses kamera tersambung", style = MaterialTheme.typography.titleMedium)
     } else {
         Text("Akses lokal kamera", style = MaterialTheme.typography.titleMedium)
@@ -198,10 +199,10 @@ fun CameraAccess(model: CameraViewModel, profile: CameraProfile, state: SessionS
 }
 
 @Composable
-fun FeatureFeedback(feature: CameraFeatureState) {
+fun FeatureFeedback(feature: CameraFeatureState, showProgress: Boolean = true) {
     feature.error?.let { ErrorNotice(it) }
     feature.notice?.let { Text(it, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite }, style = MaterialTheme.typography.bodyMedium) }
-    if (feature.busy) LinearProgressIndicator(Modifier.fillMaxWidth())
+    if (feature.busy && showProgress) LinearProgressIndicator(Modifier.fillMaxWidth())
     if (feature.download in setOf(DownloadPhase.DOWNLOADING, DownloadPhase.SAVING)) {
         Text(if (feature.download == DownloadPhase.SAVING) "Menyimpan file…" else "Mengunduh rekaman · ${feature.downloadBytes / 1024} KB diterima")
     }

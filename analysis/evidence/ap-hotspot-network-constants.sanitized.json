@@ -1,0 +1,55 @@
+{
+  "source_evidence_id": "ev_dca40f40282dce30a0ebf2a51031230991cdec8c10853319a2d02e8b7ab6ac79",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.defines.Protocol",
+    "method_name": "<clinit>",
+    "overload_index": 0
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.defines.Protocol",
+    "method": {
+      "name": "<clinit>",
+      "reported_signature": "<clinit>(): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "partial",
+      "text": "        networkDPIDIndex = 0;\n        networkDAIDIndex = 0;\n        networkDEIDIndex = 0;\n        DGID_IOTC_NETWORK = 4;\n        MVSPT_NET_DPAE_START = MVSPT_DPAE_START(4);\n        int i49 = DGID_IOTC_NETWORK;\n        int i50 = networkDPIDIndex;\n        networkDPIDIndex = i50 + 1;\n        DPID_NET_STATIC_IP = MVSPT_IOTC_DPID(i49, i50);\n        int i51 = DGID_IOTC_NETWORK;\n        int i52 = networkDPIDIndex;\n        networkDPIDIndex = i52 + 1;\n        DPID_NET_NETWORK_MODE = MVSPT_IOTC_DPID(i51, i52);\n        int i53 = DGID_IOTC_NETWORK;\n        int i54 = networkDPIDIndex;\n        networkDPIDIndex = i54 + 1;\n        DPID_NET_MODULE_SIGNAL_LEVEL = MVSPT_IOTC_DPID(i53, i54);\n        int i55 = DGID_IOTC_NETWORK;\n        int i56 = networkDPIDIndex;\n        networkDPIDIndex = i56 + 1;\n        DPID_NET_WIFI_AP_SSID = MVSPT_IOTC_DPID(i55, i56);\n        int i57 = DGID_IOTC_NETWORK;\n        int i58 = networkDPIDIndex;\n        networkDPIDIndex = i58 + 1;\n        DPID_NET_WIFI_STA_SSID = MVSPT_IOTC_DPID(i57, i58);\n        int i59 = DGID_IOTC_NETWORK;\n        int i60 = networkDPIDIndex;\n        networkDPIDIndex = i60 + 1;\n        DPID_NET_WIFI_AP_PWD = MVSPT_IOTC_DPID(i59, i60);\n        MVSPT_IOTC_NETWORK_PID_MAX = MVSPT_IOTC_DPID(DGID_IOTC_NETWORK, 255);\n        int i61 = DGID_IOTC_NETWORK;\n        int i62 = networkDAIDIndex;\n        networkDAIDIndex = i62 + 1;\n        DAID_NET_CONFIG = MVSPT_IOTC_DAID(i61, i62);\n        MVSPT_IOTC_NETWORK_AID_MAX = MVSPT_IOTC_DAID(DGID_IOTC_NETWORK, 255);\n        MVSPT_IOTC_NETWORK_EID_MAX = MVSPT_IOTC_DEID(DGID_IOTC_NETWORK, 255);\n",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true,
+  "noncanonical": true,
+  "excerpt_note": "Selected network constants only; DPID(group,index) = (group << 16) + 256 + index, from the previously archived formula."
+}

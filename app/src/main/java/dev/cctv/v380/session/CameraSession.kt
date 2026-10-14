@@ -24,6 +24,9 @@ class CameraSession(
     private val channelFactory: (CameraProfile) -> TcpChannel,
     private val resolveTarget: suspend (CameraProfile) -> CameraProfile = { it },
     val diagnostics: Diagnostics = Diagnostics(),
+    private val verifyApNetwork: suspend (CameraProfile, String) -> (() -> Boolean) = { _, _ ->
+        throw CameraFailure(SessionError.FeatureUnsupported)
+    },
 ) {
     constructor(wifi: WifiNetwork, discovery: LanDiscovery = LanDiscovery(wifi), diagnostics: Diagnostics = Diagnostics()) :
         this({ wifi.resolve().let { link ->
@@ -38,7 +41,16 @@ class CameraSession(
                 profile.copy(host = matched.host, port = matched.port, platformType = matched.platformType,
                     discoveryGeneration = matched.generation)
             }
-        }, diagnostics)
+        }, diagnostics, { target, ssid ->
+            val link = wifi.resolve()
+            if (wifi.currentSsid(link) != ssid) throw CameraFailure(SessionError.NetworkUnavailable)
+            val found = discovery.scan(link, InetAddress.getByName(target.host))
+            if (found.none { it.deviceId == target.deviceId && it.host == target.host && it.platformType == 2 })
+                throw CameraFailure(SessionError.IdentityMismatch)
+            val check = { wifi.isCurrent(link) && wifi.currentSsid(link) == ssid }
+            if (!check()) throw CameraFailure(SessionError.NetworkUnavailable)
+            check
+        })
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val operations = Mutex()
@@ -72,8 +84,111 @@ class CameraSession(
     val recordingPosition = mutableRecordingPosition.asStateFlow()
     private class Reply(val id: Int, val method: Int, val result: CompletableDeferred<JSONObject>)
     @Volatile private var pendingReply: Reply? = null
+    private val mutableApAccess = MutableStateFlow<ApHotspotAccess?>(null)
+    val apAccess = mutableApAccess.asStateFlow()
+    @Volatile private var authenticatedIoT: IoTSession? = null
+    @Volatile private var accessRevoked = true
+    @Volatile private var apNetworkValid: (() -> Boolean)? = null
+    private var softApSupported: Boolean? = null
+
+    fun isAuthenticated(profileId: String): Boolean = !accessRevoked && profile?.id == profileId &&
+        (legacy != null || iot != null && iot === authenticatedIoT) && when (state.value) {
+            is SessionState.Ready, is SessionState.Streaming, is SessionState.Negotiating,
+            is SessionState.LoadingRecording, is SessionState.PlayingRecording, is SessionState.RecordingEnded -> true
+            else -> false
+        }
+
+    fun canEditAp(profileId: String): Boolean = BuildConfig.DEBUG && isAuthenticated(profileId) &&
+        state.value is SessionState.Ready && softApSupported == true && mutableApAccess.value?.deviceId == profile?.deviceId &&
+        apNetworkValid?.invoke() == true
+
+    fun invalidateApAccess() { mutableApAccess.value = null; apNetworkValid = null }
+
+    internal fun apReconnectPassword(profileId: String): CharArray {
+        if (!canEditAp(profileId)) throw CameraFailure(SessionError.AuthenticationFailed)
+        return secret?.copyOf() ?: throw CameraFailure(SessionError.AuthenticationFailed)
+    }
+
+    private suspend fun fetchApSnapshot(): ApHotspotProtocol.Snapshot = ApHotspotProtocol.parseSnapshot(
+        exchangeIoT(CameraSettingsProtocol.GET, CameraSettingsProtocol.GET_RESPONSE, ApHotspotProtocol.readParams())
+            ?: throw IoTProtocolException(IoTFailure.MalformedPacket))
+
+    suspend fun readApHotspot(profileId: String): ApHotspotAccess = operations.withLock {
+        invalidateApAccess()
+        if (!isAuthenticated(profileId) || state.value !is SessionState.Ready)
+            throw CameraFailure(SessionError.AuthenticationFailed)
+        if (softApSupported != true) throw CameraFailure(SessionError.FeatureUnsupported)
+        val target = profile!!
+        val owner = authenticatedIoT
+        val epoch = generation.get()
+        try {
+            val snapshot = fetchApSnapshot()
+            val proof = verifyApNetwork(target, snapshot.ssid)
+            currentCoroutineContext().ensureActive()
+            if (owner == null || owner !== iot || epoch != generation.get() || !isAuthenticated(profileId) || !proof())
+                throw CameraFailure(SessionError.NetworkUnavailable)
+            apNetworkValid = proof
+            ApHotspotAccess(snapshot.ssid, target.deviceId).also { mutableApAccess.value = it }
+        } catch (error: Exception) {
+            invalidateApAccess()
+            if (error is IoTProtocolException && error.kind in setOf(IoTFailure.AuthenticationFailed, IoTFailure.SessionExpired))
+                fail(error, DiagnosticStage.AP_EDIT)
+            throw error
+        }
+    }
+
+    suspend fun verifyApReadback(profileId: String, ssid: String, password: CharArray): Boolean = operations.withLock {
+        if (!canEditAp(profileId) || mutableApAccess.value?.ssid != ssid) throw CameraFailure(SessionError.AuthenticationFailed)
+        ApHotspotProtocol.verifyReadback(exchangeIoT(CameraSettingsProtocol.GET, CameraSettingsProtocol.GET_RESPONSE,
+            ApHotspotProtocol.verifyParams()) ?: throw IoTProtocolException(IoTFailure.MalformedPacket), ssid, password)
+    }
+
+    /** Marker callback precedes the sole write; retry/reconnect must never call this method implicitly. */
+    suspend fun configureApHotspot(profileId: String, deviceId: String, ssid: String, password: CharArray,
+        beforeWrite: suspend () -> Unit, onWriteStarted: () -> Unit = {}): ApWriteResult = try { operations.withLock {
+        if (!canEditAp(profileId) || profile?.deviceId != deviceId) throw CameraFailure(SessionError.AuthenticationFailed)
+        val previous = mutableApAccess.value!!.ssid
+        require(ApHotspotProtocol.inputError(ssid, password, previous) == null)
+        val owner = authenticatedIoT!!
+        val epoch = generation.get()
+        fun checkOwner() {
+            if (owner !== iot || epoch != generation.get() || !canEditAp(profileId))
+                throw CameraFailure(SessionError.AuthenticationFailed)
+        }
+        val latest = fetchApSnapshot()
+        if (latest.ssid != previous) { invalidateApAccess(); throw CameraFailure(SessionError.IdentityMismatch) }
+        checkOwner()
+        beforeWrite()
+        currentCoroutineContext().ensureActive()
+        checkOwner()
+        var started = false
+        try {
+            exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE,
+                ApHotspotProtocol.actionParams(ssid, password, previous), beforeSend = {
+                    currentCoroutineContext().ensureActive(); checkOwner(); started = true; onWriteStarted()
+                }, strictCorrelation = true)
+            diagnostics.record(DiagnosticStage.AP_EDIT)
+            ApWriteResult.ACCEPTED
+        } catch (cancelled: CancellationException) { throw cancelled }
+        catch (error: Exception) {
+            diagnostics.record(DiagnosticStage.AP_EDIT, DiagnosticStatus.FAILED, reason = reason(error))
+            if (!started) throw error
+            if (error is IoTProtocolException && error.kind in setOf(IoTFailure.DeviceRejected, IoTFailure.PermissionDenied,
+                    IoTFailure.AuthenticationFailed, IoTFailure.SessionExpired)) ApWriteResult.REJECTED
+            else ApWriteResult.UNKNOWN
+        } finally {
+            invalidateApAccess()
+            if (started) withContext(NonCancellable) { shutdown(); mutableState.value = SessionState.Idle }
+        }
+    } } catch (error: Exception) {
+        invalidateApAccess()
+        if (error is IoTProtocolException && error.kind in setOf(IoTFailure.AuthenticationFailed, IoTFailure.SessionExpired))
+            fail(error, DiagnosticStage.AP_EDIT)
+        throw error
+    } finally { password.fill('\u0000') }
 
     suspend fun connect(target: CameraProfile, password: CharArray): CameraCapabilities {
+        accessRevoked = true; invalidateApAccess()
         var ownedEpoch: Long? = null
         return try {
             reconnectJob?.cancelAndJoin()
@@ -143,6 +258,7 @@ class CameraSession(
                 val data = exchangeIoT(IoTCommonProtocol.ABILITY_REQUEST, IoTCommonProtocol.ABILITY_RESPONSE,
                     IoTControlProtocol.abilityParams())
                 val ability = IoTControlProtocol.parseAbilities(data ?: throw IoTProtocolException(IoTFailure.MalformedPacket))
+                softApSupported = ApHotspotProtocol.supportsSoftAp(data)
                 diagnostics.record(DiagnosticStage.CAPABILITIES)
                 caps.copy(ptz = ability.ptz, horizontalPtz = ability.horizontalPtz, verticalPtz = ability.verticalPtz,
                     recordingQualities = IoTControlProtocol.recordingQualities(data))
@@ -151,6 +267,8 @@ class CameraSession(
         } else caps
         if (epoch != generation.get()) throw CancellationException("Superseded camera session")
         mutableCapabilities.value = resolvedCaps
+        authenticatedIoT = iot
+        accessRevoked = false
         mutableState.value = SessionState.Ready(resolvedCaps)
         return resolvedCaps
     }
@@ -457,7 +575,8 @@ class CameraSession(
         } finally { channel.close(); key.fill(0); if (commandChannel === channel) commandChannel = null }
     }
 
-    private suspend fun exchangeIoT(method: Int, responseMethod: Int, params: JSONObject): JSONObject? {
+    private suspend fun exchangeIoT(method: Int, responseMethod: Int, params: JSONObject,
+        beforeSend: suspend () -> Unit = {}, strictCorrelation: Boolean = false): JSONObject? {
         val target = profile ?: throw CameraFailure(SessionError.AuthenticationFailed)
         val session = iot ?: throw CameraFailure(SessionError.AuthenticationFailed)
         val key = session.keyBytes()
@@ -468,14 +587,18 @@ class CameraSession(
             val id = requestIds.incrementAndGet()
             val request = IoTCommonProtocol.encodeRequest(methodId = method, requestId = id, params = params,
                 secureType = 2, sessionId = session.sessionId, key = key)
-            try { channel.write(request, deadline) } finally { request.fill(0) }
+            try { beforeSend(); channel.write(request, deadline) } finally { request.fill(0) }
             val header = IoTCommonProtocol.parseHeader(channel.readExact(16, deadline))
             if (header.command != IoTCommonProtocol.COMMAND_IOT || header.sessionId !in setOf(0, session.sessionId))
                 throw IoTProtocolException(IoTFailure.MalformedPacket)
             val body = channel.readExact(header.bodySize, deadline)
             try {
-                val response = IoTCommonProtocol.validateResponse(IoTCommonProtocol.decodeJson(header, body, key), id, methodId = responseMethod)
-                if (response.code == 1000 && header.secureType != 2) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                if (header.secureType != 2) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                val json = IoTCommonProtocol.decodeJson(header, body, key)
+                if (strictCorrelation && (IoTCommonProtocol.exactInt(json, "id") != id ||
+                        IoTCommonProtocol.exactInt(json, "chn") !in setOf(0, 1) || IoTCommonProtocol.exactInt(json, "method_id") != responseMethod))
+                    throw IoTProtocolException(IoTFailure.MalformedPacket)
+                val response = IoTCommonProtocol.validateResponse(json, id, methodId = responseMethod)
                 return response.requireSuccess()
             } finally { body.fill(0) }
         } finally { channel.close(); key.fill(0); if (commandChannel === channel) commandChannel = null }
@@ -736,6 +859,7 @@ class CameraSession(
         mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
     }
     suspend fun close() {
+        accessRevoked = true; invalidateApAccess()
         reconnectJob?.cancelAndJoin(); reconnectJob = null
         operations.withLock { shutdown(); mutableState.value = SessionState.Idle; diagnostics.record(DiagnosticStage.CLOSE) }
     }
@@ -752,6 +876,7 @@ class CameraSession(
         mediaCipher?.close(); mediaCipher = null
     }
     private suspend fun shutdown() {
+        accessRevoked = true; authenticatedIoT = null; softApSupported = null; invalidateApAccess()
         stopStream(); commandChannel?.close(); commandChannel = null
         iot?.close(); iot = null; legacy = null
         secret?.fill('\u0000'); secret = null
@@ -759,6 +884,7 @@ class CameraSession(
     }
     /** Immediate process/lifecycle fallback; normal callers use close() for best-effort motor stop first. */
     fun abort() {
+        accessRevoked = true; authenticatedIoT = null; softApSupported = null; invalidateApAccess()
         generation.incrementAndGet()
         reconnectJob?.cancel(); streamJob?.cancel()
         commandChannel?.close(); streamChannel?.close(); decoder?.close()
@@ -767,6 +893,7 @@ class CameraSession(
     }
     fun dispose() { abort(); scope.cancel() }
     private fun fail(error: Exception, stage: DiagnosticStage = DiagnosticStage.AUTH, detail: DiagnosticDetail? = null) {
+        accessRevoked = true; authenticatedIoT = null; invalidateApAccess()
         mutableState.value = SessionState.Error(reason(error))
         recordFailure(error, stage, detail)
     }

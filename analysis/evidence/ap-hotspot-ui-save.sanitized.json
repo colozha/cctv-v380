@@ -1,0 +1,54 @@
+{
+  "source_evidence_id": "ev_8f52c5cc0e1011989822f8e5f36217f3270984feb8169e5cab042e3c5716f8f2",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.DeviceConfigSettingNetManagerFragment.AnonymousClass4",
+    "method_name": "run",
+    "overload_index": 0
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.v380.fragments.DeviceConfigSettingNetManagerFragment.AnonymousClass4",
+    "method": {
+      "name": "run",
+      "reported_signature": "run(): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    private void saveConfig() {\n        Editable text = ((FragmentConfigDeviceNetManagerBinding) this.binding).layoutInputWifiName.etInput.getText();\n        final String strTrim = text != null ? text.toString().trim() : \"\";\n        Editable text2 = ((FragmentConfigDeviceNetManagerBinding) this.binding).layoutInputWifiPassword.etInput.getText();\n        final String strTrim2 = text2 != null ? text2.toString().trim() : \"\";\n        int iCheckWifiName = checkWifiName(text);\n        if (iCheckWifiName != 1) {\n            if (iCheckWifiName == 0) {\n                showToastNew(R.string.wifi_name_not_allow_empty, new int[0]);\n                return;\n            } else {\n                if (iCheckWifiName == -2) {\n                    showToastNew(R.string.wifi_name_not_allow_exceed_max_lenght, new int[0]);\n                    return;\n                }\n                return;\n            }\n        }\n        int iCheckWifiPassword = checkWifiPassword(text2);\n        if (iCheckWifiPassword == 1) {\n            this.mActivity.showLoadingDialog(false, getString(R.string.saving), new LoadingDialog.LoadingDialogOnCancelListener() { // from class: com.macrovideo.v380.fragments.DeviceConfigSettingNetManagerFragment.3\n                @Override // com.macrovideo.v380.fragments.dialogfragments.LoadingDialog.LoadingDialogOnCancelListener\n                public void onCancel() {\n                    DeviceConfigSettingNetManagerFragment.access$208(DeviceConfigSettingNetManagerFragment.this);\n                }\n            });\n            final int i = this.mSaveConfigThreadId + 1;\n            this.mSaveConfigThreadId = i;\n            new Thread(new Runnable() { // from class: com.macrovideo.v380.fragments.DeviceConfigSettingNetManagerFragment.4\n                @Override // java.lang.Runnable\n                public void run() {\n                    final int wiFiAPConfig = DeviceNetworkSetting.setWiFiAPConfig(DeviceConfigSettingNetManagerFragment.this.mActivity.mDeviceInfo, DeviceConfigSettingNetManagerFragment.this.mActivity.mLoginHandle, strTrim, strTrim2);\n                    LogUtil.d(DeviceConfigSettingNetManagerFragment.TAG, \"<literal omitted>\" + wiFiAPConfig + \"<literal omitted>\" + i + \"<literal omitted>\" + DeviceConfigSettingNetManagerFragment.this.mSaveConfigThreadId);\n                    if (i != DeviceConfigSettingNetManagerFragment.this.mSaveConfigThreadId) {\n                        return;\n                    }\n                    DeviceConfigSettingNetManagerFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.DeviceConfigSettingNetManagerFragment.4.1\n                        @Override // java.lang.Runnable\n                        public void run() {\n                            if (DeviceConfigSettingNetManagerFragment.this.mActivity == null || i != DeviceConfigSettingNetManagerFragment.this.mSaveConfigThreadId) {\n                                return;\n                            }\n                            DeviceConfigSettingNetManagerFragment.this.mActivity.dismissLoadingDialog();\n                            if (wiFiAPConfig == 256) {\n                                DeviceConfigSettingNetManagerFragment.this.mActivity.showToastNew(R.string.reset_pwd_successfully, R.drawable.icon_success_nor_20);\n                                if (GlobalDefines.sDeviceConfigure != null && GlobalDefines.sDeviceConfigure.getmNetworkInfo() != null) {\n                                    GlobalDefines.sDeviceConfigure.getmNetworkInfo().setStrApName(strTrim);\n                                    GlobalDefines.sDeviceConfigure.getmNetworkInfo().setStrApPassword(strTrim2);\n                                }\n                                DeviceConfigSettingNetManagerFragment.this.mActivity.popFragment();\n                                return;\n                            }\n                            DeviceConfigSettingNetManagerFragment.this.mActivity.showToastNew(R.string.net_connect_fail, R.drawable.icon_delete_lose_nor_20);\n                        }\n                    });\n                }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true,
+  "noncanonical": true
+}

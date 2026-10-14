@@ -1,0 +1,41 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_network_cfg_bmpc32;-><clinit>()V code_item_offset=7698520 registers=1
+0000 dex@00757868 const/4                  v0 #1 
+0001 dex@0075786a invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0004 dex@00757870 move-result              v0 
+0005 dex@00757872 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_network_cfg_bmpc32;->ABL_NETWORK_ROUTER_CFG:I
+0007 dex@00757876 const/4                  v0 #2 
+0008 dex@00757878 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+000b dex@0075787e move-result              v0 
+000c dex@00757880 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_network_cfg_bmpc32;->ABL_NETWORK_STATIC_IP:I
+000e dex@00757884 const/4                  v0 #3 
+000f dex@00757886 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0012 dex@0075788c move-result              v0 
+0013 dex@0075788e sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_network_cfg_bmpc32;->ABL_NETWORK_SOFTAP_CFG:I
+0015 dex@00757892 return-void              
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;-><clinit>()V code_item_offset=7702748 registers=3
+0000 dex@007588ec new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;
+0002 dex@007588f0 const-string             v1 <string-content-excluded>
+0004 dex@007588f4 const/4                  v2 #0 
+0005 dex@007588f6 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;-><init>(Ljava/lang/String;I)V
+0008 dex@007588fc sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;->MVS_DNET_ABLC_NETWORK_IF:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;
+000a dex@00758900 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;
+000c dex@00758904 const-string             v1 <string-content-excluded>
+000e dex@00758908 const/4                  v2 #1 
+000f dex@0075890a invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;-><init>(Ljava/lang/String;I)V
+0012 dex@00758910 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;->MVS_DNET_ABLC_NETWORK_CFG:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;
+0014 dex@00758914 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;
+0016 dex@00758918 const-string             v1 <string-content-excluded>
+0018 dex@0075891c const/4                  v2 #2 
+0019 dex@0075891e invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;-><init>(Ljava/lang/String;I)V
+001c dex@00758924 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;->MVS_DNET_ABLC_NUM:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;
+001e dex@00758928 invoke-static            Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;->$values()[Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;
+0021 dex@0075892e move-result-object       v0 
+0022 dex@00758930 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;->$VALUES:[Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_net_ability_code;
+0024 dex@00758934 return-void              
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->BMPC(I)I code_item_offset=7703692 registers=2
+0000 dex@00758c9c const/4                  v0 #1 
+0001 dex@00758c9e sub-int/2addr            v1 v0 
+0002 dex@00758ca0 shl-int                  v1 v0 v1 
+0004 dex@00758ca4 return                   v1 

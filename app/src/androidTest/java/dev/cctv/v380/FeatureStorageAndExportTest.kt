@@ -7,6 +7,7 @@ import dev.cctv.v380.session.CameraProfile
 import dev.cctv.v380.session.EncodedFrame
 import dev.cctv.v380.session.VideoCodec
 import dev.cctv.v380.ui.ProfileStore
+import dev.cctv.v380.ui.PendingApEdit
 import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
@@ -14,6 +15,37 @@ import java.util.UUID
 
 /** Local files and platform encoder only. No sockets, camera, cloud, or vendor execution. */
 class FeatureStorageAndExportTest {
+    @Test fun pendingHotspotIsDurableContainsNoCredentialsAndDoesNotOverwriteOtherRecovery() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val dir = File(context.cacheDir, "ap-check-${UUID.randomUUID()}").apply { mkdirs() }
+        val file = File(dir, "profiles.json")
+        val profile = CameraProfile(name = "Synthetic AP", host = "192.0.2.10", deviceId = "synthetic-ap")
+        try {
+            val store = ProfileStore(context, file)
+            store.save(profile, "Local123".toCharArray(), true)
+            store.savePendingFormat(profile)
+            store.savePendingSetup(profile, "SyntheticRouter")
+            val marker = PendingApEdit("synthetic-op", profile.id, profile.deviceId, "HSC_OLD", "CameraNew", 1)
+            store.savePendingApEdit(marker)
+            val restored = ProfileStore(context, file).loadPendingApEdit()!!
+            assertEquals(marker.operationId, restored.operationId)
+            assertEquals("CameraNew", restored.targetSsid)
+            assertThrows(IllegalArgumentException::class.java) { store.savePendingApEdit(marker) }
+            assertThrows(IllegalArgumentException::class.java) { store.clearPendingApEdit("stale-op") }
+            val text = File(dir, "pending-ap-edit.json").readText()
+            for (forbidden in listOf("password", "secret", "sessionId", "handle", "key", "Local123")) assertFalse(text.contains(forbidden))
+            assertThrows(IllegalArgumentException::class.java) { store.delete(profile.id) }
+            store.updateVerifiedAddress(profile.id, profile.deviceId, "192.0.2.20", 8089)
+            assertEquals("192.0.2.20", store.load().single().host)
+            assertArrayEquals("Local123".toCharArray(), store.password(profile.id))
+            store.clearPendingApEdit(marker.operationId)
+            assertNull(store.loadPendingApEdit()); assertNotNull(store.loadPendingSetup()); assertNotNull(store.loadPendingFormat())
+            File(dir, "pending-ap-edit.json").writeText("broken")
+            assertThrows(Exception::class.java) { store.loadPendingApEdit() }
+            assertThrows(Exception::class.java) { store.savePendingApEdit(marker) }
+        } finally { dir.deleteRecursively() }
+    }
+
     @Test fun pendingFormatSurvivesRecreationAndRejectsASecondSubmission() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val dir = File(context.cacheDir, "format-check-${UUID.randomUUID()}").apply { mkdirs() }

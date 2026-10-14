@@ -1,0 +1,4 @@
+V380 6.4.90 APK SHA256 7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b
+Supplementary aapt2 dump resources 36.0.0; selected public UI character filters only.
+edittext_rule_username = 1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+edittext_rule_password_new = 1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#_^*%.+
