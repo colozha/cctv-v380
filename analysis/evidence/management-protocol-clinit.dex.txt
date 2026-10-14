@@ -1,0 +1,1478 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/Protocol;-><clinit>()V code_item_offset=7705436 registers=8
+0000 dex@0075936c const/4                  v0 #1 
+0001 dex@0075936e invoke-static            v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0004 dex@00759374 move-result-wide         v1 
+0005 dex@00759376 sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_BASIC_DPAE_START:J
+0007 dex@0075937a sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+0009 dex@0075937e sget                     v2 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+000b dex@00759382 add-int/lit8             v3 v2 #1 
+000d dex@00759386 sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+000f dex@0075938a invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0012 dex@00759390 move-result-wide         v1 
+0013 dex@00759392 sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BASIC_RUNNING_STATE:J
+0015 dex@00759396 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+0017 dex@0075939a sget                     v2 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0019 dex@0075939e add-int/lit8             v3 v2 #1 
+001b dex@007593a2 sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+001d dex@007593a6 invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0020 dex@007593ac move-result-wide         v1 
+0021 dex@007593ae sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BASIC_DEV_VERSION_INFO:J
+0023 dex@007593b2 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+0025 dex@007593b6 sget                     v2 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0027 dex@007593ba add-int/lit8             v3 v2 #1 
+0029 dex@007593be sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+002b dex@007593c2 invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+002e dex@007593c8 move-result-wide         v1 
+002f dex@007593ca sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BASIC_MODULE_VERSION_INFO:J
+0031 dex@007593ce sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+0033 dex@007593d2 sget                     v2 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0035 dex@007593d6 add-int/lit8             v3 v2 #1 
+0037 dex@007593da sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0039 dex@007593de invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+003c dex@007593e4 move-result-wide         v1 
+003d dex@007593e6 sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BASIC_HW_VERSION_INFO:J
+003f dex@007593ea sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+0041 dex@007593ee sget                     v2 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0043 dex@007593f2 add-int/lit8             v3 v2 #1 
+0045 dex@007593f6 sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0047 dex@007593fa invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+004a dex@00759400 move-result-wide         v1 
+004b dex@00759402 sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BASIC_DEV_MODEL_NAME:J
+004d dex@00759406 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+004f dex@0075940a sget                     v2 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0051 dex@0075940e add-int/lit8             v3 v2 #1 
+0053 dex@00759412 sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0055 dex@00759416 invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0058 dex@0075941c move-result-wide         v1 
+0059 dex@0075941e sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BASIC_LANPASS_PERMISSION:J
+005b dex@00759422 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+005d dex@00759426 sget                     v2 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+005f dex@0075942a add-int/lit8             v3 v2 #1 
+0061 dex@0075942e sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0063 dex@00759432 invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0066 dex@00759438 move-result-wide         v1 
+0067 dex@0075943a sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BASIC_MS_LINES_INFO:J
+0069 dex@0075943e sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+006b dex@00759442 sget                     v2 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+006d dex@00759446 add-int/lit8             v3 v2 #1 
+006f dex@0075944a sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDPIDIndex:I
+0071 dex@0075944e invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0074 dex@00759454 move-result-wide         v1 
+0075 dex@00759456 sput-wide                v1 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BASIC_LOG_PARAM:J
+0077 dex@0075945a sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+0079 dex@0075945e const/16                 v2 #255 
+007b dex@00759462 invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+007e dex@00759468 move-result-wide         v3 
+007f dex@0075946a sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_BASIC_PID_MAX:J
+0081 dex@0075946e sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+0083 dex@00759472 sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDAIDIndex:I
+0085 dex@00759476 add-int/lit8             v4 v3 #1 
+0087 dex@0075947a sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->basicDAIDIndex:I
+0089 dex@0075947e invoke-static            v1 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+008c dex@00759484 move-result-wide         v3 
+008d dex@00759486 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DAID_BASIC_OTA:J
+008f dex@0075948a sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+0091 dex@0075948e sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDAIDIndex:I
+0093 dex@00759492 add-int/lit8             v4 v3 #1 
+0095 dex@00759496 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->basicDAIDIndex:I
+0097 dex@0075949a invoke-static            v1 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+009a dex@007594a0 move-result-wide         v3 
+009b dex@007594a2 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DAID_BASIC_RESTORE:J
+009d dex@007594a6 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+009f dex@007594aa sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->basicDAIDIndex:I
+00a1 dex@007594ae add-int/lit8             v4 v3 #1 
+00a3 dex@007594b2 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->basicDAIDIndex:I
+00a5 dex@007594b6 invoke-static            v1 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+00a8 dex@007594bc move-result-wide         v3 
+00a9 dex@007594be sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DAID_BASIC_REBOOT:J
+00ab dex@007594c2 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+00ad dex@007594c6 invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+00b0 dex@007594cc move-result-wide         v3 
+00b1 dex@007594ce sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_BASIC_AID_MAX:J
+00b3 dex@007594d2 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASIC_INFO:I
+00b5 dex@007594d6 invoke-static            v1 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+00b8 dex@007594dc move-result-wide         v3 
+00b9 dex@007594de sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_BASIC_EID_MAX:J
+00bb dex@007594e2 const/4                  v1 #0 
+00bc dex@007594e4 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00be dex@007594e8 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDAIDIndex:I
+00c0 dex@007594ec sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDEIDIndex:I
+00c2 dex@007594f0 const/4                  v3 #2 
+00c3 dex@007594f2 sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+00c5 dex@007594f6 invoke-static            v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+00c8 dex@007594fc move-result-wide         v4 
+00c9 dex@007594fe sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_SD_DPAE_START:J
+00cb dex@00759502 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+00cd dex@00759506 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00cf dex@0075950a add-int/lit8             v6 v5 #1 
+00d1 dex@0075950e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00d3 dex@00759512 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+00d6 dex@00759518 move-result-wide         v4 
+00d7 dex@0075951a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_SD_STATUS:J
+00d9 dex@0075951e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+00db dex@00759522 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00dd dex@00759526 add-int/lit8             v6 v5 #1 
+00df dex@0075952a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00e1 dex@0075952e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+00e4 dex@00759534 move-result-wide         v4 
+00e5 dex@00759536 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_SD_CAPACITY:J
+00e7 dex@0075953a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+00e9 dex@0075953e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00eb dex@00759542 add-int/lit8             v6 v5 #1 
+00ed dex@00759546 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00ef dex@0075954a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+00f2 dex@00759550 move-result-wide         v4 
+00f3 dex@00759552 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_SD_FORMAT_STATE:J
+00f5 dex@00759556 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+00f7 dex@0075955a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00f9 dex@0075955e add-int/lit8             v6 v5 #1 
+00fb dex@00759562 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+00fd dex@00759566 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0100 dex@0075956c move-result-wide         v4 
+0101 dex@0075956e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_RECORD_MODE:J
+0103 dex@00759572 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+0105 dex@00759576 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+0107 dex@0075957a add-int/lit8             v6 v5 #1 
+0109 dex@0075957e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+010b dex@00759582 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+010e dex@00759588 move-result-wide         v4 
+010f dex@0075958a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_RECORD_QUALITY:J
+0111 dex@0075958e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+0113 dex@00759592 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+0115 dex@00759596 add-int/lit8             v6 v5 #1 
+0117 dex@0075959a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+0119 dex@0075959e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+011c dex@007595a4 move-result-wide         v4 
+011d dex@007595a6 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_RECORD_AUDIO:J
+011f dex@007595aa sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+0121 dex@007595ae sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+0123 dex@007595b2 add-int/lit8             v6 v5 #1 
+0125 dex@007595b6 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDPIDIndex:I
+0127 dex@007595ba invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+012a dex@007595c0 move-result-wide         v4 
+012b dex@007595c2 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_RECORD_LOOP:J
+012d dex@007595c6 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+012f dex@007595ca invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0132 dex@007595d0 move-result-wide         v4 
+0133 dex@007595d2 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_SDCARD_PID_MAX:J
+0135 dex@007595d6 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+0137 dex@007595da sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDAIDIndex:I
+0139 dex@007595de add-int/lit8             v6 v5 #1 
+013b dex@007595e2 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDAIDIndex:I
+013d dex@007595e6 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0140 dex@007595ec move-result-wide         v4 
+0141 dex@007595ee sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_SD_FORMAT:J
+0143 dex@007595f2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+0145 dex@007595f6 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDAIDIndex:I
+0147 dex@007595fa add-int/lit8             v6 v5 #1 
+0149 dex@007595fe sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->sdCardDAIDIndex:I
+014b dex@00759602 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+014e dex@00759608 move-result-wide         v4 
+014f dex@0075960a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_RECORD_SEG_STATE_CTRL:J
+0151 dex@0075960e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+0153 dex@00759612 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0156 dex@00759618 move-result-wide         v4 
+0157 dex@0075961a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_SDCARD_AID_MAX:J
+0159 dex@0075961e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SDCARD:I
+015b dex@00759622 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+015e dex@00759628 move-result-wide         v4 
+015f dex@0075962a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_SDCARD_EID_MAX:J
+0161 dex@0075962e sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+0163 dex@00759632 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->timeDAIDIndex:I
+0165 dex@00759636 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->timeDEIDIndex:I
+0167 dex@0075963a const/4                  v4 #3 
+0168 dex@0075963c sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_TIME:I
+016a dex@00759640 invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+016d dex@00759646 move-result-wide         v4 
+016e dex@00759648 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_TIME_DPAE_START:J
+0170 dex@0075964c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_TIME:I
+0172 dex@00759650 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+0174 dex@00759654 add-int/lit8             v6 v5 #1 
+0176 dex@00759658 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+0178 dex@0075965c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+017b dex@00759662 move-result-wide         v4 
+017c dex@00759664 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_TIMEZONE:J
+017e dex@00759668 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_TIME:I
+0180 dex@0075966c sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+0182 dex@00759670 add-int/lit8             v6 v5 #1 
+0184 dex@00759674 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+0186 dex@00759678 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0189 dex@0075967e move-result-wide         v4 
+018a dex@00759680 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_TIME_FORMAT:J
+018c dex@00759684 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_TIME:I
+018e dex@00759688 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+0190 dex@0075968c add-int/lit8             v6 v5 #1 
+0192 dex@00759690 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+0194 dex@00759694 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0197 dex@0075969a move-result-wide         v4 
+0198 dex@0075969c sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_CUR_TIME:J
+019a dex@007596a0 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_TIME:I
+019c dex@007596a4 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+019e dex@007596a8 add-int/lit8             v6 v5 #1 
+01a0 dex@007596ac sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->timeDPIDIndex:I
+01a2 dex@007596b0 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+01a5 dex@007596b6 move-result-wide         v4 
+01a6 dex@007596b8 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DST:J
+01a8 dex@007596bc sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_TIME:I
+01aa dex@007596c0 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+01ad dex@007596c6 move-result-wide         v4 
+01ae dex@007596c8 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_TIME_PID_MAX:J
+01b0 dex@007596cc sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_TIME:I
+01b2 dex@007596d0 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+01b5 dex@007596d6 move-result-wide         v4 
+01b6 dex@007596d8 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_TIME_AID_MAX:J
+01b8 dex@007596dc sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_TIME:I
+01ba dex@007596e0 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+01bd dex@007596e6 move-result-wide         v4 
+01be dex@007596e8 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_TIME_EID_MAX:J
+01c0 dex@007596ec sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+01c2 dex@007596f0 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->networkDAIDIndex:I
+01c4 dex@007596f4 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->networkDEIDIndex:I
+01c6 dex@007596f8 const/4                  v4 #4 
+01c7 dex@007596fa sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+01c9 dex@007596fe invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+01cc dex@00759704 move-result-wide         v4 
+01cd dex@00759706 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_NET_DPAE_START:J
+01cf dex@0075970a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+01d1 dex@0075970e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+01d3 dex@00759712 add-int/lit8             v6 v5 #1 
+01d5 dex@00759716 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+01d7 dex@0075971a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+01da dex@00759720 move-result-wide         v4 
+01db dex@00759722 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_STATIC_IP:J
+01dd dex@00759726 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+01df dex@0075972a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+01e1 dex@0075972e add-int/lit8             v6 v5 #1 
+01e3 dex@00759732 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+01e5 dex@00759736 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+01e8 dex@0075973c move-result-wide         v4 
+01e9 dex@0075973e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_NETWORK_MODE:J
+01eb dex@00759742 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+01ed dex@00759746 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+01ef dex@0075974a add-int/lit8             v6 v5 #1 
+01f1 dex@0075974e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+01f3 dex@00759752 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+01f6 dex@00759758 move-result-wide         v4 
+01f7 dex@0075975a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_MODULE_SIGNAL_LEVEL:J
+01f9 dex@0075975e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+01fb dex@00759762 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+01fd dex@00759766 add-int/lit8             v6 v5 #1 
+01ff dex@0075976a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+0201 dex@0075976e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0204 dex@00759774 move-result-wide         v4 
+0205 dex@00759776 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_AP_SSID:J
+0207 dex@0075977a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+0209 dex@0075977e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+020b dex@00759782 add-int/lit8             v6 v5 #1 
+020d dex@00759786 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+020f dex@0075978a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0212 dex@00759790 move-result-wide         v4 
+0213 dex@00759792 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_STA_SSID:J
+0215 dex@00759796 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+0217 dex@0075979a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+0219 dex@0075979e add-int/lit8             v6 v5 #1 
+021b dex@007597a2 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->networkDPIDIndex:I
+021d dex@007597a6 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0220 dex@007597ac move-result-wide         v4 
+0221 dex@007597ae sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_NET_WIFI_AP_PWD:J
+0223 dex@007597b2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+0225 dex@007597b6 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0228 dex@007597bc move-result-wide         v4 
+0229 dex@007597be sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_NETWORK_PID_MAX:J
+022b dex@007597c2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+022d dex@007597c6 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->networkDAIDIndex:I
+022f dex@007597ca add-int/lit8             v6 v5 #1 
+0231 dex@007597ce sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->networkDAIDIndex:I
+0233 dex@007597d2 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0236 dex@007597d8 move-result-wide         v4 
+0237 dex@007597da sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_NET_CONFIG:J
+0239 dex@007597de sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+023b dex@007597e2 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+023e dex@007597e8 move-result-wide         v4 
+023f dex@007597ea sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_NETWORK_AID_MAX:J
+0241 dex@007597ee sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_NETWORK:I
+0243 dex@007597f2 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0246 dex@007597f8 move-result-wide         v4 
+0247 dex@007597fa sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_NETWORK_EID_MAX:J
+0249 dex@007597fe sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+024b dex@00759802 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->lightDAIDIndex:I
+024d dex@00759806 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->lightDEIDIndex:I
+024f dex@0075980a const/4                  v4 #5 
+0250 dex@0075980c sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+0252 dex@00759810 invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0255 dex@00759816 move-result-wide         v4 
+0256 dex@00759818 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_LIGHT_DPAE_START:J
+0258 dex@0075981c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+025a dex@00759820 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+025c dex@00759824 add-int/lit8             v6 v5 #1 
+025e dex@00759828 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+0260 dex@0075982c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0263 dex@00759832 move-result-wide         v4 
+0264 dex@00759834 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LIGHT_FLOODLIGHT_SW:J
+0266 dex@00759838 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+0268 dex@0075983c sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+026a dex@00759840 add-int/lit8             v6 v5 #1 
+026c dex@00759844 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+026e dex@00759848 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0271 dex@0075984e move-result-wide         v4 
+0272 dex@00759850 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LIGHT_FLOODLIGHT_STATUS:J
+0274 dex@00759854 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+0276 dex@00759858 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+0278 dex@0075985c add-int/lit8             v6 v5 #1 
+027a dex@00759860 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+027c dex@00759864 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+027f dex@0075986a move-result-wide         v4 
+0280 dex@0075986c sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LIGHT_FLOODLIGHT_LIGHTNESS:J
+0282 dex@00759870 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+0284 dex@00759874 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+0286 dex@00759878 add-int/lit8             v6 v5 #1 
+0288 dex@0075987c sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+028a dex@00759880 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+028d dex@00759886 move-result-wide         v4 
+028e dex@00759888 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LIGHT_FLOODLIGHT_SENSITIVITY:J
+0290 dex@0075988c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+0292 dex@00759890 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+0294 dex@00759894 add-int/lit8             v6 v5 #1 
+0296 dex@00759898 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+0298 dex@0075989c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+029b dex@007598a2 move-result-wide         v4 
+029c dex@007598a4 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LIGHT_SCHEDULE:J
+029e dex@007598a8 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+02a0 dex@007598ac sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+02a2 dex@007598b0 add-int/lit8             v6 v5 #1 
+02a4 dex@007598b4 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->lightDPIDIndex:I
+02a6 dex@007598b8 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+02a9 dex@007598be move-result-wide         v4 
+02aa dex@007598c0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LIGHT_INDICATOR_SW:J
+02ac dex@007598c4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+02ae dex@007598c8 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+02b1 dex@007598ce move-result-wide         v4 
+02b2 dex@007598d0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_LIGHT_PID_MAX:J
+02b4 dex@007598d4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+02b6 dex@007598d8 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+02b9 dex@007598de move-result-wide         v4 
+02ba dex@007598e0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_LIGHT_AID_MAX:J
+02bc dex@007598e4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_LIGHT:I
+02be dex@007598e8 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+02c1 dex@007598ee move-result-wide         v4 
+02c2 dex@007598f0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_LIGHT_EID_MAX:J
+02c4 dex@007598f4 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+02c6 dex@007598f8 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+02c8 dex@007598fc sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->ptzDEIDIndex:I
+02ca dex@00759900 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->ptzDFIDIndex:I
+02cc dex@00759904 const/4                  v4 #6 
+02cd dex@00759906 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+02cf dex@0075990a invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+02d2 dex@00759910 move-result-wide         v4 
+02d3 dex@00759912 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_PT_DPAE_START:J
+02d5 dex@00759916 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+02d7 dex@0075991a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+02d9 dex@0075991e add-int/lit8             v6 v5 #1 
+02db dex@00759922 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+02dd dex@00759926 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+02e0 dex@0075992c move-result-wide         v4 
+02e1 dex@0075992e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_PT_PRESETS_USED_NUM:J
+02e3 dex@00759932 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+02e5 dex@00759936 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+02e7 dex@0075993a add-int/lit8             v6 v5 #1 
+02e9 dex@0075993e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+02eb dex@00759942 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+02ee dex@00759948 move-result-wide         v4 
+02ef dex@0075994a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_PT_CRUISE_INFO:J
+02f1 dex@0075994e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+02f3 dex@00759952 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+02f5 dex@00759956 add-int/lit8             v6 v5 #1 
+02f7 dex@0075995a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+02f9 dex@0075995e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+02fc dex@00759964 move-result-wide         v4 
+02fd dex@00759966 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_PT_AUTO_RECAL:J
+02ff dex@0075996a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+0301 dex@0075996e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+0303 dex@00759972 add-int/lit8             v6 v5 #1 
+0305 dex@00759976 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+0307 dex@0075997a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+030a dex@00759980 move-result-wide         v4 
+030b dex@00759982 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_PT_SPEED_H:J
+030d dex@00759986 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+030f dex@0075998a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+0311 dex@0075998e add-int/lit8             v6 v5 #1 
+0313 dex@00759992 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+0315 dex@00759996 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0318 dex@0075999c move-result-wide         v4 
+0319 dex@0075999e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_PT_SPEED_V:J
+031b dex@007599a2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+031d dex@007599a6 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+031f dex@007599aa add-int/lit8             v6 v5 #1 
+0321 dex@007599ae sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+0323 dex@007599b2 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0326 dex@007599b8 move-result-wide         v4 
+0327 dex@007599ba sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_PT_OBJ_TRACKING_SW:J
+0329 dex@007599be sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+032b dex@007599c2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+032d dex@007599c6 add-int/lit8             v6 v5 #1 
+032f dex@007599ca sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+0331 dex@007599ce invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0334 dex@007599d4 move-result-wide         v4 
+0335 dex@007599d6 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ZOOM_LENS_INFO:J
+0337 dex@007599da sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+0339 dex@007599de sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+033b dex@007599e2 add-int/lit8             v6 v5 #1 
+033d dex@007599e6 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDPIDIndex:I
+033f dex@007599ea invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0342 dex@007599f0 move-result-wide         v4 
+0343 dex@007599f2 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_HYBRID_ZOOM_CALIBRATION:J
+0345 dex@007599f6 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+0347 dex@007599fa invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+034a dex@00759a00 move-result-wide         v4 
+034b dex@00759a02 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_PTZ_PID_MAX:J
+034d dex@00759a06 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+034f dex@00759a0a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+0351 dex@00759a0e add-int/lit8             v6 v5 #1 
+0353 dex@00759a12 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+0355 dex@00759a16 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0358 dex@00759a1c move-result-wide         v4 
+0359 dex@00759a1e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_PT_STEP_CTRL:J
+035b dex@00759a22 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+035d dex@00759a26 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+035f dex@00759a2a add-int/lit8             v6 v5 #1 
+0361 dex@00759a2e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+0363 dex@00759a32 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0366 dex@00759a38 move-result-wide         v4 
+0367 dex@00759a3a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_PT_PRESETS_CTRL:J
+0369 dex@00759a3e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+036b dex@00759a42 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+036d dex@00759a46 add-int/lit8             v6 v5 #1 
+036f dex@00759a4a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+0371 dex@00759a4e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0374 dex@00759a54 move-result-wide         v4 
+0375 dex@00759a56 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_PT_HOME_POSITION:J
+0377 dex@00759a5a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+0379 dex@00759a5e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+037b dex@00759a62 add-int/lit8             v6 v5 #1 
+037d dex@00759a66 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+037f dex@00759a6a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0382 dex@00759a70 move-result-wide         v4 
+0383 dex@00759a72 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_ZOOM_CTRL:J
+0385 dex@00759a76 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+0387 dex@00759a7a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+0389 dex@00759a7e add-int/lit8             v6 v5 #1 
+038b dex@00759a82 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+038d dex@00759a86 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0390 dex@00759a8c move-result-wide         v4 
+0391 dex@00759a8e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_PT_RECAL:J
+0393 dex@00759a92 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+0395 dex@00759a96 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+0397 dex@00759a9a add-int/lit8             v6 v5 #1 
+0399 dex@00759a9e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDAIDIndex:I
+039b dex@00759aa2 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+039e dex@00759aa8 move-result-wide         v4 
+039f dex@00759aaa sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_PT_PHYSICAL_PRIVACY_MASK:J
+03a1 dex@00759aae sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+03a3 dex@00759ab2 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+03a6 dex@00759ab8 move-result-wide         v4 
+03a7 dex@00759aba sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_PTZ_AID_MAX:J
+03a9 dex@00759abe sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+03ab dex@00759ac2 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+03ae dex@00759ac8 move-result-wide         v4 
+03af dex@00759aca sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_PTZ_EID_MAX:J
+03b1 dex@00759ace sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+03b3 dex@00759ad2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->ptzDFIDIndex:I
+03b5 dex@00759ad6 add-int/lit8             v6 v5 #1 
+03b7 dex@00759ada sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->ptzDFIDIndex:I
+03b9 dex@00759ade invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DFID(II)J
+03bc dex@00759ae4 move-result-wide         v4 
+03bd dex@00759ae6 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DFID_HYBRID_ZOOM_CAL_CAPTURE:J
+03bf dex@00759aea sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_PTZ:I
+03c1 dex@00759aee invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DFID(II)J
+03c4 dex@00759af4 move-result-wide         v4 
+03c5 dex@00759af6 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_PTZ_FID_MAX:J
+03c7 dex@00759afa sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+03c9 dex@00759afe sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->audioDAIDIndex:I
+03cb dex@00759b02 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->audioDEIDIndex:I
+03cd dex@00759b06 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->audioDFIDIndex:I
+03cf dex@00759b0a const/4                  v4 #7 
+03d0 dex@00759b0c sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+03d2 dex@00759b10 invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+03d5 dex@00759b16 move-result-wide         v4 
+03d6 dex@00759b18 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_AUDIO_DPAE_START:J
+03d8 dex@00759b1c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+03da dex@00759b20 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+03dc dex@00759b24 add-int/lit8             v6 v5 #1 
+03de dex@00759b28 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+03e0 dex@00759b2c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+03e3 dex@00759b32 move-result-wide         v4 
+03e4 dex@00759b34 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_AUDIO_DEV_AI_VOLUME:J
+03e6 dex@00759b38 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+03e8 dex@00759b3c sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+03ea dex@00759b40 add-int/lit8             v6 v5 #1 
+03ec dex@00759b44 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+03ee dex@00759b48 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+03f1 dex@00759b4e move-result-wide         v4 
+03f2 dex@00759b50 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_AUDIO_DEV_AO_VOLUME:J
+03f4 dex@00759b54 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+03f6 dex@00759b58 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+03f8 dex@00759b5c add-int/lit8             v6 v5 #1 
+03fa dex@00759b60 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+03fc dex@00759b64 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+03ff dex@00759b6a move-result-wide         v4 
+0400 dex@00759b6c sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_AUDIO_LANGUAGE_TYPE:J
+0402 dex@00759b70 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+0404 dex@00759b74 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+0406 dex@00759b78 add-int/lit8             v6 v5 #1 
+0408 dex@00759b7c sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+040a dex@00759b80 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+040d dex@00759b86 move-result-wide         v4 
+040e dex@00759b88 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_AUDIO_TIPS_PROMPT_SW:J
+0410 dex@00759b8c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+0412 dex@00759b90 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+0414 dex@00759b94 add-int/lit8             v6 v5 #1 
+0416 dex@00759b98 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->audioDPIDIndex:I
+0418 dex@00759b9c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+041b dex@00759ba2 move-result-wide         v4 
+041c dex@00759ba4 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_AUDIO_ENCODING_FORMAT:J
+041e dex@00759ba8 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+0420 dex@00759bac invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0423 dex@00759bb2 move-result-wide         v4 
+0424 dex@00759bb4 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_AUDIO_PID_MAX:J
+0426 dex@00759bb8 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+0428 dex@00759bbc sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->audioDAIDIndex:I
+042a dex@00759bc0 add-int/lit8             v6 v5 #1 
+042c dex@00759bc4 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->audioDAIDIndex:I
+042e dex@00759bc8 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0431 dex@00759bce move-result-wide         v4 
+0432 dex@00759bd0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_AUDIO_PROMPT_PLAY:J
+0434 dex@00759bd4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+0436 dex@00759bd8 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->audioDAIDIndex:I
+0438 dex@00759bdc add-int/lit8             v6 v5 #1 
+043a dex@00759be0 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->audioDAIDIndex:I
+043c dex@00759be4 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+043f dex@00759bea move-result-wide         v4 
+0440 dex@00759bec sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_AUDIO_PROMPT_STOP:J
+0442 dex@00759bf0 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+0444 dex@00759bf4 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0447 dex@00759bfa move-result-wide         v4 
+0448 dex@00759bfc sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_AUDIO_AID_MAX:J
+044a dex@00759c00 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+044c dex@00759c04 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+044f dex@00759c0a move-result-wide         v4 
+0450 dex@00759c0c sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_AUDIO_EID_MAX:J
+0452 dex@00759c10 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+0454 dex@00759c14 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->audioDFIDIndex:I
+0456 dex@00759c18 add-int/lit8             v6 v5 #1 
+0458 dex@00759c1c sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->audioDFIDIndex:I
+045a dex@00759c20 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DFID(II)J
+045d dex@00759c26 move-result-wide         v4 
+045e dex@00759c28 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DFID_AUDIO_CUSTOM_PROMPT:J
+0460 dex@00759c2c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_AUDIO:I
+0462 dex@00759c30 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DFID(II)J
+0465 dex@00759c36 move-result-wide         v4 
+0466 dex@00759c38 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_AUDIO_FID_MAX:J
+0468 dex@00759c3c sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+046a dex@00759c40 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->videoDAIDIndex:I
+046c dex@00759c44 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->videoDEIDIndex:I
+046e dex@00759c48 const/16                 v4 #8 
+0470 dex@00759c4c sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+0472 dex@00759c50 invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0475 dex@00759c56 move-result-wide         v4 
+0476 dex@00759c58 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_VIDEO_DPAE_START:J
+0478 dex@00759c5c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+047a dex@00759c60 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+047c dex@00759c64 add-int/lit8             v6 v5 #1 
+047e dex@00759c68 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+0480 dex@00759c6c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0483 dex@00759c72 move-result-wide         v4 
+0484 dex@00759c74 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_VIDEO_FLIP_MODE:J
+0486 dex@00759c78 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+0488 dex@00759c7c sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+048a dex@00759c80 add-int/lit8             v6 v5 #1 
+048c dex@00759c84 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+048e dex@00759c88 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0491 dex@00759c8e move-result-wide         v4 
+0492 dex@00759c90 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_VIDEO_ISP_SHARPNESS:J
+0494 dex@00759c94 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+0496 dex@00759c98 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+0498 dex@00759c9c add-int/lit8             v6 v5 #1 
+049a dex@00759ca0 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+049c dex@00759ca4 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+049f dex@00759caa move-result-wide         v4 
+04a0 dex@00759cac sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_VIDEO_ISP_BRIGHTNESS:J
+04a2 dex@00759cb0 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+04a4 dex@00759cb4 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04a6 dex@00759cb8 add-int/lit8             v6 v5 #1 
+04a8 dex@00759cbc sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04aa dex@00759cc0 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+04ad dex@00759cc6 move-result-wide         v4 
+04ae dex@00759cc8 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_VIDEO_ISP_CONTRAST:J
+04b0 dex@00759ccc sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+04b2 dex@00759cd0 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04b4 dex@00759cd4 add-int/lit8             v6 v5 #1 
+04b6 dex@00759cd8 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04b8 dex@00759cdc invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+04bb dex@00759ce2 move-result-wide         v4 
+04bc dex@00759ce4 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_VIDEO_ISP_SATURATION:J
+04be dex@00759ce8 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+04c0 dex@00759cec sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04c2 dex@00759cf0 add-int/lit8             v6 v5 #1 
+04c4 dex@00759cf4 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04c6 dex@00759cf8 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+04c9 dex@00759cfe move-result-wide         v4 
+04ca dex@00759d00 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_VIDEO_ISP_NIGHTVISION:J
+04cc dex@00759d04 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+04ce dex@00759d08 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04d0 dex@00759d0c add-int/lit8             v6 v5 #1 
+04d2 dex@00759d10 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04d4 dex@00759d14 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+04d7 dex@00759d1a move-result-wide         v4 
+04d8 dex@00759d1c sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_VIDEO_ISP_ANTI_FLICKER_MODE:J
+04da dex@00759d20 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+04dc dex@00759d24 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04de dex@00759d28 add-int/lit8             v6 v5 #1 
+04e0 dex@00759d2c sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDPIDIndex:I
+04e2 dex@00759d30 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+04e5 dex@00759d36 move-result-wide         v4 
+04e6 dex@00759d38 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_VIDEO_ENCODING_FORMAT:J
+04e8 dex@00759d3c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+04ea dex@00759d40 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+04ed dex@00759d46 move-result-wide         v4 
+04ee dex@00759d48 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_VIDEO_PID_MAX:J
+04f0 dex@00759d4c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+04f2 dex@00759d50 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->videoDAIDIndex:I
+04f4 dex@00759d54 add-int/lit8             v6 v5 #1 
+04f6 dex@00759d58 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->videoDAIDIndex:I
+04f8 dex@00759d5c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+04fb dex@00759d62 move-result-wide         v4 
+04fc dex@00759d64 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_IMG_ROTATION:J
+04fe dex@00759d68 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+0500 dex@00759d6c invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0503 dex@00759d72 move-result-wide         v4 
+0504 dex@00759d74 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_VIDEO_AID_MAX:J
+0506 dex@00759d78 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_VIDEO:I
+0508 dex@00759d7c invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+050b dex@00759d82 move-result-wide         v4 
+050c dex@00759d84 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_VIDEO_EID_MAX:J
+050e dex@00759d88 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->osdDPIDIndex:I
+0510 dex@00759d8c sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->osdDAIDIndex:I
+0512 dex@00759d90 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->osdDEIDIndex:I
+0514 dex@00759d94 const/16                 v4 #9 
+0516 dex@00759d98 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_OSD:I
+0518 dex@00759d9c invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+051b dex@00759da2 move-result-wide         v4 
+051c dex@00759da4 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_OSD_DPAE_START:J
+051e dex@00759da8 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_OSD:I
+0520 dex@00759dac sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->osdDPIDIndex:I
+0522 dex@00759db0 add-int/lit8             v6 v5 #1 
+0524 dex@00759db4 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->osdDPIDIndex:I
+0526 dex@00759db8 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0529 dex@00759dbe move-result-wide         v4 
+052a dex@00759dc0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_OSD_TIME_MARK_SW:J
+052c dex@00759dc4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_OSD:I
+052e dex@00759dc8 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0531 dex@00759dce move-result-wide         v4 
+0532 dex@00759dd0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_OSD_PID_MAX:J
+0534 dex@00759dd4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_OSD:I
+0536 dex@00759dd8 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0539 dex@00759dde move-result-wide         v4 
+053a dex@00759de0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_OSD_AID_MAX:J
+053c dex@00759de4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_OSD:I
+053e dex@00759de8 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0541 dex@00759dee move-result-wide         v4 
+0542 dex@00759df0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_OSD_EID_MAX:J
+0544 dex@00759df4 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0546 dex@00759df8 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPADIndex:I
+0548 dex@00759dfc sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPEDIndex:I
+054a dex@00759e00 const/16                 v4 #10 
+054c dex@00759e04 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+054e dex@00759e08 invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0551 dex@00759e0e move-result-wide         v4 
+0552 dex@00759e10 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_ALARM_DPAE_START:J
+0554 dex@00759e14 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+0556 dex@00759e18 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0558 dex@00759e1c add-int/lit8             v6 v5 #1 
+055a dex@00759e20 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+055c dex@00759e24 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+055f dex@00759e2a move-result-wide         v4 
+0560 dex@00759e2c sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_MAIN_SW:J
+0562 dex@00759e30 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+0564 dex@00759e34 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0566 dex@00759e38 add-int/lit8             v6 v5 #1 
+0568 dex@00759e3c sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+056a dex@00759e40 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+056d dex@00759e46 move-result-wide         v4 
+056e dex@00759e48 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_SOUND_SW:J
+0570 dex@00759e4c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+0572 dex@00759e50 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0574 dex@00759e54 add-int/lit8             v6 v5 #1 
+0576 dex@00759e58 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0578 dex@00759e5c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+057b dex@00759e62 move-result-wide         v4 
+057c dex@00759e64 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_SOUND_TYPE:J
+057e dex@00759e68 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+0580 dex@00759e6c sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0582 dex@00759e70 add-int/lit8             v6 v5 #1 
+0584 dex@00759e74 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0586 dex@00759e78 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0589 dex@00759e7e move-result-wide         v4 
+058a dex@00759e80 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_MT_SENSITIVITY:J
+058c dex@00759e84 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+058e dex@00759e88 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0590 dex@00759e8c add-int/lit8             v6 v5 #1 
+0592 dex@00759e90 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+0594 dex@00759e94 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0597 dex@00759e9a move-result-wide         v4 
+0598 dex@00759e9c sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_MT_SW:J
+059a dex@00759ea0 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+059c dex@00759ea4 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+059e dex@00759ea8 add-int/lit8             v6 v5 #1 
+05a0 dex@00759eac sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05a2 dex@00759eb0 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+05a5 dex@00759eb6 move-result-wide         v4 
+05a6 dex@00759eb8 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_TIMER_INFO:J
+05a8 dex@00759ebc sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+05aa dex@00759ec0 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05ac dex@00759ec4 add-int/lit8             v6 v5 #1 
+05ae dex@00759ec8 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05b0 dex@00759ecc invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+05b3 dex@00759ed2 move-result-wide         v4 
+05b4 dex@00759ed4 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_MT_AREA:J
+05b6 dex@00759ed8 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+05b8 dex@00759edc sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05ba dex@00759ee0 add-int/lit8             v6 v5 #1 
+05bc dex@00759ee4 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05be dex@00759ee8 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+05c1 dex@00759eee move-result-wide         v4 
+05c2 dex@00759ef0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_FLIGHT_WARN_SW:J
+05c4 dex@00759ef4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+05c6 dex@00759ef8 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05c8 dex@00759efc add-int/lit8             v6 v5 #1 
+05ca dex@00759f00 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05cc dex@00759f04 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+05cf dex@00759f0a move-result-wide         v4 
+05d0 dex@00759f0c sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_PA_SW:J
+05d2 dex@00759f10 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+05d4 dex@00759f14 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05d6 dex@00759f18 add-int/lit8             v6 v5 #1 
+05d8 dex@00759f1c sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPIDIndex:I
+05da dex@00759f20 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+05dd dex@00759f26 move-result-wide         v4 
+05de dex@00759f28 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_PA_CUSTOM_ATTR:J
+05e0 dex@00759f2c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+05e2 dex@00759f30 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+05e5 dex@00759f36 move-result-wide         v4 
+05e6 dex@00759f38 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_ALARM_PID_MAX:J
+05e8 dex@00759f3c sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+05ea dex@00759f40 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPADIndex:I
+05ec dex@00759f44 add-int/lit8             v6 v5 #1 
+05ee dex@00759f48 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alarmDPADIndex:I
+05f0 dex@00759f4c invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+05f3 dex@00759f52 move-result-wide         v4 
+05f4 dex@00759f54 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_MANUALLY_ALARM:J
+05f6 dex@00759f58 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+05f8 dex@00759f5c invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+05fb dex@00759f62 move-result-wide         v4 
+05fc dex@00759f64 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_ALARM_AID_MAX:J
+05fe dex@00759f68 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALARM:I
+0600 dex@00759f6c invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0603 dex@00759f72 move-result-wide         v4 
+0604 dex@00759f74 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_ALARM_EID_MAX:J
+0606 dex@00759f78 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->powerDPIDIndex:I
+0608 dex@00759f7c sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->powerDPADIndex:I
+060a dex@00759f80 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->powerDPEDIndex:I
+060c dex@00759f84 const/16                 v4 #11 
+060e dex@00759f88 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_POWER:I
+0610 dex@00759f8c invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0613 dex@00759f92 move-result-wide         v4 
+0614 dex@00759f94 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_POWER_DPAE_START:J
+0616 dex@00759f98 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_POWER:I
+0618 dex@00759f9c sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->powerDPIDIndex:I
+061a dex@00759fa0 add-int/lit8             v6 v5 #1 
+061c dex@00759fa4 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->powerDPIDIndex:I
+061e dex@00759fa8 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0621 dex@00759fae move-result-wide         v4 
+0622 dex@00759fb0 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_POWER_STATE:J
+0624 dex@00759fb4 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_POWER:I
+0626 dex@00759fb8 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->powerDPIDIndex:I
+0628 dex@00759fbc add-int/lit8             v6 v5 #1 
+062a dex@00759fc0 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->powerDPIDIndex:I
+062c dex@00759fc4 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+062f dex@00759fca move-result-wide         v4 
+0630 dex@00759fcc sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BATTERY_SOC:J
+0632 dex@00759fd0 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_POWER:I
+0634 dex@00759fd4 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0637 dex@00759fda move-result-wide         v4 
+0638 dex@00759fdc sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_POWER_PID_MAX:J
+063a dex@00759fe0 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_POWER:I
+063c dex@00759fe4 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+063f dex@00759fea move-result-wide         v4 
+0640 dex@00759fec sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_POWER_AID_MAX:J
+0642 dex@00759ff0 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_POWER:I
+0644 dex@00759ff4 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0647 dex@00759ffa move-result-wide         v4 
+0648 dex@00759ffc sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_POWER_EID_MAX:J
+064a dex@0075a000 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->ipcFactoryDPIDIndex:I
+064c dex@0075a004 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->ipcFactoryDPADIndex:I
+064e dex@0075a008 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->ipcFactoryDPEDIndex:I
+0650 dex@0075a00c const/16                 v4 #12 
+0652 dex@0075a010 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_FACTORY_TEST:I
+0654 dex@0075a014 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->cloudDPIDIndex:I
+0656 dex@0075a018 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->cloudDPADIndex:I
+0658 dex@0075a01c sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->cloudDPEDIndex:I
+065a dex@0075a020 const/16                 v4 #13 
+065c dex@0075a024 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CLOUDS:I
+065e dex@0075a028 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0660 dex@0075a02c sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPADIndex:I
+0662 dex@0075a030 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPEDIndex:I
+0664 dex@0075a034 const/16                 v4 #14 
+0666 dex@0075a038 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0668 dex@0075a03c invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+066b dex@0075a042 move-result-wide         v5 
+066c dex@0075a044 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_ALERT_V2_DPAE_START:J
+066e dex@0075a048 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0670 dex@0075a04c sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0672 dex@0075a050 add-int/lit8             v7 v6 #1 
+0674 dex@0075a054 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0676 dex@0075a058 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0679 dex@0075a05e move-result-wide         v5 
+067a dex@0075a060 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_FILTER_SW:J
+067c dex@0075a064 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+067e dex@0075a068 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0680 dex@0075a06c add-int/lit8             v7 v6 #1 
+0682 dex@0075a070 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0684 dex@0075a074 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0687 dex@0075a07a move-result-wide         v5 
+0688 dex@0075a07c sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_SCHEDULE:J
+068a dex@0075a080 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+068c dex@0075a084 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+068e dex@0075a088 add-int/lit8             v7 v6 #1 
+0690 dex@0075a08c sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0692 dex@0075a090 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0695 dex@0075a096 move-result-wide         v5 
+0696 dex@0075a098 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_SOUND:J
+0698 dex@0075a09c sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+069a dex@0075a0a0 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+069c dex@0075a0a4 add-int/lit8             v7 v6 #1 
+069e dex@0075a0a8 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06a0 dex@0075a0ac invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+06a3 dex@0075a0b2 move-result-wide         v5 
+06a4 dex@0075a0b4 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_WARNING_LIGHT:J
+06a6 dex@0075a0b8 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+06a8 dex@0075a0bc sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06aa dex@0075a0c0 add-int/lit8             v7 v6 #1 
+06ac dex@0075a0c4 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06ae dex@0075a0c8 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+06b1 dex@0075a0ce move-result-wide         v5 
+06b2 dex@0075a0d0 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_AREA:J
+06b4 dex@0075a0d4 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+06b6 dex@0075a0d8 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06b8 dex@0075a0dc rsub-int/lit8            v7 v6 #17 
+06ba dex@0075a0e0 add-int/2addr            v7 v6 
+06bb dex@0075a0e2 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06bd dex@0075a0e6 invoke-static            v5 v7 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+06c0 dex@0075a0ec move-result-wide         v5 
+06c1 dex@0075a0ee sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_SUM_PROPS_RESERVE_END:J
+06c3 dex@0075a0f2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+06c5 dex@0075a0f6 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06c7 dex@0075a0fa add-int/lit8             v7 v6 #1 
+06c9 dex@0075a0fe sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06cb dex@0075a102 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+06ce dex@0075a108 move-result-wide         v5 
+06cf dex@0075a10a sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EVT_ATTR_MD:J
+06d1 dex@0075a10e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+06d3 dex@0075a112 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06d5 dex@0075a116 add-int/lit8             v7 v6 #1 
+06d7 dex@0075a11a sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06d9 dex@0075a11e invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+06dc dex@0075a124 move-result-wide         v5 
+06dd dex@0075a126 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_SOUND_MD:J
+06df dex@0075a12a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+06e1 dex@0075a12e sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06e3 dex@0075a132 add-int/lit8             v7 v6 #1 
+06e5 dex@0075a136 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06e7 dex@0075a13a invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+06ea dex@0075a140 move-result-wide         v5 
+06eb dex@0075a142 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_WL_MD:J
+06ed dex@0075a146 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+06ef dex@0075a14a sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06f1 dex@0075a14e add-int/lit8             v7 v6 #1 
+06f3 dex@0075a152 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06f5 dex@0075a156 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+06f8 dex@0075a15c move-result-wide         v5 
+06f9 dex@0075a15e sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EVT_ATTR_STAY:J
+06fb dex@0075a162 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+06fd dex@0075a166 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+06ff dex@0075a16a add-int/lit8             v7 v6 #1 
+0701 dex@0075a16e sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0703 dex@0075a172 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0706 dex@0075a178 move-result-wide         v5 
+0707 dex@0075a17a sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_SOUND_STAY:J
+0709 dex@0075a17e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+070b dex@0075a182 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+070d dex@0075a186 add-int/lit8             v7 v6 #1 
+070f dex@0075a18a sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0711 dex@0075a18e invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0714 dex@0075a194 move-result-wide         v5 
+0715 dex@0075a196 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_WL_STAY:J
+0717 dex@0075a19a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0719 dex@0075a19e sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+071b dex@0075a1a2 add-int/lit8             v7 v6 #1 
+071d dex@0075a1a6 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+071f dex@0075a1aa invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0722 dex@0075a1b0 move-result-wide         v5 
+0723 dex@0075a1b2 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EVT_ATTR_EFENCE_ENTER:J
+0725 dex@0075a1b6 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0727 dex@0075a1ba sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0729 dex@0075a1be add-int/lit8             v7 v6 #1 
+072b dex@0075a1c2 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+072d dex@0075a1c6 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0730 dex@0075a1cc move-result-wide         v5 
+0731 dex@0075a1ce sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_SOUND_EFENCE_ENTER:J
+0733 dex@0075a1d2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0735 dex@0075a1d6 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0737 dex@0075a1da add-int/lit8             v7 v6 #1 
+0739 dex@0075a1de sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+073b dex@0075a1e2 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+073e dex@0075a1e8 move-result-wide         v5 
+073f dex@0075a1ea sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_WL_EFENCE_ENTER:J
+0741 dex@0075a1ee sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0743 dex@0075a1f2 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0745 dex@0075a1f6 add-int/lit8             v7 v6 #1 
+0747 dex@0075a1fa sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0749 dex@0075a1fe invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+074c dex@0075a204 move-result-wide         v5 
+074d dex@0075a206 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EVT_ATTR_EFENCE_EXIT:J
+074f dex@0075a20a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0751 dex@0075a20e sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0753 dex@0075a212 add-int/lit8             v7 v6 #1 
+0755 dex@0075a216 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0757 dex@0075a21a invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+075a dex@0075a220 move-result-wide         v5 
+075b dex@0075a222 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_SOUND_EFENCE_EXIT:J
+075d dex@0075a226 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+075f dex@0075a22a sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0761 dex@0075a22e add-int/lit8             v7 v6 #1 
+0763 dex@0075a232 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0765 dex@0075a236 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0768 dex@0075a23c move-result-wide         v5 
+0769 dex@0075a23e sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_WL_EFENCE_EXIT:J
+076b dex@0075a242 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+076d dex@0075a246 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+076f dex@0075a24a add-int/lit8             v7 v6 #1 
+0771 dex@0075a24e sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0773 dex@0075a252 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0776 dex@0075a258 move-result-wide         v5 
+0777 dex@0075a25a sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EVT_ATTR_LC:J
+0779 dex@0075a25e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+077b dex@0075a262 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+077d dex@0075a266 add-int/lit8             v7 v6 #1 
+077f dex@0075a26a sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0781 dex@0075a26e invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0784 dex@0075a274 move-result-wide         v5 
+0785 dex@0075a276 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_SOUND_LC:J
+0787 dex@0075a27a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0789 dex@0075a27e sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+078b dex@0075a282 add-int/lit8             v7 v6 #1 
+078d dex@0075a286 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+078f dex@0075a28a invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0792 dex@0075a290 move-result-wide         v5 
+0793 dex@0075a292 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EO_WL_LC:J
+0795 dex@0075a296 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+0797 dex@0075a29a sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+0799 dex@0075a29e add-int/lit8             v7 v6 #1 
+079b dex@0075a2a2 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+079d dex@0075a2a6 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+07a0 dex@0075a2ac move-result-wide         v5 
+07a1 dex@0075a2ae sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_EVT_ATTR_BABYCRY:J
+07a3 dex@0075a2b2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+07a5 dex@0075a2b6 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+07a7 dex@0075a2ba add-int/lit8             v7 v6 #1 
+07a9 dex@0075a2be sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+07ab dex@0075a2c2 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+07ae dex@0075a2c8 move-result-wide         v5 
+07af dex@0075a2ca sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_OBJ_ATTR_ANYMOUS:J
+07b1 dex@0075a2ce sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+07b3 dex@0075a2d2 sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+07b5 dex@0075a2d6 add-int/lit8             v7 v6 #1 
+07b7 dex@0075a2da sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+07b9 dex@0075a2de invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+07bc dex@0075a2e4 move-result-wide         v5 
+07bd dex@0075a2e6 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_OBJ_ATTR_PERSON:J
+07bf dex@0075a2ea sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+07c1 dex@0075a2ee sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+07c3 dex@0075a2f2 add-int/lit8             v7 v6 #1 
+07c5 dex@0075a2f6 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPIDIndex:I
+07c7 dex@0075a2fa invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+07ca dex@0075a300 move-result-wide         v5 
+07cb dex@0075a302 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALERT_V2_OBJ_ATTR_SMOKE:J
+07cd dex@0075a306 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+07cf dex@0075a30a invoke-static            v5 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+07d2 dex@0075a310 move-result-wide         v5 
+07d3 dex@0075a312 sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_ALERT_V2_PID_MAX:J
+07d5 dex@0075a316 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+07d7 dex@0075a31a sget                     v6 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPADIndex:I
+07d9 dex@0075a31e add-int/lit8             v7 v6 #1 
+07db dex@0075a322 sput                     v7 Lcom/macrovideo/sdk/defines/Protocol;->alertV2DPADIndex:I
+07dd dex@0075a326 invoke-static            v5 v6 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+07e0 dex@0075a32c move-result-wide         v5 
+07e1 dex@0075a32e sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->DAID_ALERT_V2_MANUALLY_ALARM:J
+07e3 dex@0075a332 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+07e5 dex@0075a336 invoke-static            v5 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+07e8 dex@0075a33c move-result-wide         v5 
+07e9 dex@0075a33e sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_ALERT_V2_AID_MAX:J
+07eb dex@0075a342 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_ALERT_V2:I
+07ed dex@0075a346 invoke-static            v5 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+07f0 dex@0075a34c move-result-wide         v5 
+07f1 dex@0075a34e sput-wide                v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_ALERT_V2_EID_MAX:J
+07f3 dex@0075a352 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+07f5 dex@0075a356 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->detectionDAIDIndex:I
+07f7 dex@0075a35a sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+07f9 dex@0075a35e invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+07fc dex@0075a364 move-result-wide         v4 
+07fd dex@0075a366 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPDETECTON_START:J
+07ff dex@0075a36a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+0801 dex@0075a36e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0803 dex@0075a372 add-int/lit8             v6 v5 #1 
+0805 dex@0075a376 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0807 dex@0075a37a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+080a dex@0075a380 move-result-wide         v4 
+080b dex@0075a382 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_OBJECT_SW:J
+080d dex@0075a386 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+080f dex@0075a38a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0811 dex@0075a38e add-int/lit8             v6 v5 #1 
+0813 dex@0075a392 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0815 dex@0075a396 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0818 dex@0075a39c move-result-wide         v4 
+0819 dex@0075a39e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_SOUND_SW:J
+081b dex@0075a3a2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+081d dex@0075a3a6 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+081f dex@0075a3aa add-int/lit8             v6 v5 #1 
+0821 dex@0075a3ae sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0823 dex@0075a3b2 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0826 dex@0075a3b8 move-result-wide         v4 
+0827 dex@0075a3ba sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_SENSOR_SW:J
+0829 dex@0075a3be sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+082b dex@0075a3c2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+082d dex@0075a3c6 add-int/lit8             v6 v5 #1 
+082f dex@0075a3ca sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0831 dex@0075a3ce invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0834 dex@0075a3d4 move-result-wide         v4 
+0835 dex@0075a3d6 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_MOVIING_SENS:J
+0837 dex@0075a3da sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+0839 dex@0075a3de sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+083b dex@0075a3e2 add-int/lit8             v6 v5 #1 
+083d dex@0075a3e6 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+083f dex@0075a3ea invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0842 dex@0075a3f0 move-result-wide         v4 
+0843 dex@0075a3f2 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_OBJECT_MARK:J
+0845 dex@0075a3f6 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+0847 dex@0075a3fa sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0849 dex@0075a3fe add-int/lit8             v6 v5 #1 
+084b dex@0075a402 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+084d dex@0075a406 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0850 dex@0075a40c move-result-wide         v4 
+0851 dex@0075a40e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_AREA:J
+0853 dex@0075a412 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+0855 dex@0075a416 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0857 dex@0075a41a add-int/lit8             v6 v5 #1 
+0859 dex@0075a41e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+085b dex@0075a422 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+085e dex@0075a428 move-result-wide         v4 
+085f dex@0075a42a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_TEMPERATURE_UOM:J
+0861 dex@0075a42e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+0863 dex@0075a432 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0865 dex@0075a436 add-int/lit8             v6 v5 #1 
+0867 dex@0075a43a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0869 dex@0075a43e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+086c dex@0075a444 move-result-wide         v4 
+086d dex@0075a446 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_OBJECT_CONFIDENCE:J
+086f dex@0075a44a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+0871 dex@0075a44e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0873 dex@0075a452 add-int/lit8             v6 v5 #1 
+0875 dex@0075a456 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDPIDIndex:I
+0877 dex@0075a45a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+087a dex@0075a460 move-result-wide         v4 
+087b dex@0075a462 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_DET_TRIGSENSOR_SENS:J
+087d dex@0075a466 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+087f dex@0075a46a invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0882 dex@0075a470 move-result-wide         v4 
+0883 dex@0075a472 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DET_PID_MAX:J
+0885 dex@0075a476 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+0887 dex@0075a47a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->detectionDAIDIndex:I
+0889 dex@0075a47e add-int/lit8             v6 v5 #1 
+088b dex@0075a482 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->detectionDAIDIndex:I
+088d dex@0075a486 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0890 dex@0075a48c move-result-wide         v4 
+0891 dex@0075a48e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_DET_CONTROLLER_CALL:J
+0893 dex@0075a492 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+0895 dex@0075a496 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0898 dex@0075a49c move-result-wide         v4 
+0899 dex@0075a49e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DET_AID_MAX:J
+089b dex@0075a4a2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_DET:I
+089d dex@0075a4a6 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+08a0 dex@0075a4ac move-result-wide         v4 
+08a1 dex@0075a4ae sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DET_EID_MAX:J
+08a3 dex@0075a4b2 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->extDPIDIndex:I
+08a5 dex@0075a4b6 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->extDPADIndex:I
+08a7 dex@0075a4ba sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->extDPEDIndex:I
+08a9 dex@0075a4be const/16                 v4 #15 
+08ab dex@0075a4c2 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EXTPROT:I
+08ad dex@0075a4c6 invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+08b0 dex@0075a4cc move-result-wide         v4 
+08b1 dex@0075a4ce sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START:J
+08b3 dex@0075a4d2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EXTPROT:I
+08b5 dex@0075a4d6 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->extDPIDIndex:I
+08b7 dex@0075a4da add-int/lit8             v6 v5 #1 
+08b9 dex@0075a4de sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->extDPIDIndex:I
+08bb dex@0075a4e2 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+08be dex@0075a4e8 move-result-wide         v4 
+08bf dex@0075a4ea sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_EXTPROT_ONVIF_SW:J
+08c1 dex@0075a4ee sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EXTPROT:I
+08c3 dex@0075a4f2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->extDPIDIndex:I
+08c5 dex@0075a4f6 add-int/lit8             v6 v5 #1 
+08c7 dex@0075a4fa sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->extDPIDIndex:I
+08c9 dex@0075a4fe invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+08cc dex@0075a504 move-result-wide         v4 
+08cd dex@0075a506 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_EXTPROT_RTSP_AUDIO_SW:J
+08cf dex@0075a50a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EXTPROT:I
+08d1 dex@0075a50e invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+08d4 dex@0075a514 move-result-wide         v4 
+08d5 dex@0075a516 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_EXTPROT_PID_MAX:J
+08d7 dex@0075a51a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EXTPROT:I
+08d9 dex@0075a51e invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+08dc dex@0075a524 move-result-wide         v4 
+08dd dex@0075a526 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_EXTPROT_AID_MAX:J
+08df dex@0075a52a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EXTPROT:I
+08e1 dex@0075a52e invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+08e4 dex@0075a534 move-result-wide         v4 
+08e5 dex@0075a536 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_EXTPROT_EID_MAX:J
+08e7 dex@0075a53a sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->stationDPIDIndex:I
+08e9 dex@0075a53e sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->stationDPADIndex:I
+08eb dex@0075a542 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->stationDPEDIndex:I
+08ed dex@0075a546 const/16                 v4 #16 
+08ef dex@0075a54a sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+08f1 dex@0075a54e invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+08f4 dex@0075a554 move-result-wide         v4 
+08f5 dex@0075a556 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_BASE_STATION_DPAE_START:J
+08f7 dex@0075a55a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+08f9 dex@0075a55e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->stationDPIDIndex:I
+08fb dex@0075a562 add-int/lit8             v6 v5 #1 
+08fd dex@0075a566 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->stationDPIDIndex:I
+08ff dex@0075a56a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0902 dex@0075a570 move-result-wide         v4 
+0903 dex@0075a572 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BS_BASIC_ACCESS_POINT:J
+0905 dex@0075a576 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+0907 dex@0075a57a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->stationDPIDIndex:I
+0909 dex@0075a57e add-int/lit8             v6 v5 #1 
+090b dex@0075a582 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->stationDPIDIndex:I
+090d dex@0075a586 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0910 dex@0075a58c move-result-wide         v4 
+0911 dex@0075a58e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BS_DEVSCR_WAN_CUTOFF_SCHEDULE:J
+0913 dex@0075a592 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+0915 dex@0075a596 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->stationDPIDIndex:I
+0917 dex@0075a59a add-int/lit8             v6 v5 #1 
+0919 dex@0075a59e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->stationDPIDIndex:I
+091b dex@0075a5a2 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+091e dex@0075a5a8 move-result-wide         v4 
+091f dex@0075a5aa sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_BS_DEVSCR_WAN_CUTOFF_STATE:J
+0921 dex@0075a5ae sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+0923 dex@0075a5b2 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0926 dex@0075a5b8 move-result-wide         v4 
+0927 dex@0075a5ba sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_BASE_STATION_PID_MAX:J
+0929 dex@0075a5be sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+092b dex@0075a5c2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->stationDPADIndex:I
+092d dex@0075a5c6 add-int/lit8             v6 v5 #1 
+092f dex@0075a5ca sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->stationDPADIndex:I
+0931 dex@0075a5ce invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0934 dex@0075a5d4 move-result-wide         v4 
+0935 dex@0075a5d6 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_BS_DEVSET_PREINFO:J
+0937 dex@0075a5da sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+0939 dex@0075a5de sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->stationDPADIndex:I
+093b dex@0075a5e2 add-int/lit8             v6 v5 #1 
+093d dex@0075a5e6 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->stationDPADIndex:I
+093f dex@0075a5ea invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0942 dex@0075a5f0 move-result-wide         v4 
+0943 dex@0075a5f2 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_BS_DEVMGM_DEVLIST:J
+0945 dex@0075a5f6 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+0947 dex@0075a5fa sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->stationDPADIndex:I
+0949 dex@0075a5fe add-int/lit8             v6 v5 #1 
+094b dex@0075a602 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->stationDPADIndex:I
+094d dex@0075a606 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0950 dex@0075a60c move-result-wide         v4 
+0951 dex@0075a60e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_BS_DEVMGM_BLOCK:J
+0953 dex@0075a612 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+0955 dex@0075a616 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0958 dex@0075a61c move-result-wide         v4 
+0959 dex@0075a61e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_BASE_STATION_AID_MAX:J
+095b dex@0075a622 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_STATION:I
+095d dex@0075a626 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0960 dex@0075a62c move-result-wide         v4 
+0961 dex@0075a62e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_BASE_STATION_EID_MAX:J
+0963 dex@0075a632 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->smartDPIDIndex:I
+0965 dex@0075a636 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+0967 dex@0075a63a sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPEDIndex:I
+0969 dex@0075a63e const/16                 v4 #18 
+096b dex@0075a642 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SMART:I
+096d dex@0075a646 invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0970 dex@0075a64c move-result-wide         v4 
+0971 dex@0075a64e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_SMART:J
+0973 dex@0075a652 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SMART:I
+0975 dex@0075a656 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+0977 dex@0075a65a add-int/lit8             v6 v5 #1 
+0979 dex@0075a65e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+097b dex@0075a662 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+097e dex@0075a668 move-result-wide         v4 
+097f dex@0075a66a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_SMART_COND_LIST:J
+0981 dex@0075a66e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SMART:I
+0983 dex@0075a672 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+0985 dex@0075a676 add-int/lit8             v6 v5 #1 
+0987 dex@0075a67a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+0989 dex@0075a67e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+098c dex@0075a684 move-result-wide         v4 
+098d dex@0075a686 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_SMART_RULE_LIST:J
+098f dex@0075a68a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SMART:I
+0991 dex@0075a68e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+0993 dex@0075a692 add-int/lit8             v6 v5 #1 
+0995 dex@0075a696 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+0997 dex@0075a69a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+099a dex@0075a6a0 move-result-wide         v4 
+099b dex@0075a6a2 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_SMART_RULE_SETTING:J
+099d dex@0075a6a6 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SMART:I
+099f dex@0075a6aa sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+09a1 dex@0075a6ae add-int/lit8             v6 v5 #1 
+09a3 dex@0075a6b2 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->smaetDPADIndex:I
+09a5 dex@0075a6b6 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+09a8 dex@0075a6bc move-result-wide         v4 
+09a9 dex@0075a6be sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_SMART_ACT_LIST:J
+09ab dex@0075a6c2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SMART:I
+09ad dex@0075a6c6 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+09b0 dex@0075a6cc move-result-wide         v4 
+09b1 dex@0075a6ce sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_SMART_AID_MAX:J
+09b3 dex@0075a6d2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_SMART:I
+09b5 dex@0075a6d6 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+09b8 dex@0075a6dc move-result-wide         v4 
+09b9 dex@0075a6de sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_SMART_EID_MAX:J
+09bb dex@0075a6e2 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09bd dex@0075a6e6 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+09bf dex@0075a6ea const/16                 v4 #19 
+09c1 dex@0075a6ee sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+09c3 dex@0075a6f2 invoke-static            v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+09c6 dex@0075a6f8 move-result-wide         v4 
+09c7 dex@0075a6fa sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPEVTLKGN_START:J
+09c9 dex@0075a6fe sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+09cb dex@0075a702 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09cd dex@0075a706 add-int/lit8             v6 v5 #1 
+09cf dex@0075a70a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09d1 dex@0075a70e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+09d4 dex@0075a714 move-result-wide         v4 
+09d5 dex@0075a716 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_EVTLKG_ALARMEVENT_SW:J
+09d7 dex@0075a71a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+09d9 dex@0075a71e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09db dex@0075a722 add-int/lit8             v6 v5 #1 
+09dd dex@0075a726 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09df dex@0075a72a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+09e2 dex@0075a730 move-result-wide         v4 
+09e3 dex@0075a732 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_EVTLKG_OBJAEVT_SW:J
+09e5 dex@0075a736 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+09e7 dex@0075a73a sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09e9 dex@0075a73e add-int/lit8             v6 v5 #1 
+09eb dex@0075a742 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09ed dex@0075a746 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+09f0 dex@0075a74c move-result-wide         v4 
+09f1 dex@0075a74e sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_EVTLKG_SNDAEVT_SW:J
+09f3 dex@0075a752 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+09f5 dex@0075a756 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09f7 dex@0075a75a add-int/lit8             v6 v5 #1 
+09f9 dex@0075a75e sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDPIDINdex:I
+09fb dex@0075a762 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+09fe dex@0075a768 move-result-wide         v4 
+09ff dex@0075a76a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DPID_EVTLKG_SENAEVT_SW:J
+0a01 dex@0075a76e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a03 dex@0075a772 invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0a06 dex@0075a778 move-result-wide         v4 
+0a07 dex@0075a77a sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_EVTLKG_PID_MAX:J
+0a09 dex@0075a77e sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a0b dex@0075a782 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a0d dex@0075a786 add-int/lit8             v6 v5 #1 
+0a0f dex@0075a78a sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a11 dex@0075a78e invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a14 dex@0075a794 move-result-wide         v4 
+0a15 dex@0075a796 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_EVTLKG_OBJECT_AEVTCFG:J
+0a17 dex@0075a79a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a19 dex@0075a79e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a1b dex@0075a7a2 add-int/lit8             v6 v5 #1 
+0a1d dex@0075a7a6 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a1f dex@0075a7aa invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a22 dex@0075a7b0 move-result-wide         v4 
+0a23 dex@0075a7b2 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_EVTLKG_SOUND_AEVTCFG:J
+0a25 dex@0075a7b6 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a27 dex@0075a7ba sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a29 dex@0075a7be add-int/lit8             v6 v5 #1 
+0a2b dex@0075a7c2 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a2d dex@0075a7c6 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a30 dex@0075a7cc move-result-wide         v4 
+0a31 dex@0075a7ce sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_EVTLKG_SENSOR_AEVTCFG:J
+0a33 dex@0075a7d2 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a35 dex@0075a7d6 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a37 dex@0075a7da add-int/lit8             v6 v5 #1 
+0a39 dex@0075a7de sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a3b dex@0075a7e2 invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a3e dex@0075a7e8 move-result-wide         v4 
+0a3f dex@0075a7ea sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_EVTLKG_SENABNL_TEMP_SETPASS:J
+0a41 dex@0075a7ee sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a43 dex@0075a7f2 sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a45 dex@0075a7f6 add-int/lit8             v6 v5 #1 
+0a47 dex@0075a7fa sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a49 dex@0075a7fe invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a4c dex@0075a804 move-result-wide         v4 
+0a4d dex@0075a806 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_EVTLKG_APPTRIG_AEVTCFG:J
+0a4f dex@0075a80a sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a51 dex@0075a80e sget                     v5 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a53 dex@0075a812 add-int/lit8             v6 v5 #1 
+0a55 dex@0075a816 sput                     v6 Lcom/macrovideo/sdk/defines/Protocol;->eventLinkageDAIDINdex:I
+0a57 dex@0075a81a invoke-static            v4 v5 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a5a dex@0075a820 move-result-wide         v4 
+0a5b dex@0075a822 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->DAID_EVTLKG_APPEVT_TRIGGER:J
+0a5d dex@0075a826 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a5f dex@0075a82a invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a62 dex@0075a830 move-result-wide         v4 
+0a63 dex@0075a832 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_EVTLKG_AID_MAX:J
+0a65 dex@0075a836 sget                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_EVENT_LINKAGE:I
+0a67 dex@0075a83a invoke-static            v4 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0a6a dex@0075a840 move-result-wide         v4 
+0a6b dex@0075a842 sput-wide                v4 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_EVTLKG_EID_MAX:J
+0a6d dex@0075a846 const/16                 v4 #249 
+0a6f dex@0075a84a sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_TEST:I
+0a71 dex@0075a84e sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->testDAIDIndex:I
+0a73 dex@0075a852 invoke-static            v4 v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a76 dex@0075a858 move-result-wide         v3 
+0a77 dex@0075a85a sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DAID_EVTLKG_TEST_CONTROL:J
+0a79 dex@0075a85e sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_TEST:I
+0a7b dex@0075a862 sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->testDAIDIndex:I
+0a7d dex@0075a866 add-int/lit8             v4 v3 #1 
+0a7f dex@0075a86a sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->testDAIDIndex:I
+0a81 dex@0075a86e invoke-static            v0 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0a84 dex@0075a874 move-result-wide         v3 
+0a85 dex@0075a876 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DAID_EVTLKG_TEST_STATUS:J
+0a87 dex@0075a87a sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->customDPIDIndex:I
+0a89 dex@0075a87e sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->customDPADIndex:I
+0a8b dex@0075a882 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->customDPEDIndex:I
+0a8d dex@0075a886 const/16                 v0 #250 
+0a8f dex@0075a88a sput                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CUSTOM:I
+0a91 dex@0075a88e invoke-static            v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0a94 dex@0075a894 move-result-wide         v3 
+0a95 dex@0075a896 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_CUSTOM_DPAE_START:J
+0a97 dex@0075a89a sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CUSTOM:I
+0a99 dex@0075a89e invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0a9c dex@0075a8a4 move-result-wide         v3 
+0a9d dex@0075a8a6 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_CUSTOM_PID_MAX:J
+0a9f dex@0075a8aa sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CUSTOM:I
+0aa1 dex@0075a8ae invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0aa4 dex@0075a8b4 move-result-wide         v3 
+0aa5 dex@0075a8b6 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_CUSTOM_AID_MAX:J
+0aa7 dex@0075a8ba sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CUSTOM:I
+0aa9 dex@0075a8be invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0aac dex@0075a8c4 move-result-wide         v3 
+0aad dex@0075a8c6 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_CUSTOM_EID_MAX:J
+0aaf dex@0075a8ca sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0ab1 dex@0075a8ce const/16                 v0 #17 
+0ab3 dex@0075a8d2 sput                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0ab5 dex@0075a8d6 invoke-static            v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0ab8 dex@0075a8dc move-result-wide         v3 
+0ab9 dex@0075a8de sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_LOWPOWER_START:J
+0abb dex@0075a8e2 sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0abd dex@0075a8e6 sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0abf dex@0075a8ea add-int/lit8             v4 v3 #1 
+0ac1 dex@0075a8ee sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0ac3 dex@0075a8f2 invoke-static            v0 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0ac6 dex@0075a8f8 move-result-wide         v3 
+0ac7 dex@0075a8fa sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LOWPOWER_MODE:J
+0ac9 dex@0075a8fe sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0acb dex@0075a902 sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0acd dex@0075a906 add-int/lit8             v4 v3 #1 
+0acf dex@0075a90a sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0ad1 dex@0075a90e invoke-static            v0 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0ad4 dex@0075a914 move-result-wide         v3 
+0ad5 dex@0075a916 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LOWPOWER_SMART_ATTR:J
+0ad7 dex@0075a91a sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0ad9 dex@0075a91e sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0adb dex@0075a922 add-int/lit8             v4 v3 #1 
+0add dex@0075a926 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0adf dex@0075a92a invoke-static            v0 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0ae2 dex@0075a930 move-result-wide         v3 
+0ae3 dex@0075a932 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LOWPOWER_AOV_INT_SOURCE:J
+0ae5 dex@0075a936 sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0ae7 dex@0075a93a sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0ae9 dex@0075a93e add-int/lit8             v4 v3 #1 
+0aeb dex@0075a942 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0aed dex@0075a946 invoke-static            v0 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0af0 dex@0075a94c move-result-wide         v3 
+0af1 dex@0075a94e sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LOWPOWER_AOV_FRAME_MODE:J
+0af3 dex@0075a952 sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0af5 dex@0075a956 sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0af7 dex@0075a95a add-int/lit8             v4 v3 #1 
+0af9 dex@0075a95e sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0afb dex@0075a962 invoke-static            v0 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0afe dex@0075a968 move-result-wide         v3 
+0aff dex@0075a96a sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LOWPOWER_WAKEUP_SOURCE:J
+0b01 dex@0075a96e sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0b03 dex@0075a972 sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0b05 dex@0075a976 add-int/lit8             v4 v3 #1 
+0b07 dex@0075a97a sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0b09 dex@0075a97e invoke-static            v0 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0b0c dex@0075a984 move-result-wide         v3 
+0b0d dex@0075a986 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LOWPOWER_WAKEUP_PIR_INTERVAL:J
+0b0f dex@0075a98a sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0b11 dex@0075a98e sget                     v3 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0b13 dex@0075a992 add-int/lit8             v4 v3 #1 
+0b15 dex@0075a996 sput                     v4 Lcom/macrovideo/sdk/defines/Protocol;->lowPowerDPIDIndex:I
+0b17 dex@0075a99a invoke-static            v0 v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0b1a dex@0075a9a0 move-result-wide         v3 
+0b1b dex@0075a9a2 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->DPID_LOWPOWER_WAKEUP_PIR_WORKTIME:J
+0b1d dex@0075a9a6 sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0b1f dex@0075a9aa invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0b22 dex@0075a9b0 move-result-wide         v3 
+0b23 dex@0075a9b2 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_LOWPOWER_PID_MAX:J
+0b25 dex@0075a9b6 sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0b27 dex@0075a9ba invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0b2a dex@0075a9c0 move-result-wide         v3 
+0b2b dex@0075a9c2 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_LOWPOWER_AID_MAX:J
+0b2d dex@0075a9c6 sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_BASE_LOWPOWER:I
+0b2f dex@0075a9ca invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0b32 dex@0075a9d0 move-result-wide         v3 
+0b33 dex@0075a9d2 sput-wide                v3 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_LOWPOWER_EID_MAX:J
+0b35 dex@0075a9d6 sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->contactsDPIDIndex:I
+0b37 dex@0075a9da sput                     v1 Lcom/macrovideo/sdk/defines/Protocol;->contactsDFIDIndex:I
+0b39 dex@0075a9de const/16                 v0 #20 
+0b3b dex@0075a9e2 sput                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CONTACTS:I
+0b3d dex@0075a9e6 invoke-static            v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_START(I)J
+0b40 dex@0075a9ec move-result-wide         v0 
+0b41 dex@0075a9ee sput-wide                v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_DPAE_CONTACTS_START:J
+0b43 dex@0075a9f2 sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CONTACTS:I
+0b45 dex@0075a9f6 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->contactsDPIDIndex:I
+0b47 dex@0075a9fa add-int/lit8             v3 v1 #1 
+0b49 dex@0075a9fe sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->contactsDPIDIndex:I
+0b4b dex@0075aa02 invoke-static            v0 v1 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0b4e dex@0075aa08 move-result-wide         v0 
+0b4f dex@0075aa0a sput-wide                v0 Lcom/macrovideo/sdk/defines/Protocol;->DPID_CONTACTS_CONTACT_LIST:J
+0b51 dex@0075aa0e sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CONTACTS:I
+0b53 dex@0075aa12 invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DPID(II)J
+0b56 dex@0075aa18 move-result-wide         v0 
+0b57 dex@0075aa1a sput-wide                v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_CONTACTS_PID_MAX:J
+0b59 dex@0075aa1e sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CONTACTS:I
+0b5b dex@0075aa22 invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DAID(II)J
+0b5e dex@0075aa28 move-result-wide         v0 
+0b5f dex@0075aa2a sput-wide                v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_CONTACTS_AID_MAX:J
+0b61 dex@0075aa2e sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CONTACTS:I
+0b63 dex@0075aa32 invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DEID(II)J
+0b66 dex@0075aa38 move-result-wide         v0 
+0b67 dex@0075aa3a sput-wide                v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_CONTACTS_EID_MAX:J
+0b69 dex@0075aa3e sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CONTACTS:I
+0b6b dex@0075aa42 sget                     v1 Lcom/macrovideo/sdk/defines/Protocol;->contactsDFIDIndex:I
+0b6d dex@0075aa46 add-int/lit8             v3 v1 #1 
+0b6f dex@0075aa4a sput                     v3 Lcom/macrovideo/sdk/defines/Protocol;->contactsDFIDIndex:I
+0b71 dex@0075aa4e invoke-static            v0 v1 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DFID(II)J
+0b74 dex@0075aa54 move-result-wide         v0 
+0b75 dex@0075aa56 sput-wide                v0 Lcom/macrovideo/sdk/defines/Protocol;->DFID_CONTACTS_NAME_PICTURE:J
+0b77 dex@0075aa5a sget                     v0 Lcom/macrovideo/sdk/defines/Protocol;->DGID_IOTC_CONTACTS:I
+0b79 dex@0075aa5e invoke-static            v0 v2 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_DFID(II)J
+0b7c dex@0075aa64 move-result-wide         v0 
+0b7d dex@0075aa66 sput-wide                v0 Lcom/macrovideo/sdk/defines/Protocol;->MVSPT_IOTC_CONTACTS_FID_MAX:J
+0b7f dex@0075aa6a return-void              

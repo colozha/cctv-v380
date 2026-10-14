@@ -1,6 +1,6 @@
 # V380 LAN
 
-Client Android independen untuk kamera V380 pada Wi-Fi lokal. Versi **0.3.0-experimental** mengimplementasikan autentikasi Legacy/IoT LAN, live video AVC/HEVC dengan MediaCodec, PTZ, konfigurasi Wi-Fi melalui AP terautentikasi, serta rekaman/pengaturan IoT eksperimental. **Pengguna sudah melaporkan login dan video berhasil, tetapi sesi versi0.2.0 terputus setelah beberapa detik; kompatibilitas stabil belum terverifikasi.** Pairing awal IoT yang membutuhkan binding cloud belum didukung. Rincian: [status implementasi dan kompatibilitas](IMPLEMENTATION.md).
+Client Android independen untuk kamera V380 pada Wi-Fi lokal. Versi **0.4.2-experimental** mengimplementasikan autentikasi Legacy/IoT LAN, live video AVC/HEVC dengan MediaCodec, PTZ, konfigurasi Wi-Fi melalui AP terautentikasi, serta rekaman/pengaturan IoT eksperimental. **Pengguna sudah melaporkan login dan video berhasil, tetapi sesi versi0.2.0 terputus setelah beberapa detik; kompatibilitas stabil belum terverifikasi.** Pairing awal IoT yang membutuhkan binding cloud belum didukung. Rincian: [status implementasi dan kompatibilitas](IMPLEMENTATION.md).
 
 Perbaikan0.2.1 mencakup parser frame kecil/sparse cipher, feedback NOTIFY197120, recovery error PTZ/reader, dan diagnostik schema2 yang membedakan error stream dari auth. [Bukti dan batas perbaikan disconnect](analysis/stream-disconnect.md). Pengujian koneksi tidak dijalankan ulang.
 
@@ -16,7 +16,7 @@ python3 tools/collect-validation.py --without-connection-tests
 "$ANDROID_HOME/platform-tools/adb" install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada build debug; tidak ada rilis kamera verified. Hasil pengujian dan hash: [validation/results.json](validation/results.json), [hasil fitur0.3.0](validation/recordings-settings/results.json). Build akhir dan40 tes JVM murni lulus, lint0 error. Tes UI/ekspor Android baru belum berjalan karena emulator crash saat boot. Pengujian koneksi lanjutan ditunda sesuai instruksi pengguna; hasil emulator API26/30/37 sebelumnya ditandai historis karena source telah berubah. Uji integrasi IoT sintetis terakhir gagal saat teardown ActivityScenario dan belum diulang. API35 belum menjalankan suite runtime.
+APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada build debug; tidak ada rilis kamera verified. Hasil pengujian dan hash: [validation/results.json](validation/results.json), [hasil fitur0.3.0](validation/recordings-settings/results.json). Build0.4.2 dan65 tes JVM murni lulus, lint0 error; [hasil terbaru](validation/area-stage3/results.json). Tes UI/ekspor Android baru belum berjalan karena emulator crash saat boot. Pengujian koneksi lanjutan ditunda sesuai instruksi pengguna; hasil emulator API26/30/37 sebelumnya ditandai historis karena source telah berubah. Uji integrasi IoT sintetis terakhir gagal saat teardown ActivityScenario dan belum diulang. API35 belum menjalankan suite runtime.
 
 ## Kamera sudah terhubung Wi-Fi
 
@@ -37,6 +37,16 @@ Buka detail kamera → **Rekaman** atau **Pengaturan**, lalu sambungkan akses lo
 - **Kartu SD:** status/ruang tersisa dapat dibaca. **Format SD card belum diaktifkan** karena bukti status akhir format belum cukup; format bukan reset kamera. Detail gerbang: [kontrak](analysis/recordings-settings-wire.md).
 
 Fitur belum diuji pada kamera pengguna. Tidak ada fallback cloud jika firmware memerlukan MQ/signaling server.
+
+## Manajemen kamera tambahan (debug0.4.2)
+
+Di **Pengaturan**, buka grup Alarm dan deteksi gerakan, Jadwal lampu, Preset dan patroli/Perangkat, lalu muat nilai kamera. Alarm utama, detector gerakan dan suara kamera terpisah dari Rekam peristiwa. Interval alarm dapat ditambah/dihapus/diedit per hari dalam draft, lalu disimpan atau dibatalkan. Penambahan khusus gerakan mengikuti batas editor konservatif dan membutuhkan deteksi gerakan aktif. Minggu kosong memerlukan Alarm utama mati. Sensitivitas gerakan belum tersedia. Editor area tersedia untuk grid satu tampilan datar yang terkonfirmasi: **Ambil gambar referensi → pilih sel → Gunakan area → Simpan alarm**. Gambar hanya berada di memori; jika arah kamera berubah, ambil ulang. Fisheye, gambar gabungan, crop/rotasi dan metadata ambigu tetap terkunci. Sensitivitas lampu rendah/normal/tinggi dan jadwal kamera memerlukan readback/capability; jadwal mengikuti waktu kamera, bukan waktu Android. Tambah/hapus interval lampu memperbarui jumlah interval; kapasitas baru dibatasi baseline UI vendor.
+
+Di **Live → Preset dan patroli**, muat status, pilih slot, lalu simpan/panggil/hapus preset. Pada kamera yang mendeklarasikan cruise, arah PTZ terkunci sampai konfigurasi patroli tidak aktif terbaca. Rute, urutan dan jeda patroli dapat diedit ketika tidak aktif; **start/stop patroli belum diaktifkan** karena status motor belum terbukti. Kalibrasi berada pada Pengaturan dan meminta konfirmasi. ACK kalibrasi belum berarti gerak selesai; periksa kamera sebelum menutup pemeriksaan.
+
+**Perangkat** menampilkan versi yang dibaca dari kamera dan menyediakan restart satu kali. Jika koneksi kembali, aplikasi mencocokkan device ID dan autentikasi; tanpa indikator boot, restart tetap belum dapat dipastikan. Setelah timeout/proses mati, sambungkan lewat akses lokal biasa lalu **Periksa kamera**; tidak ada pengiriman ulang. **Tutup catatan restart** hanya menutup catatan lokal. **Format SD tetap terkunci** sampai enum terminalnya terbukti.
+
+Fitur baru belum diuji pada kamera. [Kontrak dan batas implementasi](analysis/camera-management-wire.md), [hasil validasi](validation/area-stage3/results.json). Seluruh rencana belum selesai; kontrol yang masih terkunci adalah pekerjaan tersisa.
 
 ## Ubah hotspot kamera
 

@@ -21,7 +21,8 @@ enum class VideoCodec(val mime: String) { AVC("video/avc"), HEVC("video/hevc") }
 enum class Quality { SD, HD }
 data class CameraCapabilities(val codecs: Set<VideoCodec>, val qualities: Set<Quality>, val ptz: Boolean,
     val wifiConfiguration: Boolean = false, val horizontalPtz: Boolean = ptz, val verticalPtz: Boolean = ptz,
-    val recordingQualities: Set<Int> = emptySet())
+    val recordingQualities: Set<Int> = emptySet(),
+    val management: dev.cctv.v380.protocol.ManagementAbilities = dev.cctv.v380.protocol.ManagementAbilities())
 class EncodedFrame(val codec: VideoCodec, val channel: Int, val keyframe: Boolean, val ptsUs: Long, val bytes: ByteArray)
 
 enum class SessionError {

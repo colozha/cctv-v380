@@ -65,5 +65,9 @@ private fun stageLabel(stage: DiagnosticStage) = when (stage) {
     DiagnosticStage.RECORDINGS -> "Daftar rekaman"; DiagnosticStage.PLAYBACK -> "Playback rekaman"
     DiagnosticStage.DOWNLOAD -> "Penyalinan rekaman"; DiagnosticStage.SETTINGS -> "Pengaturan kamera"
     DiagnosticStage.SD_FORMAT -> "Format kartu SD"
+    DiagnosticStage.ALARM -> "Alarm dan gerakan"; DiagnosticStage.PTZ_PRESET -> "Preset PTZ"
+    DiagnosticStage.PTZ_CRUISE -> "Patroli PTZ"; DiagnosticStage.PTZ_CALIBRATION -> "Kalibrasi PTZ"
+    DiagnosticStage.LIGHT_SCHEDULE -> "Jadwal lampu"; DiagnosticStage.DEVICE_INFO -> "Informasi perangkat"
+    DiagnosticStage.RESTART -> "Restart kamera"; DiagnosticStage.RESTART_VERIFY -> "Pemeriksaan setelah restart"
     DiagnosticStage.AP_EDIT -> "Perubahan hotspot"; DiagnosticStage.AP_VERIFY -> "Verifikasi hotspot"
 }

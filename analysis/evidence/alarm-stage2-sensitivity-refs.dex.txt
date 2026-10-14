@@ -1,0 +1,2 @@
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;-><clinit>()V code-unit=1418 SPUT_WIDE Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_MT_SENSITIVITY:J
+instructions_scanned=5429555

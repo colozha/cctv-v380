@@ -1,0 +1,22 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_alert_event_bmcp32;-><clinit>()V code_item_offset=7695832 registers=1
+0000 dex@00756de8 const/4                  v0 #1 
+0001 dex@00756dea invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0004 dex@00756df0 move-result              v0 
+0005 dex@00756df2 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_alert_event_bmcp32;->ABL_ALERT_DETECT_MOTION:I
+0007 dex@00756df6 const/4                  v0 #2 
+0008 dex@00756df8 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+000b dex@00756dfe move-result              v0 
+000c dex@00756e00 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_alert_event_bmcp32;->ABL_ALERT_DETECT_STAY:I
+000e dex@00756e04 const/4                  v0 #3 
+000f dex@00756e06 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0012 dex@00756e0c move-result              v0 
+0013 dex@00756e0e sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_alert_event_bmcp32;->ABL_ALERT_DETECT_EFENCE:I
+0015 dex@00756e12 const/4                  v0 #4 
+0016 dex@00756e14 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0019 dex@00756e1a move-result              v0 
+001a dex@00756e1c sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_alert_event_bmcp32;->ABL_ALERT_DETECT_LINE_CROSSING:I
+001c dex@00756e20 const/4                  v0 #5 
+001d dex@00756e22 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0020 dex@00756e28 move-result              v0 
+0021 dex@00756e2a sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_alert_event_bmcp32;->ABL_ALERT_DETECT_BABYCRY:I
+0023 dex@00756e2e return-void              

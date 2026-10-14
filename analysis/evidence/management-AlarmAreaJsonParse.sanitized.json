@@ -1,0 +1,100 @@
+{
+  "source_evidence_id": "ev_631d9872deed41839cecbbd6761744ac05306ddb309a80f09e7e31c51f0c9e8c",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.json.AlarmAreaJsonParse"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.json.AlarmAreaJsonParse",
+    "methods": [
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAlarmArea",
+        "reported_signature": "getAlarmArea(): java.util.List<java.lang.Integer>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAlarmAreaLineCnt",
+        "reported_signature": "getAlarmAreaLineCnt(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAlarmAreaRowCnt",
+        "reported_signature": "getAlarmAreaRowCnt(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAlarmArea",
+        "reported_signature": "setAlarmArea(java.util.List<java.lang.Integer>): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAlarmAreaLineCnt",
+        "reported_signature": "setAlarmAreaLineCnt(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAlarmAreaRowCnt",
+        "reported_signature": "setAlarmAreaRowCnt(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "alarm_area",
+        "reported_type": "java.util.List<java.lang.Integer>"
+      },
+      {
+        "name": "alarm_area_line_cnt",
+        "reported_type": "int"
+      },
+      {
+        "name": "alarm_area_row_cnt",
+        "reported_type": "int"
+      }
+    ],
+    "inner_classes": []
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

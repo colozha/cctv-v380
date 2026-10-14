@@ -1,0 +1,127 @@
+{
+  "source_evidence_id": "ev_c465a7b7152277aadb29a550f0c9acb6566bcd5e13c99c94b157641d2a668a1d",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.json.LightTimerInfoJsonParse"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.json.LightTimerInfoJsonParse",
+    "methods": [
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getCapability",
+        "reported_signature": "getCapability(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getDefaultAction",
+        "reported_signature": "getDefaultAction(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getTime_schedule",
+        "reported_signature": "getTime_schedule(): java.util.List<com.macrovideo.sdk.json.LightTimerInfoJsonParse$TimeSchedule>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getTotal",
+        "reported_signature": "getTotal(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCapability",
+        "reported_signature": "setCapability(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setDefaultAction",
+        "reported_signature": "setDefaultAction(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setTime_schedule",
+        "reported_signature": "setTime_schedule(java.util.List<com.macrovideo.sdk.json.LightTimerInfoJsonParse$TimeSchedule>): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setTotal",
+        "reported_signature": "setTotal(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "toString",
+        "reported_signature": "toString(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "capability",
+        "reported_type": "int"
+      },
+      {
+        "name": "defaultAction",
+        "reported_type": "int"
+      },
+      {
+        "name": "time_schedule",
+        "reported_type": "java.util.List<com.macrovideo.sdk.json.LightTimerInfoJsonParse$TimeSchedule>"
+      },
+      {
+        "name": "total",
+        "reported_type": "int"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.sdk.json.LightTimerInfoJsonParse.TimeSchedule"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

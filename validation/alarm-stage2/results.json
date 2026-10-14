@@ -1,0 +1,252 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Asia/Jakarta",
+  "app_version": "0.4.1-experimental",
+  "status": "implemented_offline_validated_runtime_unverified",
+  "scope": "Alarm schedule draft editing and offline validation; no socket/session or physical-camera tests",
+  "source_sha256": "d64bf101b11c0f85d0584a2756746f0703b605d4a5e03020f7aa92d3def3ceb6",
+  "source_hash_scope": "app/src and app/root Gradle configuration, same algorithm as tools/collect-validation.py",
+  "offline_build": {
+    "success": true,
+    "command": "validation/alarm-stage2/offline-build-command.sh",
+    "log": "validation/alarm-stage2/offline-build.log"
+  },
+  "jvm": {
+    "tests": 60,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "reports": [
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.ApProtocolTest.xml",
+        "timestamp": "2026-10-14T13:03:10.547Z",
+        "cases": [
+          "dev.cctv.v380.ApProtocolTest.wifiSerializersKeepTheLegacyAndIotEncodingsDistinct",
+          "dev.cctv.v380.ApProtocolTest.discoveryMetadataDistinguishesConfigAndAlarmFromPlatform",
+          "dev.cctv.v380.ApProtocolTest.bindingTransactionRequiresAnActualCorrelatedReply",
+          "dev.cctv.v380.ApProtocolTest.binaryDiscoveryValidatesDatagramBoundariesIdentityAndSource",
+          "dev.cctv.v380.ApProtocolTest.encryptedWifiTransactionUsesTheProvedActionAndRejectsPlaintextSuccess",
+          "dev.cctv.v380.ApProtocolTest.bindingFieldsAndPasswordProofUseTheRecoveredSchema"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.CoreTest.xml",
+        "timestamp": "2026-10-14T13:03:10.725Z",
+        "cases": [
+          "dev.cctv.v380.CoreTest.annexBSupportsBothPrefixesAndBothCodecs",
+          "dev.cctv.v380.CoreTest.sparseCipherMatchesIndependentBlockEncryptionAndPreservesTails",
+          "dev.cctv.v380.CoreTest.exactReaderHandlesPartialCoalescedAndZeroReads",
+          "dev.cctv.v380.CoreTest.watchdogStopTransportFailureDoesNotEscapeItsBackgroundJob",
+          "dev.cctv.v380.CoreTest.discoveryChecksLengthSourceIdentityAndPort",
+          "dev.cctv.v380.CoreTest.profileValidationUsesEncodedByteLength",
+          "dev.cctv.v380.CoreTest.ptzStopLeaseRenewalAndDirectionChange"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.DiagnosticsTest.xml",
+        "timestamp": "2026-10-14T13:03:10.863Z",
+        "cases": [
+          "dev.cctv.v380.DiagnosticsTest.streamFailureExportsTypedStageAndPacketMetadataWithoutInventingAnAuthFailure"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.ManagementSessionGuardTest.xml",
+        "timestamp": "2026-10-14T13:03:10.873Z",
+        "cases": [
+          "dev.cctv.v380.ManagementSessionGuardTest.unauthenticatedAndGatedOperationsNeverReachTransport"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.ApHotspotTest.xml",
+        "timestamp": "2026-10-14T13:03:10.890Z",
+        "cases": [
+          "dev.cctv.v380.protocol.ApHotspotTest.authenticatedReadyWithoutVideoCanWriteOnceAndInvalidatesTheOldSession",
+          "dev.cctv.v380.protocol.ApHotspotTest.codecKeepsRouterModeSeparateAndUsesRecoveredSoftApCapabilityAndInputRules",
+          "dev.cctv.v380.protocol.ApHotspotTest.explicitCapabilityAndLiveNetworkProofAreRequiredEvenAfterSuccessfulLogin",
+          "dev.cctv.v380.protocol.ApHotspotTest.unconnectedCameraAndPreAuthProfileCannotAuthorizeAnAction",
+          "dev.cctv.v380.protocol.ApHotspotTest.abortAfterDurableMarkerBlocksWriteAndResponseLossNeverReplaysAction",
+          "dev.cctv.v380.protocol.ApHotspotTest.verificationRequiresBothRequestedValuesAndNeverConfusesEncodedNames"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.CameraFeatureProtocolTest.xml",
+        "timestamp": "2026-10-14T13:03:11.337Z",
+        "cases": [
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.destructiveActionOmitsInputAndRequestsAReplyWhileFlipUsesTheRecoveredAction",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.changesPreserveUnownedRecordingBitsAndRequireEveryAcknowledgement",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.replayAndDownloadUseDistinctModesAndRawPrerollWithoutChangingSegmentIdentity",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.capacityUsesVerifiedPipeFieldsWithoutInventingUnits",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.recordPagesHaveCorrelatedSlicesBoundedOffsetsAndExplicitCompletion",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.propertyReadsPreserveUnknownsAndRejectUnrelatedOrDuplicateValues"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.CameraManagementProtocolTest.xml",
+        "timestamp": "2026-10-14T13:03:11.375Z",
+        "cases": [
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmRejectsMalformedCountsTimesAndUnprovenSensitivity",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmMiddleDeletionKeepsEachSurvivingIntervalsOwnMetadata",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.presetListUsesZeroBasedCameraSlotsAndRejectsDuplicates",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.invalidTimesAndOverlapsNeverSerialize",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmWritePreservesUnownedEventBitsAndVendorFields",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.emptyAlarmDaysRoundTripAndEmptyWeekRequiresMainSwitchOff",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmPreflightRejectsChangedLimitsAndMetadataButReadbackIgnoresOriginIndices",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.capabilitiesArePerViewAndCalibrationDoesNotFollowDirectionalBits",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.readsKeepMissingAndDeniedPropertiesUnknownAndCheckCorrelation",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.lightScheduleRequiresItsOwnAbilityAndRetainsCameraMetadata",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.restartAndCalibrationAreSeparateReplyRequiredActionsAndFormatRemainsGated",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmNewIntervalsUseProvenDefaultsAndRespectConservativeLimits",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.routeEditingPreservesDisabledEngineAndCannotActivatePatrol"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.IoTMediaProtocolTest.xml",
+        "timestamp": "2026-10-14T13:03:11.432Z",
+        "cases": [
+          "dev.cctv.v380.protocol.IoTMediaProtocolTest.shortVideoTailsAndLargePlaintextGapsAreValidSparsePatterns",
+          "dev.cctv.v380.protocol.IoTMediaProtocolTest.readsNegotiatedCodecAndPtzCapabilitiesAndBuildsFiniteSteps",
+          "dev.cctv.v380.protocol.IoTMediaProtocolTest.decryptsSparseCbcAndEcbWithoutChainingAcrossPlaintextGaps",
+          "dev.cctv.v380.protocol.IoTMediaProtocolTest.parsesPlainFramesAndRejectsUnsafeChunkMetadata"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.IoTProtocolTest.xml",
+        "timestamp": "2026-10-14T13:03:11.449Z",
+        "cases": [
+          "dev.cctv.v380.protocol.IoTProtocolTest.returnsTypedDeviceFailuresAndApHeader",
+          "dev.cctv.v380.protocol.IoTProtocolTest.rejectsCorruptDigestLowOrderPointAndRepeatedExchange",
+          "dev.cctv.v380.protocol.IoTProtocolTest.lanHandshakeUsesRfc7748AgreementAndAuthenticatesDigest",
+          "dev.cctv.v380.protocol.IoTProtocolTest.rejectsUncorrelatedOversizedAndTruncatedPackets",
+          "dev.cctv.v380.protocol.IoTProtocolTest.decodeFeedbackEchoesOnlyTheNumericChallengeAndUsesTheVendorDefaultDeficit",
+          "dev.cctv.v380.protocol.IoTProtocolTest.streamMaySkipBoundedUnknownPacketsWhileTransactionsRemainStrict"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.LegacyProtocolTest.xml",
+        "timestamp": "2026-10-14T13:03:11.469Z",
+        "cases": [
+          "dev.cctv.v380.protocol.LegacyProtocolTest.passwordThresholdCountsUtf16AndHashesMiddleHexAsText",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.mediaCipherSelectsNativeModesAndRejectsUseAfterClose",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.streamAndPtzPacketsUseRecoveredNativeLayouts",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.initialResponsePaddingIsBoundedAndOnlyAllowedBeforeFirstFrame",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.authSerializerUses520BytesDateNonceAndTwoIndependentPkcs5Layers",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.innerTypesDetermineCodecKeyframeAndAudioWithoutPayloadGuessing",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.streamResponseRejectsNegativeStatusesImpossibleDimensionsAndUnknownModes",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.reassemblyRejectsMissingDuplicateOversizedAndInconsistentFragments",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.loginValidatesEverySuccessConditionAndPreservesUnsignedFields",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.arbitraryTcpSplitsAndCoalescingPreserveNativeFrameMetadata"
+        ]
+      }
+    ]
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 13,
+    "hints": 1,
+    "report": "app/build/reports/lint-results-debug.xml",
+    "issues": {
+      "InlinedApi": 2,
+      "UnusedAttribute": 1,
+      "AndroidGradlePluginVersion": 1,
+      "GradleDependency": 5,
+      "NewerVersionAvailable": 3,
+      "AutoboxingStateCreation": 1,
+      "UsableSpace": 1
+    }
+  },
+  "apk": {
+    "path": "app/build/outputs/apk/debug/app-debug.apk",
+    "bytes": 15140986,
+    "version_name": "0.4.1-experimental",
+    "sha256": "98c5b0c4b706c3cc7e55177037290bc9f0f0dfac28f2c3f24e5405534cb3d945",
+    "signature_verification": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1",
+    "native_libraries": [
+      "lib/arm64-v8a/libandroidx.graphics.path.so",
+      "lib/armeabi-v7a/libandroidx.graphics.path.so",
+      "lib/x86/libandroidx.graphics.path.so",
+      "lib/x86_64/libandroidx.graphics.path.so"
+    ],
+    "proprietary_vendor_libraries_present": false
+  },
+  "instrumentation_apk": {
+    "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+    "sha256": "7652321c58f4493a4098a9a962c5a9586114bdffb26c2fd62f39fb15ef23770c",
+    "compiled": true,
+    "runtime_tests_run": false
+  },
+  "ui": {
+    "fixture_class": "dev.cctv.v380.CameraManagementUiTest",
+    "cases_compiled": 3,
+    "run": false,
+    "runtime_whitelist": [
+      "dev.cctv.v380.CameraManagementUiTest",
+      "dev.cctv.v380.FeatureStorageAndExportTest"
+    ],
+    "runtime_command": "validation/alarm-stage2/runtime-command.sh",
+    "runtime_command_executed": false,
+    "screenshots": [],
+    "visual_matrix": {
+      "light_dark": false,
+      "portrait_landscape": false,
+      "font_scale_1_3": false
+    },
+    "emulator_attempts": [
+      {
+        "api": 35,
+        "renderer": "SwiftShader",
+        "acceleration": "KVM on (accel-check available)",
+        "exit_code": 139,
+        "reason": "SIGSEGV during boot; adb went offline/disappeared",
+        "log": "validation/alarm-stage2/emulator-boot.log"
+      },
+      {
+        "api": 26,
+        "renderer": "GPU off, Vulkan disabled",
+        "acceleration": "KVM on",
+        "exit_code": 139,
+        "reason": "SIGSEGV during boot; no boot-completed device",
+        "log": "validation/alarm-stage2/emulator-api26-boot.log"
+      }
+    ]
+  },
+  "implemented_stage2": [
+    "Typed maximum metadata and original-interval references",
+    "Add/remove/edit alarm intervals per day within conservative editor limits",
+    "Preserve original event bits and unknown metadata after middle deletion",
+    "Proven full-day motion-only new interval defaults",
+    "Allow empty days; require main alarm off before saving an empty week",
+    "Preflight detects changed limits/metadata; readback tolerates interval order normalization",
+    "Concrete Compose form callbacks, native day selector and TimeInput, draft Save/Discard",
+    "Inline time/overlap validation and disabled invalid/busy/disconnected writes"
+  ],
+  "motion_sensitivity": {
+    "property_id": 655619,
+    "read_write_enabled": false,
+    "reason": "No proven LAN property getter/writer/range/labels/capability. DEX references only initializer; live JNI is not substituted.",
+    "dex_reference_scan": "analysis/evidence/alarm-stage2-sensitivity-refs.dex.txt"
+  },
+  "rea": {
+    "version": "6.4.0",
+    "engine": "jadx-headless-mcp0.7.1",
+    "vendor_apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+    "vendor_apk_executed": false,
+    "excerpts": "analysis/evidence/alarm-stage2-*.sanitized.json",
+    "index": "analysis/evidence-index.md",
+    "wire_notes": "analysis/alarm-stage2-wire.md"
+  },
+  "connection_testing": {
+    "deferred_by_user": true,
+    "socket_session_tests_run": false,
+    "physical_camera_tested": false
+  },
+  "proprietary_vendor_libraries_present": false,
+  "full_management_plan_completed": false,
+  "unfinished": [
+    "Motion sensitivity contract and implementation",
+    "Native UI/storage runtime and visual matrix",
+    "Per-firmware camera acceptance",
+    "Area editor; patrol activation/stop and motor state; terminal calibration/format; reboot proof",
+    "Legacy/multi-view variants and light-slot expansion"
+  ],
+  "previous_management_report": "validation/camera-management/results.json"
+}

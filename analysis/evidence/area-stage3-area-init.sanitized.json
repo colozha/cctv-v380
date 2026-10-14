@@ -1,0 +1,52 @@
+{
+  "source_evidence_id": "ev_9c40103efad7510781c5e9e622de833d84f049c2bfb99ebfd8b24c18eece8314",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity",
+    "method_name": "initAlarmAreaView"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity",
+    "method": {
+      "name": "initAlarmAreaView",
+      "reported_signature": "initAlarmAreaView(): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    private void initAlarmAreaView() {\n        ((ActivityConfigSelectAlarmAreaBinding) this.binding).lgvSelectAlarmArea.setNumColumns(DeviceConfigSettingAlarmSettingFragment.sAlarmAreaColumns);\n        int i = this.mCameraMode;\n        if (i == 1 || i == 3) {\n            ((ActivityConfigSelectAlarmAreaBinding) this.binding).lgvSelectAlarmArea.setIsGunBallMode(true);\n            ((ActivityConfigSelectAlarmAreaBinding) this.binding).lgvSelectAlarmArea.setVerticalSpacing(0);\n            ((ActivityConfigSelectAlarmAreaBinding) this.binding).lgvSelectAlarmArea.setHorizontalSpacing(0);\n        }\n        this.mAlarmAreaList = new ArrayList<>();\n        LogUtil.e(TAG, \"<literal omitted>\" + DeviceConfigSettingAlarmSettingFragment.sLocalAreaArray.size());\n        this.mAlarmAreaList.addAll(DeviceConfigSettingAlarmSettingFragment.sLocalAreaArray);\n        LogUtil.e(TAG, \"<literal omitted>\" + this.mAlarmAreaList.size());\n        this.mAdapter = new SelectAreaAdapter(((ActivityConfigSelectAlarmAreaBinding) this.binding).lgvSelectAlarmArea, this, this.mAlarmAreaList, DeviceConfigSettingAlarmSettingFragment.sAlarmAreaRows);\n        ((ActivityConfigSelectAlarmAreaBinding) this.binding).lgvSelectAlarmArea.setAdapter((ListAdapter) this.mAdapter);\n        ((ActivityConfigSelectAlarmAreaBinding) this.binding).lgvSelectAlarmArea.setOnTouchListener(new View.OnTouchListener() { // from class: com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity.2\n            @Override // android.view.View.OnTouchListener\n            public boolean onTouch(View view, MotionEvent motionEvent) {\n                int action = motionEvent.getAction();\n                if (action == 0) {\n                    int iPointToPosition = ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.pointToPosition((int) motionEvent.getX(), (int) motionEvent.getY());\n                    if (iPointToPosition != -1) {\n                        if (((Integer) DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.get(iPointToPosition)).intValue() == 0) {\n                            DeviceConfigAlarmAreaSelectActivity.this.mIsCheck = false;\n                            DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.remove(iPointToPosition);\n                            DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.add(iPointToPosition, 1);\n                            ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(iPointToPosition).setBackgroundColor(Color.parseColor(\"#ff0000\"));\n                            ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(iPointToPosition).getBackground().setAlpha(51);\n                        } else {\n                            DeviceConfigAlarmAreaSelectActivity.this.mIsCheck = true;\n                            DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.remove(iPointToPosition);\n                            DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.add(iPointToPosition, 0);\n                            ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(iPointToPosition).setBackgroundColor(Color.parseColor(\"#000000\"));\n                            ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(iPointToPosition).getBackground().setAlpha(20);\n                        }\n                    }\n                    return true;\n                }\n                if (action != 2) {\n                    DeviceConfigAlarmAreaSelectActivity.this.changeSelectBtn();\n                    return false;\n                }\n                float x = motionEvent.getX();\n                float y = motionEvent.getY();\n                if (!DeviceConfigAlarmAreaSelectActivity.this.mIsCheck) {\n                    for (int i2 = 0; i2 < DeviceConfigSettingAlarmSettingFragment.sAlarmAreaRows * DeviceConfigSettingAlarmSettingFragment.sAlarmAreaColumns; i2++) {\n                        Rect rect = new Rect();\n                        ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(i2).getHitRect(rect);\n                        if (rect.contains((int) x, (int) y)) {\n                            DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.remove(i2);\n                            DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.add(i2, 1);\n                            ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(i2).setBackgroundColor(Color.parseColor(\"#ff0000\"));\n                            ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(i2).getBackground().setAlpha(51);\n                        }\n                    }\n                } else {\n                    for (int i3 = 0; i3 < DeviceConfigSettingAlarmSettingFragment.sAlarmAreaRows * DeviceConfigSettingAlarmSettingFragment.sAlarmAreaColumns; i3++) {\n                        Rect rect2 = new Rect();\n                        ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(i3).getHitRect(rect2);\n                        if (rect2.contains((int) x, (int) y)) {\n                            DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.remove(i3);\n                            DeviceConfigAlarmAreaSelectActivity.this.mAlarmAreaList.add(i3, 0);\n                            ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(i3).setBackgroundColor(Color.parseColor(\"#000000\"));\n                            ((ActivityConfigSelectAlarmAreaBinding) DeviceConfigAlarmAreaSelectActivity.this.binding).lgvSelectAlarmArea.getChildAt(i3).getBackground().setAlpha(20);\n                        }\n                    }\n                }\n                return true;\n            }\n        });\n        int i2 = this.mCameraMode;\n        if (i2 == 1 || i2 == 3) {\n            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) ((ActivityConfigSelectAlarmAreaBinding) this.binding).rlAlarmAreaContainer.getLayoutParams();\n            layoutParams.dimensionRatio = \"h,16:18\";\n            ((ActivityConfigSelectAlarmAreaBinding) this.binding).rlAlarmAreaContainer.setLayoutParams(layoutParams);\n            return;\n        }\n        DeviceInfo deviceInfo = this.mDeviceInfo;\n        if (deviceInfo != null && deviceInfo.getDevAbility() != null && this.mDeviceInfo.getDevAbility().getCamType() != 0) {\n            ConstraintLayout.LayoutParams layoutParams2 = (ConstraintLayout.LayoutParams) ((ActivityConfigSelectAlarmAreaBinding) this.binding).rlAlarmAreaContainer.getLayoutParams();\n            layoutParams2.dimensionRatio = \"h,1:1\";\n            ((ActivityConfigSelectAlarmAreaBinding) this.binding).rlAlarmAreaContainer.setLayoutParams(layoutParams2);\n            ((ActivityConfigSelectAlarmAreaBinding) this.binding).hvSelectAlarmArea.setVisibility(0);\n            return;\n        }\n        LoginHandle loginHandle = this.mLoginHandle;\n        if (loginHandle == null || !GlobalDefines.isTripleChannelDevice(loginHandle.getNewDeviceType())) {\n            return;\n        }\n        setRealThreeEyePlayerLayout();\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

@@ -1,0 +1,53 @@
+{
+  "source_evidence_id": "ev_b6b908a15fd9dc16c4613697f8ee72aa7614e75a4bc44c55ee6ea4ad7cae3233",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method_name": "getVersionConfigInfoNewPlatform",
+    "overload_index": 0
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method": {
+      "name": "getVersionConfigInfoNewPlatform",
+      "reported_signature": "getVersionConfigInfoNewPlatform(com.macrovideo.sdk.objects.DeviceInfo, com.macrovideo.sdk.media.LoginHandle): com.macrovideo.sdk.setting.VersionConfigInfo",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public static VersionConfigInfo getVersionConfigInfoNewPlatform(final DeviceInfo deviceInfo, final LoginHandle loginHandle) throws IOException {\n        DeviceConfigInfo deviceConfigInfoA;\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + deviceInfo + \"<literal omitted>\" + loginHandle + \"<literal omitted>\");\n        Socket socket = null;\n        if (deviceInfo == null || loginHandle == null) {\n            return null;\n        }\n        int i = b + 1;\n        b = i;\n        final LockObj lockObj = new LockObj();\n        ArrayList arrayList = new ArrayList();\n        arrayList.add(Long.valueOf(Protocol.DPID_BASIC_DEV_VERSION_INFO));\n        arrayList.add(Long.valueOf(Protocol.DPID_BASIC_MODULE_VERSION_INFO));\n        arrayList.add(Long.valueOf(Protocol.DPID_BASIC_HW_VERSION_INFO));\n        int i2 = 3;\n        int i3 = 2;\n        DeviceConfigInfo deviceConfigInfo = null;\n        while (i2 > 0) {\n            int i4 = i2 - 1;\n            if (loginHandle.getPver() >= 5) {\n                if (loginHandle.isMRMode()) {\n                    deviceConfigInfoA = a(true, i, loginHandle, arrayList, socket);\n                    if (deviceConfigInfoA.getnResult() == -257) {\n                        deviceConfigInfoA = a(false, i, loginHandle, arrayList, socket);\n                    }\n                } else {\n                    deviceConfigInfoA = a(false, i, loginHandle, arrayList, socket);\n                    if (deviceConfigInfoA.getnResult() == -257) {\n                        deviceConfigInfoA = a(true, i, loginHandle, arrayList, socket);\n                    }\n                }\n            } else if (loginHandle.isMRMode()) {\n                deviceConfigInfoA = a(true, i, loginHandle, (List) arrayList);\n                if (deviceConfigInfoA.getnResult() == -257) {\n                    deviceConfigInfoA = a(false, i, loginHandle, (List) arrayList);\n                }\n            } else {\n                deviceConfigInfoA = a(false, i, loginHandle, (List) arrayList);\n                if (deviceConfigInfoA.getnResult() == -257) {\n                    deviceConfigInfoA = a(true, i, loginHandle, (List) arrayList);\n                }\n            }\n            if (deviceConfigInfoA.getnResult() != 1104 || i3 <= 0) {\n                i2 = i4;\n            } else {\n                i3--;\n                if (i4 > 0) {\n                    i2 = i4;\n                }\n                if (deviceInfo.isLanPassMode() || loginHandle.isLanPassMode()) {\n                    KeyExchangeLanResult keyExchangeLanResultKeyExchangeByLanSync = LoginHelper.keyExchangeByLanSync(loginHandle.getStrLanIP(), loginHandle.getnPort(), deviceInfo.getStrPassword());\n                    if (keyExchangeLanResultKeyExchangeByLanSync != null && keyExchangeLanResultKeyExchangeByLanSync.getResult() == 256) {\n                        loginHandle.setSid(keyExchangeLanResultKeyExchangeByLanSync.getSid());\n                        loginHandle.setsKey(keyExchangeLanResultKeyExchangeByLanSync.getsKey());\n                        loginHandle.setPermission(keyExchangeLanResultKeyExchangeByLanSync.getPerm());\n                    }\n                } else {\n                    KeyExchangeHttpsResult keyExchangeHttpsResultKeyExchangeFromMqSync = loginHandle.getPver() >= 5 ? LoginHelper.keyExchangeFromMqSync(deviceInfo) : LoginHelper.keyExchangeFromHttpsSync(GlobalDefines.sAccessToken, deviceInfo.getnDevID(), 1, deviceInfo.getpKey(), 30000);\n                    if (keyExchangeHttpsResultKeyExchangeFromMqSync.getResult() == 256) {\n                        loginHandle.setSid(keyExchangeHttpsResultKeyExchangeFromMqSync.getSid());\n                        loginHandle.setsKey(keyExchangeHttpsResultKeyExchangeFromMqSync.getsKey());\n                    } else if (keyExchangeHttpsResultKeyExchangeFromMqSync.getResult() == 1103) {\n                        OkHttpUtils.getDevicePKey(deviceInfo.getnDevID(), new Callback() { // from class: com.macrovideo.sdk.setting.DeviceConfigSetting.24\n                            @Override // okhttp3.Callback\n                            public void onFailure(Call call, IOException iOException) {\n                                LogUtils.d(\"<literal omitted>\", x.a(\"<literal omitted>\", call, \"<literal omitted>\", iOException, \"<literal omitted>\"));\n                                lockObj.notifyUnlock();\n                            }\n\n                            @Override // okhttp3.Callback\n                            public void onResponse(Call call, Response response) throws IOException {\n                                LoginHandle loginHandle2;\n                                LogUtils.d(\"<literal omitted>\", y.a(\"<literal omitted>\", call, \"<literal omitted>\", response, \"<literal omitted>\"));\n                                String devicePKeyResp = OkHttpUtils.parseDevicePKeyResp(call, response);\n                                if (devicePKeyResp != null) {\n                                    if (lockObj.isUnlock()) {\n                                        return;\n                                    }\n                                    deviceInfo.setpKey(devicePKeyResp);\n                                    KeyExchangeHttpsResult keyExchangeHttpsResultKeyExchangeFromMqSync2 = loginHandle.getPver() >= 5 ? LoginHelper.keyExchangeFromMqSync(deviceInfo) : LoginHelper.keyExchangeFromHttpsSync(GlobalDefines.sAccessToken, deviceInfo.getnDevID(), 1, deviceInfo.getpKey(), 30000);\n                                    if (keyExchangeHttpsResultKeyExchangeFromMqSync2.getResult() == 256 && (loginHandle2 = loginHandle) != null) {\n                                        loginHandle2.setSid(keyExchangeHttpsResultKeyExchangeFromMqSync2.getSid());\n                                        loginHandle.setsKey(keyExchangeHttpsResultKeyExchangeFromMqSync2.getsKey());\n                                    }\n                                }\n                                lockObj.notifyUnlock();\n                            }\n                        });\n                        lockObj.waitLock(30000L);\n                    }\n                }\n            }\n            if (deviceConfigInfoA.getnResult() != -257 && deviceConfigInfoA.getnResult() != 2001 && deviceConfigInfoA.getnResult() != 1104) {\n                deviceConfigInfo = deviceConfigInfoA;\n                break;\n            }\n            deviceConfigInfo = deviceConfigInfoA;\n            socket = null;\n        }\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + deviceConfigInfo);\n        VersionConfigInfo versionConfigInfo = new VersionConfigInfo();\n        if (deviceConfigInfo != null) {\n            if (deviceConfigInfo.getmVersionInfo() != null) {\n                versionConfigInfo = deviceConfigInfo.getmVersionInfo();\n            }\n            versionConfigInfo.setnResult(deviceConfigInfo.getnResult());\n        }\n        return versionConfigInfo;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

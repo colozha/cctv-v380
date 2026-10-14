@@ -1,0 +1,53 @@
+{
+  "source_evidence_id": "ev_0105d103e6ae8d92b3804631027b4f97ca18436ddb80fa534f479a85522505e0",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method_name": "createDeviceXParamConfigPidList",
+    "overload_index": 0
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method": {
+      "name": "createDeviceXParamConfigPidList",
+      "reported_signature": "createDeviceXParamConfigPidList(com.macrovideo.sdk.objects.DeviceXParam): java.util.List<org.json.JSONObject>",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    /* JADX WARN: Code duplicated, block: B:38:0x0082  */\n    public static List<JSONObject> createDeviceXParamConfigPidList(DeviceXParam deviceXParam) {\n        int i;\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + deviceXParam + \"<literal omitted>\");\n        if (deviceXParam == null) {\n            return null;\n        }\n        ArrayList arrayList = new ArrayList();\n        int i2 = 2;\n        if (deviceXParam.getnRtspVideoType() != 0) {\n            arrayList.add(createIntValueJsonObj(Protocol.DPID_VIDEO_ENCODING_FORMAT, deviceXParam.getnRtspVideoType() == 2 ? 0 : 1));\n        }\n        if (deviceXParam.getnLightSensitivity() != 0) {\n            if (deviceXParam.getnLightSensitivity() == 1) {\n                i = 1;\n            } else if (deviceXParam.getnLightSensitivity() == 2) {\n                i = 2;\n            } else {\n                i = 3;\n                if (deviceXParam.getnLightSensitivity() != 3) {\n                    i = 0;\n                }\n            }\n            if (i != 0) {\n                arrayList.add(createIntValueJsonObj(Protocol.DPID_LIGHT_FLOODLIGHT_SENSITIVITY, i));\n            }\n        }\n        if (deviceXParam.getVideoStandard() != 0) {\n            int videoStandard = deviceXParam.getVideoStandard();\n            if (videoStandard == 1) {\n                i2 = 0;\n            } else if (videoStandard == 10) {\n                i2 = 1;\n            } else if (videoStandard != 11) {\n                i2 = 0;\n            }\n            arrayList.add(createIntValueJsonObj(Protocol.DPID_VIDEO_ISP_ANTI_FLICKER_MODE, i2));\n        }\n        int i3 = deviceXParam.getnRtspEnable() % 100;\n        int i4 = deviceXParam.getnRtspEnable() / 100;\n        if (i3 != 0) {\n            arrayList.add(createBooleanValueJsonObj(Protocol.DPID_EXTPROT_ONVIF_SW, i3 == 1));\n        }\n        if (i4 != 0) {\n            arrayList.add(createBooleanValueJsonObj(Protocol.DPID_EXTPROT_RTSP_AUDIO_SW, i4 == 1));\n        }\n        if (deviceXParam.getIndicatorLightEnable() != 0) {\n            arrayList.add(createBooleanValueJsonObj(Protocol.DPID_LIGHT_INDICATOR_SW, deviceXParam.getIndicatorLightEnable() == 1));\n        }\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + arrayList);\n        return arrayList;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

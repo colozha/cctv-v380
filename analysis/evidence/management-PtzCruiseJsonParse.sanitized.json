@@ -1,0 +1,236 @@
+{
+  "source_evidence_id": "ev_e9cdd66738b22bda677ca13a9d668e6e03bb55b75aeb25ec212049b219e3ced2",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.json.PtzCruiseJsonParse"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.json.PtzCruiseJsonParse",
+    "methods": [
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getMode_priority",
+        "reported_signature": "getMode_priority(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getPtz_auto_route_cnt",
+        "reported_signature": "getPtz_auto_route_cnt(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getPtz_auto_route_info",
+        "reported_signature": "getPtz_auto_route_info(): java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzAutoRouteInfoBean>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getPtz_cruise_route_position_max",
+        "reported_signature": "getPtz_cruise_route_position_max(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getPtz_cruise_route_total_cnt",
+        "reported_signature": "getPtz_cruise_route_total_cnt(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getPtz_position_total_cnt",
+        "reported_signature": "getPtz_position_total_cnt(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getPtz_timer_cnt",
+        "reported_signature": "getPtz_timer_cnt(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getPtz_timer_schedule",
+        "reported_signature": "getPtz_timer_schedule(): java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzTimerScheduleBean>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isPtz_auto_enable",
+        "reported_signature": "isPtz_auto_enable(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isPtz_timer_enable",
+        "reported_signature": "isPtz_timer_enable(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setMode_priority",
+        "reported_signature": "setMode_priority(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_auto_enable",
+        "reported_signature": "setPtz_auto_enable(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_auto_route_cnt",
+        "reported_signature": "setPtz_auto_route_cnt(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_auto_route_info",
+        "reported_signature": "setPtz_auto_route_info(java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzAutoRouteInfoBean>): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_cruise_route_position_max",
+        "reported_signature": "setPtz_cruise_route_position_max(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_cruise_route_total_cnt",
+        "reported_signature": "setPtz_cruise_route_total_cnt(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_position_total_cnt",
+        "reported_signature": "setPtz_position_total_cnt(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_timer_cnt",
+        "reported_signature": "setPtz_timer_cnt(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_timer_enable",
+        "reported_signature": "setPtz_timer_enable(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPtz_timer_schedule",
+        "reported_signature": "setPtz_timer_schedule(java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzTimerScheduleBean>): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "toString",
+        "reported_signature": "toString(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "mode_priority",
+        "reported_type": "int"
+      },
+      {
+        "name": "ptz_auto_enable",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "ptz_auto_route_cnt",
+        "reported_type": "int"
+      },
+      {
+        "name": "ptz_auto_route_info",
+        "reported_type": "java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzAutoRouteInfoBean>"
+      },
+      {
+        "name": "ptz_cruise_route_position_max",
+        "reported_type": "int"
+      },
+      {
+        "name": "ptz_cruise_route_total_cnt",
+        "reported_type": "int"
+      },
+      {
+        "name": "ptz_position_total_cnt",
+        "reported_type": "int"
+      },
+      {
+        "name": "ptz_timer_cnt",
+        "reported_type": "int"
+      },
+      {
+        "name": "ptz_timer_enable",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "ptz_timer_schedule",
+        "reported_type": "java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzTimerScheduleBean>"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.sdk.json.PtzCruiseJsonParse.PtzAutoRouteInfoBean",
+      "com.macrovideo.sdk.json.PtzCruiseJsonParse.PtzTimerScheduleBean"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

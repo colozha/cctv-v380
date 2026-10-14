@@ -152,17 +152,19 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
 }
 
 @Composable
-fun CameraVideoSurface(height: androidx.compose.ui.unit.Dp, onReady: (Surface) -> Unit, onLost: () -> Unit) {
+fun CameraVideoSurface(height: androidx.compose.ui.unit.Dp, onReady: (Surface) -> Unit, onLost: () -> Unit,
+    aspectRatio: Float = 16f / 9f, onViewReady: (SurfaceView) -> Unit = {}) {
     val ready by rememberUpdatedState(onReady)
     val lost by rememberUpdatedState(onLost)
+    val viewReady by rememberUpdatedState(onViewReady)
     Box(Modifier.fillMaxWidth().height(height).background(Color.Black), contentAlignment = Alignment.Center) {
         AndroidView(factory = { context -> SurfaceView(context).apply {
             holder.addCallback(object : SurfaceHolder.Callback {
-                override fun surfaceCreated(holder: SurfaceHolder) { ready(holder.surface) }
+                override fun surfaceCreated(holder: SurfaceHolder) { ready(holder.surface); viewReady(this@apply) }
                 override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) = Unit
                 override fun surfaceDestroyed(holder: SurfaceHolder) { lost() }
             })
-        } }, modifier = Modifier.width(height * 16f / 9f).fillMaxHeight())
+        } }, modifier = Modifier.width(height * aspectRatio).fillMaxHeight())
     }
 }
 

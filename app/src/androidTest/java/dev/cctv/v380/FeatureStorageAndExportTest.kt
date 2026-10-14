@@ -8,6 +8,8 @@ import dev.cctv.v380.session.EncodedFrame
 import dev.cctv.v380.session.VideoCodec
 import dev.cctv.v380.ui.ProfileStore
 import dev.cctv.v380.ui.PendingApEdit
+import dev.cctv.v380.ui.PendingCameraRestart
+import dev.cctv.v380.ui.PendingCameraCalibration
 import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
@@ -60,6 +62,43 @@ class FeatureStorageAndExportTest {
             val text = File(dir, "pending-sd-format.json").readText()
             for (forbidden in listOf("password", "secret", "sessionId", "handle", "key")) assertFalse(text.contains(forbidden))
             store.clearPendingFormat(); assertNull(ProfileStore(context, file).loadPendingFormat())
+        } finally { dir.deleteRecursively() }
+    }
+
+    @Test fun restartAndLegacyFormatRecoveryAreIndependentAndStaleCleanupIsRejected() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val dir = File(context.cacheDir, "management-storage-${UUID.randomUUID()}").apply { mkdirs() }
+        val profile = CameraProfile(name = "Synthetic management", host = "192.0.2.10", deviceId = "synthetic-management")
+        val file = File(dir, "profiles.json")
+        try {
+            val store = ProfileStore(context, file)
+            store.save(profile, null, false)
+            File(dir, "pending-sd-format.json").writeText(org.json.JSONObject().put("version", 1)
+                .put("profileId", profile.id).put("deviceId", profile.deviceId).put("createdAtMs", 1).toString())
+            val legacy = store.loadPendingFormat()!!
+            assertTrue(legacy.operationId.startsWith("legacy:"))
+            assertThrows(IllegalArgumentException::class.java) { store.clearPendingFormat("stale") }
+            val pending = PendingCameraRestart("op-1", profile.id, profile.deviceId, 2)
+            store.savePendingRestart(pending)
+            val calibration = PendingCameraCalibration("calibration-1", profile.id, profile.deviceId, 3)
+            store.savePendingCalibration(calibration)
+            assertEquals(calibration, ProfileStore(context, file).loadPendingCalibration())
+            assertThrows(IllegalArgumentException::class.java) { store.clearPendingCalibration("stale") }
+            store.clearPendingCalibration(calibration.operationId)
+            assertNotNull(store.loadPendingRestart())
+            assertEquals(pending, ProfileStore(context, file).loadPendingRestart())
+            assertThrows(IllegalArgumentException::class.java) { store.savePendingRestart(pending) }
+            assertThrows(IllegalArgumentException::class.java) { store.clearPendingRestart("stale") }
+            assertThrows(IllegalArgumentException::class.java) { store.delete(profile.id) }
+            val text = File(dir, "pending-camera-restart.json").readText()
+            for (forbidden in listOf("password", "secret", "sessionId", "handle", "key")) assertFalse(text.contains(forbidden))
+            store.clearPendingRestart(pending.operationId)
+            assertNotNull(store.loadPendingFormat())
+            store.clearPendingFormat(legacy.operationId)
+            store.savePendingFormat(profile)
+            assertFalse(store.loadPendingFormat()!!.operationId.startsWith("legacy:"))
+            File(dir, "pending-camera-restart.json").writeText("broken")
+            assertThrows(Exception::class.java) { store.savePendingRestart(pending) }
         } finally { dir.deleteRecursively() }
     }
 

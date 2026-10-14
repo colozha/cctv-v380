@@ -1,0 +1,52 @@
+{
+  "source_evidence_id": "ev_536d7b797d9523bd140401ce079c1fa31ac6d98e93b9621e9e157ecd9175b6fb",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.adapters.SelectAreaAdapter",
+    "method_name": "getView"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.v380.adapters.SelectAreaAdapter",
+    "method": {
+      "name": "getView",
+      "reported_signature": "getView(int, android.view.View, android.view.ViewGroup): android.view.View",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    @Override // android.widget.Adapter\n    public View getView(int i, View view, ViewGroup viewGroup) {\n        View viewInflate = LayoutInflater.from(this.context).inflate(R.layout.draggable_grid_item, (ViewGroup) null);\n        if (this.listDate != null) {\n            for (int i2 = 0; i2 < this.listDate.size(); i2++) {\n                int iIntValue = this.listDate.get(i2).intValue();\n                if (i == i2) {\n                    if (iIntValue == 1) {\n                        viewInflate.setBackgroundColor(Color.parseColor(\"#ff0000\"));\n                        viewInflate.getBackground().setAlpha(51);\n                    } else {\n                        viewInflate.setBackgroundColor(Color.parseColor(\"#000000\"));\n                        viewInflate.getBackground().setAlpha(20);\n                    }\n                }\n            }\n        }\n        viewInflate.setLayoutParams(new AbsListView.LayoutParams(-1, this.mGv.getHeight() / this.areaRows));\n        return viewInflate;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

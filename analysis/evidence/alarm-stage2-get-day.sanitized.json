@@ -1,0 +1,109 @@
+{
+  "source_evidence_id": "ev_7d4a23e939f43ab22169b17e7490170ce4fdaf5c0c5a49834bd12509c6b4c4f4",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.json.AlarmTimeGetJsonParse.DayBean"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.sdk.json.AlarmTimeGetJsonParse.DayBean",
+    "methods": [
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getCnt",
+        "reported_signature": "getCnt(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getMax",
+        "reported_signature": "getMax(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getSche",
+        "reported_signature": "getSche(): java.util.List<com.macrovideo.sdk.json.AlarmTimeGetJsonParse$DayBean$ScheBean>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCnt",
+        "reported_signature": "setCnt(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setMax",
+        "reported_signature": "setMax(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setSche",
+        "reported_signature": "setSche(java.util.List<com.macrovideo.sdk.json.AlarmTimeGetJsonParse$DayBean$ScheBean>): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "toString",
+        "reported_signature": "toString(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "cnt",
+        "reported_type": "int"
+      },
+      {
+        "name": "max",
+        "reported_type": "int"
+      },
+      {
+        "name": "sche",
+        "reported_type": "java.util.List<com.macrovideo.sdk.json.AlarmTimeGetJsonParse$DayBean$ScheBean>"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.sdk.json.AlarmTimeGetJsonParse.DayBean.ScheBean"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

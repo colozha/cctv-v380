@@ -1,0 +1,53 @@
+{
+  "source_evidence_id": "ev_dff13934cdcee3cc46d19230cf675e28bafaa4d276714173e44943c333143c7e",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method_name": "p",
+    "overload_index": 0
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method": {
+      "name": "p",
+      "reported_signature": "p(byte[], int): com.macrovideo.sdk.setting.WhiteLightConfigInfo",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public static WhiteLightConfigInfo p(byte[] bArr, int i) {\n        LogUtils.i(ALARMTAG, \"<literal omitted>\");\n        if (i <= 0) {\n            return null;\n        }\n        byte b2 = bArr[0];\n        byte b3 = bArr[1];\n        byte[] bArr2 = new byte[4];\n        System.arraycopy(bArr, 2, bArr2, 0, 4);\n        int iBytesToInt = Functions.BytesToInt(bArr2, 0);\n        ArrayList<WhiteLightConfigInfo.ActionData> arrayList = new ArrayList<>();\n        for (int i2 = 0; i2 < b2; i2++) {\n            WhiteLightConfigInfo.ActionData actionData = new WhiteLightConfigInfo.ActionData();\n            int i3 = i2 * 7;\n            actionData.setAction(bArr[i3 + 6]);\n            actionData.setStartTimeHour(bArr[i3 + 7]);\n            actionData.setStartTimeMinute(bArr[i3 + 8]);\n            actionData.setStartTimeSecond(bArr[i3 + 9]);\n            actionData.setEndTimeHour(bArr[i3 + 10]);\n            actionData.setEndTimeMinute(bArr[i3 + 11]);\n            actionData.setEndTimeSecond(bArr[i3 + 12]);\n            arrayList.add(actionData);\n        }\n        int i4 = b2 > 0 ? 6 + (b2 * 7) : 6;\n        LogUtils.i(ALARMTAG, j.a(i4, \"<literal omitted>\"));\n        byte b4 = bArr[i4];\n        byte b5 = bArr[i4 + 1];\n        byte b6 = bArr[i4 + 2];\n        byte b7 = bArr[i4 + 3];\n        byte b8 = bArr[i4 + 4];\n        byte b9 = bArr[i4 + 5];\n        WhiteLightConfigInfo whiteLightConfigInfo = new WhiteLightConfigInfo();\n        whiteLightConfigInfo.setTotal(b2);\n        whiteLightConfigInfo.setCapability(iBytesToInt);\n        whiteLightConfigInfo.setDefaultAction(b3);\n        whiteLightConfigInfo.setActionData(arrayList);\n        whiteLightConfigInfo.setMainSwitch(b4);\n        whiteLightConfigInfo.setMotionDetectionSwitch(b5);\n        whiteLightConfigInfo.setHumanDetectionSwitch(b6);\n        whiteLightConfigInfo.setCarDetectionSwitch(b7);\n        whiteLightConfigInfo.setPetDetectionSwitch(b8);\n        whiteLightConfigInfo.setAlarmWarnSwitch(b9);\n        LogUtils.i(ALARMTAG, \"<literal omitted>\" + whiteLightConfigInfo.toString());\n        return whiteLightConfigInfo;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

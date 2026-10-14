@@ -1,0 +1,52 @@
+{
+  "source_evidence_id": "ev_f97a172762a1428fdecfeb92f90365e76041c6699579e8e744e88fec5de00a8b",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method_name": "createAlarmConfigPidList"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method": {
+      "name": "createAlarmConfigPidList",
+      "reported_signature": "createAlarmConfigPidList(com.macrovideo.sdk.setting.AlarmConfigInfo): java.util.List<org.json.JSONObject>",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public static List<JSONObject> createAlarmConfigPidList(AlarmConfigInfo alarmConfigInfo) {\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + alarmConfigInfo + \"<literal omitted>\");\n        if (alarmConfigInfo == null) {\n            return null;\n        }\n        ArrayList arrayList = new ArrayList();\n        int i = alarmConfigInfo.isbMotionAlarmSwitch() ? IoTDevAbilityDefines._abl_alert_event_bmcp32.ABL_ALERT_DETECT_MOTION : 0;\n        ArrayList arrayList2 = new ArrayList();\n        if (alarmConfigInfo.getCustomAlarmTimeNumber() == 0 || (alarmConfigInfo.getCustomAlarmTimeNumber() == 1 && alarmConfigInfo.getServerAlarmSwitch1() == 0 && alarmConfigInfo.getServerAlarmSwitch2() == 0 && alarmConfigInfo.getServerAlarmSwitch3() == 0)) {\n            AlarmTimeSetJsonParse.DayBean.ScheBean scheBean = new AlarmTimeSetJsonParse.DayBean.ScheBean();\n            scheBean.setEnable(true);\n            scheBean.setMode(i);\n            scheBean.setS_time(\"0:0:0\");\n            scheBean.setE_time(\"23:59:59\");\n            arrayList2.add(scheBean);\n        } else {\n            for (int i2 = 0; i2 < alarmConfigInfo.getCustomAlarmTimeNumber() && i2 < 3; i2++) {\n                if (i2 == 0) {\n                    AlarmTimeSetJsonParse.DayBean.ScheBean scheBean2 = new AlarmTimeSetJsonParse.DayBean.ScheBean();\n                    scheBean2.setEnable(alarmConfigInfo.getServerAlarmSwitch1() == 1);\n                    scheBean2.setMode(i);\n                    scheBean2.setS_time(alarmConfigInfo.getStarthour1() + \":\" + alarmConfigInfo.getStartmin1() + \":\" + alarmConfigInfo.getStartsec1());\n                    scheBean2.setE_time(alarmConfigInfo.getEndhour1() + \":\" + alarmConfigInfo.getEndmin1() + \":\" + alarmConfigInfo.getEndsec1());\n                    arrayList2.add(scheBean2);\n                } else if (i2 == 1) {\n                    AlarmTimeSetJsonParse.DayBean.ScheBean scheBean3 = new AlarmTimeSetJsonParse.DayBean.ScheBean();\n                    scheBean3.setEnable(alarmConfigInfo.getServerAlarmSwitch2() == 1);\n                    scheBean3.setMode(i);\n                    scheBean3.setS_time(alarmConfigInfo.getStarthour2() + \":\" + alarmConfigInfo.getStartmin2() + \":\" + alarmConfigInfo.getStartsec2());\n                    scheBean3.setE_time(alarmConfigInfo.getEndhour2() + \":\" + alarmConfigInfo.getEndmin2() + \":\" + alarmConfigInfo.getEndsec2());\n                    arrayList2.add(scheBean3);\n                } else if (i2 == 2) {\n                    AlarmTimeSetJsonParse.DayBean.ScheBean scheBean4 = new AlarmTimeSetJsonParse.DayBean.ScheBean();\n                    scheBean4.setEnable(alarmConfigInfo.getServerAlarmSwitch3() == 1);\n                    scheBean4.setMode(i);\n                    scheBean4.setS_time(alarmConfigInfo.getStarthour3() + \":\" + alarmConfigInfo.getStartmin3() + \":\" + alarmConfigInfo.getStartsec3());\n                    scheBean4.setE_time(alarmConfigInfo.getEndhour3() + \":\" + alarmConfigInfo.getEndmin3() + \":\" + alarmConfigInfo.getEndsec3());\n                    arrayList2.add(scheBean4);\n                }\n            }\n        }\n        AlarmTimeSetJsonParse.DayBean dayBean = new AlarmTimeSetJsonParse.DayBean();\n        dayBean.setCnt(alarmConfigInfo.getCustomAlarmTimeNumber() != 0 ? alarmConfigInfo.getCustomAlarmTimeNumber() : 1);\n        dayBean.setSche(arrayList2);\n        AlarmTimeSetJsonParse alarmTimeSetJsonParse = new AlarmTimeSetJsonParse();\n        alarmTimeSetJsonParse.setMon(dayBean);\n        alarmTimeSetJsonParse.setTue(dayBean);\n        alarmTimeSetJsonParse.setWed(dayBean);\n        alarmTimeSetJsonParse.setThu(dayBean);\n        alarmTimeSetJsonParse.setFri(dayBean);\n        alarmTimeSetJsonParse.setSat(dayBean);\n        alarmTimeSetJsonParse.setSun(dayBean);\n        JSONObject jSONObject = new JSONObject();\n        try {\n            jSONObject = new JSONObject(new Gson().toJson(alarmTimeSetJsonParse));\n        } catch (JSONException e) {\n            e.printStackTrace();\n        }\n        AlarmAreaJsonParse alarmAreaJsonParse = new AlarmAreaJsonParse();\n        alarmAreaJsonParse.setAlarmAreaRowCnt(alarmConfigInfo.getAlarmrows());\n        alarmAreaJsonParse.setAlarmAreaLineCnt(alarmConfigInfo.getAlarmcolumns());\n        alarmAreaJsonParse.setAlarmArea(alarmConfigInfo.getAlarmAreaList());\n        JSONObject jSONObject2 = new JSONObject();\n        try {\n            jSONObject2 = new JSONObject(new Gson().toJson(alarmAreaJsonParse));\n        } catch (JSONException e2) {\n            e2.printStackTrace();\n        }\n        if (alarmConfigInfo.isbMainAlarmSwitch()) {\n            arrayList.add(createJSONObjectValueJsonObj(Protocol.DPID_ALARM_MT_AREA, jSONObject2));\n            arrayList.add(createJSONObjectValueJsonObj(Protocol.DPID_ALARM_TIMER_INFO, jSONObject));\n            arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_MT_SW, alarmConfigInfo.isbMotionAlarmSwitch()));\n            if (alarmConfigInfo.isHasVoicePromptsConfig()) {\n                arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_SOUND_SW, alarmConfigInfo.isbAlarmVoiceSwitch()));\n            }\n            arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_MAIN_SW, alarmConfigInfo.isbMainAlarmSwitch()));\n        } else {\n            arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_MAIN_SW, alarmConfigInfo.isbMainAlarmSwitch()));\n            arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_MT_SW, alarmConfigInfo.isbMotionAlarmSwitch()));\n            if (alarmConfigInfo.isHasVoicePromptsConfig()) {\n                arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_SOUND_SW, alarmConfigInfo.isbAlarmVoiceSwitch()));\n            }\n            arrayList.add(createJSONObjectValueJsonObj(Protocol.DPID_ALARM_MT_AREA, jSONObject2));\n            arrayList.add(createJSONObjectValueJsonObj(Protocol.DPID_ALARM_TIMER_INFO, jSONObject));\n        }\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + arrayList);\n        return arrayList;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

@@ -11,6 +11,7 @@ import dev.cctv.v380.transport.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.json.JSONObject
@@ -90,6 +91,19 @@ class CameraSession(
     @Volatile private var accessRevoked = true
     @Volatile private var apNetworkValid: (() -> Boolean)? = null
     private var softApSupported: Boolean? = null
+    @Volatile private var managementRevision = 0L
+    @Volatile private var areaCapturing = false
+    private val mutableVideoGeometry = MutableStateFlow<VideoGeometry?>(null)
+    val videoGeometry = mutableVideoGeometry.asStateFlow()
+    private val renderedAt = MutableStateFlow(0L)
+    private val mutableAreaReference = MutableStateFlow<AreaReference?>(null)
+    val areaReference = mutableAreaReference.asStateFlow()
+    @Volatile private var patrolActive: Boolean? = null
+    val manualPtzAllowed: Boolean get() = !maintenancePending && !areaCapturing && (capabilities.value?.management?.patrol != true || patrolActive == false)
+    private val submittedManagementActions = mutableSetOf<String>()
+    @Volatile var maintenancePending: Boolean = false
+        private set
+    fun blockMaintenanceWrites(blocked: Boolean) { maintenancePending = blocked }
 
     fun isAuthenticated(profileId: String): Boolean = !accessRevoked && profile?.id == profileId &&
         (legacy != null || iot != null && iot === authenticatedIoT) && when (state.value) {
@@ -146,7 +160,7 @@ class CameraSession(
     /** Marker callback precedes the sole write; retry/reconnect must never call this method implicitly. */
     suspend fun configureApHotspot(profileId: String, deviceId: String, ssid: String, password: CharArray,
         beforeWrite: suspend () -> Unit, onWriteStarted: () -> Unit = {}): ApWriteResult = try { operations.withLock {
-        if (!canEditAp(profileId) || profile?.deviceId != deviceId) throw CameraFailure(SessionError.AuthenticationFailed)
+        if (maintenancePending || !canEditAp(profileId) || profile?.deviceId != deviceId) throw CameraFailure(SessionError.AuthenticationFailed)
         val previous = mutableApAccess.value!!.ssid
         require(ApHotspotProtocol.inputError(ssid, password, previous) == null)
         val owner = authenticatedIoT!!
@@ -259,15 +273,20 @@ class CameraSession(
                     IoTControlProtocol.abilityParams())
                 val ability = IoTControlProtocol.parseAbilities(data ?: throw IoTProtocolException(IoTFailure.MalformedPacket))
                 softApSupported = ApHotspotProtocol.supportsSoftAp(data)
+                val management = try { CameraManagementProtocol.abilities(data) }
+                    catch (_: IoTProtocolException) { ManagementAbilities() }
                 diagnostics.record(DiagnosticStage.CAPABILITIES)
                 caps.copy(ptz = ability.ptz, horizontalPtz = ability.horizontalPtz, verticalPtz = ability.verticalPtz,
-                    recordingQualities = IoTControlProtocol.recordingQualities(data))
+                    recordingQualities = IoTControlProtocol.recordingQualities(data), management = management)
             } catch (cancelled: CancellationException) { throw cancelled }
             catch (_: IoTProtocolException) { diagnostics.record(DiagnosticStage.CAPABILITIES, DiagnosticStatus.FAILED); caps }
         } else caps
         if (epoch != generation.get()) throw CancellationException("Superseded camera session")
         mutableCapabilities.value = resolvedCaps
+        patrolActive = if (resolvedCaps.management.patrol == false) false else null
         authenticatedIoT = iot
+        managementRevision++
+        submittedManagementActions.clear()
         accessRevoked = false
         mutableState.value = SessionState.Ready(resolvedCaps)
         return resolvedCaps
@@ -433,7 +452,12 @@ class CameraSession(
             decoder?.close()
             decoderCodec = frame.codec
             decoderDimensions = width to height
-            decoder = VideoDecoder(renderSurface, width, height, frame.codec, paced = activeRecording != null, onFirstFrame = {
+            mutableVideoGeometry.value = null
+            decoder = VideoDecoder(renderSurface, width, height, frame.codec, paced = activeRecording != null, onGeometry = {
+                if (generation.get() == epoch) mutableVideoGeometry.value = it
+            }, onRendered = {
+                if (generation.get() == epoch) renderedAt.value = it
+            }, onFirstFrame = {
                 if (generation.get() == epoch) {
                     mutableCapabilities.value = mutableCapabilities.value?.copy(codecs = setOf(frame.codec))
                     if (mutableState.value !is SessionState.RecordingEnded)
@@ -460,7 +484,7 @@ class CameraSession(
         if (generation.get() != epoch || failedStreamGeneration.getAndAccumulate(epoch) { old, next -> maxOf(old, next) } >= epoch) return
         pendingReply?.result?.completeExceptionally(error)
         firstFrame.completeExceptionally(error)
-        if (state.value is SessionState.Streaming && retryable(error)) {
+        if (!areaCapturing && state.value is SessionState.Streaming && retryable(error)) {
             recordFailure(error, stage)
             reconnectJob = scope.launch { recover(epoch) }
         } else scope.launch { operations.withLock {
@@ -499,15 +523,17 @@ class CameraSession(
 
     suspend fun move(direction: Direction) {
         val caps = capabilities.value ?: return
-        if (state.value !is SessionState.Streaming || !caps.ptz) return
+        if (!manualPtzAllowed || state.value !is SessionState.Streaming || !caps.ptz) return
         if (direction in setOf(Direction.LEFT, Direction.RIGHT) && !caps.horizontalPtz) return
         if (direction in setOf(Direction.UP, Direction.DOWN) && !caps.verticalPtz) return
         val epoch = generation.get()
+        invalidateAreaReference()
         try { watchdog?.move(direction) }
         catch (cancelled: CancellationException) { throw cancelled }
         catch (error: Exception) { streamFailure(epoch, error, DiagnosticStage.PTZ) }
     }
     suspend fun renewPtz() {
+        if (areaCapturing) return
         val epoch = generation.get()
         try { watchdog?.renew(resend = iot != null) }
         catch (cancelled: CancellationException) { throw cancelled }
@@ -537,6 +563,7 @@ class CameraSession(
     }
 
     suspend fun configureWifi(ssid: String, password: CharArray) = try { operations.withLock {
+        if (maintenancePending) throw CameraFailure(SessionError.FeatureUnsupported)
         if (state.value !is SessionState.Ready) throw CameraFailure(SessionError.AuthenticationFailed)
         val target = profile ?: throw CameraFailure(SessionError.AuthenticationFailed)
         val channel = channelFactory(target).also { commandChannel = it }
@@ -562,6 +589,7 @@ class CameraSession(
 
     /** Changes an authenticated LAN password; never resets ownership or imports vendor credentials. */
     suspend fun changeLanPassword(oldPassword: CharArray, newPassword: CharArray) = operations.withLock {
+        if (maintenancePending) throw CameraFailure(SessionError.FeatureUnsupported)
         val target = profile ?: throw CameraFailure(SessionError.AuthenticationFailed)
         val session = iot ?: throw CameraFailure(SessionError.UnsupportedProtocol)
         val key = session.keyBytes()
@@ -632,6 +660,7 @@ class CameraSession(
     }
 
     suspend fun saveSettings(changes: Map<Int, Any>, before: CameraSettings): CameraSettings = operations.withLock {
+        if (maintenancePending) throw CameraFailure(SessionError.FeatureUnsupported)
         requireIoT()
         val params = CameraSettingsProtocol.setParams(changes, before, capabilities.value?.recordingQualities.orEmpty())
         val data = exchangeIoT(CameraSettingsProtocol.SET, CameraSettingsProtocol.SET_RESPONSE, params)
@@ -644,8 +673,10 @@ class CameraSession(
     }
 
     suspend fun reverseImage(before: CameraSettings): CameraSettings = operations.withLock {
+        if (maintenancePending) throw CameraFailure(SessionError.FeatureUnsupported)
         requireIoT()
         val previous = before.int(CameraSettingsProtocol.FLIP_MODE) ?: throw CameraFailure(SessionError.FeatureUnsupported)
+        invalidateAreaReference()
         exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, CameraSettingsProtocol.flipParams())
         val after = fetchSettings()
         if (after.int(CameraSettingsProtocol.FLIP_MODE) == null || after.int(CameraSettingsProtocol.FLIP_MODE) == previous)
@@ -663,6 +694,241 @@ class CameraSession(
         exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, CameraSettingsProtocol.formatParams())
         diagnostics.record(DiagnosticStage.SD_FORMAT)
         Unit
+    }
+
+    private fun requireManagement(profileId: String, revision: Long? = null) {
+        if (!isAuthenticated(profileId) || iot == null || iot !== authenticatedIoT ||
+            revision != null && managementRevision != revision) throw CameraFailure(SessionError.AuthenticationFailed)
+    }
+
+    private fun requireStoppedPatrol(settings: CameraSettings) {
+        val ability = capabilities.value?.management ?: throw CameraFailure(SessionError.FeatureUnsupported)
+        val patrol = settings.values[CameraManagementProtocol.PATROL] as? CameraPatrol
+        if (patrol?.enabled == true || patrol?.timerEnabled == true ||
+            patrol == null && ability.patrol != false && ability.motorControl != 0)
+            throw CameraFailure(SessionError.FeatureUnsupported)
+    }
+
+    private suspend fun fetchManagement(group: ManagementGroup): CameraSettings {
+        if (group == ManagementGroup.MOTOR) patrolActive = null
+        val data = exchangeIoT(CameraSettingsProtocol.GET, CameraSettingsProtocol.GET_RESPONSE,
+            CameraManagementProtocol.getParams(group), strictCorrelation = true)
+            ?: throw IoTProtocolException(IoTFailure.MalformedPacket)
+        return CameraManagementProtocol.parse(data, group, capabilities.value?.management ?: ManagementAbilities()).also {
+            if (group == ManagementGroup.MOTOR) {
+                val patrol = it.values[CameraManagementProtocol.PATROL] as? CameraPatrol
+                patrolActive = if (patrol != null) patrol.enabled || patrol.timerEnabled else if (capabilities.value?.management?.patrol == false) false else null
+            }
+        }
+    }
+
+    suspend fun readManagement(profileId: String, group: ManagementGroup): ManagementSnapshot = operations.withLock {
+        requireManagement(profileId)
+        val owner = iot
+        val revision = managementRevision
+        val settings = fetchManagement(group)
+        requireManagement(profileId, revision)
+        if (owner !== iot) throw CameraFailure(SessionError.AuthenticationFailed)
+        ManagementSnapshot(profileId, revision, group, settings, profile!!.deviceId)
+    }
+
+    fun invalidateAreaReference() { mutableAreaReference.value = null }
+
+    suspend fun awaitAreaFrame() {
+        if (!areaCapturing) throw CameraFailure(SessionError.FeatureUnsupported)
+        val epoch = generation.get()
+        val afterLayout = System.nanoTime()
+        withTimeout(1500) { renderedAt.first { it >= afterLayout } }
+        if (!areaCapturing || generation.get() != epoch) throw CameraFailure(SessionError.AuthenticationFailed)
+    }
+
+    fun canCaptureArea(profileId: String): Boolean = BuildConfig.DEBUG && !maintenancePending && !areaCapturing &&
+        isAuthenticated(profileId) && iot === authenticatedIoT && iot != null && state.value is SessionState.Ready &&
+        capabilities.value?.management?.flatArea == true
+
+    fun canUseAreaReference(reference: AreaReference?): Boolean = reference != null && mutableAreaReference.value === reference &&
+        !maintenancePending && !areaCapturing && isAuthenticated(reference.context.profileId) && state.value is SessionState.Ready &&
+        profile?.deviceId == reference.context.deviceId && managementRevision == reference.context.revision &&
+        generation.get() == reference.context.generation && capabilities.value?.management?.flatArea == true
+
+    private suspend fun readAreaOrientation(): Int {
+        val ids = listOf(CameraSettingsProtocol.FLIP_MODE)
+        val data = exchangeIoT(CameraSettingsProtocol.GET, CameraSettingsProtocol.GET_RESPONSE,
+            CameraSettingsProtocol.getParams(ids), strictCorrelation = true) ?: throw CameraFailure(SessionError.MalformedPacket)
+        return CameraSettingsProtocol.parseProperties(data, ids).int(CameraSettingsProtocol.FLIP_MODE)
+            ?: throw CameraFailure(SessionError.FeatureUnsupported)
+    }
+
+    /** The sole capture owner. Media is stopped before issuing a reference; never auto-reconnect preview. */
+    suspend fun captureAlarmArea(before: ManagementSnapshot, preview: Surface,
+        copyFrame: suspend (VideoGeometry) -> Unit): AreaReference = operations.withLock {
+        requireManagement(before.profileId, before.revision)
+        if (!canCaptureArea(before.profileId) || before.group != ManagementGroup.ALARM || before.deviceId != profile?.deviceId)
+            throw CameraFailure(SessionError.FeatureUnsupported)
+        val baseline = before.settings.values[CameraManagementProtocol.ALARM_AREA] as? CameraAlarmArea
+            ?: throw CameraFailure(SessionError.FeatureUnsupported)
+        if (!CameraAreaProtocol.valid(baseline)) throw CameraFailure(SessionError.InvalidInput)
+        val owner = iot
+        invalidateAreaReference()
+        areaCapturing = true
+        var captureEpoch = -1L
+        var geometry: VideoGeometry? = null
+        val orientation: Int
+        try {
+            val fresh = fetchManagement(ManagementGroup.ALARM).values[CameraManagementProtocol.ALARM_AREA] as? CameraAlarmArea
+                ?: throw CameraFailure(SessionError.FeatureUnsupported)
+            if (!CameraAreaProtocol.sameBaseline(baseline, fresh)) throw CameraFailure(SessionError.DeviceRejected)
+            requireStoppedPatrol(fetchManagement(ManagementGroup.MOTOR))
+            orientation = readAreaOrientation()
+            surface = preview
+            startStream(Quality.HD)
+            captureEpoch = generation.get()
+            withTimeout(5000) { firstFrame.await() }
+            val decoded = mutableVideoGeometry.value ?: throw CameraFailure(SessionError.FeatureUnsupported)
+            val media = iotMediaInfo ?: throw CameraFailure(SessionError.FeatureUnsupported)
+            val video = media.views.singleOrNull() ?: media.video
+            if (!decoded.flat || media.views.size > 1 || video.width != decoded.width || video.height != decoded.height)
+                throw CameraFailure(SessionError.FeatureUnsupported)
+            geometry = decoded
+            withTimeout(3000) { copyFrame(decoded) }
+            requireManagement(before.profileId, before.revision)
+            if (iot !== owner || generation.get() != captureEpoch || mutableVideoGeometry.value != decoded ||
+                failedStreamGeneration.get() >= captureEpoch) throw CameraFailure(SessionError.NetworkUnavailable)
+        } finally {
+            withContext(NonCancellable) {
+                stopStream(); surface = null
+                if (isAuthenticated(before.profileId)) mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
+            }
+            areaCapturing = false
+        }
+        requireManagement(before.profileId, before.revision)
+        if (owner !== iot || generation.get() != captureEpoch + 1 || failedStreamGeneration.get() >= captureEpoch ||
+            readAreaOrientation() != orientation) throw CameraFailure(SessionError.DeviceRejected)
+        val fresh = fetchManagement(ManagementGroup.ALARM).values[CameraManagementProtocol.ALARM_AREA] as? CameraAlarmArea
+            ?: throw CameraFailure(SessionError.FeatureUnsupported)
+        if (!CameraAreaProtocol.sameBaseline(baseline, fresh)) throw CameraFailure(SessionError.DeviceRejected)
+        currentCoroutineContext().ensureActive()
+        requireManagement(before.profileId, before.revision)
+        if (owner !== iot || generation.get() != captureEpoch + 1 || maintenancePending || profile?.deviceId != before.deviceId)
+            throw CameraFailure(SessionError.AuthenticationFailed)
+        AreaReference(AreaContext(before.profileId, before.deviceId, before.revision, generation.get(), orientation),
+            fresh, geometry!!).also { mutableAreaReference.value = it }
+    }
+
+    /** Reconcile every property, including partial acceptance, without replaying the write. */
+    suspend fun saveManagement(before: ManagementSnapshot, changes: Map<Int, Any>): ManagementSnapshot = operations.withLock {
+        if (maintenancePending) throw CameraFailure(SessionError.FeatureUnsupported)
+        requireManagement(before.profileId, before.revision)
+        if (profile?.deviceId != before.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        val reference = if (CameraManagementProtocol.ALARM_AREA in changes) mutableAreaReference.value else null
+        if (CameraManagementProtocol.ALARM_AREA in changes && !canUseAreaReference(reference))
+            throw CameraFailure(SessionError.FeatureUnsupported)
+        val owner = iot
+        val fresh = fetchManagement(before.group)
+        if (changes.keys.any { !CameraManagementProtocol.sameBaseline(it, before.settings.values[it], fresh.values[it]) })
+            throw CameraFailure(SessionError.DeviceRejected)
+        if (reference != null && (!reference.matches(AreaContext(before.profileId, before.deviceId, managementRevision,
+                generation.get(), readAreaOrientation()), fresh.values[CameraManagementProtocol.ALARM_AREA] as CameraAlarmArea))) {
+            invalidateAreaReference()
+            throw CameraFailure(SessionError.DeviceRejected)
+        }
+        val params = CameraManagementProtocol.setParams(changes, fresh, capabilities.value!!.management)
+        try { exchangeIoT(CameraSettingsProtocol.SET, CameraSettingsProtocol.SET_RESPONSE, params,
+            beforeSend = { requireManagement(before.profileId, before.revision)
+                if (owner !== iot || maintenancePending) throw CameraFailure(SessionError.AuthenticationFailed)
+                if (reference != null && !canUseAreaReference(reference)) throw CameraFailure(SessionError.FeatureUnsupported)
+            },
+            strictCorrelation = true)?.let { CameraSettingsProtocol.validateSet(it, changes.keys) }
+            ?: throw IoTProtocolException(IoTFailure.MalformedPacket)
+        } finally { if (reference != null) invalidateAreaReference() }
+        val after = fetchManagement(before.group)
+        requireManagement(before.profileId, before.revision)
+        if (profile?.deviceId != before.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        if (changes.any { (id, value) -> !CameraManagementProtocol.same(id, value, after.values[id]) }) throw CameraFailure(SessionError.DeviceRejected)
+        before.copy(settings = after)
+    }
+
+    suspend fun presetAction(before: ManagementSnapshot, slot: Int, operation: Int, operationId: String): ManagementSnapshot = operations.withLock {
+        if (maintenancePending || state.value !is SessionState.Streaming) throw CameraFailure(SessionError.FeatureUnsupported)
+        requireManagement(before.profileId, before.revision)
+        if (profile?.deviceId != before.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        val fresh = fetchManagement(ManagementGroup.MOTOR)
+        requireStoppedPatrol(fresh)
+        val used = fresh.values[CameraManagementProtocol.PRESETS] as? CameraPresets ?: throw CameraFailure(SessionError.FeatureUnsupported)
+        if (before.settings.values[CameraManagementProtocol.PRESETS] != used) throw CameraFailure(SessionError.DeviceRejected)
+        if (operation in 2..3 && slot !in used.used) throw CameraFailure(SessionError.InvalidInput)
+        val capacity = capabilities.value?.management?.presets ?: throw CameraFailure(SessionError.FeatureUnsupported)
+        val params = CameraManagementProtocol.presetParams(slot, operation, capacity)
+        stopPtz()
+        val owner = iot
+        exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, params,
+            beforeSend = {
+                requireManagement(before.profileId, before.revision)
+                if (profile?.deviceId != before.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+                if (owner !== iot || maintenancePending || !submittedManagementActions.add(operationId)) throw CameraFailure(SessionError.InvalidInput)
+            }, strictCorrelation = true)
+        val after = fetchManagement(ManagementGroup.MOTOR)
+        requireManagement(before.profileId, before.revision)
+        if (profile?.deviceId != before.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        val slots = after.values[CameraManagementProtocol.PRESETS] as? CameraPresets
+        if (operation == 1 && slot !in slots?.used.orEmpty() || operation == 3 && slot in slots?.used.orEmpty()) throw CameraFailure(SessionError.DeviceRejected)
+        diagnostics.record(DiagnosticStage.PTZ_PRESET)
+        before.copy(settings = after)
+    }
+
+    suspend fun calibrateCamera(before: ManagementSnapshot, operationId: String, beforeWrite: suspend () -> Unit) = operations.withLock {
+        if (maintenancePending || capabilities.value?.management?.calibration != true) throw CameraFailure(SessionError.FeatureUnsupported)
+        requireManagement(before.profileId, before.revision)
+        if (profile?.deviceId != before.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        val ability = capabilities.value!!.management
+        if (ability.patrol != false && ability.motorControl != 0) requireStoppedPatrol(fetchManagement(ManagementGroup.MOTOR))
+        stopStream()
+        mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
+        val owner = iot
+        exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, CameraManagementProtocol.calibrateParams(),
+            beforeSend = {
+                requireManagement(before.profileId, before.revision)
+                if (profile?.deviceId != before.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+                if (owner !== iot || maintenancePending || !submittedManagementActions.add(operationId)) throw CameraFailure(SessionError.InvalidInput)
+                beforeWrite()
+                currentCoroutineContext().ensureActive()
+                requireManagement(before.profileId, before.revision)
+                maintenancePending = true
+            }, strictCorrelation = true)
+        // ACK proves acceptance only; keep further motor commands gated until a new session/status check.
+        maintenancePending = true
+        diagnostics.record(DiagnosticStage.PTZ_CALIBRATION)
+    }
+
+    fun restartPassword(profileId: String): CharArray {
+        requireManagement(profileId)
+        return secret?.copyOf() ?: throw CameraFailure(SessionError.AuthenticationFailed)
+    }
+
+    suspend fun restartCamera(profileId: String, deviceId: String, operationId: String, beforeWrite: suspend () -> Unit) = operations.withLock {
+        requireManagement(profileId)
+        if (profile?.deviceId != deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        if (maintenancePending || capabilities.value?.management?.restart != true) throw CameraFailure(SessionError.FeatureUnsupported)
+        val ability = capabilities.value!!.management
+        if (ability.patrol != false && ability.motorControl != 0) requireStoppedPatrol(fetchManagement(ManagementGroup.MOTOR))
+        stopStream()
+        mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
+        val revision = managementRevision; val owner = iot
+        try {
+            exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, CameraManagementProtocol.restartParams(),
+                beforeSend = {
+                    requireManagement(profileId, revision)
+                    if (owner !== iot || maintenancePending || !submittedManagementActions.add(operationId)) throw CameraFailure(SessionError.InvalidInput)
+                    beforeWrite()
+                    currentCoroutineContext().ensureActive()
+                    requireManagement(profileId, revision)
+                    maintenancePending = true
+                }, strictCorrelation = true)
+            diagnostics.record(DiagnosticStage.RESTART)
+        } finally {
+            // A disconnect after submission is expected; the ordinary stream recovery must not restart it.
+            withContext(NonCancellable) { shutdown(); mutableState.value = SessionState.Idle }
+        }
     }
 
     suspend fun listRecordings(startMs: Long, endMs: Long, eventsOnly: Boolean): List<RecordingSegment> = operations.withLock {
@@ -859,11 +1125,13 @@ class CameraSession(
         mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
     }
     suspend fun close() {
-        accessRevoked = true; invalidateApAccess()
+        accessRevoked = true; invalidateApAccess(); invalidateAreaReference()
         reconnectJob?.cancelAndJoin(); reconnectJob = null
         operations.withLock { shutdown(); mutableState.value = SessionState.Idle; diagnostics.record(DiagnosticStage.CLOSE) }
     }
     private suspend fun stopStream() {
+        invalidateAreaReference()
+        mutableVideoGeometry.value = null
         withTimeoutOrNull(600) { stopPtz() }
         generation.incrementAndGet()
         watchdog = null
@@ -876,7 +1144,7 @@ class CameraSession(
         mediaCipher?.close(); mediaCipher = null
     }
     private suspend fun shutdown() {
-        accessRevoked = true; authenticatedIoT = null; softApSupported = null; invalidateApAccess()
+        accessRevoked = true; authenticatedIoT = null; softApSupported = null; patrolActive = null; invalidateApAccess()
         stopStream(); commandChannel?.close(); commandChannel = null
         iot?.close(); iot = null; legacy = null
         secret?.fill('\u0000'); secret = null
@@ -884,7 +1152,8 @@ class CameraSession(
     }
     /** Immediate process/lifecycle fallback; normal callers use close() for best-effort motor stop first. */
     fun abort() {
-        accessRevoked = true; authenticatedIoT = null; softApSupported = null; invalidateApAccess()
+        invalidateAreaReference(); mutableVideoGeometry.value = null
+        accessRevoked = true; authenticatedIoT = null; softApSupported = null; patrolActive = null; invalidateApAccess()
         generation.incrementAndGet()
         reconnectJob?.cancel(); streamJob?.cancel()
         commandChannel?.close(); streamChannel?.close(); decoder?.close()
@@ -893,6 +1162,7 @@ class CameraSession(
     }
     fun dispose() { abort(); scope.cancel() }
     private fun fail(error: Exception, stage: DiagnosticStage = DiagnosticStage.AUTH, detail: DiagnosticDetail? = null) {
+        invalidateAreaReference(); mutableVideoGeometry.value = null
         accessRevoked = true; authenticatedIoT = null; invalidateApAccess()
         mutableState.value = SessionState.Error(reason(error))
         recordFailure(error, stage, detail)

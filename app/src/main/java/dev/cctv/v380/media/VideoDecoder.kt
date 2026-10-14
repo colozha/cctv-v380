@@ -9,6 +9,7 @@ import android.view.Surface
 import dev.cctv.v380.session.EncodedFrame
 import dev.cctv.v380.session.SessionError
 import dev.cctv.v380.session.VideoCodec
+import dev.cctv.v380.protocol.VideoGeometry
 import java.nio.ByteBuffer
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.TimeUnit
@@ -27,6 +28,8 @@ class VideoDecoder(
     private val format: VideoCodec,
     private val onFirstFrame: () -> Unit = {},
     private val paced: Boolean = false,
+    private val onGeometry: (VideoGeometry) -> Unit = {},
+    private val onRendered: (Long) -> Unit = {},
     private val onError: (SessionError) -> Unit,
 ) : AutoCloseable {
     private val running = AtomicBoolean(true)
@@ -72,7 +75,17 @@ class VideoDecoder(
         var renderAnchor: Long? = null
         fun drain(active: MediaCodec) {
             var index = active.dequeueOutputBuffer(info, 0)
-            while (index >= 0 && running.get()) {
+            while (running.get()) {
+                if (index == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                    val output = active.outputFormat
+                    fun int(key: String, fallback: Int) = if (output.containsKey(key)) output.getInteger(key) else fallback
+                    val w = output.getInteger(MediaFormat.KEY_WIDTH); val h = output.getInteger(MediaFormat.KEY_HEIGHT)
+                    onGeometry(VideoGeometry(w, h, int("crop-left", 0), int("crop-top", 0),
+                        int("crop-right", w - 1), int("crop-bottom", h - 1), int("rotation-degrees", 0)))
+                    index = active.dequeueOutputBuffer(info, 0)
+                    continue
+                }
+                if (index < 0) break
                 if (paced) {
                     if (renderAnchor == null) renderAnchor = System.nanoTime() - info.presentationTimeUs * 1000
                     val due = renderAnchor!! + info.presentationTimeUs * 1000
@@ -115,7 +128,8 @@ class VideoDecoder(
                         if (name == null) { onError(SessionError.UnsupportedCodec); return }
                         codec = MediaCodec.createByCodecName(name)
                         codec.configure(mediaFormat, surface, null, 0)
-                        codec.setOnFrameRenderedListener({ _, _, _ ->
+                        codec.setOnFrameRenderedListener({ _, _, renderedAt ->
+                            if (running.get()) onRendered(renderedAt)
                             if (running.get() && firstRendered.compareAndSet(false, true)) onFirstFrame()
                         }, Handler(Looper.getMainLooper()))
                         codec.start()

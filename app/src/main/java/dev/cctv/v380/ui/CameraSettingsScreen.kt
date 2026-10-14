@@ -20,7 +20,7 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
     feature: CameraFeatureState, onConnect: (CharArray?) -> Unit, modifier: Modifier = Modifier) {
     var confirmFormat by remember { mutableStateOf(false) }
     val settings = feature.settings
-    val enabled = !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingFormat == null && feature.pendingAp == null
+    val enabled = !model.managementBlocked() && !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingFormat == null && feature.pendingAp == null
     fun int(id: Int): Int? = feature.draft[id] as? Int ?: settings?.int(id)
     fun bool(id: Int): Boolean? = feature.draft[id] as? Boolean ?: settings?.bool(id)
     Column(modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(24.dp),
@@ -28,6 +28,11 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
         CameraAccess(model, profile, session, onConnect)
         FeatureFeedback(feature, showProgress = !feature.apBusy)
         ApHotspotSettings(model, profile, session, feature)
+        feature.managementNotice?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
+        CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.LIGHT)
+        CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.ALARM)
+        CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.MOTOR)
+        CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.DEVICE)
         Button(onClick = model::loadSettings, enabled = !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingAp == null,
             modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Muat pengaturan kamera") }
         if (feature.busy && !feature.apBusy) TextButton(onClick = model::cancelFeature) {

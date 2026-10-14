@@ -1,0 +1,52 @@
+{
+  "source_evidence_id": "ev_10afca6c35cdfbf5382457b31bf3305d78fbca460c73f286cbf392affe2ab971",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.DeviceConfigSettingAlarmTimePlanFragment",
+    "method_name": "saveTimePlan"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.v380.fragments.DeviceConfigSettingAlarmTimePlanFragment",
+    "method": {
+      "name": "saveTimePlan",
+      "reported_signature": "saveTimePlan(com.macrovideo.v380.fragments.DeviceConfigSettingAlarmTimePlanFragment$AlarmInfoSettingCallback): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    /* JADX INFO: Access modifiers changed from: private */\n    public void saveTimePlan(final AlarmInfoSettingCallback alarmInfoSettingCallback) {\n        LogUtil.i(TAG, \"<literal omitted>\");\n        this.mActivity.showLoadingDialog(false, \"\", null);\n        AlarmTimeSetJsonParse.DayBean dayBeanConvertTimeBarInfoListToDayBean = convertTimeBarInfoListToDayBean(this.enableTimeBarInfoList.get(0));\n        AlarmTimeSetJsonParse.DayBean dayBeanConvertTimeBarInfoListToDayBean2 = convertTimeBarInfoListToDayBean(this.enableTimeBarInfoList.get(1));\n        AlarmTimeSetJsonParse.DayBean dayBeanConvertTimeBarInfoListToDayBean3 = convertTimeBarInfoListToDayBean(this.enableTimeBarInfoList.get(2));\n        AlarmTimeSetJsonParse.DayBean dayBeanConvertTimeBarInfoListToDayBean4 = convertTimeBarInfoListToDayBean(this.enableTimeBarInfoList.get(3));\n        AlarmTimeSetJsonParse.DayBean dayBeanConvertTimeBarInfoListToDayBean5 = convertTimeBarInfoListToDayBean(this.enableTimeBarInfoList.get(4));\n        AlarmTimeSetJsonParse.DayBean dayBeanConvertTimeBarInfoListToDayBean6 = convertTimeBarInfoListToDayBean(this.enableTimeBarInfoList.get(5));\n        AlarmTimeSetJsonParse.DayBean dayBeanConvertTimeBarInfoListToDayBean7 = convertTimeBarInfoListToDayBean(this.enableTimeBarInfoList.get(6));\n        AlarmTimeSetJsonParse alarmTimeSetJsonParse = new AlarmTimeSetJsonParse();\n        alarmTimeSetJsonParse.setMon(dayBeanConvertTimeBarInfoListToDayBean);\n        alarmTimeSetJsonParse.setTue(dayBeanConvertTimeBarInfoListToDayBean2);\n        alarmTimeSetJsonParse.setWed(dayBeanConvertTimeBarInfoListToDayBean3);\n        alarmTimeSetJsonParse.setThu(dayBeanConvertTimeBarInfoListToDayBean4);\n        alarmTimeSetJsonParse.setFri(dayBeanConvertTimeBarInfoListToDayBean5);\n        alarmTimeSetJsonParse.setSat(dayBeanConvertTimeBarInfoListToDayBean6);\n        alarmTimeSetJsonParse.setSun(dayBeanConvertTimeBarInfoListToDayBean7);\n        final AlarmConfigInfo alarmInfo = GlobalDefines.sDeviceConfigure.getAlarmInfo();\n        alarmInfo.setAlarmTimeSetJsonParse(alarmTimeSetJsonParse);\n        new Thread(new Runnable() { // from class: com.macrovideo.v380.fragments.DeviceConfigSettingAlarmTimePlanFragment.11\n            @Override // java.lang.Runnable\n            public void run() {\n                LoginHandle loginHandleLoginForSetting = (DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.mDeviceInfo == null || DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.mDeviceInfo.getPlatformType() < Defines.DEVICE_PLATFORM_TYPE_NEW) ? GlobalDefines.loginForSetting(DeviceConfigSettingAlarmTimePlanFragment.this.mAttachActivity, DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.mDeviceInfo) : DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.mLoginHandle;\n                if (loginHandleLoginForSetting != null && loginHandleLoginForSetting.getnResult() == 256) {\n                    DeviceConfigInfo configInfoNewPlatform = DeviceConfigSetting.setConfigInfoNewPlatform(DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.mDeviceInfo, loginHandleLoginForSetting, DeviceConfigSetting.createAlarmConfigPidList1(alarmInfo));\n                    if (configInfoNewPlatform != null) {\n                        if (configInfoNewPlatform.getnResult() != 256) {\n                            onFail(configInfoNewPlatform.getnResult(), \"<literal omitted>\");\n                            return;\n                        } else {\n                            onSuccess();\n                            return;\n                        }\n                    }\n                    onFail(-2, \"<literal omitted>\");\n                    return;\n                }\n                onFail(loginHandleLoginForSetting != null ? loginHandleLoginForSetting.getnResult() : -1, \"<literal omitted>\");\n            }\n\n            private void onSuccess() {\n                DeviceConfigSettingAlarmTimePlanFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.DeviceConfigSettingAlarmTimePlanFragment.11.1\n                    @Override // java.lang.Runnable\n                    public void run() {\n                        DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.dismissLoadingDialog();\n                        DeviceConfigSettingAlarmTimePlanFragment.this.originTimeBarInfoList.clear();\n                        for (int i = 0; i < DeviceConfigSettingAlarmTimePlanFragment.this.enableTimeBarInfoList.size(); i++) {\n                            DeviceConfigSettingAlarmTimePlanFragment.this.originTimeBarInfoList.add(TimeBarInfo.deepCopy((ArrayList) DeviceConfigSettingAlarmTimePlanFragment.this.enableTimeBarInfoList.get(i)));\n                        }\n                        AlarmConfigInfo alarmInfo2 = GlobalDefines.sDeviceConfigure.getAlarmInfo();\n                        DeviceConfigSettingAlarmTimePlanFragment.this.originMainSwitch = alarmInfo2.isbMainAlarmSwitch();\n                        DeviceConfigSettingAlarmTimePlanFragment.this.originMotionSwitch = alarmInfo2.isbMotionAlarmSwitch();\n                        DeviceConfigSettingAlarmTimePlanFragment.this.originHumanSwitch = alarmInfo2.getAiSwitch() == 1;\n                        DeviceConfigSettingAlarmTimePlanFragment.this.originPirSwitch = alarmInfo2.isbPIRAlarmSwitch();\n                        DeviceConfigSettingAlarmTimePlanFragment.this.originCrySwitch = alarmInfo2.isCryDetectionSwitch();\n                        DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.showToast(\"<literal omitted>\", 0);\n                        alarmInfoSettingCallback.onSuccess();\n                    }\n                });\n            }\n\n            public void onFail(final int i, final String str) {\n                DeviceConfigSettingAlarmTimePlanFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.DeviceConfigSettingAlarmTimePlanFragment.11.2\n                    @Override // java.lang.Runnable\n                    public void run() {\n                        DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.dismissLoadingDialog();\n                        DeviceConfigSettingAlarmTimePlanFragment.this.mActivity.showToast(\"<literal omitted>\" + i + \"<literal omitted>\" + str, 0);\n                        alarmInfoSettingCallback.onFail();\n                    }\n                });\n            }\n        }).start();\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

@@ -1,0 +1,53 @@
+{
+  "source_evidence_id": "ev_355efa9086e1e68fcbd751f9a084ef4216780e51e6303c6d277eeacc56c5c8e8",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method_name": "createAlarmConfigPidList1",
+    "overload_index": 0
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method": {
+      "name": "createAlarmConfigPidList1",
+      "reported_signature": "createAlarmConfigPidList1(com.macrovideo.sdk.setting.AlarmConfigInfo): java.util.List<org.json.JSONObject>",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public static List<JSONObject> createAlarmConfigPidList1(AlarmConfigInfo alarmConfigInfo) {\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + alarmConfigInfo + \"<literal omitted>\");\n        if (alarmConfigInfo == null) {\n            return null;\n        }\n        ArrayList arrayList = new ArrayList();\n        arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_MAIN_SW, alarmConfigInfo.isbMainAlarmSwitch()));\n        arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_MT_SW, alarmConfigInfo.isbMotionAlarmSwitch()));\n        arrayList.add(createBooleanValueJsonObj(Protocol.DPID_ALARM_SOUND_SW, alarmConfigInfo.isbAlarmVoiceSwitch()));\n        AlarmTimeSetJsonParse alarmTimeSetJsonParse = alarmConfigInfo.getAlarmTimeSetJsonParse();\n        JSONObject jSONObject = new JSONObject();\n        try {\n            jSONObject = new JSONObject(new Gson().toJson(alarmTimeSetJsonParse));\n        } catch (JSONException e) {\n            e.printStackTrace();\n        }\n        arrayList.add(createJSONObjectValueJsonObj(Protocol.DPID_ALARM_TIMER_INFO, jSONObject));\n        AlarmAreaJsonParse alarmAreaJsonParse = new AlarmAreaJsonParse();\n        alarmAreaJsonParse.setAlarmAreaRowCnt(alarmConfigInfo.getAlarmrows());\n        alarmAreaJsonParse.setAlarmAreaLineCnt(alarmConfigInfo.getAlarmcolumns());\n        alarmAreaJsonParse.setAlarmArea(alarmConfigInfo.getAlarmAreaList());\n        JSONObject jSONObject2 = new JSONObject();\n        try {\n            jSONObject2 = new JSONObject(new Gson().toJson(alarmAreaJsonParse));\n        } catch (JSONException e2) {\n            e2.printStackTrace();\n        }\n        arrayList.add(createJSONObjectValueJsonObj(Protocol.DPID_ALARM_MT_AREA, jSONObject2));\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + arrayList);\n        return arrayList;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

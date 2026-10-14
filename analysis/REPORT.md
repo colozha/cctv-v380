@@ -1,5 +1,7 @@
 # Analisis V380 6.4.90 untuk Android client independen
 
+**Manajemen kamera0.4.2:** [kontrak dan status implementasi sebagian](camera-management-wire.md) menambah bukti REA/DEX untuk alarm, lampu, preset, rute patroli, kalibrasi, versi, dan restart. [Tahap2 alarm](alarm-stage2-wire.md) menambah perubahan jumlah interval dengan indeks asal dan batas konservatif. [Tahap3 area](area-stage3-wire.md) menambahkan editor PixelCopy dengan reference yang dimiliki session, hanya untuk pemetaan flat yang terkonfirmasi. Format SD dan start/stop patroli masih terkunci; acceptance kamera dan runtime UI baru belum tersedia.
+
 **Fitur0.3.0:** kontrak REA/DEX/ELF untuk rekaman/playback/download dan pengaturan diarsipkan dalam [spesifikasi fitur](recordings-settings-wire.md). Implementasi debug IoT tersedia, tanpa pengujian kamera. Format SD tetap dikunci karena enum terminal belum terbukti; native UI/MP4 belum diuji akibat emulator boot SIGSEGV. [Hasil validasi offline](../validation/recordings-settings/results.json).
 
 **Bukti pengguna dan perbaikan0.2.1:** diagnostik client independen kini menunjukkan login/capability sukses serta frame render, diikuti putusnya sesi. Label AUTH FAILED versi lama tidak membedakan error stream. [Analisis disconnect](stream-disconnect.md) dan [bukti native](evidence/iot-disconnect-static.md) menjelaskan koreksi sparse cipher/feedback dan batas klaim. Pengujian koneksi tidak dijalankan ulang; kompatibilitas stabil belum terverifikasi.

@@ -127,3 +127,13 @@ Sidecar component snippets are illustrative HTML translations for the design pan
 - **Don't** infer a regenerated green palette from the customized primary color.
 - **Don't** use invented footage, decorative imagery or dashboard metrics in this camera interface.
 - **Don't** present synthetic tests, a selected quality chip or the black player surface as proof of camera interoperability.
+
+## Camera management extension0.4.2
+
+Mode: Operate, inheriting the existing Material3 identity. Settings adds expandable native groups for alarm, advanced lights, motor configuration and device information; Live adds presets and patrol configuration below the existing directional controls. Each group reads independently and shows actual values, missing capabilities or permission errors. Time editing uses Material TimeInput, preset selection uses a native dropdown, and route dwell uses a bounded Material slider. No new typography, palette, navigation destination, visual asset or dependency is introduced.
+
+Destructive/potentially moving actions name their consequence in confirmation dialogs. Pending restart and calibration distinguish accepted/unknown status from verified completion; closing a local record does not cancel the device operation. Format remains disabled. Labelled fixture UI tests were added and compiled, but native screenshots/runtime verification are unavailable because the API35 and fallback API26 emulators crashed during boot with KVM; historical captures elsewhere in this document do not validate the new groups.
+
+Alarm stage2 uses a native day dropdown to keep one day’s intervals in view. Add/remove edits a draft; Save and Discard are explicit. Inline time/overlap validation gates Save, and deleting a middle interval preserves its own event metadata. New intervals are motion-only and use the proven full-day default; unknown capacity remains conservative. Compose callbacks can be exercised without a camera session. No new capture or runtime accessibility pass is claimed.
+
+Stage3 area editing stays within Settings/Alarm. A temporary native preview stops before the still-image editor opens. The grid overlays real reference pixels, with visible selected-cell marks and 48dp native row/column/toggle alternatives. Use only updates the alarm draft; Cancel releases the reference. Live/Settings retain their existing composition. Synthetic fixture capture is prepared for light/dark, orientation and font QA, but no new native capture or accessibility pass is claimed.

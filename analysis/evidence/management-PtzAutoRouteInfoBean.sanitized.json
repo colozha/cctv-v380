@@ -1,0 +1,127 @@
+{
+  "source_evidence_id": "ev_362bdb6fc2984d603700f9be25f885678e56b5d4870bf27f172ebdbe92f72282",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.json.PtzCruiseJsonParse.PtzAutoRouteInfoBean"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.json.PtzCruiseJsonParse.PtzAutoRouteInfoBean",
+    "methods": [
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAuto_position",
+        "reported_signature": "getAuto_position(): java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzAutoRouteInfoBean$AutoPositionBean>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getE_time",
+        "reported_signature": "getE_time(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getPos_cnt",
+        "reported_signature": "getPos_cnt(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getS_time",
+        "reported_signature": "getS_time(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAuto_position",
+        "reported_signature": "setAuto_position(java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzAutoRouteInfoBean$AutoPositionBean>): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setE_time",
+        "reported_signature": "setE_time(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setPos_cnt",
+        "reported_signature": "setPos_cnt(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setS_time",
+        "reported_signature": "setS_time(java.lang.String): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "toString",
+        "reported_signature": "toString(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "auto_position",
+        "reported_type": "java.util.List<com.macrovideo.sdk.json.PtzCruiseJsonParse$PtzAutoRouteInfoBean$AutoPositionBean>"
+      },
+      {
+        "name": "e_time",
+        "reported_type": "java.lang.String"
+      },
+      {
+        "name": "pos_cnt",
+        "reported_type": "int"
+      },
+      {
+        "name": "s_time",
+        "reported_type": "java.lang.String"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.sdk.json.PtzCruiseJsonParse.PtzAutoRouteInfoBean.AutoPositionBean"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

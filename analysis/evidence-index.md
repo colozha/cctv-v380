@@ -201,3 +201,80 @@ Disassembly statis dari ekstraksi REA yang cocok; tidak ada eksekusi vendor atau
 [Riset AP hotspot](ap-hotspot-settings-research.md) memuat hasil REA tambahan untuk `setWiFiAPConfig`, caller UI, validator, serta jalur legacy. Berkas `ap-hotspot-*.sanitized.json` adalah turunan noncanonical yang mempertahankan source evidence ID dan limitations; tidak ada pengujian koneksi kamera.
 
 Implementasi hotspot menambah [konstanta network](evidence/ap-hotspot-network-constants.sanitized.json), [parser property DEX](evidence/ap-hotspot-property-parser.dex.txt), [capability SoftAP DEX](evidence/ap-hotspot-ability.dex.txt), [resource filter input](evidence/ap-hotspot-input-resources.txt), dan excerpt `ap-hotspot-DeviceConfigSetting-*`/`ap-hotspot-IoTDevAbility-*`. DEX/aapt2 adalah bukti pelengkap statis; excerpt REA tetap noncanonical. [Hasil implementasi dan batas](ap-hotspot-settings-research.md#hasil-implementasi-debug).
+
+## Manajemen kamera0.4.0, 14 Oktober2026
+
+[Kontrak, implementasi sebagian, dan batas](camera-management-wire.md). Excerpt JSON adalah derivatif noncanonical REA; DEX/field evaluation merupakan bukti pelengkap statis. Tidak ada eksekusi APK vendor atau pengujian kamera.
+
+| Berkas | Source Evidence ID / jenis | SHA-256 berkas |
+|---|---|---|
+| [management-AlarmAreaJsonParse.sanitized.json](evidence/management-AlarmAreaJsonParse.sanitized.json) | `ev_631d9872deed41839cecbbd6761744ac05306ddb309a80f09e7e31c51f0c9e8c` | `adcf82a56f5d06d580977812f24a512390fc7046e413affb098ff3bb75d47b03` |
+| [management-AlarmTimeSetJsonParse.sanitized.json](evidence/management-AlarmTimeSetJsonParse.sanitized.json) | `ev_6b417cba7713e36b3e220ad597a204180e5c16c41b43fe4e5d1d363aef34b48e` | `ba0492c943310d5c88efca7c70bda011fa19c4c63a7fd7217c37197ba7c152fe` |
+| [management-DeviceConfigSetting-createAlarmConfigPidList1-0.sanitized.json](evidence/management-DeviceConfigSetting-createAlarmConfigPidList1-0.sanitized.json) | `ev_355efa9086e1e68fcbd751f9a084ef4216780e51e6303c6d277eeacc56c5c8e8` | `0ab42b34625352d3c3eace88da7afcec232c5fba32c986cb9deed0af0548c5a4` |
+| [management-DeviceConfigSetting-createDeviceXParamConfigPidList-0.sanitized.json](evidence/management-DeviceConfigSetting-createDeviceXParamConfigPidList-0.sanitized.json) | `ev_0105d103e6ae8d92b3804631027b4f97ca18436ddb80fa534f479a85522505e0` | `e9bf83bb62ce3f43d3fb250bebd039bae39ea316714f0f9af3edfb7e61c467c8` |
+| [management-DeviceConfigSetting-createPTZXCruiseConfigPidList-0.sanitized.json](evidence/management-DeviceConfigSetting-createPTZXCruiseConfigPidList-0.sanitized.json) | `ev_2593c126de031aa0f0465f950a126248e28df65a92c041fed8046d780f1ac73d` | `d62787846a31efb94f1d4a2d4aec0d13007806c89c83d5a8f54284e021758aea` |
+| [management-DeviceConfigSetting-getVersionConfigInfoNewPlatform-0.sanitized.json](evidence/management-DeviceConfigSetting-getVersionConfigInfoNewPlatform-0.sanitized.json) | `ev_b6b908a15fd9dc16c4613697f8ee72aa7614e75a4bc44c55ee6ea4ad7cae3233` | `750f98f7cab22c968b292f35425404d081dc92a52c6eb9ed9845bd878a1728cc` |
+| [management-DeviceConfigSetting-p-0.sanitized.json](evidence/management-DeviceConfigSetting-p-0.sanitized.json) | `ev_dff13934cdcee3cc46d19230cf675e28bafaa4d276714173e44943c333143c7e` | `056a0402dfd092cd6bcaa3f36bc935ca91356dd8a7b46b4302e3092a73fc2e9b` |
+| [management-DeviceConfigSettingHomePageFragment-getLightSensitivityResId-0.sanitized.json](evidence/management-DeviceConfigSettingHomePageFragment-getLightSensitivityResId-0.sanitized.json) | `ev_2e8e2ba53b70c33311ebec9d68102c8abacfa7a959cfbac9f43fc0bfa131db59` | `9a8d985431ecf37a712c9dd2c497383df7ba977e45ca9b42068a855079081eb5` |
+| [management-DeviceConfigSettingWhileLightFragment-onBackPressed-0.sanitized.json](evidence/management-DeviceConfigSettingWhileLightFragment-onBackPressed-0.sanitized.json) | `ev_8692cca54e6f277838190fb8351c2c6aafc8b47df3d7a50ffef4562c993614e1` | `27ca786faaeb775f740f22e2f85c53ee861b758d87dfed9915e3809f2689af36` |
+| [management-DeviceConfigSettingWhileLightFragment-onClicked-0.sanitized.json](evidence/management-DeviceConfigSettingWhileLightFragment-onClicked-0.sanitized.json) | `ev_2c51656665dba997e440c56cc5eecf193b00ca5abfa3d81bf024fbdec565ec5d` | `20cbdc41ec8600bcd5cfe4e8932aafbc2ad2ba44bc142ae3c2f53f9abef7f441` |
+| [management-DeviceParamSetting-setDeviceParam-1.sanitized.json](evidence/management-DeviceParamSetting-setDeviceParam-1.sanitized.json) | `ev_5eff95e0000672529967ceb9b96af123e53f16a2b141a975bec9ec39f8892970` | `4eb5e7d3c5cdc453d9cfa93b5d3a1bbd627de6a0959aeeb7f345d3c110f7e001` |
+| [management-IoTDevAbility-getPresetCount-1.sanitized.json](evidence/management-IoTDevAbility-getPresetCount-1.sanitized.json) | `ev_002e7ac47b310c483d08fd01248b72584c729e1faeffa099a93520f6d66ab7a5` | `6e3a9f2df46d4e53842be9740b9e516b8d98030e908b2572ffe61f1c46007543` |
+| [management-IoTDevAbility-isSupportLightTimer-0.sanitized.json](evidence/management-IoTDevAbility-isSupportLightTimer-0.sanitized.json) | `ev_58341da563d160d41cb71e29ab173e05475571e1e28d7004771a9466acc33b22` | `c9d6129e9ef08e33674a38b7b7f40df1552704ff4bf2e94474f9edbe3ca7af34` |
+| [management-IoTDevAbility-isSupportPTZXAutoCruise-1.sanitized.json](evidence/management-IoTDevAbility-isSupportPTZXAutoCruise-1.sanitized.json) | `ev_b4e7b87196d8801d77334ed6191975e3c0f3aa865ea9cd8704d4a4ea3ceefb40` | `d78d18a7968637025da4abe04897ae35c8bd8ee735c827521e6ac8f877e54289` |
+| [management-IoTDevAbility-isSupportPtzCalibrate-1.sanitized.json](evidence/management-IoTDevAbility-isSupportPtzCalibrate-1.sanitized.json) | `ev_841f0961af9c901c039db9c5972d0a99e0567b24a5659d2d16db023182369c8b` | `0a3ca0bf91568728cd72cb4f3bf6374499da1b1ad3f3ee8d76c7f762c68a3aff` |
+| [management-IoTDevAbility-isSupportRestart-0.sanitized.json](evidence/management-IoTDevAbility-isSupportRestart-0.sanitized.json) | `ev_9e37eea33b5325deaa8f0f36cc4045305abd7d188f2f1135dd41e5c163541cf7` | `78e5bad7657c734186e0050fda34fc19bf350a8b47ba23a31aeb1129361d17a4` |
+| [management-LightTimerInfoJsonParse.sanitized.json](evidence/management-LightTimerInfoJsonParse.sanitized.json) | `ev_c465a7b7152277aadb29a550f0c9acb6566bcd5e13c99c94b157641d2a668a1d` | `cf0ff897f7af4fe5aee03c51eef9b29adae0c5c0832b43de62cb4fe7284db82a` |
+| [management-PtzAutoRouteInfoBean.sanitized.json](evidence/management-PtzAutoRouteInfoBean.sanitized.json) | `ev_362bdb6fc2984d603700f9be25f885678e56b5d4870bf27f172ebdbe92f72282` | `3c77a15292a520418b393d293982981d6178a5cdbd7be2fd79b809b5291e72c6` |
+| [management-PtzCruiseJsonParse.sanitized.json](evidence/management-PtzCruiseJsonParse.sanitized.json) | `ev_e9cdd66738b22bda677ca13a9d668e6e03bb55b75aeb25ec212049b219e3ced2` | `bbc5c0e2659c4624229b3658c6e9f57c6d8b45c2526ed9cb90cb3b9fd5f5e894` |
+| [management-PtzPresetUseJsonParse.sanitized.json](evidence/management-PtzPresetUseJsonParse.sanitized.json) | `ev_5458365fe9fd1fc33152097791aa13307b6a39d03c5c2f3fb38c498bbe4f7905` | `d596d60c5cf06be34664b971ab94a2957fa3fea1919565a70307972fb978a0b2` |
+| [management-TimeSchedule.sanitized.json](evidence/management-TimeSchedule.sanitized.json) | `ev_67df1a786ccc102c9965b3c2313ff576c344c7b6679fd6914b474e4bb4367f8c` | `4ef7b9e378507d6dfb44407473c066d687f7d2731a481c4c48bd48098aab8d32` |
+| [management-ability.dex.txt](evidence/management-ability.dex.txt) | `supplementary static DEX/metadata` | `dae237dc3b9a27a49989d36013df6d5bd1267ca2fa03d75f010b6ef92bcaf2a0` |
+| [management-ability.txt](evidence/management-ability.txt) | `supplementary static DEX/metadata` | `0f9d44b4abb1ab1ba87c13d7ccb9e2b08e91fd435a6c6e7d89d42ecea0a9f88a` |
+| [management-json-fields.txt](evidence/management-json-fields.txt) | `supplementary static DEX/metadata` | `3ae164729c72c809cfffe635ed4e95098c16912735c28aa8ca89564f1bb8916d` |
+| [management-light-schedule-wire.sanitized.json](evidence/management-light-schedule-wire.sanitized.json) | `ev_51d9b4e43ab895d1d713b1eec75f1e3d42145973e30e359bf36c484de124c6a7` | `0af2b32eb96dfc4f8a76ae84396c6616b40bf02749fde7e14f1a3fb8fc3479cb` |
+| [management-property-ids.json](evidence/management-property-ids.json) | `supplementary static field evaluation` | `84f6c0aa9239f7fd7c254690a378796b9453b85738ba9b5fed3de63c502c2c34` |
+| [management-protocol-clinit.dex.txt](evidence/management-protocol-clinit.dex.txt) | `supplementary static DEX/metadata` | `cdfc57d576fe2a3629ce76d17b0cb30d118b72f45590768c212d48e026d8ddf9` |
+| [management-refs.txt](evidence/management-refs.txt) | `supplementary static DEX/metadata` | `ee676ebd6ca57c9de6955f9cd2c4a6cca2d3ef58253f641dfb4b390a6bfb4d25` |
+
+## Alarm lanjutan0.4.1, 14 Oktober2026
+
+[Bukti dan batas tahap2](alarm-stage2-wire.md). REA6.4.0/JADX0.7.1; APK dan SHA-256 sama dengan bagian manajemen0.4.0. Excerpt noncanonical mempertahankan source Evidence ID; canonical lokal berada di `analysis/references/alarm-stage2-canonical/` (diabaikan Git). DEX scan dan collector adalah bukti pelengkap statis, bukan runtime.
+
+| Berkas | Source Evidence ID / jenis | SHA-256 berkas |
+|---|---|---|
+| [alarm-stage2-alarm-setting.sanitized.json](evidence/alarm-stage2-alarm-setting.sanitized.json) | `ev_022576ea2164f5601b6fdede567462f8d3662e75c84b1076737d93a434f5ae36` | `a0a8459e3d456208ef3b68e1a155274e4fa66dd43147b3698402254d92857d02` |
+| [alarm-stage2-convert-get.sanitized.json](evidence/alarm-stage2-convert-get.sanitized.json) | `ev_f61d234bb3ae783bba2053419454dd1de4059e478f101346255c9d8f115dd2fb` | `42e948eb8c358a0421c870a147394463bdd706d0d4648de48f4acaf6b6d62ed6` |
+| [alarm-stage2-convert-set.sanitized.json](evidence/alarm-stage2-convert-set.sanitized.json) | `ev_70eb2e049f97ca0395739a254f0a80f72c8fb292b44aaa9a2d8443af645196eb` | `c6551fca493a1443975c50956af5e0cb62df42b331dc75c4aba5a7719a9901d3` |
+| [alarm-stage2-create-alarm.sanitized.json](evidence/alarm-stage2-create-alarm.sanitized.json) | `ev_f97a172762a1428fdecfeb92f90365e76041c6699579e8e744e88fec5de00a8b` | `1683f10efb0a57dd0e91cf340f7a983d2aba1d9ccfbf9b92c077869155ed3591` |
+| [alarm-stage2-get-day.sanitized.json](evidence/alarm-stage2-get-day.sanitized.json) | `ev_7d4a23e939f43ab22169b17e7490170ce4fdaf5c0c5a49834bd12509c6b4c4f4` | `6d6bc384a417a3bccd74fba614c5c817a6ffd4364de302880241f87aab49d396` |
+| [alarm-stage2-max-refs.sanitized.json](evidence/alarm-stage2-max-refs.sanitized.json) | `ev_541378811c2977b93cba23c33c89bd6a0dcb1c9ef25b5b3b4e7bf718af18868c` | `39fa6a65f91c2d4f98cbc4d182f258a47c7737c0a16c582914ed1f6b69b93971` |
+| [alarm-stage2-motion-mask-helper.dex.txt](evidence/alarm-stage2-motion-mask-helper.dex.txt) | DEX statis / collector | `065d66d013d70b8b33087e89c92559ca755d1a3eace94ea52a57d81ec76e4461` |
+| [alarm-stage2-motion-mask.dex.txt](evidence/alarm-stage2-motion-mask.dex.txt) | DEX statis / collector | `d339a775023529e74db39676c3185da8b0774b76317ba95d40010b48d8b8ad2b` |
+| [alarm-stage2-motion-param.sanitized.json](evidence/alarm-stage2-motion-param.sanitized.json) | `ev_9bc9e5274d4fb7e026a2601b5f3c673bb6cf31aaaeed8dea5ce3feb0357cc88f` | `9a6c50f2a0235f0d61e182c3e4c25486c2cbcdf7b48794150b8eca049ea25c10` |
+| [alarm-stage2-plan-empty.sanitized.json](evidence/alarm-stage2-plan-empty.sanitized.json) | `ev_1922c4eea4ad3992d3ef313d52da09f78150fe78f169ca4caad9bcdd4c257a19` | `82f0ec73ddfb22c88dc5e0798c3424489f702f4f463eb811f967c445efc87e6d` |
+| [alarm-stage2-plan-is-empty.sanitized.json](evidence/alarm-stage2-plan-is-empty.sanitized.json) | `ev_bb624ba3c551f2019486c315cdca15e61f7237343218496592dee2f3aae8eabc` | `8d4988bd3faad2de053b040ce9f62ec5c335ec3cc1facf4436416d8ff5d2ffe1` |
+| [alarm-stage2-plan-save.sanitized.json](evidence/alarm-stage2-plan-save.sanitized.json) | `ev_10afca6c35cdfbf5382457b31bf3305d78fbca460c73f286cbf392affe2ab971` | `e87c069e1b2762d96641dfc88ce96b1bc2117e7bcdb5d6553e597eef807fd7ac` |
+| [alarm-stage2-reference-scan.java](evidence/alarm-stage2-reference-scan.java) | DEX statis / collector | `295af06064a11daf5280ada4a19cdb9cb92906814623bd0f503c3d76bd8c4ab4` |
+| [alarm-stage2-sensitivity-refs.dex.txt](evidence/alarm-stage2-sensitivity-refs.dex.txt) | DEX statis / collector | `147f1d212d66a0a64a3f80d7a7e630a4d0ce98662832ff93091a497bfb45c3d5` |
+| [alarm-stage2-timebar-mode.sanitized.json](evidence/alarm-stage2-timebar-mode.sanitized.json) | `ev_80e6b24ba81e32ce402efe445f2d165761353b1189719f03d62c2a21ae484d56` | `3ab5e3acd28443675e208db336bc13fb2ea3df773c4082e90e7cfbe45eb8e29e` |
+| [alarm-stage2-timebar-try.sanitized.json](evidence/alarm-stage2-timebar-try.sanitized.json) | `ev_d5149ecd8bdae8fdc9a58c1b7d75d51a86c78b9d66dda3c29e554bd346238833` | `c98e7e213b6c4a959a334adcef0f5539092860bdaacb67b13e85f4b1b6f53078` |
+
+## Editor area0.4.2, 14 Oktober2026
+
+[Kontrak, kepemilikan gambar dan batas](area-stage3-wire.md). Excerpt REA6.4.0/JADX0.7.1 noncanonical mempertahankan Evidence ID dan identitas APK V3806.4.90; canonical lokal ada di `analysis/references/area-stage3-canonical/` (diabaikan Git). DEX parser memakai descriptor tepat karena fallback JADX menggabungkan overload. Dump diproduksi ulang menggunakan `ap-dex-instructions.java`; branch/ordinal terpilih adalah bukti statis pelengkap, bukan runtime.
+
+| Berkas | Source Evidence ID / jenis | SHA-256 berkas |
+|---|---|---|
+| [area-stage3-adapter-view.sanitized.json](evidence/area-stage3-adapter-view.sanitized.json) | `ev_536d7b797d9523bd140401ce079c1fa31ac6d98e93b9621e9e157ecd9175b6fb` | `e8736cbb01ac3fb7481137c71da91121f49c653d6a2ef9cef2f2317093ca4f83` |
+| [area-stage3-area-click.sanitized.json](evidence/area-stage3-area-click.sanitized.json) | `ev_3fa2014db9fd4d091004070a5f0d1274717e06addafc50727e1a90403b0b6031` | `5c6ce4dbc946d0a1b2f9c6647e2430b96dc985804527b7425cd51cf9af3d41d3` |
+| [area-stage3-area-get-ui.sanitized.json](evidence/area-stage3-area-get-ui.sanitized.json) | `ev_4932aaa4dee96d1ce68f481e376e5f294e3c4c199da70b31bd202dc63e880eef` | `6ac22e9c935a51ed1f482029c8d0df96911046011926d083fcac5c0f00351c42` |
+| [area-stage3-area-init.sanitized.json](evidence/area-stage3-area-init.sanitized.json) | `ev_9c40103efad7510781c5e9e622de833d84f049c2bfb99ebfd8b24c18eece8314` | `28b3c04e8081b81bf9768fdc48e37f0bd3d6b9810ab3d705bb6b32319123f591` |
+| [area-stage3-area-open.sanitized.json](evidence/area-stage3-area-open.sanitized.json) | `ev_af3846e53b5cd977178da9565193114b6284bfa3b22498b12244255a57e69c38` | `ffbc13297a81975d8f372eea600a38840d4db213cac4407cd6c6a23bdd4aaa4e` |
+| [area-stage3-area-player.sanitized.json](evidence/area-stage3-area-player.sanitized.json) | `ev_b38646460d86ae4785fcc9b669ceac485462cb7f58bfc8aca93bc8168c72925a` | `c34652c82c0456718ac6916d2dddb077c0c4b12c7250698b79793af758a03b14` |
+| [area-stage3-area-save.sanitized.json](evidence/area-stage3-area-save.sanitized.json) | `ev_e358836ca044e33987caa11f99bb5c10132961ae32c9e167bd7fc2d8aab501cf` | `2bd6107cc5e318de1bf302816345be58d0d5ec4c0724a7763b2eeaab276fda13` |
+| [area-stage3-area-set-ui.sanitized.json](evidence/area-stage3-area-set-ui.sanitized.json) | `ev_3096de04dd649c163dc977f9d13df21a3a5a043056b2ef1ba0ba76d2178edf83` | `81da81066d96ddaa4f43d526f2f10ccf3cc46a1fc706641f918b28e5a33d7594` |
+| [area-stage3-cam-count.sanitized.json](evidence/area-stage3-cam-count.sanitized.json) | `ev_3079da4da696bd86f2c0dfe83684bf7d9038dacf6f7da750a6b48f45ed8f9f45` | `fa14fed01595586f7b6b80e36681e04ae4da8aceb3c75b19a0a9d14c6800222a` |
+| [area-stage3-cam-type.sanitized.json](evidence/area-stage3-cam-type.sanitized.json) | `ev_f4662034bee1af20ce7ae49a55bc0baf3bca55319aa289078981bf8f0c68094a` | `1b6cd5776a63f3e4c294cf4bcca9ab443ef7b4eea2518f33c1c2eb3b72c32b1c` |
+| [area-stage3-lens-ordinal.dex.txt](evidence/area-stage3-lens-ordinal.dex.txt) | DEX statis / descriptor terpilih | `bd6f173717ff929f9b8d2279684d203ae2ce404cd3de82cc6e83c15b8b0147ee` |
+| [area-stage3-property-parser.dex.txt](evidence/area-stage3-property-parser.dex.txt) | DEX statis / descriptor terpilih | `88a6cc76bfaadec86f54d3a30d5c27a186d0cc828c1c07d47c49557288ac3d87` |

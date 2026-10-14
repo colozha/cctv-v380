@@ -42,7 +42,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     var pendingLeave by remember { mutableStateOf<(() -> Unit)?>(null) }
     LaunchedEffect(profile.id) { model.prepareFeatures(profile) }
     fun leave(action: () -> Unit) {
-        if (feature.busy || feature.draft.isNotEmpty()) pendingLeave = action else action()
+        if (feature.busy || feature.areaPhase == AreaCapturePhase.EDITING || feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty()) pendingLeave = action else action()
     }
     val capabilities by model.session.capabilities.collectAsStateWithLifecycle()
     val busy = state is SessionState.Connecting || state is SessionState.Authenticating ||
@@ -127,8 +127,10 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                         label = { Text(quality.name) }) }
                 }
                 Text("Kontrol kamera", style = MaterialTheme.typography.titleMedium)
-                val ptz = streaming && capabilities?.ptz == true
-                if (!ptz) Text("Kontrol tersedia setelah video berjalan dan kemampuan PTZ dikonfirmasi kamera.",
+                val ptz = streaming && model.session.manualPtzAllowed && !model.managementBlocked() && !feature.busy && capabilities?.ptz == true
+                if (!ptz) Text(if (streaming && capabilities?.management?.patrol == true && !model.session.manualPtzAllowed)
+                    "Muat status pada Preset dan patroli terlebih dahulu. Kontrol arah terkunci jika konfigurasi patroli aktif atau belum diketahui."
+                    else "Kontrol tersedia setelah video berjalan dan kemampuan PTZ dikonfirmasi kamera.",
                     style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Column(Modifier.align(Alignment.CenterHorizontally), horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -142,16 +144,21 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                     }
                     PtzButton(Icons.Default.KeyboardArrowDown, "Bawah", Direction.DOWN, ptz && capabilities?.verticalPtz == true, model)
                 }
+                feature.managementNotice?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
+                CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.MOTOR, live = true)
             }
         }
         }
     }
     if (pendingLeave != null) AlertDialog(onDismissRequest = { pendingLeave = null },
-        title = { Text(if (feature.draft.isNotEmpty()) "Buang perubahan?" else "Tinggalkan pekerjaan ini?") },
+        title = { Text(if ((feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty())) "Buang perubahan?" else "Tinggalkan pekerjaan ini?") },
         text = { Text(when {
             feature.pendingAp != null -> "Pemeriksaan hotspot akan berhenti. Perubahan yang mungkin sudah diterapkan tidak dibatalkan; perintah tidak akan dikirim ulang."
+            feature.pendingRestart != null -> "Pemeriksaan restart akan berhenti. Kamera mungkin sudah menerima perintah; tidak ada pengiriman ulang."
+            feature.pendingCalibration != null -> "Pemeriksaan kalibrasi akan berhenti. Kamera mungkin masih bergerak; perintah tidak dikirim ulang."
             feature.pendingFormat != null -> "Pemeriksaan status akan berhenti. Format yang sudah dikirim tetap berjalan di kamera dan tidak akan dikirim ulang."
-            feature.draft.isNotEmpty() -> "Perubahan pengaturan yang belum disimpan akan dibuang."
+            feature.areaPhase == AreaCapturePhase.EDITING -> "Perubahan area yang belum digunakan akan dibuang. Gambar referensi akan dilepas."
+            (feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty()) -> "Perubahan pengaturan yang belum disimpan akan dibuang."
             else -> "Pekerjaan yang sedang berjalan akan dibatalkan. File yang belum lengkap tidak dinyatakan tersimpan."
         }) },
         confirmButton = { TextButton(onClick = { val action = pendingLeave; pendingLeave = null; model.cancelFeature(); action?.invoke() }) { Text("Lanjutkan keluar") } },

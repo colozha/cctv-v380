@@ -1,8 +1,18 @@
 # Status implementasi V380 LAN
 
-Versi **0.3.0-experimental** memiliki adapter wire nyata untuk Legacy V2 dan common IoT LAN: autentikasi, negosiasi video, decoding MediaCodec, PTZ, serta konfigurasi Wi-Fi melalui AP yang telah terautentikasi. Adapter aktif pada **APK debug**. Belum ada kamera yang dinyatakan kompatibel; rilis pengguna tetap dibatasi sampai acceptance kamera fisik lulus.
+Versi **0.4.2-experimental** memiliki adapter wire nyata untuk Legacy V2 dan common IoT LAN: autentikasi, negosiasi video, decoding MediaCodec, PTZ, serta konfigurasi Wi-Fi melalui AP yang telah terautentikasi. Adapter aktif pada **APK debug**. Belum ada kamera yang dinyatakan kompatibel; rilis pengguna tetap dibatasi sampai acceptance kamera fisik lulus.
 
 Target pertama: firmware `Hw_EV2X_NA1_XHR_V1.0_WF_20250804`, software `V2.1.6.0(HSC_A2X17XHR_20250804)`, berdasarkan screenshot pengguna. Nama firmware tidak digunakan untuk memilih generasi protokol.
+
+## Manajemen kamera0.4.2 — implementasi sebagian
+
+[Kontrak REA/DEX, perilaku, dan batas](analysis/camera-management-wire.md). Tidak ada dependensi baru atau pengujian koneksi kamera. Debug IoT menambah grup pengaturan alarm utama/gerakan/suara, tambah/hapus/edit jadwal alarm per hari dengan batas konservatif, sensitivitas/jadwal lampu, informasi versi, preset simpan/panggil/hapus, konfigurasi rute patroli tidak aktif, command kalibrasi, serta restart send-once dengan pending AtomicFile dan verifikasi identitas setelah reconnect. Mutasi tidak mengganti write yang sedang berjalan; snapshot memeriksa revisi auth/device ID dan SET memerlukan readback.
+
+**Belum selesai:** start/stop serta status motor patroli, status terminal kalibrasi, sensitivitas gerakan, varian editor area non-flat/ambigu, format SD terminal, dukungan Legacy/multi-view variants dan acceptance firmware. Writer format tetap dikunci; belum ada enum terminal yang dapat dipercaya. Kalibrasi hanya melaporkan ACK/hasil ambigu dan meminta pemeriksaan gerak oleh pengguna. Restart yang tersambung kembali tidak dinyatakan terverifikasi tanpa bukti reboot.
+
+[Validasi terbaru](validation/area-stage3/results.json) mencatat build/lint/tes offline pada source akhir. UI/storage instrumentation baru dikompilasi; runtime tetap belum berjalan; boot tidak diulang pada lingkungan yang sama dengan API35/API26 KVM yang sebelumnya SIGSEGV. Tidak ada screenshot baru, pengujian socket, atau kamera yang diklaim lulus. Penanda format versi1 dibaca sebagai unknown tanpa replay; versi2 memakai operation ID untuk cleanup. Pending restart terpisah dari AP/provisioning dan tidak menyimpan credential.
+
+Editor area tahap3 tersedia hanya untuk grid flat/single-view yang terkonfirmasi, dengan reference session, PixelCopy setelah frame render, dan preflight/readback. [Kontrak, batas crop/orientasi/motor, dan hasil](analysis/area-stage3-wire.md).
 
 ## Rekaman dan pengaturan0.3.0
 

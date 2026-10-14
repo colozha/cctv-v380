@@ -13,7 +13,10 @@ import java.nio.ByteBuffer
 import java.nio.CharBuffer
 
 data class PendingSetup(val profile: CameraProfile, val targetSsid: String)
-data class PendingSdFormat(val profileId: String, val deviceId: String, val createdAtMs: Long)
+data class PendingSdFormat(val profileId: String, val deviceId: String, val createdAtMs: Long,
+    val operationId: String = "legacy:$profileId:$createdAtMs")
+data class PendingCameraCalibration(val operationId: String, val profileId: String, val deviceId: String, val createdAtMs: Long)
+data class PendingCameraRestart(val operationId: String, val profileId: String, val deviceId: String, val createdAtMs: Long)
 class PendingApEdit(val operationId: String, val profileId: String, val deviceId: String,
     val oldSsid: String, val targetSsid: String, val createdAtMs: Long) {
     override fun toString() = "PendingApEdit(redacted)"
@@ -29,6 +32,8 @@ class ProfileStore(
     private val pending = AtomicFile(File(file.parentFile, "pending-${file.name}"))
     // ponytail: one pending format per app; use per-profile files only if simultaneous camera work is introduced.
     private val pendingFormat = AtomicFile(File(file.parentFile, "pending-sd-format.json"))
+    private val pendingRestart = AtomicFile(File(file.parentFile, "pending-camera-restart.json"))
+    private val pendingCalibration = AtomicFile(File(file.parentFile, "pending-ptz-calibration.json"))
     // ponytail: one pending AP edit; split per profile if concurrent camera sessions are introduced.
     private val pendingAp = AtomicFile(File(file.parentFile, "pending-ap-edit.json"))
     private var migrationNeeded = false
@@ -109,6 +114,9 @@ class ProfileStore(
 
     @Synchronized
     fun delete(id: String) {
+        require(loadPendingCalibration()?.profileId != id) { "Resolve the pending calibration before deleting this profile" }
+        require(loadPendingRestart()?.profileId != id) { "Resolve the pending restart status before deleting this profile" }
+        require(loadPendingFormat()?.profileId != id) { "Resolve the pending format status before deleting this profile" }
         require(loadPendingApEdit()?.profileId != id) { "Resolve the pending hotspot status before deleting this profile" }
         write(records().filterNot { it.getString("id") == id })
     }
@@ -159,7 +167,7 @@ class ProfileStore(
     @Synchronized
     fun savePendingFormat(profile: CameraProfile) {
         require(profile.validationError() == null && loadPendingFormat() == null)
-        val bytes = JSONObject().put("version", 1).put("profileId", profile.id)
+        val bytes = JSONObject().put("version", 2).put("operationId", java.util.UUID.randomUUID().toString()).put("profileId", profile.id)
             .put("deviceId", profile.deviceId).put("createdAtMs", System.currentTimeMillis()).toString().toByteArray()
         val output = pendingFormat.startWrite()
         try { output.write(bytes); pendingFormat.finishWrite(output) }
@@ -170,14 +178,73 @@ class ProfileStore(
     fun loadPendingFormat(): PendingSdFormat? {
         if (!pendingFormat.baseFile.exists() && !File(pendingFormat.baseFile.path + ".bak").exists()) return null
         val json = pendingFormat.openRead().use { require(it.channel.size() <= 65536); JSONObject(it.readBytes().toString(Charsets.UTF_8)) }
-        require(json.getInt("version") == 1)
-        return PendingSdFormat(json.getString("profileId"), json.getString("deviceId"), json.getLong("createdAtMs")).also {
+        require(json.getInt("version") in 1..2)
+        val operationId = if (json.getInt("version") == 2) json.getString("operationId") else "legacy:${json.getString("profileId")}:${json.getLong("createdAtMs")}"
+        return PendingSdFormat(json.getString("profileId"), json.getString("deviceId"), json.getLong("createdAtMs"), operationId).also {
+            require(it.operationId.length in 1..256)
             require(it.profileId.length in 1..128 && it.deviceId.length in 1..128 && it.createdAtMs >= 0)
         }
     }
 
     @Synchronized
-    fun clearPendingFormat() { pendingFormat.delete() }
+    fun clearPendingFormat(operationId: String? = null) {
+        if (operationId != null) require(loadPendingFormat()?.operationId == operationId)
+        pendingFormat.delete()
+    }
+
+    @Synchronized
+    fun savePendingRestart(value: PendingCameraRestart) {
+        require(loadPendingRestart() == null)
+        require(value.operationId.length in 1..128 && value.profileId.length in 1..128 && value.deviceId.length in 1..128 && value.createdAtMs >= 0)
+        val bytes = JSONObject().put("version", 1).put("operationId", value.operationId).put("profileId", value.profileId)
+            .put("deviceId", value.deviceId).put("createdAtMs", value.createdAtMs).toString().toByteArray(Charsets.UTF_8)
+        val output = pendingRestart.startWrite()
+        try { output.write(bytes); pendingRestart.finishWrite(output) }
+        catch (error: Throwable) { pendingRestart.failWrite(output); throw error }
+    }
+
+    @Synchronized
+    fun loadPendingRestart(): PendingCameraRestart? {
+        if (!pendingRestart.baseFile.exists() && !File(pendingRestart.baseFile.path + ".bak").exists()) return null
+        val json = pendingRestart.openRead().use { require(it.channel.size() <= 4096); JSONObject(it.readBytes().toString(Charsets.UTF_8)) }
+        require(json.getInt("version") == 1)
+        return PendingCameraRestart(json.getString("operationId"), json.getString("profileId"), json.getString("deviceId"), json.getLong("createdAtMs")).also {
+            require(it.operationId.length in 1..128 && it.profileId.length in 1..128 && it.deviceId.length in 1..128 && it.createdAtMs >= 0)
+        }
+    }
+
+    @Synchronized
+    fun clearPendingRestart(operationId: String) {
+        require(loadPendingRestart()?.operationId == operationId)
+        pendingRestart.delete()
+    }
+
+    @Synchronized
+    fun savePendingCalibration(value: PendingCameraCalibration) {
+        require(loadPendingCalibration() == null)
+        require(value.operationId.length in 1..128 && value.profileId.length in 1..128 && value.deviceId.length in 1..128 && value.createdAtMs >= 0)
+        val bytes = JSONObject().put("version", 1).put("operationId", value.operationId).put("profileId", value.profileId)
+            .put("deviceId", value.deviceId).put("createdAtMs", value.createdAtMs).toString().toByteArray(Charsets.UTF_8)
+        val output = pendingCalibration.startWrite()
+        try { output.write(bytes); pendingCalibration.finishWrite(output) }
+        catch (error: Throwable) { pendingCalibration.failWrite(output); throw error }
+    }
+
+    @Synchronized
+    fun loadPendingCalibration(): PendingCameraCalibration? {
+        if (!pendingCalibration.baseFile.exists() && !File(pendingCalibration.baseFile.path + ".bak").exists()) return null
+        val json = pendingCalibration.openRead().use { require(it.channel.size() <= 4096); JSONObject(it.readBytes().toString(Charsets.UTF_8)) }
+        require(json.getInt("version") == 1)
+        return PendingCameraCalibration(json.getString("operationId"), json.getString("profileId"), json.getString("deviceId"), json.getLong("createdAtMs")).also {
+            require(it.operationId.length in 1..128 && it.profileId.length in 1..128 && it.deviceId.length in 1..128 && it.createdAtMs >= 0)
+        }
+    }
+
+    @Synchronized
+    fun clearPendingCalibration(operationId: String) {
+        require(loadPendingCalibration()?.operationId == operationId)
+        pendingCalibration.delete()
+    }
 
     @Synchronized
     fun savePendingApEdit(value: PendingApEdit) {

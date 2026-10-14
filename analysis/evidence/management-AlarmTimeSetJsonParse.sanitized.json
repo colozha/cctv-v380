@@ -1,0 +1,181 @@
+{
+  "source_evidence_id": "ev_6b417cba7713e36b3e220ad597a204180e5c16c41b43fe4e5d1d363aef34b48e",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse",
+    "methods": [
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getFri",
+        "reported_signature": "getFri(): com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getMon",
+        "reported_signature": "getMon(): com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getSat",
+        "reported_signature": "getSat(): com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getSun",
+        "reported_signature": "getSun(): com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getThu",
+        "reported_signature": "getThu(): com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getTue",
+        "reported_signature": "getTue(): com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getWed",
+        "reported_signature": "getWed(): com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setFri",
+        "reported_signature": "setFri(com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setMon",
+        "reported_signature": "setMon(com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setSat",
+        "reported_signature": "setSat(com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setSun",
+        "reported_signature": "setSun(com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setThu",
+        "reported_signature": "setThu(com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setTue",
+        "reported_signature": "setTue(com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setWed",
+        "reported_signature": "setWed(com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "toString",
+        "reported_signature": "toString(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "Fri",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean"
+      },
+      {
+        "name": "Mon",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean"
+      },
+      {
+        "name": "Sat",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean"
+      },
+      {
+        "name": "Sun",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean"
+      },
+      {
+        "name": "Thu",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean"
+      },
+      {
+        "name": "Tue",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean"
+      },
+      {
+        "name": "Wed",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse$DayBean"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.sdk.json.AlarmTimeSetJsonParse.DayBean"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

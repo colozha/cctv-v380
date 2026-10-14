@@ -1,0 +1,47 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->a(Lcom/macrovideo/sdk/setting/DeviceConfigInfo;Ljava/util/List;)Lcom/macrovideo/sdk/setting/DeviceConfigInfo; code_item_offset=8375180 registers=47
+Selected branch: code units192e–198b; complete original dump retained locally in /tmp.
+192e dex@007ffdf8 move-object/from16       v23 v9 
+1930 dex@007ffdfc invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+1933 dex@007ffe02 move-result-wide         v1 
+1934 dex@007ffe04 sget-wide                v8 Lcom/macrovideo/sdk/defines/Protocol;->DPID_ALARM_MT_AREA:J
+1936 dex@007ffe08 cmp-long                 v1 v1 v8 
+1938 dex@007ffe0c if-nez                   v1  -> 1981
+193a dex@007ffe10 invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getValue()Ljava/lang/Object;
+193d dex@007ffe16 move-result-object       v1 
+193e dex@007ffe18 invoke-virtual           v4 v1 Lcom/google/gson/Gson;->toJson(Ljava/lang/Object;)Ljava/lang/String;
+1941 dex@007ffe1e move-result-object       v1 
+1942 dex@007ffe20 const-class              v2 Lcom/macrovideo/sdk/json/AlarmAreaJsonParse;
+1944 dex@007ffe24 invoke-virtual           v4 v1 v2 Lcom/google/gson/Gson;->fromJson(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+1947 dex@007ffe2a move-result-object       v1 
+1948 dex@007ffe2c check-cast               v1 Lcom/macrovideo/sdk/json/AlarmAreaJsonParse;
+194a dex@007ffe30 if-eqz                   v1  -> 1981
+194c dex@007ffe34 invoke-virtual           v1 Lcom/macrovideo/sdk/json/AlarmAreaJsonParse;->getAlarmArea()Ljava/util/List;
+194f dex@007ffe3a move-result-object       v2 
+1950 dex@007ffe3c if-eqz                   v2  -> 1981
+1952 dex@007ffe40 invoke-virtual           v1 Lcom/macrovideo/sdk/json/AlarmAreaJsonParse;->getAlarmAreaRowCnt()I
+1955 dex@007ffe46 move-result              v2 
+1956 dex@007ffe48 invoke-virtual           v0 v2 Lcom/macrovideo/sdk/setting/AlarmConfigInfo;->setAlarmrows(I)V
+1959 dex@007ffe4e invoke-virtual           v1 Lcom/macrovideo/sdk/json/AlarmAreaJsonParse;->getAlarmAreaLineCnt()I
+195c dex@007ffe54 move-result              v2 
+195d dex@007ffe56 invoke-virtual           v0 v2 Lcom/macrovideo/sdk/setting/AlarmConfigInfo;->setAlarmcolumns(I)V
+1960 dex@007ffe5c new-instance             v2 Ljava/util/ArrayList;
+1962 dex@007ffe60 invoke-virtual           v1 Lcom/macrovideo/sdk/json/AlarmAreaJsonParse;->getAlarmArea()Ljava/util/List;
+1965 dex@007ffe66 move-result-object       v5 
+1966 dex@007ffe68 invoke-direct            v2 v5 Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
+1969 dex@007ffe6e invoke-virtual           v0 v2 Lcom/macrovideo/sdk/setting/AlarmConfigInfo;->setAlarmAreaList(Ljava/util/ArrayList;)V
+196c dex@007ffe74 new-instance             v2 Ljava/util/ArrayList;
+196e dex@007ffe78 invoke-virtual           v1 Lcom/macrovideo/sdk/json/AlarmAreaJsonParse;->getAlarmArea()Ljava/util/List;
+1971 dex@007ffe7e move-result-object       v1 
+1972 dex@007ffe80 invoke-direct            v2 v1 Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
+1975 dex@007ffe86 sput-object              v2 Lcom/macrovideo/sdk/setting/DeviceAlarmSetting;->ServerAlarmAreaList:Ljava/util/ArrayList;
+1977 dex@007ffe8a goto                      -> 1981
+1978 dex@007ffe8c const-string             v1 <string-content-excluded>
+197a dex@007ffe90 filled-new-array         v1 [Ljava/lang/Object;
+197d dex@007ffe96 move-result-object       v1 
+197e dex@007ffe98 invoke-static            v3 v1 Lcom/macrovideo/sdk/tools/LogUtils;->e(Ljava/lang/String;[Ljava/lang/Object;)V
+1981 dex@007ffe9e move-object/from16       v1 v45 
+1983 dex@007ffea2 move-object/from16       v19 v0 
+1985 dex@007ffea6 move-object/from16       v13 v20 
+1987 dex@007ffeaa move-object/from16       v5 v21 
+1989 dex@007ffeae move-object/from16       v9 v23 
+198b dex@007ffeb2 goto/16                   -> 1b54

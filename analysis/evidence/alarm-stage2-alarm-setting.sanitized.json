@@ -1,0 +1,1194 @@
+{
+  "source_evidence_id": "ev_022576ea2164f5601b6fdede567462f8d3662e75c84b1076737d93a434f5ae36",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.AlarmConfigInfo"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.sdk.setting.AlarmConfigInfo",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "reported_signature": "<clinit>(): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(): void",
+        "overload_index": 0,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "<init>",
+        "reported_signature": "<init>(android.os.Parcel): void",
+        "overload_index": 1,
+        "is_constructor": true,
+        "dex_descriptor": null
+      },
+      {
+        "name": "describeContents",
+        "reported_signature": "describeContents(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAiEnable",
+        "reported_signature": "getAiEnable(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAiSwitch",
+        "reported_signature": "getAiSwitch(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAlarmAreaList",
+        "reported_signature": "getAlarmAreaList(): java.util.ArrayList<java.lang.Integer>",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAlarmTimeGetJsonParse",
+        "reported_signature": "getAlarmTimeGetJsonParse(): com.macrovideo.sdk.json.AlarmTimeGetJsonParse",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAlarmTimeSetJsonParse",
+        "reported_signature": "getAlarmTimeSetJsonParse(): com.macrovideo.sdk.json.AlarmTimeSetJsonParse",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAlarmcolumns",
+        "reported_signature": "getAlarmcolumns(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getAlarmrows",
+        "reported_signature": "getAlarmrows(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getCanSetTimeAndArea",
+        "reported_signature": "getCanSetTimeAndArea(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getCustomAlarmTimeNumber",
+        "reported_signature": "getCustomAlarmTimeNumber(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getCustomSpeechFlag",
+        "reported_signature": "getCustomSpeechFlag(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndTime",
+        "reported_signature": "getEndTime(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndhour1",
+        "reported_signature": "getEndhour1(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndhour2",
+        "reported_signature": "getEndhour2(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndhour3",
+        "reported_signature": "getEndhour3(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndmin1",
+        "reported_signature": "getEndmin1(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndmin2",
+        "reported_signature": "getEndmin2(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndmin3",
+        "reported_signature": "getEndmin3(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndsec1",
+        "reported_signature": "getEndsec1(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndsec2",
+        "reported_signature": "getEndsec2(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getEndsec3",
+        "reported_signature": "getEndsec3(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getHeightTemperatureValue",
+        "reported_signature": "getHeightTemperatureValue(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getLowTemperatureValue",
+        "reported_signature": "getLowTemperatureValue(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getMotionAlarmFrame",
+        "reported_signature": "getMotionAlarmFrame(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getMotionLightDetection",
+        "reported_signature": "getMotionLightDetection(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getServerAlarmSwitch1",
+        "reported_signature": "getServerAlarmSwitch1(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getServerAlarmSwitch2",
+        "reported_signature": "getServerAlarmSwitch2(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getServerAlarmSwitch3",
+        "reported_signature": "getServerAlarmSwitch3(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStartTime",
+        "reported_signature": "getStartTime(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStarthour1",
+        "reported_signature": "getStarthour1(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStarthour2",
+        "reported_signature": "getStarthour2(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStarthour3",
+        "reported_signature": "getStarthour3(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStartmin1",
+        "reported_signature": "getStartmin1(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStartmin2",
+        "reported_signature": "getStartmin2(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStartmin3",
+        "reported_signature": "getStartmin3(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStartsec1",
+        "reported_signature": "getStartsec1(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStartsec2",
+        "reported_signature": "getStartsec2(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getStartsec3",
+        "reported_signature": "getStartsec3(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getSupportLanguage",
+        "reported_signature": "getSupportLanguage(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getTime",
+        "reported_signature": "getTime(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getnIOMode",
+        "reported_signature": "getnIOMode(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getnLanguage",
+        "reported_signature": "getnLanguage(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "getnResult",
+        "reported_signature": "getnResult(): int",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isCryDetectionSwitch",
+        "reported_signature": "isCryDetectionSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHasAlarmConfig",
+        "reported_signature": "isHasAlarmConfig(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHasCryDetectionConfig",
+        "reported_signature": "isHasCryDetectionConfig(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHasExIOConfig",
+        "reported_signature": "isHasExIOConfig(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHasHeightTemperatureConfig",
+        "reported_signature": "isHasHeightTemperatureConfig(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHasLowTemperatureConfig",
+        "reported_signature": "isHasLowTemperatureConfig(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHasMotionAlarmConfig",
+        "reported_signature": "isHasMotionAlarmConfig(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHasVoicePromptsConfig",
+        "reported_signature": "isHasVoicePromptsConfig(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHeightTemperatureAlarmSwitch",
+        "reported_signature": "isHeightTemperatureAlarmSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isHightTemperatureAlarmSoundSwitch",
+        "reported_signature": "isHightTemperatureAlarmSoundSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isLowTemperatureAlarmSoundSwitch",
+        "reported_signature": "isLowTemperatureAlarmSoundSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isLowTemperatureAlarmSwitch",
+        "reported_signature": "isLowTemperatureAlarmSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isTemperatureSetting",
+        "reported_signature": "isTemperatureSetting(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isbAlarmVoiceSwitch",
+        "reported_signature": "isbAlarmVoiceSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isbMainAlarmSwitch",
+        "reported_signature": "isbMainAlarmSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isbMotionAlarmSwitch",
+        "reported_signature": "isbMotionAlarmSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isbPIRAlarmSwitch",
+        "reported_signature": "isbPIRAlarmSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isbSmokeAlarmSwitch",
+        "reported_signature": "isbSmokeAlarmSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "isbVoicePromptsMainSwitch",
+        "reported_signature": "isbVoicePromptsMainSwitch(): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAiEnable",
+        "reported_signature": "setAiEnable(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAiSwitch",
+        "reported_signature": "setAiSwitch(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAlarmAreaList",
+        "reported_signature": "setAlarmAreaList(java.util.ArrayList<java.lang.Integer>): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAlarmTimeGetJsonParse",
+        "reported_signature": "setAlarmTimeGetJsonParse(com.macrovideo.sdk.json.AlarmTimeGetJsonParse): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAlarmTimeSetJsonParse",
+        "reported_signature": "setAlarmTimeSetJsonParse(com.macrovideo.sdk.json.AlarmTimeSetJsonParse): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAlarmcolumns",
+        "reported_signature": "setAlarmcolumns(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setAlarmrows",
+        "reported_signature": "setAlarmrows(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCanSetTimeAndArea",
+        "reported_signature": "setCanSetTimeAndArea(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCryDetectionSwitch",
+        "reported_signature": "setCryDetectionSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCustomAlarmEndTime1",
+        "reported_signature": "setCustomAlarmEndTime1(int, int, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCustomAlarmEndTime2",
+        "reported_signature": "setCustomAlarmEndTime2(int, int, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCustomAlarmEndTime3",
+        "reported_signature": "setCustomAlarmEndTime3(int, int, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCustomAlarmStartTime1",
+        "reported_signature": "setCustomAlarmStartTime1(int, int, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCustomAlarmStartTime2",
+        "reported_signature": "setCustomAlarmStartTime2(int, int, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCustomAlarmStartTime3",
+        "reported_signature": "setCustomAlarmStartTime3(int, int, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCustomAlarmTimeNumber",
+        "reported_signature": "setCustomAlarmTimeNumber(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setCustomSpeechFlag",
+        "reported_signature": "setCustomSpeechFlag(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndhour1",
+        "reported_signature": "setEndhour1(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndhour2",
+        "reported_signature": "setEndhour2(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndhour3",
+        "reported_signature": "setEndhour3(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndmin1",
+        "reported_signature": "setEndmin1(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndmin2",
+        "reported_signature": "setEndmin2(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndmin3",
+        "reported_signature": "setEndmin3(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndsec1",
+        "reported_signature": "setEndsec1(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndsec2",
+        "reported_signature": "setEndsec2(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setEndsec3",
+        "reported_signature": "setEndsec3(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHasAlarmConfig",
+        "reported_signature": "setHasAlarmConfig(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHasCryDetectionConfig",
+        "reported_signature": "setHasCryDetectionConfig(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHasExIOConfig",
+        "reported_signature": "setHasExIOConfig(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHasHeightTemperatureConfig",
+        "reported_signature": "setHasHeightTemperatureConfig(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHasLowTemperatureConfig",
+        "reported_signature": "setHasLowTemperatureConfig(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHasMotionAlarmConfig",
+        "reported_signature": "setHasMotionAlarmConfig(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHasVoicePromptsConfig",
+        "reported_signature": "setHasVoicePromptsConfig(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHeightTemperatureAlarmSwitch",
+        "reported_signature": "setHeightTemperatureAlarmSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHeightTemperatureValue",
+        "reported_signature": "setHeightTemperatureValue(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setHightTemperatureAlarmSoundSwitch",
+        "reported_signature": "setHightTemperatureAlarmSoundSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setLowTemperatureAlarmSoundSwitch",
+        "reported_signature": "setLowTemperatureAlarmSoundSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setLowTemperatureAlarmSwitch",
+        "reported_signature": "setLowTemperatureAlarmSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setLowTemperatureValue",
+        "reported_signature": "setLowTemperatureValue(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setMotionAlarmFrame",
+        "reported_signature": "setMotionAlarmFrame(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setMotionLightDetection",
+        "reported_signature": "setMotionLightDetection(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setServerAlarmSwitch1",
+        "reported_signature": "setServerAlarmSwitch1(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setServerAlarmSwitch2",
+        "reported_signature": "setServerAlarmSwitch2(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setServerAlarmSwitch3",
+        "reported_signature": "setServerAlarmSwitch3(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStarthour1",
+        "reported_signature": "setStarthour1(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStarthour2",
+        "reported_signature": "setStarthour2(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStarthour3",
+        "reported_signature": "setStarthour3(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStartmin1",
+        "reported_signature": "setStartmin1(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStartmin2",
+        "reported_signature": "setStartmin2(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStartmin3",
+        "reported_signature": "setStartmin3(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStartsec1",
+        "reported_signature": "setStartsec1(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStartsec2",
+        "reported_signature": "setStartsec2(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setStartsec3",
+        "reported_signature": "setStartsec3(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setSupportLanguage",
+        "reported_signature": "setSupportLanguage(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setTemperatureSetting",
+        "reported_signature": "setTemperatureSetting(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setbAlarmVoiceSwitch",
+        "reported_signature": "setbAlarmVoiceSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setbMainAlarmSwitch",
+        "reported_signature": "setbMainAlarmSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setbMotionAlarmSwitch",
+        "reported_signature": "setbMotionAlarmSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setbPIRAlarmSwitch",
+        "reported_signature": "setbPIRAlarmSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setbSmokeAlarmSwitch",
+        "reported_signature": "setbSmokeAlarmSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setbVoicePromptsMainSwitch",
+        "reported_signature": "setbVoicePromptsMainSwitch(boolean): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setnIOMode",
+        "reported_signature": "setnIOMode(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setnLanguage",
+        "reported_signature": "setnLanguage(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "setnResult",
+        "reported_signature": "setnResult(int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "toString",
+        "reported_signature": "toString(): java.lang.String",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      },
+      {
+        "name": "writeToParcel",
+        "reported_signature": "writeToParcel(android.os.Parcel, int): void",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": null
+      }
+    ],
+    "fields": [
+      {
+        "name": "CREATOR",
+        "reported_type": "android.os.Parcelable$Creator"
+      },
+      {
+        "name": "aiEnable",
+        "reported_type": "int"
+      },
+      {
+        "name": "aiSwitch",
+        "reported_type": "int"
+      },
+      {
+        "name": "alarmAreaList",
+        "reported_type": "java.util.ArrayList<java.lang.Integer>"
+      },
+      {
+        "name": "alarmTimeGetJsonParse",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeGetJsonParse"
+      },
+      {
+        "name": "alarmTimeSetJsonParse",
+        "reported_type": "com.macrovideo.sdk.json.AlarmTimeSetJsonParse"
+      },
+      {
+        "name": "alarmcolumns",
+        "reported_type": "int"
+      },
+      {
+        "name": "alarmrows",
+        "reported_type": "int"
+      },
+      {
+        "name": "bAlarmVoiceSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bCryDetectionSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bHeightTemperatureAlarmSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bHightTemperatureAlarmSoundSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bLowTemperatureAlarmSoundSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bLowTemperatureAlarmSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bMainAlarmSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bMotionAlarmSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bPIRAlarmSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bSmokeAlarmSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "bVoicePromptsMainSwitch",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "canSetTime",
+        "reported_type": "int"
+      },
+      {
+        "name": "customAlarmTimeNumber",
+        "reported_type": "int"
+      },
+      {
+        "name": "customSpeechFlag",
+        "reported_type": "int"
+      },
+      {
+        "name": "endhour1",
+        "reported_type": "int"
+      },
+      {
+        "name": "endhour2",
+        "reported_type": "int"
+      },
+      {
+        "name": "endhour3",
+        "reported_type": "int"
+      },
+      {
+        "name": "endmin1",
+        "reported_type": "int"
+      },
+      {
+        "name": "endmin2",
+        "reported_type": "int"
+      },
+      {
+        "name": "endmin3",
+        "reported_type": "int"
+      },
+      {
+        "name": "endsec1",
+        "reported_type": "int"
+      },
+      {
+        "name": "endsec2",
+        "reported_type": "int"
+      },
+      {
+        "name": "endsec3",
+        "reported_type": "int"
+      },
+      {
+        "name": "hasAlarmConfig",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "hasCryDetectionConfig",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "hasExIOConfig",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "hasHeightTemperatureConfig",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "hasLowTemperatureConfig",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "hasMotionAlarmConfig",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "hasVoicePromptsConfig",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "heightTemperatureValue",
+        "reported_type": "int"
+      },
+      {
+        "name": "isTemperatureSetting",
+        "reported_type": "boolean"
+      },
+      {
+        "name": "lowTemperatureValue",
+        "reported_type": "int"
+      },
+      {
+        "name": "motionAlarmFrame",
+        "reported_type": "int"
+      },
+      {
+        "name": "motionLightDetection",
+        "reported_type": "int"
+      },
+      {
+        "name": "nIOMode",
+        "reported_type": "int"
+      },
+      {
+        "name": "nLanguage",
+        "reported_type": "int"
+      },
+      {
+        "name": "nResult",
+        "reported_type": "int"
+      },
+      {
+        "name": "serverAlarmSwitch1",
+        "reported_type": "int"
+      },
+      {
+        "name": "serverAlarmSwitch2",
+        "reported_type": "int"
+      },
+      {
+        "name": "serverAlarmSwitch3",
+        "reported_type": "int"
+      },
+      {
+        "name": "starthour1",
+        "reported_type": "int"
+      },
+      {
+        "name": "starthour2",
+        "reported_type": "int"
+      },
+      {
+        "name": "starthour3",
+        "reported_type": "int"
+      },
+      {
+        "name": "startmin1",
+        "reported_type": "int"
+      },
+      {
+        "name": "startmin2",
+        "reported_type": "int"
+      },
+      {
+        "name": "startmin3",
+        "reported_type": "int"
+      },
+      {
+        "name": "startsec1",
+        "reported_type": "int"
+      },
+      {
+        "name": "startsec2",
+        "reported_type": "int"
+      },
+      {
+        "name": "startsec3",
+        "reported_type": "int"
+      },
+      {
+        "name": "supportLanguage",
+        "reported_type": "int"
+      }
+    ],
+    "inner_classes": [
+      "com.macrovideo.sdk.setting.AlarmConfigInfo.AnonymousClass1"
+    ]
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

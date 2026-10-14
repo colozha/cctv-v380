@@ -1,0 +1,53 @@
+{
+  "source_evidence_id": "ev_b38646460d86ae4785fcc9b669ceac485462cb7f58bfc8aca93bc8168c72925a",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity",
+    "method_name": "initPlayer"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity",
+    "method": {
+      "name": "initPlayer",
+      "reported_signature": "initPlayer(): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "partial",
+      "text": "    private void initPlayer() {\n        GLFisheyeView gLFisheyeView;\n        this.mPanoPlayer = new HSMediaPlayer(getApplicationContext(), false);\n        this.mStreamType = GlobalDefines.isPanoramicDevice(this.mLoginHandle) ? 1 : 0;\n        LogUtil.i(TAG, \"<literal omitted>\" + this.mStreamType);\n        int i = this.mCameraMode;\n        if (i == 1) {\n            gLFisheyeView = new GLFisheyeView(this, 1, 2);\n            gLFisheyeView.setPositionON(0, true);\n            gLFisheyeView.setPositionON(1, true);\n            gLFisheyeView.setDisplayMode(2);\n            gLFisheyeView.setMode(14);\n            gLFisheyeView.setSubViewType(0);\n        } else if (i == 3) {\n            gLFisheyeView = new GLFisheyeView(this, 2, 2);\n            gLFisheyeView.setPositionON(0, true);\n            gLFisheyeView.setPositionON(1, true);\n            gLFisheyeView.setPositionON(2, true);\n            gLFisheyeView.setDisplayMode(3);\n            gLFisheyeView.setMode(17);\n            LoginHandle loginHandle = this.mLoginHandle;\n            if (loginHandle != null && loginHandle.getVideoSplicing() == 7) {\n                gLFisheyeView.setSubViewType(19);\n            } else {\n                gLFisheyeView.setSubViewType(10);\n            }\n            gLFisheyeView.setStretch(true);\n        } else {\n            gLFisheyeView = new GLFisheyeView(this);\n            if (GlobalDefines.isPanoramicDevice(this.mLoginHandle)) {\n                gLFisheyeView.setDisplayMode(5);\n                this.mPlayMode = 0;\n            }\n            gLFisheyeView.setMode(this.mPlayMode);\n        }\n        gLFisheyeView.setOnTouchListener(this);\n        this.mPanoPlayer.setGlFishView(gLFisheyeView);\n        ((ActivityConfigSelectAlarmAreaBinding) this.binding).flSelectAlarmAreaPlayerContainer.addView(this.mPanoPlayer.getGLFisheyeView());\n        this.mPanoPlayer.GetHandler(this.mBaseActivityHandler);\n        this.mPanoPlayer.setHWDecodeStatus(false, false);\n        HSMediaLibrary.SetContext(this.mPanoPlayer, null, null, null);\n        Player.SelectWindow(0);",
+      "reported_total_bytes": 8415
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider.",
+    "Excerpt stops before the session-expiry callback; only layout/renderer selection retained."
+  ],
+  "sanitized_noncanonical": true
+}

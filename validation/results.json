@@ -1,18 +1,18 @@
 {
-  "collected_at_utc": "2026-10-14T02:42:32.270657+00:00",
+  "collected_at_utc": "2026-10-14T14:01:10.116683+00:00",
   "scope": "Final offline build/parser/cipher tests; prior emulator tests identified separately; no camera acceptance",
-  "source_sha256": "b30a6ec59b558f9cfd19e923a05b622159d31d991e627f04acc603cc8fc3fef2",
-  "build_command": "See validation/offline-build-command.txt; selected pure JVM cases only",
-  "runtime_command": "ANDROID_SERIAL=<serial> tools/run-android-validation.sh",
+  "source_sha256": "31aba4367e24bf97a4ff1008aeea7509b456245a95489c915790c6cc297acc1c",
+  "build_command": "See validation/area-stage3/offline-build-command.sh; selected pure JVM cases only",
+  "runtime_command": "See validation/area-stage3/runtime-command.sh; not run on unchanged failed emulator infrastructure",
   "jvm": {
-    "tests": 40,
+    "tests": 65,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
     "reports": [
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.ApProtocolTest.xml",
-        "timestamp": "2026-10-14T02:41:31.683Z",
+        "timestamp": "2026-10-14T13:57:14.850Z",
         "cases": [
           "dev.cctv.v380.ApProtocolTest.wifiSerializersKeepTheLegacyAndIotEncodingsDistinct",
           "dev.cctv.v380.ApProtocolTest.discoveryMetadataDistinguishesConfigAndAlarmFromPlatform",
@@ -24,7 +24,7 @@
       },
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.CoreTest.xml",
-        "timestamp": "2026-10-14T02:41:31.823Z",
+        "timestamp": "2026-10-14T13:57:15.033Z",
         "cases": [
           "dev.cctv.v380.CoreTest.annexBSupportsBothPrefixesAndBothCodecs",
           "dev.cctv.v380.CoreTest.sparseCipherMatchesIndependentBlockEncryptionAndPreservesTails",
@@ -37,14 +37,44 @@
       },
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.DiagnosticsTest.xml",
-        "timestamp": "2026-10-14T02:41:31.935Z",
+        "timestamp": "2026-10-14T13:57:15.139Z",
         "cases": [
           "dev.cctv.v380.DiagnosticsTest.streamFailureExportsTypedStageAndPacketMetadataWithoutInventingAnAuthFailure"
         ]
       },
       {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.ManagementSessionGuardTest.xml",
+        "timestamp": "2026-10-14T13:57:15.150Z",
+        "cases": [
+          "dev.cctv.v380.ManagementSessionGuardTest.unauthenticatedAndGatedOperationsNeverReachTransport"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.ApHotspotTest.xml",
+        "timestamp": "2026-10-14T13:57:15.165Z",
+        "cases": [
+          "dev.cctv.v380.protocol.ApHotspotTest.authenticatedReadyWithoutVideoCanWriteOnceAndInvalidatesTheOldSession",
+          "dev.cctv.v380.protocol.ApHotspotTest.codecKeepsRouterModeSeparateAndUsesRecoveredSoftApCapabilityAndInputRules",
+          "dev.cctv.v380.protocol.ApHotspotTest.explicitCapabilityAndLiveNetworkProofAreRequiredEvenAfterSuccessfulLogin",
+          "dev.cctv.v380.protocol.ApHotspotTest.unconnectedCameraAndPreAuthProfileCannotAuthorizeAnAction",
+          "dev.cctv.v380.protocol.ApHotspotTest.abortAfterDurableMarkerBlocksWriteAndResponseLossNeverReplaysAction",
+          "dev.cctv.v380.protocol.ApHotspotTest.verificationRequiresBothRequestedValuesAndNeverConfusesEncodedNames"
+        ]
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.CameraAreaProtocolTest.xml",
+        "timestamp": "2026-10-14T13:57:15.438Z",
+        "cases": [
+          "dev.cctv.v380.protocol.CameraAreaProtocolTest.capabilityRequiresExplicitFlatLensAndOneViewWithoutVendorUnknownFallback",
+          "dev.cctv.v380.protocol.CameraAreaProtocolTest.referencesRejectEveryChangedOwnerGenerationOrientationAndGridBaseline",
+          "dev.cctv.v380.protocol.CameraAreaProtocolTest.referenceGeometryNeverGuessesCroppingOrRotationAndBitmapBudgetIsBounded",
+          "dev.cctv.v380.protocol.CameraAreaProtocolTest.writerChangesOnlyMaskAndKeepsDimensionsAndUnknownCameraFields",
+          "dev.cctv.v380.protocol.CameraAreaProtocolTest.rectangularGridUsesImageLocalTopLeftCoordinatesAndRejectsMarginsAndNonfiniteValues"
+        ]
+      },
+      {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.CameraFeatureProtocolTest.xml",
-        "timestamp": "2026-10-14T02:41:31.954Z",
+        "timestamp": "2026-10-14T13:57:15.450Z",
         "cases": [
           "dev.cctv.v380.protocol.CameraFeatureProtocolTest.destructiveActionOmitsInputAndRequestsAReplyWhileFlipUsesTheRecoveredAction",
           "dev.cctv.v380.protocol.CameraFeatureProtocolTest.changesPreserveUnownedRecordingBitsAndRequireEveryAcknowledgement",
@@ -55,8 +85,27 @@
         ]
       },
       {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.CameraManagementProtocolTest.xml",
+        "timestamp": "2026-10-14T13:57:15.469Z",
+        "cases": [
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmRejectsMalformedCountsTimesAndUnprovenSensitivity",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmMiddleDeletionKeepsEachSurvivingIntervalsOwnMetadata",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.presetListUsesZeroBasedCameraSlotsAndRejectsDuplicates",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.invalidTimesAndOverlapsNeverSerialize",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmWritePreservesUnownedEventBitsAndVendorFields",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.emptyAlarmDaysRoundTripAndEmptyWeekRequiresMainSwitchOff",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmPreflightRejectsChangedLimitsAndMetadataButReadbackIgnoresOriginIndices",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.capabilitiesArePerViewAndCalibrationDoesNotFollowDirectionalBits",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.readsKeepMissingAndDeniedPropertiesUnknownAndCheckCorrelation",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.lightScheduleRequiresItsOwnAbilityAndRetainsCameraMetadata",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.restartAndCalibrationAreSeparateReplyRequiredActionsAndFormatRemainsGated",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.alarmNewIntervalsUseProvenDefaultsAndRespectConservativeLimits",
+          "dev.cctv.v380.protocol.CameraManagementProtocolTest.routeEditingPreservesDisabledEngineAndCannotActivatePatrol"
+        ]
+      },
+      {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.IoTMediaProtocolTest.xml",
-        "timestamp": "2026-10-14T02:41:31.998Z",
+        "timestamp": "2026-10-14T13:57:15.507Z",
         "cases": [
           "dev.cctv.v380.protocol.IoTMediaProtocolTest.shortVideoTailsAndLargePlaintextGapsAreValidSparsePatterns",
           "dev.cctv.v380.protocol.IoTMediaProtocolTest.readsNegotiatedCodecAndPtzCapabilitiesAndBuildsFiniteSteps",
@@ -66,7 +115,7 @@
       },
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.IoTProtocolTest.xml",
-        "timestamp": "2026-10-14T02:41:32.022Z",
+        "timestamp": "2026-10-14T13:57:15.515Z",
         "cases": [
           "dev.cctv.v380.protocol.IoTProtocolTest.returnsTypedDeviceFailuresAndApHeader",
           "dev.cctv.v380.protocol.IoTProtocolTest.rejectsCorruptDigestLowOrderPointAndRepeatedExchange",
@@ -78,7 +127,7 @@
       },
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.LegacyProtocolTest.xml",
-        "timestamp": "2026-10-14T02:41:32.288Z",
+        "timestamp": "2026-10-14T13:57:15.531Z",
         "cases": [
           "dev.cctv.v380.protocol.LegacyProtocolTest.passwordThresholdCountsUtf16AndHashesMiddleHexAsText",
           "dev.cctv.v380.protocol.LegacyProtocolTest.mediaCipherSelectsNativeModesAndRejectsUseAfterClose",
@@ -256,23 +305,25 @@
   },
   "lint": {
     "errors": 0,
-    "warnings": 11,
+    "warnings": 14,
     "hints": 1,
     "report": "app/build/reports/lint-results-debug.xml",
     "issues": {
+      "InlinedApi": 2,
       "UnusedAttribute": 1,
       "AndroidGradlePluginVersion": 1,
       "GradleDependency": 5,
       "NewerVersionAvailable": 3,
       "AutoboxingStateCreation": 1,
-      "UsableSpace": 1
+      "UsableSpace": 1,
+      "UseKtx": 1
     }
   },
   "apk": {
     "path": "app/build/outputs/apk/debug/app-debug.apk",
-    "bytes": 14726324,
-    "version_name": "0.3.0-experimental",
-    "sha256": "4cb2c8bceffe73e452a5b9415e53412b944127585dcc017851e3cd4e2cb2c4ad",
+    "bytes": 15206148,
+    "version_name": "0.4.2-experimental",
+    "sha256": "b3ef65d04ad25b5eaef6a75e69d143a003b1e4688cba23b02259f311321b586d",
     "signature_verification": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1",
     "native_libraries": [
       "lib/arm64-v8a/libandroidx.graphics.path.so",
@@ -304,6 +355,7 @@
     ]
   },
   "recordings_settings_validation": "validation/recordings-settings/results.json",
+  "camera_management_validation": "validation/area-stage3/results.json",
   "screenshots": [
     ".impeccable/review/phone-ap-v2.png",
     ".impeccable/review/phone-dark-large-v2.png",
@@ -324,6 +376,8 @@
     "final APK connection tests and active PTZ cancellation at runtime",
     "API35 runtime test suite; final IoT integration test pass",
     "0.3.0 native recordings/settings UI and synthetic MP4 runtime checks (emulator boot SIGSEGV)",
+    "0.4.1 alarm UI/storage runtime and visual matrix (API35/API26 boot SIGSEGV with KVM)",
+    "0.4.2 area editor UI/PixelCopy, TalkBack and visual matrix (unchanged emulator infrastructure not retried)",
     "recording list/playback/download and settings interoperability on a camera",
     "SD format terminal enum: feature disabled until verified"
   ]

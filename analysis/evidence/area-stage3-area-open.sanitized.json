@@ -1,0 +1,52 @@
+{
+  "source_evidence_id": "ev_af3846e53b5cd977178da9565193114b6284bfa3b22498b12244255a57e69c38",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity",
+    "method_name": "doInOnCreateMethod"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity",
+    "method": {
+      "name": "doInOnCreateMethod",
+      "reported_signature": "doInOnCreateMethod(android.os.Bundle, android.content.Intent): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    @Override // com.macrovideo.v380.activities.BaseActivity\n    protected void doInOnCreateMethod(Bundle bundle, Intent intent) {\n        setRootViewPaddingVerticalForAndroid15(((ActivityConfigSelectAlarmAreaBinding) this.binding).getRoot(), true, true);\n        GlobalDefines.sIsGoToSetting = true;\n        GlobalDefines.sIsGoToAlarmAreaSetting = true;\n        setStatusBarColor(R.color.ColorBackInvariant);\n        SystemStatusBar.setNavigationBarColor(this, getResources().getColor(R.color.color_invariant_000000));\n        ((ActivityConfigSelectAlarmAreaBinding) this.binding).commonTopBar.tvTextCommonTopBar.setText(getString(R.string.str_alarm_area));\n        Intent intent2 = getIntent();\n        if (intent2 != null) {\n            Bundle bundleExtra = intent2.getBundleExtra(Defines.HTTP_RESULT_BUNDLE_KEY);\n            if (bundleExtra != null) {\n                this.mLoginHandle = (LoginHandle) bundleExtra.getParcelable(KEY_LOGIN_HANDLE);\n                this.mDeviceInfo = (DeviceInfo) bundleExtra.getParcelable(KEY_DEVICE_INFO);\n                if (this.mLoginHandle != null) {\n                    LogUtil.d(TAG, \"<literal omitted>\" + this.mLoginHandle.getNewDeviceType() + \"<literal omitted>\" + this.mLoginHandle.getVideoSplicing());\n                    if (GlobalDefines.isDoubleChannelDevice(this.mLoginHandle.getNewDeviceType())) {\n                        if (this.mLoginHandle.getVideoSplicing() == 7 || this.mLoginHandle.getVideoSplicing() == 8) {\n                            this.mCameraMode = 3;\n                        } else {\n                            this.mCameraMode = 1;\n                        }\n                    } else if (GlobalDefines.isTripleChannelDevice(this.mLoginHandle.getNewDeviceType())) {\n                        this.mCameraMode = 0;\n                    } else {\n                        this.mCameraMode = 0;\n                    }\n                    this.mIsDevSpliceDoubleChannel = GlobalDefines.isSpliceDoubleChannelDevice(this.mLoginHandle.getNewDeviceType());\n                }\n            }\n            this.mDeviceID = intent2.getIntExtra(\"device_id\", 0);\n            DeviceConfigSettingAlarmSettingFragment.sAlarmAreaColumns = intent2.getIntExtra(KEY_AREA_COLUMNS, 8);\n            DeviceConfigSettingAlarmSettingFragment.sAlarmAreaRows = intent2.getIntExtra(KEY_AREA_ROWS, 4);\n            LogUtil.i(TAG, \"<literal omitted>\" + DeviceConfigSettingAlarmSettingFragment.sAlarmAreaColumns);\n            LogUtil.i(TAG, \"<literal omitted>\" + DeviceConfigSettingAlarmSettingFragment.sAlarmAreaRows);\n        }\n        initPlayer();\n        initAlarmAreaView();\n        changeSelectBtn();\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

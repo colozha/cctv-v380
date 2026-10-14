@@ -1,0 +1,52 @@
+{
+  "source_evidence_id": "ev_3fa2014db9fd4d091004070a5f0d1274717e06addafc50727e1a90403b0b6031",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity",
+    "method_name": "onClicked"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 3072
+    },
+    "class_name": "com.macrovideo.v380.activities.DeviceConfigAlarmAreaSelectActivity",
+    "method": {
+      "name": "onClicked",
+      "reported_signature": "onClicked(android.view.View): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    @Override // com.macrovideo.v380.activities.BaseActivity\n    protected void onClicked(View view) {\n        int id = view.getId();\n        if (id == R.id.btn_left_common_top_bar) {\n            onBackPressed();\n            return;\n        }\n        if (id == R.id.tv_clear) {\n            for (int i = 0; i < DeviceConfigSettingAlarmSettingFragment.sAlarmAreaRows * DeviceConfigSettingAlarmSettingFragment.sAlarmAreaColumns; i++) {\n                this.mAlarmAreaList.remove(i);\n                this.mAlarmAreaList.add(i, 0);\n            }\n            this.mAdapter.notifyDataSetChanged();\n            changeSelectBtn();\n            return;\n        }\n        if (id == R.id.tv_select_all) {\n            if (this.isSelectedAll) {\n                for (int i2 = 0; i2 < DeviceConfigSettingAlarmSettingFragment.sAlarmAreaRows * DeviceConfigSettingAlarmSettingFragment.sAlarmAreaColumns; i2++) {\n                    this.mAlarmAreaList.remove(i2);\n                    this.mAlarmAreaList.add(i2, 0);\n                }\n            } else {\n                for (int i3 = 0; i3 < DeviceConfigSettingAlarmSettingFragment.sAlarmAreaRows * DeviceConfigSettingAlarmSettingFragment.sAlarmAreaColumns; i3++) {\n                    this.mAlarmAreaList.remove(i3);\n                    this.mAlarmAreaList.add(i3, 1);\n                }\n            }\n            this.mAdapter.notifyDataSetChanged();\n            changeSelectBtn();\n            return;\n        }\n        if (id == R.id.tv_confirm) {\n            saveAreaSelected();\n        }\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true
+}

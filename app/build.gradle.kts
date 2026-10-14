@@ -10,8 +10,8 @@ android {
         applicationId = "dev.cctv.v380"
         minSdk = 26
         targetSdk = 37
-        versionCode = 4
-        versionName = "0.3.0-experimental"
+        versionCode = 7
+        versionName = "0.4.2-experimental"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures { compose = true; buildConfig = true }

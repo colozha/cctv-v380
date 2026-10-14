@@ -3,6 +3,8 @@ package dev.cctv.v380.ui
 import android.app.Application
 import android.net.Uri
 import android.view.Surface
+import android.view.SurfaceView
+import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dev.cctv.v380.discovery.DiscoveredCamera
@@ -13,10 +15,11 @@ import dev.cctv.v380.session.*
 import dev.cctv.v380.transport.NearbyWifi
 import dev.cctv.v380.transport.WifiNetwork
 import dev.cctv.v380.transport.CameraFailure
-import dev.cctv.v380.protocol.CameraSettingsProtocol
+import dev.cctv.v380.protocol.*
 import dev.cctv.v380.protocol.IoTProtocolException
 import dev.cctv.v380.protocol.IoTFailure
 import dev.cctv.v380.media.RecordingExporter
+import dev.cctv.v380.media.VideoFrameCapture
 import android.provider.DocumentsContract
 import java.time.LocalDate
 import java.time.ZoneId
@@ -35,6 +38,10 @@ data class CameraUiState(
     val nearbyWifi: List<NearbyWifi> = emptyList(),
 )
 
+enum class RestartPhase { IDLE, SENDING, WAITING, RECONNECTED, NOT_SENT, REJECTED, UNKNOWN }
+enum class AreaCapturePhase { IDLE, CAPTURING, EDITING, STAGED, ERROR }
+data class CameraAreaImage(val reference: AreaReference, val bitmap: Bitmap)
+
 enum class DownloadPhase { IDLE, AWAITING_ACCESS, DOWNLOADING, SAVING, COMPLETE, CANCELLED, FAILED }
 enum class SdFormatPhase { IDLE, SENDING, CHECKING, UNKNOWN, REJECTED }
 enum class ApEditPhase { IDLE, CHECKING, SENDING, RECONNECTING, WAITING_WIFI, VERIFYING, VERIFIED, NOT_SENT, REJECTED, UNKNOWN }
@@ -52,6 +59,15 @@ data class CameraFeatureState(
     val pendingAp: PendingApEdit? = null, val apPendingLoaded: Boolean = false, val apStorageFailed: Boolean = false,
     val apPhase: ApEditPhase = ApEditPhase.IDLE, val apNotice: String? = null,
     val apBusy: Boolean = false,
+    val management: Map<ManagementGroup, ManagementSnapshot> = emptyMap(),
+    val managementDraft: Map<Int, Any> = emptyMap(),
+    val managementErrors: Map<ManagementGroup, String> = emptyMap(),
+    val managementNotice: String? = null, val managementLoading: ManagementGroup? = null,
+    val pendingRestart: PendingCameraRestart? = null, val restartLoaded: Boolean = false,
+    val managementStorageFailed: Boolean = false, val restart: RestartPhase = RestartPhase.IDLE,
+    val calibrationNeedsCheck: Boolean = false, val pendingCalibration: PendingCameraCalibration? = null,
+    val areaPhase: AreaCapturePhase = AreaCapturePhase.IDLE, val areaImage: CameraAreaImage? = null,
+    val areaError: String? = null, val areaRequestId: Int = 0,
 )
 
 class CameraViewModel(application: Application) : AndroidViewModel(application) {
@@ -74,6 +90,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private var featureVersion = 0
     private var pendingExport: Pair<Uri, RecordingSegment>? = null
     private var apWorkRunning = false
+    private var managementWorkRunning = false
+    private var areaSurface: CompletableDeferred<SurfaceView>? = null
+    private var recoveryLoadVersion = 0
     private var apPassword: CharArray? = null
     private var apCameraPassword: CharArray? = null
     private var apHandoffUntil = 0L
@@ -85,6 +104,25 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     init {
+        loadRecovery()
+        viewModelScope.launch {
+            session.state.collect { state ->
+                if (state is SessionState.Connecting || state is SessionState.Authenticating ||
+                    state is SessionState.Reconnecting || state is SessionState.Idle || state is SessionState.Error) {
+                    clearAreaReference()
+                    mutableFeatures.update {
+                        it.copy(settings = null, draft = emptyMap(), management = emptyMap(), managementDraft = emptyMap(),
+                            managementNotice = if (it.management.isNotEmpty() || it.managementDraft.isNotEmpty())
+                                "Sesi kamera berubah. Muat ulang nilai sebelum mengubah pengaturan." else it.managementNotice)
+                    }
+                }
+            }
+        }
+        viewModelScope.launch {
+            session.areaReference.collect { reference ->
+                if (reference == null && features.value.areaPhase in setOf(AreaCapturePhase.EDITING, AreaCapturePhase.STAGED)) clearAreaReference()
+            }
+        }
         viewModelScope.launch { reload() }
         viewModelScope.launch { wifi.revision.collect { if (it > 0L) session.abort() } }
         viewModelScope.launch(Dispatchers.IO) {
@@ -155,7 +193,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun connect(profile: CameraProfile, entered: CharArray?) {
-        if (apWorkRunning) { entered?.fill('\u0000'); return }
+        if (apWorkRunning || managementWorkRunning) { entered?.fill('\u0000'); return }
         dismissError()
         val previous = connectionJob
         connectionJob = viewModelScope.launch {
@@ -167,7 +205,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                 session.connect(profile, password)
                 val resolved = session.connectedProfile ?: return@launch
                 if (resolved != profile) withContext(Dispatchers.IO) { store.save(resolved, null, profile.hasSavedPassword) }
-                if (features.value.tab == CameraTab.LIVE)
+                if (features.value.pendingRestart != null) {
+                    mutableFeatures.update { it.copy(managementNotice = "Kamera tersambung. Pilih Periksa kamera untuk memulihkan catatan restart.") }
+                } else if (features.value.tab == CameraTab.LIVE)
                     renderSurface?.takeIf { it.isValid }?.let { session.play(it, Quality.HD) }
                 else if (pendingExport != null) startExport()
                 else if (features.value.tab == CameraTab.SETTINGS) loadSettings()
@@ -180,14 +220,16 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
 
     fun surfaceReady(value: Surface, profileId: String) {
         renderSurface = value
-        if (features.value.tab == CameraTab.LIVE && session.connectedProfile?.id == profileId && session.state.value is SessionState.Ready)
+        if (!managementWorkRunning && features.value.pendingRestart == null && features.value.tab == CameraTab.LIVE && session.connectedProfile?.id == profileId && session.state.value is SessionState.Ready)
             connectionJob = viewModelScope.launch { session.play(value, Quality.HD) }
     }
     fun surfaceLost(value: Surface?) {
         if (value != null && renderSurface === value) {
             renderSurface = null
-            connectionJob?.cancel()
-            if (features.value.tab == CameraTab.LIVE) viewModelScope.launch { session.detachSurface() }
+            if (features.value.tab == CameraTab.LIVE) {
+                connectionJob?.cancel()
+                viewModelScope.launch { session.detachSurface() }
+            }
         }
     }
     fun changeQuality(quality: Quality) {
@@ -208,8 +250,10 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         cancelScan(); expectWifiHandoff(); provisioning.connectAp(ssid, password)
     }
     fun expectWifiHandoff() { expectedHandoff = true }
-    fun onForeground() { expectedHandoff = false; if (apHandoffUntil == 0L) { handoffExpiry?.cancel(); handoffExpiry = null } }
+    fun onForeground() { if (!managementWorkRunning && !apWorkRunning) loadRecovery(); expectedHandoff = false; if (apHandoffUntil == 0L) { handoffExpiry?.cancel(); handoffExpiry = null } }
     fun onBackground() {
+        if (features.value.areaPhase == AreaCapturePhase.CAPTURING) featureJob?.cancel()
+        clearAreaReference()
         if (apHandoffUntil > android.os.SystemClock.elapsedRealtime()) return
         cancelScan(); connectionJob?.cancel()
         cancelFeature()
@@ -224,32 +268,37 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     fun cancelSetup() { provisioning.cancel(); disconnect() }
     fun reloadAfterSetup() = viewModelScope.launch { reload() }
 
+    private data class Recovery(val restart: PendingCameraRestart?, val format: PendingSdFormat?,
+        val ap: PendingApEdit?, val calibration: PendingCameraCalibration?)
+
+    /** Read once before any writes, including provisioning, with no stale callback overwrites. */
+    private fun loadRecovery() {
+        val version = ++recoveryLoadVersion
+        session.blockMaintenanceWrites(true)
+        mutableFeatures.update { it.copy(restartLoaded = false, pendingLoaded = false, apPendingLoaded = false) }
+        viewModelScope.launch {
+            try {
+                val pending = withContext(Dispatchers.IO) { Recovery(store.loadPendingRestart(), store.loadPendingFormat(), store.loadPendingApEdit(), store.loadPendingCalibration()) }
+                if (version != recoveryLoadVersion) return@launch
+                mutableFeatures.update { it.copy(pendingRestart = pending.restart, pendingFormat = pending.format,
+                    pendingAp = pending.ap, pendingCalibration = pending.calibration, calibrationNeedsCheck = pending.calibration != null,
+                    restartLoaded = true, pendingLoaded = true, apPendingLoaded = true, managementStorageFailed = false,
+                    apStorageFailed = false, restart = if (pending.restart != null) RestartPhase.UNKNOWN else it.restart,
+                    format = if (pending.format != null) SdFormatPhase.UNKNOWN else it.format,
+                    apPhase = if (pending.ap != null) ApEditPhase.UNKNOWN else it.apPhase) }
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (_: Exception) {
+                if (version == recoveryLoadVersion) mutableFeatures.update { it.copy(managementStorageFailed = true,
+                    managementNotice = "Catatan operasi kamera tidak dapat dibaca. Perubahan kamera dinonaktifkan; periksa penyimpanan aplikasi.") }
+            } finally { if (version == recoveryLoadVersion) refreshMaintenanceBlock() }
+        }
+    }
+
     fun prepareFeatures(profile: CameraProfile) {
         if (features.value.profileId == profile.id) return
         cancelFeature(); pendingExport = null
         mutableFeatures.value = CameraFeatureState(profileId = profile.id)
-        viewModelScope.launch {
-            try {
-                val pending = withContext(Dispatchers.IO) { store.loadPendingFormat() }
-                if (features.value.profileId == profile.id) mutableFeatures.update {
-                    it.copy(pendingLoaded = true, pendingFormat = pending,
-                        format = if (pending?.profileId == profile.id) SdFormatPhase.UNKNOWN else SdFormatPhase.IDLE)
-                }
-            } catch (_: Exception) {
-                mutableFeatures.update { it.copy(error = "Status format sebelumnya tidak dapat dibaca. Format SD dinonaktifkan.") }
-            }
-            try {
-                val pending = withContext(Dispatchers.IO) { store.loadPendingApEdit() }
-                if (features.value.profileId == profile.id) mutableFeatures.update {
-                    it.copy(apPendingLoaded = true, pendingAp = pending,
-                        apPhase = if (pending != null) ApEditPhase.UNKNOWN else ApEditPhase.IDLE)
-                }
-            } catch (_: Exception) {
-                if (features.value.profileId == profile.id) mutableFeatures.update {
-                    it.copy(apStorageFailed = true, apNotice = "Catatan perubahan hotspot tidak dapat dibaca. Penyimpanan dinonaktifkan.")
-                }
-            }
-        }
+        loadRecovery()
     }
 
     fun selectTab(tab: CameraTab) {
@@ -264,16 +313,22 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private fun launchFeature(stage: DiagnosticStage, requiresCamera: Boolean = true, block: suspend () -> Unit) {
-        if (apWorkRunning || features.value.pendingAp != null) return
+    private fun launchFeature(stage: DiagnosticStage, requiresCamera: Boolean = true, mutating: Boolean = false, block: suspend () -> Unit) {
+        if (managementWorkRunning || apWorkRunning || features.value.pendingAp != null) return
+        if (mutating && (features.value.busy || managementBlocked())) return
+        if (mutating) {
+            managementWorkRunning = true
+            mutableFeatures.update { it.copy(busy = true) }
+        }
         val previous = featureJob
         val version = ++featureVersion
         val expectedProfile = features.value.profileId
         featureJob = viewModelScope.launch {
-            previous?.cancelAndJoin()
-            mutableFeatures.update { it.copy(busy = true, error = null, notice = null) }
             diagnostics.record(stage, DiagnosticStatus.STARTED)
             try {
+                previous?.cancelAndJoin()
+                currentCoroutineContext().ensureActive()
+                mutableFeatures.update { it.copy(busy = true, error = null, notice = null) }
                 if (requiresCamera && (expectedProfile == null || session.connectedProfile?.id != expectedProfile || features.value.profileId != expectedProfile))
                     throw CameraFailure(SessionError.AuthenticationFailed)
                 block()
@@ -291,11 +346,16 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                 if (version == featureVersion) mutableFeatures.update { it.copy(error = reason.userMessage(),
                     download = if (stage == DiagnosticStage.DOWNLOAD) DownloadPhase.FAILED else it.download,
                     format = if (it.pendingFormat != null) SdFormatPhase.UNKNOWN else it.format) }
-            } finally { if (version == featureVersion) mutableFeatures.update { it.copy(busy = false) } }
+            } finally {
+                if (mutating) managementWorkRunning = false
+                if (version == featureVersion || mutating) mutableFeatures.update { it.copy(busy = apWorkRunning) }
+                refreshMaintenanceBlock()
+            }
         }
     }
 
     fun cancelFeature() {
+        clearAreaReference()
         featureVersion++
         featureJob?.cancel(); featureJob = null
         clearApSecrets()
@@ -305,9 +365,10 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         if (abandoned != null) viewModelScope.launch(Dispatchers.IO) {
             runCatching { DocumentsContract.deleteDocument(getApplication<Application>().contentResolver, abandoned.first) }
         }
-        mutableFeatures.update { it.copy(busy = apWorkRunning, apBusy = apWorkRunning, paused = true, draft = emptyMap(),
+        mutableFeatures.update { it.copy(busy = apWorkRunning || managementWorkRunning, apBusy = apWorkRunning, paused = true, draft = emptyMap(), managementDraft = emptyMap(),
             download = if (it.download in setOf(DownloadPhase.AWAITING_ACCESS, DownloadPhase.DOWNLOADING, DownloadPhase.SAVING)) DownloadPhase.CANCELLED else it.download,
             format = if (it.pendingFormat != null) SdFormatPhase.UNKNOWN else it.format,
+            restart = if (it.pendingRestart != null) RestartPhase.UNKNOWN else it.restart,
             apPhase = if (it.pendingAp != null) ApEditPhase.UNKNOWN else it.apPhase) }
     }
 
@@ -319,7 +380,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun launchApWork(onFinished: () -> Unit = {}, block: suspend () -> Unit) {
-        if (features.value.busy || apWorkRunning) return
+        if (features.value.busy || apWorkRunning || managementWorkRunning || managementBlocked()) return
         apWorkRunning = true
         val version = ++featureVersion
         val profileId = features.value.profileId
@@ -349,6 +410,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                         apPhase = if (it.pendingAp != null && it.apPhase !in setOf(ApEditPhase.WAITING_WIFI, ApEditPhase.VERIFIED)) ApEditPhase.UNKNOWN else it.apPhase) }
                     if (features.value.apPhase != ApEditPhase.WAITING_WIFI) clearApSecrets()
                 }
+                refreshMaintenanceBlock()
             }
         }.also { it.invokeOnCompletion { onFinished() } }
     }
@@ -503,8 +565,8 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     fun saveSettings() {
         val before = features.value.settings ?: return
         val changes = features.value.draft.toMap()
-        if (changes.isEmpty()) return
-        launchFeature(DiagnosticStage.SETTINGS) {
+        if (changes.isEmpty() || managementBlocked() || managementWorkRunning) return
+        launchFeature(DiagnosticStage.SETTINGS, mutating = true) {
             try {
                 val settings = session.saveSettings(changes, before)
                 mutableFeatures.update { it.copy(settings = settings, draft = emptyMap(), notice = "Pengaturan tersimpan dan telah diperiksa kembali.") }
@@ -524,8 +586,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun reverseImage() {
+        if (managementBlocked() || managementWorkRunning) return
         val before = features.value.settings ?: return
-        launchFeature(DiagnosticStage.SETTINGS) {
+        launchFeature(DiagnosticStage.SETTINGS, mutating = true) {
             try {
                 val after = session.reverseImage(before)
                 mutableFeatures.update { it.copy(settings = after, draft = emptyMap(), notice = "Orientasi kamera telah diubah.") }
@@ -639,7 +702,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         if (!CameraSettingsProtocol.FORMAT_STATUS_VERIFIED || state.busy || !state.pendingLoaded || state.pendingFormat != null || state.draft.isNotEmpty() ||
             settings.int(CameraSettingsProtocol.SD_STATUS) !in setOf(1, 2, 3, 8) ||
             settings.int(CameraSettingsProtocol.SD_FORMAT_STATE) == null || session.connectedProfile?.id != profile.id) return
-        launchFeature(DiagnosticStage.SD_FORMAT) {
+        launchFeature(DiagnosticStage.SD_FORMAT, mutating = true) {
             val pending = withContext(NonCancellable + Dispatchers.IO) { store.savePendingFormat(profile); store.loadPendingFormat() }
             mutableFeatures.update { it.copy(pendingFormat = pending, format = SdFormatPhase.SENDING, recordingsLoaded = false, recordings = emptyList()) }
             currentCoroutineContext().ensureActive()
@@ -665,11 +728,331 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun acknowledgeFormat() {
-        if (features.value.busy || features.value.pendingFormat?.profileId != features.value.profileId) return
+        val pending = features.value.pendingFormat ?: return
+        if (features.value.busy || pending.profileId != features.value.profileId) return
         launchFeature(DiagnosticStage.SD_FORMAT, requiresCamera = false) {
             withContext(Dispatchers.IO) { store.clearPendingFormat() }
             mutableFeatures.update { it.copy(pendingFormat = null, format = SdFormatPhase.IDLE,
                 notice = "Status ditutup. Tidak ada perintah format baru yang dikirim.") }
+        }
+    }
+
+    fun managementBlocked(): Boolean = features.value.let {
+        !it.restartLoaded || !it.pendingLoaded || it.managementStorageFailed || it.pendingRestart != null ||
+            it.pendingFormat != null || it.calibrationNeedsCheck
+    }
+    private fun refreshMaintenanceBlock() { session.blockMaintenanceWrites(managementBlocked() || !features.value.apPendingLoaded || features.value.pendingAp != null || features.value.apStorageFailed) }
+
+    private fun launchManagement(group: ManagementGroup, mutating: Boolean = false, block: suspend () -> Unit) {
+        val state = features.value
+        if (managementWorkRunning || apWorkRunning || state.busy || state.pendingAp != null || mutating && managementBlocked()) return
+        val profileId = state.profileId ?: return
+        val version = ++featureVersion
+        managementWorkRunning = true
+        mutableFeatures.update { it.copy(busy = true, managementLoading = group, managementNotice = null,
+            managementErrors = it.managementErrors - group) }
+        val stage = when (group) {
+            ManagementGroup.ALARM -> DiagnosticStage.ALARM
+            ManagementGroup.LIGHT -> DiagnosticStage.LIGHT_SCHEDULE
+            ManagementGroup.MOTOR -> DiagnosticStage.PTZ_CRUISE
+            ManagementGroup.DEVICE -> DiagnosticStage.DEVICE_INFO
+        }
+        featureJob = viewModelScope.launch {
+            diagnostics.record(stage, DiagnosticStatus.STARTED)
+            try {
+                if (!session.isAuthenticated(profileId)) throw CameraFailure(SessionError.AuthenticationFailed)
+                block()
+                diagnostics.record(stage)
+            } catch (cancelled: CancellationException) { diagnostics.record(stage, DiagnosticStatus.CANCELLED); throw cancelled }
+            catch (error: Exception) {
+                diagnostics.record(stage, DiagnosticStatus.FAILED, reason = CameraSession.reason(error), code = (error as? IoTProtocolException)?.deviceCode)
+                if (version == featureVersion && features.value.profileId == profileId) mutableFeatures.update {
+                    it.copy(managementErrors = it.managementErrors + (group to CameraSession.reason(error).userMessage()))
+                }
+            } finally {
+                managementWorkRunning = false
+                if (version == featureVersion && features.value.profileId == profileId) mutableFeatures.update {
+                    it.copy(busy = false, managementLoading = null)
+                }
+                else mutableFeatures.update { it.copy(busy = apWorkRunning, managementLoading = null) }
+                refreshMaintenanceBlock()
+            }
+        }
+    }
+
+    fun loadManagement(group: ManagementGroup) = launchManagement(group) {
+        val selected = ui.value.profiles.firstOrNull { it.id == features.value.profileId } ?: throw CameraFailure(SessionError.IdentityMismatch)
+        if (session.connectedProfile?.deviceId != selected.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        val snapshot = session.readManagement(selected.id, group)
+        mutableFeatures.update { it.copy(management = it.management + (group to snapshot)) }
+        if (group == ManagementGroup.ALARM && features.value.areaImage != null && !areaDraftReady()) clearAreaReference()
+    }
+
+    fun draftManagement(group: ManagementGroup, id: Int, value: Any) {
+        if (features.value.busy || managementBlocked()) return
+        val snapshot = features.value.management[group] ?: return
+        if (id !in CameraManagementProtocol.ids(group) || id !in snapshot.settings.values) return
+        mutableFeatures.update { state ->
+            val draft = state.managementDraft.toMutableMap()
+            if (CameraManagementProtocol.same(id, snapshot.settings.values[id], value)) draft.remove(id) else draft[id] = value
+            state.copy(managementDraft = draft.toMap())
+        }
+    }
+
+    fun saveManagement(group: ManagementGroup) {
+        val before = features.value.management[group] ?: return
+        val changes = features.value.managementDraft.filterKeys { it in CameraManagementProtocol.ids(group) }
+        if (changes.isEmpty()) return
+        launchManagement(group, mutating = true) {
+            try {
+                val after = session.saveManagement(before, changes)
+                mutableFeatures.update { it.copy(management = it.management + (group to after),
+                    managementDraft = it.managementDraft - changes.keys, managementNotice = "Pengaturan tersimpan dan telah dibaca kembali.") }
+                if (CameraManagementProtocol.ALARM_AREA in changes) clearAreaReference()
+            } catch (error: Exception) {
+                if (error is CancellationException) throw error
+                val after = try { session.readManagement(before.profileId, group) } catch (cancelled: CancellationException) { throw cancelled } catch (_: Exception) { null }
+                val matched = changes.filter { (id, value) -> CameraManagementProtocol.same(id, value, after?.settings?.values?.get(id)) }.keys
+                mutableFeatures.update { it.copy(management = if (after != null) it.management + (group to after) else it.management,
+                    managementDraft = it.managementDraft - matched,
+                    managementNotice = "Hasil penyimpanan diperiksa kembali. Perubahan yang belum cocok tetap ditampilkan; tidak ada pengiriman ulang.") }
+                if (CameraManagementProtocol.ALARM_AREA in matched) clearAreaReference()
+                throw error
+            }
+        }
+    }
+
+    fun discardManagement(group: ManagementGroup) {
+        if (features.value.busy) return
+        mutableFeatures.update { it.copy(managementDraft = it.managementDraft - CameraManagementProtocol.ids(group).toSet(),
+            managementErrors = it.managementErrors - group, managementNotice = null) }
+        if (group == ManagementGroup.ALARM) clearAreaReference()
+    }
+
+    private fun clearAreaReference() {
+        session.invalidateAreaReference()
+        areaSurface?.cancel(); areaSurface = null
+        mutableFeatures.update { it.copy(areaImage = null,
+            areaPhase = if (CameraManagementProtocol.ALARM_AREA in it.managementDraft) AreaCapturePhase.ERROR else AreaCapturePhase.IDLE,
+            areaError = if (CameraManagementProtocol.ALARM_AREA in it.managementDraft) "Referensi area tidak berlaku lagi. Ambil gambar ulang sebelum menyimpan." else null) }
+        // Published bitmaps are released by dropping ownership; recycling a bitmap still in a draw can crash Android.
+    }
+
+    fun areaDraftReady(): Boolean {
+        val reference = session.areaReference.value ?: return false
+        val baseline = features.value.management[ManagementGroup.ALARM]?.settings?.values?.get(CameraManagementProtocol.ALARM_AREA) as? CameraAlarmArea
+            ?: return false
+        return session.canUseAreaReference(reference) && CameraAreaProtocol.sameBaseline(reference.baseline, baseline)
+    }
+
+    fun requestAreaReference() {
+        val state = features.value
+        val before = state.management[ManagementGroup.ALARM] ?: return
+        if (managementWorkRunning || apWorkRunning || state.busy || state.pendingAp != null || managementBlocked() || state.profileId != before.profileId) return
+        if (!session.canCaptureArea(before.profileId)) {
+            mutableFeatures.update { it.copy(areaError = "Editor memerlukan satu tampilan datar yang terkonfirmasi dan akses kamera tersambung.") }
+            return
+        }
+        val waiting = CompletableDeferred<SurfaceView>()
+        areaSurface = waiting
+        val requestId = featureVersion + 1
+        mutableFeatures.update { it.copy(areaPhase = AreaCapturePhase.CAPTURING, areaImage = null, areaError = null, areaRequestId = requestId) }
+        launchManagement(ManagementGroup.ALARM, mutating = true) {
+            var bitmap: Bitmap? = null
+            try {
+                val view = withTimeout(3000) { waiting.await() }
+                val reference = session.captureAlarmArea(before, view.holder.surface) { geometry ->
+                    bitmap = VideoFrameCapture.copy(view, geometry, session::awaitAreaFrame)
+                }
+                currentCoroutineContext().ensureActive()
+                if (featureVersion != requestId || features.value.profileId != before.profileId || !session.canUseAreaReference(reference))
+                    throw CameraFailure(SessionError.AuthenticationFailed)
+                mutableFeatures.update { it.copy(areaPhase = AreaCapturePhase.EDITING, areaImage = CameraAreaImage(reference, bitmap!!)) }
+                bitmap = null
+            } catch (error: Exception) {
+                val cancelled = error is CancellationException && error !is TimeoutCancellationException
+                if (featureVersion == requestId) mutableFeatures.update { it.copy(areaImage = null,
+                    areaPhase = if (cancelled) AreaCapturePhase.IDLE else AreaCapturePhase.ERROR,
+                    areaError = if (cancelled) null else "Gambar referensi gagal atau pemetaannya belum pasti. Ambil ulang setelah kamera siap.") }
+                if (error is TimeoutCancellationException) throw CameraFailure(SessionError.Timeout)
+                throw error
+            } finally {
+                if (areaSurface === waiting) areaSurface = null
+                bitmap?.recycle()
+            }
+        }
+    }
+
+    fun areaSurfaceReady(requestId: Int, view: SurfaceView) {
+        if (features.value.areaRequestId == requestId && features.value.areaPhase == AreaCapturePhase.CAPTURING) areaSurface?.complete(view)
+    }
+
+    fun cancelAreaCapture(requestId: Int) {
+        if (features.value.areaRequestId != requestId || features.value.areaPhase != AreaCapturePhase.CAPTURING) return
+        featureJob?.cancel()
+        clearAreaReference()
+    }
+
+    fun useArea(reference: AreaReference, area: CameraAlarmArea) {
+        if (features.value.busy || !areaDraftReady() || session.areaReference.value !== reference || !CameraAreaProtocol.valid(area) ||
+            area.rows != reference.baseline.rows || area.columns != reference.baseline.columns) return
+        draftManagement(ManagementGroup.ALARM, CameraManagementProtocol.ALARM_AREA, area.copy(source = reference.baseline.source))
+        mutableFeatures.update { it.copy(areaImage = null, areaPhase = AreaCapturePhase.STAGED) }
+        if (CameraManagementProtocol.ALARM_AREA !in features.value.managementDraft) clearAreaReference()
+    }
+
+    fun cancelAreaEdit() {
+        clearAreaReference()
+    }
+
+    fun presetAction(slot: Int, operation: Int) {
+        val before = features.value.management[ManagementGroup.MOTOR] ?: return
+        if (features.value.managementDraft.isNotEmpty()) return
+        launchManagement(ManagementGroup.MOTOR, mutating = true) {
+            val after = session.presetAction(before, slot, operation, java.util.UUID.randomUUID().toString())
+            mutableFeatures.update { it.copy(management = it.management + (ManagementGroup.MOTOR to after),
+                managementNotice = if (operation == 2) "Perintah ke posisi diterima. Posisi motor belum dapat diverifikasi." else if (operation == 1) "Perintah simpan diterima dan slot terisi dibaca kembali. Posisi tersimpan belum diverifikasi." else "Preset tidak lagi tercantum pada kamera.") }
+        }
+    }
+
+    fun calibrateCamera() {
+        val before = features.value.management[ManagementGroup.MOTOR] ?: return
+        if (features.value.managementDraft.isNotEmpty() || features.value.draft.isNotEmpty()) return
+        val pending = PendingCameraCalibration(java.util.UUID.randomUUID().toString(), before.profileId, before.deviceId, System.currentTimeMillis())
+        launchManagement(ManagementGroup.MOTOR, mutating = true) {
+            try {
+                session.calibrateCamera(before, pending.operationId) {
+                    try { withContext(NonCancellable + Dispatchers.IO) { store.savePendingCalibration(pending) } }
+                    catch (cancelled: CancellationException) { throw cancelled }
+                    catch (_: Exception) { throw CameraFailure(SessionError.StorageUnavailable) }
+                    mutableFeatures.update { it.copy(pendingCalibration = pending, calibrationNeedsCheck = true) }
+                }
+                mutableFeatures.update { it.copy(managementNotice = "Perintah kalibrasi diterima. Status selesai belum dapat dibaca; periksa bahwa gerak kamera sudah berhenti.") }
+            } catch (error: IoTProtocolException) {
+                if (error.kind in setOf(IoTFailure.DeviceRejected, IoTFailure.PermissionDenied, IoTFailure.AuthenticationFailed)) {
+                    withContext(NonCancellable + Dispatchers.IO) {
+                        if (store.loadPendingCalibration()?.operationId == pending.operationId) store.clearPendingCalibration(pending.operationId)
+                    }
+                }
+                throw error
+            } finally {
+                // Also recover a marker written while cancellation was pending, before a UI update ran.
+                withContext(NonCancellable) {
+                    val restored = try { withContext(Dispatchers.IO) { store.loadPendingCalibration() } }
+                        catch (_: Exception) { mutableFeatures.update { it.copy(managementStorageFailed = true) }; pending }
+                    mutableFeatures.update { it.copy(pendingCalibration = restored, calibrationNeedsCheck = restored != null) }
+                }
+            }
+        }
+    }
+    fun acknowledgeCalibration() {
+        val pending = features.value.pendingCalibration ?: return
+        if (features.value.busy || pending.profileId != features.value.profileId || managementWorkRunning || apWorkRunning) return
+        managementWorkRunning = true
+        mutableFeatures.update { it.copy(busy = true) }
+        featureJob = viewModelScope.launch {
+            try {
+                withContext(NonCancellable + Dispatchers.IO) { store.clearPendingCalibration(pending.operationId) }
+                mutableFeatures.update { it.copy(pendingCalibration = null, calibrationNeedsCheck = false,
+                    management = it.management - ManagementGroup.MOTOR,
+                    managementNotice = "Pemeriksaan gerak ditutup oleh pengguna. Muat ulang status sebelum aksi motor berikutnya.") }
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (_: Exception) { mutableFeatures.update { it.copy(managementNotice = "Catatan kalibrasi tidak dapat ditutup. Periksa penyimpanan lalu coba lagi.") } }
+            finally {
+                managementWorkRunning = false
+                mutableFeatures.update { it.copy(busy = false) }
+                refreshMaintenanceBlock()
+            }
+        }
+    }
+
+    fun restartCamera(profile: CameraProfile) {
+        val state = features.value
+        if (state.draft.isNotEmpty() || state.managementDraft.isNotEmpty()) return
+        launchManagement(ManagementGroup.DEVICE, mutating = true) {
+            val password = session.restartPassword(profile.id)
+            val pending = PendingCameraRestart(java.util.UUID.randomUUID().toString(), profile.id, profile.deviceId, System.currentTimeMillis())
+            try {
+                try {
+                    session.restartCamera(profile.id, profile.deviceId, pending.operationId) {
+                        try { withContext(NonCancellable + Dispatchers.IO) { store.savePendingRestart(pending) } }
+                        catch (cancelled: CancellationException) { throw cancelled }
+                        catch (_: Exception) { throw CameraFailure(SessionError.StorageUnavailable) }
+                        mutableFeatures.update { it.copy(pendingRestart = pending, restart = RestartPhase.SENDING) }
+                    }
+                } catch (error: Exception) {
+                    if (error is CancellationException) throw error
+                    if (features.value.pendingRestart == null) {
+                        mutableFeatures.update { it.copy(restart = RestartPhase.NOT_SENT) }; throw error
+                    }
+                    if (error is IoTProtocolException && error.kind in setOf(IoTFailure.DeviceRejected, IoTFailure.PermissionDenied, IoTFailure.AuthenticationFailed)) {
+                        withContext(NonCancellable + Dispatchers.IO) { store.clearPendingRestart(pending.operationId) }
+                        mutableFeatures.update { it.copy(pendingRestart = null, restart = RestartPhase.REJECTED) }; throw error
+                    }
+                    // Partial write, EOF, malformed response and timeout are ambiguous, not a retry signal.
+                }
+                mutableFeatures.update { it.copy(restart = RestartPhase.WAITING, management = emptyMap()) }
+                withTimeout(120_000) {
+                    while (isActive) {
+                        delay(2000)
+                        val found = discovery.scan().firstOrNull { it.deviceId == pending.deviceId && it.platformType == 2 } ?: continue
+                        currentCoroutineContext().ensureActive()
+                        if (features.value.profileId != pending.profileId) throw CancellationException()
+                        val resolved = profile.copy(host = found.host, port = found.port, platformType = found.platformType, discoveryGeneration = found.generation)
+                        try { session.connect(resolved, password.copyOf()) }
+                        catch (error: CameraFailure) { if (error.reason == SessionError.AuthenticationFailed) throw error else continue }
+                        withContext(NonCancellable + Dispatchers.IO) {
+                            store.updateVerifiedAddress(profile.id, profile.deviceId, found.host, found.port)
+                            store.clearPendingRestart(pending.operationId)
+                        }
+                        mutableFeatures.update { it.copy(pendingRestart = null, restart = RestartPhase.RECONNECTED,
+                            managementNotice = "Kamera yang sama tersambung kembali. Bukti reboot tidak tersedia; restart belum dapat dipastikan.") }
+                        break
+                    }
+                }
+            } finally {
+                password.fill('\u0000')
+                withContext(NonCancellable) {
+                    val restored = try { withContext(Dispatchers.IO) { store.loadPendingRestart() } }
+                        catch (_: Exception) { mutableFeatures.update { it.copy(managementStorageFailed = true) }; pending }
+                    mutableFeatures.update { it.copy(pendingRestart = restored,
+                        restart = if (restored != null) RestartPhase.UNKNOWN else it.restart,
+                        managementNotice = if (restored != null) "Hasil restart belum diketahui. Sambungkan kamera lalu pilih Periksa kamera; perintah tidak dikirim ulang." else it.managementNotice) }
+                }
+            }
+        }
+    }
+
+    fun verifyPendingRestart() {
+        val pending = features.value.pendingRestart ?: return
+        if (pending.profileId != features.value.profileId || session.connectedProfile?.deviceId != pending.deviceId) return
+        launchManagement(ManagementGroup.DEVICE) {
+            val snapshot = session.readManagement(pending.profileId, ManagementGroup.DEVICE)
+            withContext(NonCancellable + Dispatchers.IO) { store.clearPendingRestart(pending.operationId) }
+            mutableFeatures.update { it.copy(pendingRestart = null, restart = RestartPhase.RECONNECTED,
+                management = it.management + (ManagementGroup.DEVICE to snapshot),
+                managementNotice = "Kamera yang sama merespons. Restart belum terverifikasi; tidak ada perintah baru yang dikirim.") }
+        }
+    }
+
+    fun closePendingRestart() {
+        val pending = features.value.pendingRestart ?: return
+        if (features.value.busy || pending.profileId != features.value.profileId) return
+        if (managementWorkRunning || apWorkRunning) return
+        managementWorkRunning = true
+        mutableFeatures.update { it.copy(busy = true) }
+        featureJob = viewModelScope.launch {
+            try {
+                withContext(NonCancellable + Dispatchers.IO) { store.clearPendingRestart(pending.operationId) }
+                mutableFeatures.update { it.copy(pendingRestart = null, restart = RestartPhase.UNKNOWN,
+                    managementNotice = "Catatan lokal ditutup. Hasil restart kamera tetap belum diketahui; tidak ada perintah baru yang dikirim.") }
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (_: Exception) { mutableFeatures.update { it.copy(managementNotice = "Catatan restart tidak dapat ditutup. Periksa penyimpanan lalu coba lagi.") } }
+            finally {
+                managementWorkRunning = false
+                mutableFeatures.update { it.copy(busy = false) }
+                refreshMaintenanceBlock()
+            }
         }
     }
 
@@ -684,5 +1067,5 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
     fun message(value: String) { mutableUi.update { it.copy(error = value) } }
     fun dismissError() { mutableUi.update { it.copy(error = null) } }
-    override fun onCleared() { featureJob?.cancel(); clearApSecrets(); provisioning.cancel(); wifi.dispose(); session.dispose(); super.onCleared() }
+    override fun onCleared() { featureJob?.cancel(); clearAreaReference(); clearApSecrets(); provisioning.cancel(); wifi.dispose(); session.dispose(); super.onCleared() }
 }

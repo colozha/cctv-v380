@@ -1,0 +1,9 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I code_item_offset=7703720 registers=1
+0000 dex@00758cb8 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->BMPC(I)I
+0003 dex@00758cbe move-result              v0 
+0004 dex@00758cc0 return                   v0 
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->BMPC(I)I code_item_offset=7703692 registers=2
+0000 dex@00758c9c const/4                  v0 #1 
+0001 dex@00758c9e sub-int/2addr            v1 v0 
+0002 dex@00758ca0 shl-int                  v1 v0 v1 
+0004 dex@00758ca4 return                   v1 

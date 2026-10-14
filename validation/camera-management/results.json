@@ -1,0 +1,149 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Asia/Jakarta",
+  "app_version": "0.4.0-experimental",
+  "scope": "Offline build, pure JVM tests and instrumentation compilation only; no connection tests or camera acceptance",
+  "source_sha256": "087f669f6acae28abc6ba902092b15a4d13268338b1f8d92629d23e7fe324629",
+  "jvm": {
+    "totals": {
+      "tests": 55,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.ApProtocolTest.xml",
+        "suite": "dev.cctv.v380.ApProtocolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.CoreTest.xml",
+        "suite": "dev.cctv.v380.CoreTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.DiagnosticsTest.xml",
+        "suite": "dev.cctv.v380.DiagnosticsTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.ManagementSessionGuardTest.xml",
+        "suite": "dev.cctv.v380.ManagementSessionGuardTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.ApHotspotTest.xml",
+        "suite": "dev.cctv.v380.protocol.ApHotspotTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.CameraFeatureProtocolTest.xml",
+        "suite": "dev.cctv.v380.protocol.CameraFeatureProtocolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.CameraManagementProtocolTest.xml",
+        "suite": "dev.cctv.v380.protocol.CameraManagementProtocolTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.IoTMediaProtocolTest.xml",
+        "suite": "dev.cctv.v380.protocol.IoTMediaProtocolTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.IoTProtocolTest.xml",
+        "suite": "dev.cctv.v380.protocol.IoTProtocolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.LegacyProtocolTest.xml",
+        "suite": "dev.cctv.v380.protocol.LegacyProtocolTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 13
+  },
+  "apk": {
+    "path": "app/build/outputs/apk/debug/app-debug.apk",
+    "sha256": "620cba25bd5d11649d155f84585b294a2bf119cefd3a3cd728d91334d052f180",
+    "bytes": 15103798
+  },
+  "instrumentation_apk": {
+    "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+    "sha256": "3675f061a04d5c5407cb38825d82977cf8c4d5a3a8b53a46e227dce66fd63019",
+    "compiled": true,
+    "runtime_tests_run": false
+  },
+  "ui": {
+    "fixture_test": "CameraManagementUiTest",
+    "run": false,
+    "screenshots": [],
+    "emulator": "API30 x86_64 / emulator37.2.12 / SwiftShader / acceleration off",
+    "emulator_exit": 139,
+    "reason": "SIGSEGV during boot; adb device disappeared"
+  },
+  "connection_testing": {
+    "deferred_by_user": true,
+    "socket_session_tests_run": false,
+    "physical_camera_tested": false,
+    "vendor_apk_executed": false
+  },
+  "implemented_experimental": [
+    "alarm/motion/sound switches",
+    "edit existing alarm intervals",
+    "light sensitivity and schedules",
+    "preset save/recall/delete",
+    "edit inactive patrol routes",
+    "calibration command with durable unknown-status marker",
+    "device model/version read",
+    "single-submit restart with identity verification and durable recovery",
+    "single-flight mutation and pending format ID migration"
+  ],
+  "unfinished": [
+    "patrol activation/stop and actual motor-state contract",
+    "terminal calibration status",
+    "motion sensitivity writer/range",
+    "reference-image area editor",
+    "changing alarm interval count",
+    "SD format terminal enum/correlation and activation",
+    "Legacy/multi-view variants",
+    "native UI/storage runtime and per-firmware camera acceptance"
+  ],
+  "proprietary_vendor_libraries_present": false,
+  "plan_completed": false
+}
