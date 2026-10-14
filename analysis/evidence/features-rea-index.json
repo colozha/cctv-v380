@@ -1,0 +1,182 @@
+[
+  {
+    "path": "features-DeviceConfigSetting-a-10.sanitized.json",
+    "source_evidence_id": "ev_76c0c5fb4aeeeb7b18d9259d42d897f6a5d5d66d7c3e7f75e2a219558c017221",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+      "method_name": "a",
+      "overload_index": 10
+    }
+  },
+  {
+    "path": "features-DeviceConfigSetting-a-11.sanitized.json",
+    "source_evidence_id": "ev_d2a817f02bd073c788c041efb311d71f56e21be20db65582440f0a6f299e5861",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+      "method_name": "a",
+      "overload_index": 11
+    }
+  },
+  {
+    "path": "features-DeviceConfigSetting-createIntValueJsonObj-1.sanitized.json",
+    "source_evidence_id": "ev_3c7edcf5d5a3680c3917720efc8c049470a004154916901525984cccde7236e8",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+      "method_name": "createIntValueJsonObj",
+      "overload_index": 1
+    }
+  },
+  {
+    "path": "features-DeviceConfigSetting-createRecordConfigPidList-0.sanitized.json",
+    "source_evidence_id": "ev_444d1d27345fa62cae2cc84628a5ede42f49993c56165d2c5aa1cd23075e8d01",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+      "method_name": "createRecordConfigPidList",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-DeviceConfigSetting-createWhiteLightConfigPidList-0.sanitized.json",
+    "source_evidence_id": "ev_32342d9040b2d3a0768ee7295396e1e418aacbc24155f2d3d75e565a9523a5a2",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+      "method_name": "createWhiteLightConfigPidList",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-DeviceConfigSetting-b-4.sanitized.json",
+    "source_evidence_id": "ev_542dfbcf14540d68ce9ecefcf1153bd5eb2aff85e7e9e2133070f9521dd5f67d",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+      "method_name": "b",
+      "overload_index": 4
+    }
+  },
+  {
+    "path": "features-DeviceConfigSetting-getBooleanValue-0.sanitized.json",
+    "source_evidence_id": "ev_171c80a52fb8a83cb8136b78a94fcf5f5a2aabd440054ce4b67483e4e6ac5db6",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+      "method_name": "getBooleanValue",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-DeviceSDCardSetting-setSDCardFormat-0.sanitized.json",
+    "source_evidence_id": "ev_e6be3019ae54036356b4a1e80ee02abca2ee4d8097eec76774e192ea0e0d1d0f",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.setting.DeviceSDCardSetting",
+      "method_name": "setSDCardFormat",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-RecordFileHelper-b-0.sanitized.json",
+    "source_evidence_id": "ev_14c3662424e60062edaf8a5a41866c8dde4cd4104731eb53f0ef6a9091176b37",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.media.RecordFileHelper",
+      "method_name": "b",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-GetRecFileThread-run-0.sanitized.json",
+    "source_evidence_id": "ev_2147adc8a07495d2cf24892ad76ea0928033efafc8c50de8efe64686d0f19ed9",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.v380.fragments.ReplaySDCardFragment.GetRecFileThread",
+      "method_name": "run",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-HSFileDownloader-StartDownloadRecSegment-2.sanitized.json",
+    "source_evidence_id": "ev_48b330746ef376b4a63cd4586dfa96c026bc16cba3f8ec080eca5afb4ab0f0cd",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.media.HSFileDownloader",
+      "method_name": "StartDownloadRecSegment",
+      "overload_index": 2
+    }
+  },
+  {
+    "path": "features-HSTFCardRecNewPlatformInfo-createFrom-0.sanitized.json",
+    "source_evidence_id": "ev_af824dc098e4f7acecc8472905bf4675e12a09ece48e836e1a182ed2e1339dec",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.objects.HSTFCardRecNewPlatformInfo",
+      "method_name": "createFrom",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-RecordFileParam-init-1.sanitized.json",
+    "source_evidence_id": "ev_34b3795d2478cb566cca2ea9404b7e3e7802f81c3c3182c2d9716361d8bcd8b3",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.objects.RecordFileParam",
+      "method_name": "<init>",
+      "overload_index": 1
+    }
+  },
+  {
+    "path": "features-Protocol-MVSPT_IOTC_DPID-0.sanitized.json",
+    "source_evidence_id": "ev_2cec4a1957f2addd542dfb892e8d0d2d82398c89b397e67fa7c352823015c0c1",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.defines.Protocol",
+      "method_name": "MVSPT_IOTC_DPID",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-Protocol-MVSPT_IOTC_DAID-0.sanitized.json",
+    "source_evidence_id": "ev_e47ee3208f4d18ebc16078ccb625572f4d8d62a5acc24152042128e08824475d",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.defines.Protocol",
+      "method_name": "MVSPT_IOTC_DAID",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-IoTDevAbility-isSupportRecordSD-0.sanitized.json",
+    "source_evidence_id": "ev_c2abff5a3095fb87e3036603593ec59ee48229f61a5dfc7e2f1752d582c85cae",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.objects.IoTDevAbility",
+      "method_name": "isSupportRecordSD",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-IoTDevAbility-isSupportRecordHD-0.sanitized.json",
+    "source_evidence_id": "ev_710fa0918dd5a380cd366e57135ae5ee0bfb3ea1b22f8bd89c6083783f599f07",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.objects.IoTDevAbility",
+      "method_name": "isSupportRecordHD",
+      "overload_index": 0
+    }
+  },
+  {
+    "path": "features-IoTDevAbility-isSupportRecordFHD-0.sanitized.json",
+    "source_evidence_id": "ev_8b878bb2eb24f8b6f1a38a8793d69c450ac7c8b821b5dc5c20c1bf01b9b18436",
+    "parameters": {
+      "path": "/home/husain/Downloads/v380-6-4-90.apk",
+      "class_name": "com.macrovideo.sdk.objects.IoTDevAbility",
+      "method_name": "isSupportRecordFHD",
+      "overload_index": 0
+    }
+  }
+]

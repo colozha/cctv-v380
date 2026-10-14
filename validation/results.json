@@ -1,18 +1,18 @@
 {
-  "collected_at_utc": "2026-10-13T22:08:43.926082+00:00",
+  "collected_at_utc": "2026-10-14T02:42:32.270657+00:00",
   "scope": "Final offline build/parser/cipher tests; prior emulator tests identified separately; no camera acceptance",
-  "source_sha256": "0b32ee636a35919c86721107e4504e30dee559d3487386c4fcd46d9d9a3538c9",
+  "source_sha256": "b30a6ec59b558f9cfd19e923a05b622159d31d991e627f04acc603cc8fc3fef2",
   "build_command": "See validation/offline-build-command.txt; selected pure JVM cases only",
   "runtime_command": "ANDROID_SERIAL=<serial> tools/run-android-validation.sh",
   "jvm": {
-    "tests": 34,
+    "tests": 40,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
     "reports": [
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.ApProtocolTest.xml",
-        "timestamp": "2026-10-13T22:07:41.160Z",
+        "timestamp": "2026-10-14T02:41:31.683Z",
         "cases": [
           "dev.cctv.v380.ApProtocolTest.wifiSerializersKeepTheLegacyAndIotEncodingsDistinct",
           "dev.cctv.v380.ApProtocolTest.discoveryMetadataDistinguishesConfigAndAlarmFromPlatform",
@@ -24,7 +24,7 @@
       },
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.CoreTest.xml",
-        "timestamp": "2026-10-13T22:07:41.282Z",
+        "timestamp": "2026-10-14T02:41:31.823Z",
         "cases": [
           "dev.cctv.v380.CoreTest.annexBSupportsBothPrefixesAndBothCodecs",
           "dev.cctv.v380.CoreTest.sparseCipherMatchesIndependentBlockEncryptionAndPreservesTails",
@@ -37,14 +37,26 @@
       },
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.DiagnosticsTest.xml",
-        "timestamp": "2026-10-13T22:07:41.385Z",
+        "timestamp": "2026-10-14T02:41:31.935Z",
         "cases": [
           "dev.cctv.v380.DiagnosticsTest.streamFailureExportsTypedStageAndPacketMetadataWithoutInventingAnAuthFailure"
         ]
       },
       {
+        "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.CameraFeatureProtocolTest.xml",
+        "timestamp": "2026-10-14T02:41:31.954Z",
+        "cases": [
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.destructiveActionOmitsInputAndRequestsAReplyWhileFlipUsesTheRecoveredAction",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.changesPreserveUnownedRecordingBitsAndRequireEveryAcknowledgement",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.replayAndDownloadUseDistinctModesAndRawPrerollWithoutChangingSegmentIdentity",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.capacityUsesVerifiedPipeFieldsWithoutInventingUnits",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.recordPagesHaveCorrelatedSlicesBoundedOffsetsAndExplicitCompletion",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.propertyReadsPreserveUnknownsAndRejectUnrelatedOrDuplicateValues"
+        ]
+      },
+      {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.IoTMediaProtocolTest.xml",
-        "timestamp": "2026-10-13T22:07:41.398Z",
+        "timestamp": "2026-10-14T02:41:31.998Z",
         "cases": [
           "dev.cctv.v380.protocol.IoTMediaProtocolTest.shortVideoTailsAndLargePlaintextGapsAreValidSparsePatterns",
           "dev.cctv.v380.protocol.IoTMediaProtocolTest.readsNegotiatedCodecAndPtzCapabilitiesAndBuildsFiniteSteps",
@@ -54,7 +66,7 @@
       },
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.IoTProtocolTest.xml",
-        "timestamp": "2026-10-13T22:07:41.407Z",
+        "timestamp": "2026-10-14T02:41:32.022Z",
         "cases": [
           "dev.cctv.v380.protocol.IoTProtocolTest.returnsTypedDeviceFailuresAndApHeader",
           "dev.cctv.v380.protocol.IoTProtocolTest.rejectsCorruptDigestLowOrderPointAndRepeatedExchange",
@@ -66,7 +78,7 @@
       },
       {
         "report": "app/build/test-results/testDebugUnitTest/TEST-dev.cctv.v380.protocol.LegacyProtocolTest.xml",
-        "timestamp": "2026-10-13T22:07:41.518Z",
+        "timestamp": "2026-10-14T02:41:32.288Z",
         "cases": [
           "dev.cctv.v380.protocol.LegacyProtocolTest.passwordThresholdCountsUtf16AndHashesMiddleHexAsText",
           "dev.cctv.v380.protocol.LegacyProtocolTest.mediaCipherSelectsNativeModesAndRejectsUseAfterClose",
@@ -244,7 +256,7 @@
   },
   "lint": {
     "errors": 0,
-    "warnings": 10,
+    "warnings": 11,
     "hints": 1,
     "report": "app/build/reports/lint-results-debug.xml",
     "issues": {
@@ -252,14 +264,15 @@
       "AndroidGradlePluginVersion": 1,
       "GradleDependency": 5,
       "NewerVersionAvailable": 3,
-      "AutoboxingStateCreation": 1
+      "AutoboxingStateCreation": 1,
+      "UsableSpace": 1
     }
   },
   "apk": {
     "path": "app/build/outputs/apk/debug/app-debug.apk",
-    "bytes": 14694499,
-    "version_name": "0.2.1-experimental",
-    "sha256": "fab8bf1ff216e88b7059928581c07dcf66fa51dbd8f4368f48a9cde37d74f81f",
+    "bytes": 14726324,
+    "version_name": "0.3.0-experimental",
+    "sha256": "4cb2c8bceffe73e452a5b9415e53412b944127585dcc017851e3cd4e2cb2c4ad",
     "signature_verification": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1",
     "native_libraries": [
       "lib/arm64-v8a/libandroidx.graphics.path.so",
@@ -286,9 +299,11 @@
       "analysis/legacy-wire-spec.md",
       "analysis/iot-lan-protocol.md",
       "analysis/ap-provisioning.md",
-      "analysis/stream-disconnect.md"
+      "analysis/stream-disconnect.md",
+      "analysis/recordings-settings-wire.md"
     ]
   },
+  "recordings_settings_validation": "validation/recordings-settings/results.json",
   "screenshots": [
     ".impeccable/review/phone-ap-v2.png",
     ".impeccable/review/phone-dark-large-v2.png",
@@ -307,6 +322,9 @@
     "PTZ motor directions and stop",
     "network recovery, permission revocation and offline LAN on hardware",
     "final APK connection tests and active PTZ cancellation at runtime",
-    "API35 runtime test suite; final IoT integration test pass"
+    "API35 runtime test suite; final IoT integration test pass",
+    "0.3.0 native recordings/settings UI and synthetic MP4 runtime checks (emulator boot SIGSEGV)",
+    "recording list/playback/download and settings interoperability on a camera",
+    "SD format terminal enum: feature disabled until verified"
   ]
 }

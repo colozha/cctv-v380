@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONArray
 import org.json.JSONObject
 
-enum class DiagnosticStage { WIFI, DISCOVERY, AUTH, CAPABILITIES, STREAM, FRAME, PTZ, PROVISIONING, VERIFY_LAN, RECONNECT, CLOSE }
+enum class DiagnosticStage { WIFI, DISCOVERY, AUTH, CAPABILITIES, STREAM, FRAME, PTZ, PROVISIONING, VERIFY_LAN, RECONNECT, CLOSE,
+    RECORDINGS, PLAYBACK, DOWNLOAD, SETTINGS, SD_FORMAT }
 enum class DiagnosticStatus { STARTED, OK, FAILED, CANCELLED }
 enum class DiagnosticDetail { READ_HEADER, READ_BODY, MEDIA_PACKET, CONTROL_JSON, MEDIA_INFO, DECODER,
     PTZ_WRITE, IGNORED_PACKET, DEVICE_SHUTDOWN, DECODE_FEEDBACK }
@@ -50,7 +51,7 @@ class Diagnostics {
                     event.command?.let { put("command", it) }
                 })
         }
-        return JSONObject().put("schema", 2).put("experimental", true)
+        return JSONObject().put("schema", 3).put("experimental", true)
             .put("appVersion", BuildConfig.VERSION_NAME)
             .put("cameraCompatibilityVerified", false).put("events", array).apply {
                 network.value?.let { put("network", JSONObject().put("transport", "WIFI")
@@ -76,4 +77,7 @@ fun SessionError.userMessage(): String = when (this) {
     SessionError.IdentityMismatch -> "Identitas kamera berbeda. Pilih kembali kamera sebelum melanjutkan."
     SessionError.InvalidInput -> "Isian tidak sesuai batas kamera. Periksa panjang SSID/password dan karakter yang didukung. Password Wi-Fi legacy dibatasi32 byte GBK."
     SessionError.DeviceRejected -> "Kamera menolak tindakan. Periksa kemampuan kamera dan status diagnostik sebelum mencoba lagi."
+    SessionError.CameraPermissionDenied -> "Kamera tidak mengizinkan tindakan ini. Periksa hak akses lokal kamera."
+    SessionError.FeatureUnsupported -> "Fitur ini belum didukung oleh profil kamera yang tersambung."
+    SessionError.ExportFailed -> "Rekaman belum berhasil disimpan. Periksa ruang penyimpanan dan lokasi file, lalu coba lagi."
 }

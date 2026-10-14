@@ -15,6 +15,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.delay
 
 /** Consumes complete, decrypted access units. No camera framing or key derivation lives here. */
 class VideoDecoder(
@@ -23,6 +26,7 @@ class VideoDecoder(
     private val height: Int,
     private val format: VideoCodec,
     private val onFirstFrame: () -> Unit = {},
+    private val paced: Boolean = false,
     private val onError: (SessionError) -> Unit,
 ) : AutoCloseable {
     private val running = AtomicBoolean(true)
@@ -49,12 +53,37 @@ class VideoDecoder(
         return true
     }
 
+    /** Playback applies backpressure; live's intentional drop policy never reaches this path. */
+    suspend fun offerPlayback(frame: EncodedFrame) {
+        require(frame.codec == format && frame.bytes.size in 1..8 * 1024 * 1024 && frame.ptsUs >= 0)
+        while (running.get() && currentCoroutineContext().isActive) {
+            if (synchronized(this) { frames.offer(generation to frame) }) return
+            delay(10)
+        }
+        throw kotlinx.coroutines.CancellationException("Decoder closed")
+    }
+
     private fun decodeLoop() {
         var codec: MediaCodec? = null
         val parameterSets = mutableMapOf<Int, ByteArray>()
         val required = if (format == VideoCodec.AVC) setOf(7, 8) else setOf(32, 33, 34)
         val info = MediaCodec.BufferInfo()
         val firstRendered = AtomicBoolean(false)
+        var renderAnchor: Long? = null
+        fun drain(active: MediaCodec) {
+            var index = active.dequeueOutputBuffer(info, 0)
+            while (index >= 0 && running.get()) {
+                if (paced) {
+                    if (renderAnchor == null) renderAnchor = System.nanoTime() - info.presentationTimeUs * 1000
+                    val due = renderAnchor!! + info.presentationTimeUs * 1000
+                    // Bound decoded output too: do not queue an entire recording on the Surface.
+                    while (running.get() && due - System.nanoTime() > 1_000_000)
+                        Thread.sleep(minOf(20, (due - System.nanoTime()) / 1_000_000).coerceAtLeast(1))
+                    active.releaseOutputBuffer(index, due)
+                } else active.releaseOutputBuffer(index, true)
+                index = active.dequeueOutputBuffer(info, 0)
+            }
+        }
         try {
             while (running.get() && surface.isValid) {
                 val queued = frames.poll(20, TimeUnit.MILLISECONDS)
@@ -95,7 +124,8 @@ class VideoDecoder(
                     val keyframe = frame.keyframe || AnnexB.isKeyframe(frame.bytes, format)
                     synchronized(this) {
                         if (active != null && queued.first == generation && (!waitForKeyframe.get() || keyframe)) {
-                            val index = active.dequeueInputBuffer(10_000)
+                            var index = active.dequeueInputBuffer(10_000)
+                            while (paced && index < 0 && running.get()) { drain(active); index = active.dequeueInputBuffer(10_000) }
                             if (index >= 0) {
                                 val input = active.getInputBuffer(index)
                                 if (input == null || input.capacity() < frame.bytes.size) {
@@ -111,13 +141,7 @@ class VideoDecoder(
                     }
                 }
                 val active = codec
-                if (active != null) {
-                    var index = active.dequeueOutputBuffer(info, 0)
-                    while (index >= 0 && running.get()) {
-                        active.releaseOutputBuffer(index, true)
-                        index = active.dequeueOutputBuffer(info, 0)
-                    }
-                }
+                if (active != null) drain(active)
             }
         } catch (_: InterruptedException) {
             // close() wakes the blocking queue; codec cleanup still runs below.

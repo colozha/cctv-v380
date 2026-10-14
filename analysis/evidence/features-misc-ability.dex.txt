@@ -1,0 +1,65 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><clinit>()V code_item_offset=7702332 registers=3
+0000 dex@0075874c new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0002 dex@00758750 const-string             v1 <string-content-excluded>
+0004 dex@00758754 const/4                  v2 #0 
+0005 dex@00758756 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+0008 dex@0075875c sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_BINDING:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+000a dex@00758760 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+000c dex@00758764 const-string             v1 <string-content-excluded>
+000e dex@00758768 const/4                  v2 #1 
+000f dex@0075876a invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+0012 dex@00758770 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_BINDING_PREFS:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0014 dex@00758774 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0016 dex@00758778 const-string             v1 <string-content-excluded>
+0018 dex@0075877c const/4                  v2 #2 
+0019 dex@0075877e invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+001c dex@00758784 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_LENS:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+001e dex@00758788 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0020 dex@0075878c const-string             v1 <string-content-excluded>
+0022 dex@00758790 const/4                  v2 #3 
+0023 dex@00758792 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+0026 dex@00758798 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_RECORD:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0028 dex@0075879c new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+002a dex@007587a0 const-string             v1 <string-content-excluded>
+002c dex@007587a4 const/4                  v2 #4 
+002d dex@007587a6 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+0030 dex@007587ac sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_SDCARD:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0032 dex@007587b0 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0034 dex@007587b4 const-string             v1 <string-content-excluded>
+0036 dex@007587b8 const/4                  v2 #5 
+0037 dex@007587ba invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+003a dex@007587c0 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_PROMPT:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+003c dex@007587c4 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+003e dex@007587c8 const-string             v1 <string-content-excluded>
+0040 dex@007587cc const/4                  v2 #6 
+0041 dex@007587ce invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+0044 dex@007587d4 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_MAINT:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0046 dex@007587d8 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0048 dex@007587dc const-string             v1 <string-content-excluded>
+004a dex@007587e0 const/4                  v2 #7 
+004b dex@007587e2 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+004e dex@007587e8 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_EXTPROT:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0050 dex@007587ec new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0052 dex@007587f0 const-string             v1 <string-content-excluded>
+0054 dex@007587f4 const/16                 v2 #8 
+0056 dex@007587f8 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+0059 dex@007587fe sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_RECORD_VQUALITY:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+005b dex@00758802 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+005d dex@00758806 const-string             v1 <string-content-excluded>
+005f dex@0075880a const/16                 v2 #9 
+0061 dex@0075880e invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+0064 dex@00758814 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_POWER_RELATE:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0066 dex@00758818 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0068 dex@0075881c const-string             v1 <string-content-excluded>
+006a dex@00758820 const/16                 v2 #10 
+006c dex@00758824 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+006f dex@0075882a sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_SPEC_DEVTYPE:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0071 dex@0075882e new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0073 dex@00758832 const-string             v1 <string-content-excluded>
+0075 dex@00758836 const/16                 v2 #11 
+0077 dex@0075883a invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;-><init>(Ljava/lang/String;I)V
+007a dex@00758840 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->MVS_DMISC_ABLC_NUM:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+007c dex@00758844 invoke-static            Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->$values()[Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+007f dex@0075884a move-result-object       v0 
+0080 dex@0075884c sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;->$VALUES:[Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_misc_ability_code;
+0082 dex@00758850 return-void              

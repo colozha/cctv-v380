@@ -38,41 +38,49 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     var password by remember(profile.id) { mutableStateOf("") }
     var overrideSaved by remember(profile.id) { mutableStateOf(false) }
     var surface by remember { mutableStateOf<Surface?>(null) }
+    val feature by model.features.collectAsStateWithLifecycle()
+    var pendingLeave by remember { mutableStateOf<(() -> Unit)?>(null) }
+    LaunchedEffect(profile.id) { model.prepareFeatures(profile) }
+    fun leave(action: () -> Unit) {
+        if (feature.busy || feature.draft.isNotEmpty()) pendingLeave = action else action()
+    }
     val capabilities by model.session.capabilities.collectAsStateWithLifecycle()
     val busy = state is SessionState.Connecting || state is SessionState.Authenticating ||
         state is SessionState.Negotiating || state is SessionState.Reconnecting
     val streaming = state is SessionState.Streaming
-    BackHandler(onBack = onBack)
+    BackHandler { leave(onBack) }
     DisposableEffect(profile.id) { onDispose { password = ""; model.surfaceLost(surface) } }
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { password = "" }
     LaunchedEffect(surface, state) {
         if (surface?.isValid == true && state is SessionState.Ready) model.surfaceReady(surface!!, profile.id)
     }
-    Scaffold(topBar = { TopAppBar(title = { Text(profile.name) },
-        navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Kembali") } },
+    Scaffold(topBar = { Column {
+        TopAppBar(title = { Text(profile.name) },
+        navigationIcon = { IconButton(onClick = { leave(onBack) }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Kembali") } },
         actions = {
-            IconButton(onClick = onDiagnostics) { Icon(Icons.Default.Info, "Diagnostik LAN") }
-            IconButton(onClick = onEdit) { Icon(Icons.Default.Edit, "Edit kamera") }
-        }) }) { insets ->
+            IconButton(onClick = { leave(onDiagnostics) }) { Icon(Icons.Default.Info, "Diagnostik LAN") }
+            IconButton(onClick = { leave(onEdit) }) { Icon(Icons.Default.Edit, "Edit kamera") }
+        })
+        PrimaryTabRow(selectedTabIndex = feature.tab.ordinal) {
+            CameraTab.entries.forEach { tab -> Tab(selected = feature.tab == tab,
+                onClick = { leave { model.selectTab(tab) } }, text = { Text(tab.label) }) }
+        }
+    } }) { insets ->
+        if (feature.tab == CameraTab.RECORDINGS) {
+            RecordingsScreen(model, profile, state, feature, onConnect, Modifier.padding(insets))
+            return@Scaffold
+        }
+        if (feature.tab == CameraTab.SETTINGS) {
+            CameraSettingsScreen(model, profile, state, feature, onConnect, Modifier.padding(insets))
+            return@Scaffold
+        }
         BoxWithConstraints(Modifier.fillMaxSize().padding(insets)) {
         val videoHeight = minOf(maxWidth * 9f / 16f, maxHeight * .5f)
         Column(Modifier.fillMaxSize()) {
             // Keep the native Surface outside the scrolling controls, including in landscape.
             Box(Modifier.fillMaxWidth().height(videoHeight).background(Color.Black), contentAlignment = Alignment.Center) {
-                AndroidView(factory = { context -> SurfaceView(context).apply {
-                    holder.addCallback(object : SurfaceHolder.Callback {
-                        override fun surfaceCreated(holder: SurfaceHolder) {
-                            surface = holder.surface
-                            model.surfaceReady(holder.surface, profile.id)
-                        }
-                        override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) = Unit
-                        override fun surfaceDestroyed(holder: SurfaceHolder) {
-                            val old = surface
-                            surface = null
-                            model.surfaceLost(old)
-                        }
-                    })
-                } }, modifier = Modifier.width(videoHeight * 16f / 9f).fillMaxHeight())
+                CameraVideoSurface(videoHeight, onReady = { value -> surface = value; model.surfaceReady(value, profile.id) },
+                    onLost = { val old = surface; surface = null; model.surfaceLost(old) })
                 if (!streaming) Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(24.dp)) {
                     if (busy) CircularProgressIndicator(color = Color.White, modifier = Modifier.size(32.dp))
                     else Icon(CameraIcon, null, Modifier.size(40.dp), tint = Color.White.copy(alpha = .7f))
@@ -138,6 +146,15 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
         }
         }
     }
+    if (pendingLeave != null) AlertDialog(onDismissRequest = { pendingLeave = null },
+        title = { Text(if (feature.draft.isNotEmpty()) "Buang perubahan?" else "Tinggalkan pekerjaan ini?") },
+        text = { Text(when {
+            feature.pendingFormat != null -> "Pemeriksaan status akan berhenti. Format yang sudah dikirim tetap berjalan di kamera dan tidak akan dikirim ulang."
+            feature.draft.isNotEmpty() -> "Perubahan pengaturan yang belum disimpan akan dibuang."
+            else -> "Pekerjaan yang sedang berjalan akan dibatalkan. File yang belum lengkap tidak dinyatakan tersimpan."
+        }) },
+        confirmButton = { TextButton(onClick = { val action = pendingLeave; pendingLeave = null; model.cancelFeature(); action?.invoke() }) { Text("Lanjutkan keluar") } },
+        dismissButton = { TextButton(onClick = { pendingLeave = null }) { Text("Tetap di sini") } })
 }
 
 @Composable

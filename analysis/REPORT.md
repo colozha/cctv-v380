@@ -1,5 +1,7 @@
 # Analisis V380 6.4.90 untuk Android client independen
 
+**Fitur0.3.0:** kontrak REA/DEX/ELF untuk rekaman/playback/download dan pengaturan diarsipkan dalam [spesifikasi fitur](recordings-settings-wire.md). Implementasi debug IoT tersedia, tanpa pengujian kamera. Format SD tetap dikunci karena enum terminal belum terbukti; native UI/MP4 belum diuji akibat emulator boot SIGSEGV. [Hasil validasi offline](../validation/recordings-settings/results.json).
+
 **Bukti pengguna dan perbaikan0.2.1:** diagnostik client independen kini menunjukkan login/capability sukses serta frame render, diikuti putusnya sesi. Label AUTH FAILED versi lama tidak membedakan error stream. [Analisis disconnect](stream-disconnect.md) dan [bukti native](evidence/iot-disconnect-static.md) menjelaskan koreksi sparse cipher/feedback dan batas klaim. Pengujian koneksi tidak dijalankan ulang; kompatibilitas stabil belum terverifikasi.
 
 

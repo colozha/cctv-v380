@@ -1,0 +1,54 @@
+{
+  "source_evidence_id": "ev_34b3795d2478cb566cca2ea9404b7e3e7802f81c3c3182c2d9716361d8bcd8b3",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.objects.RecordFileParam",
+    "method_name": "<init>",
+    "overload_index": 1
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.objects.RecordFileParam",
+    "method": {
+      "name": "<init>",
+      "reported_signature": "<init>(int, int, int, int, int, int, int, int, int, int, int, int): void",
+      "overload_index": 1,
+      "is_constructor": true,
+      "dex_descriptor": null
+    },
+    "overload_count": 2,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public RecordFileParam(int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10, int i11, int i12) {\n        this.searchChn = i;\n        this.searchMode = i2;\n        this.searchType = i3;\n        this.searchYear = i4;\n        this.searchMonth = i5;\n        this.searchDay = i6;\n        this.searchStartHour = i7;\n        this.searchStartMin = i8;\n        this.searchStartSec = i9;\n        this.searchEndHour = i10;\n        this.searchEndMin = i11;\n        this.searchEndSec = i12;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true,
+  "redaction": "All source string literals except JSON keys and selected encodings removed; derivative is noncanonical."
+}

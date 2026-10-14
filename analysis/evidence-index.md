@@ -165,3 +165,33 @@ Disassembly statis dari ekstraksi REA yang cocok; tidak ada eksekusi vendor atau
 | Berkas | SHA-256 |
 |---|---|
 | [iot-disconnect-static.md](evidence/iot-disconnect-static.md) | `fa50727a9e9d112f1ea1f5b82846bb0f52315d915b2b18df19d4b100fef645af` |
+
+## Bukti rekaman/pengaturan0.3.0
+
+[Rincian kontrak dan batas](recordings-settings-wire.md). REA read-only/DEX/ELF, tanpa pengujian kamera. Hash berikut milik berkas turunan tersanitasi, bukan pengganti evidence ID REA pada indeks.
+
+| Berkas | SHA-256 |
+|---|---|
+| [features-DeviceConfigSetting-a-10.sanitized.json](evidence/features-DeviceConfigSetting-a-10.sanitized.json) | `a609fa8690c7da24e73a68ceeb755cfcd20ea914124414d40fa3ed1ea2124e9d` |
+| [features-DeviceConfigSetting-a-11.sanitized.json](evidence/features-DeviceConfigSetting-a-11.sanitized.json) | `356856b3b67569f5b8330565d6f796b7b4a408cf53c454f46d8dce86d124696a` |
+| [features-DeviceConfigSetting-b-4.sanitized.json](evidence/features-DeviceConfigSetting-b-4.sanitized.json) | `faedfa9d0431a8b24459fd737f4e9fee9853511c333dfb887fdd65314add5a8d` |
+| [features-DeviceConfigSetting-createIntValueJsonObj-1.sanitized.json](evidence/features-DeviceConfigSetting-createIntValueJsonObj-1.sanitized.json) | `1c41828d6cb0aee4330d2d3811464d32830d3899c522286e40c10da732241b5f` |
+| [features-DeviceConfigSetting-createRecordConfigPidList-0.sanitized.json](evidence/features-DeviceConfigSetting-createRecordConfigPidList-0.sanitized.json) | `d839ae0805a5dd5613734f36b4fccbf6c0d18b4487954dcbdb36528602036bec` |
+| [features-DeviceConfigSetting-createWhiteLightConfigPidList-0.sanitized.json](evidence/features-DeviceConfigSetting-createWhiteLightConfigPidList-0.sanitized.json) | `3cf9793b092c8ff26e4b0ec6ca364d62b2b7209c9c0f3d23c3aac675618cd6e0` |
+| [features-DeviceConfigSetting-getBooleanValue-0.sanitized.json](evidence/features-DeviceConfigSetting-getBooleanValue-0.sanitized.json) | `12c43b65f7046e3ba5fa1de8121b5fa2638c603185b01f673c62c1c885c08189` |
+| [features-DeviceSDCardSetting-setSDCardFormat-0.sanitized.json](evidence/features-DeviceSDCardSetting-setSDCardFormat-0.sanitized.json) | `288d6edbcdb7b72beb6cac8e256c1234da13d6c8c476732ca2b28a7aa0bbc877` |
+| [features-GetRecFileThread-run-0.sanitized.json](evidence/features-GetRecFileThread-run-0.sanitized.json) | `84f1fec0108c84c81173ebf8e0d6939d11d897a3042775525e753674e2d7db75` |
+| [features-HSFileDownloader-StartDownloadRecSegment-2.sanitized.json](evidence/features-HSFileDownloader-StartDownloadRecSegment-2.sanitized.json) | `85c6f2640980ad24bfe1df016c3c20486c0ceedb91afdb3d86fe672c14adeec9` |
+| [features-HSTFCardRecNewPlatformInfo-createFrom-0.sanitized.json](evidence/features-HSTFCardRecNewPlatformInfo-createFrom-0.sanitized.json) | `bf2ae8d149e53beaf257be05fabd3db895781e0393b5bd61ce27240bc8735533` |
+| [features-IoTDevAbility-isSupportRecordFHD-0.sanitized.json](evidence/features-IoTDevAbility-isSupportRecordFHD-0.sanitized.json) | `e48c9e8a7d608e7b1f80f7412fd9918e8fb073d082a0482aa6723b3615c1dbe5` |
+| [features-IoTDevAbility-isSupportRecordHD-0.sanitized.json](evidence/features-IoTDevAbility-isSupportRecordHD-0.sanitized.json) | `ee1babc4252973eb947db58714c61b12f4e4069cd4574ae7df20a84a93d868d8` |
+| [features-IoTDevAbility-isSupportRecordSD-0.sanitized.json](evidence/features-IoTDevAbility-isSupportRecordSD-0.sanitized.json) | `00d3ccafaa50e70942d2948d0fae03aaf5a3b9aa00a64d06da8444d81b5540bb` |
+| [features-Protocol-MVSPT_IOTC_DAID-0.sanitized.json](evidence/features-Protocol-MVSPT_IOTC_DAID-0.sanitized.json) | `98eee574ad0716f978d324cb5299db2e6fc644f19476acb7d441625db8f2ed07` |
+| [features-Protocol-MVSPT_IOTC_DPID-0.sanitized.json](evidence/features-Protocol-MVSPT_IOTC_DPID-0.sanitized.json) | `0b0ebc5c2c3910a13057fec999d9eef50aedd11c2f118bf3817aa7f060507084` |
+| [features-RecordFileHelper-b-0.sanitized.json](evidence/features-RecordFileHelper-b-0.sanitized.json) | `e11cc3d0b7d1d9ac3cdccf68046ebc5b8a7e2e79a12b979856e9f41c8035ac45` |
+| [features-RecordFileParam-init-1.sanitized.json](evidence/features-RecordFileParam-init-1.sanitized.json) | `00d4f8d5afd0db3cf0b1ad323fc343e7e5b94c8fa4ede894fe7bedffe5e747cf` |
+| [features-method-ids.dex.txt](evidence/features-method-ids.dex.txt) | `a0a4eac9744e536f0d2de03b0e07dce62387c2ba6dfa6b91b89b8660894cc297` |
+| [features-misc-ability.dex.txt](evidence/features-misc-ability.dex.txt) | `d5413282782d091edd466acc3503f6d693b36850d96d18ee36c3d5a7598e2e10` |
+| [features-native-contracts.sanitized.json](evidence/features-native-contracts.sanitized.json) | `a9b8b089debf87dd527c51ecce3bf3ac621036406b85c1b76191d31d2a369751` |
+| [features-property-parser.dex.txt](evidence/features-property-parser.dex.txt) | `b4315881fa4db6be74a7a976f9c20175dd4af7f7b24fe10c35cc89b06bb79f68` |
+| [features-rea-index.json](evidence/features-rea-index.json) | `8e4bf0c40f4e6d692d56c5f00be0e25e26c1dd4faa8feeecaa6ee6ce2cf08e50` |

@@ -15,7 +15,7 @@ class DiagnosticsTest {
             reason = SessionError.MalformedPacket, detail = DiagnosticDetail.MEDIA_PACKET,
             command = IoTCommonProtocol.COMMAND_MEDIA, bytes = 39)
         val json = JSONObject(diagnostics.exportJson())
-        assertEquals(2, json.getInt("schema"))
+        assertEquals(3, json.getInt("schema"))
         val events = json.getJSONArray("events")
         assertEquals("OK", events.getJSONObject(0).getString("status"))
         val failure = events.getJSONObject(2)

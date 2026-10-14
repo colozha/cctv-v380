@@ -115,7 +115,8 @@ result = {
                       "user_reported_local_auth_and_video": observation.get("user_reported_local_login_and_video", False),
                       "user_observation_reference": "validation/user-stream-observation.json" if observation else None,
                       "fresh_iot_ap_pin_binding": "CloudRequired for the observed vendor flow; no offline substitute proved",
-                      "references": ["analysis/legacy-wire-spec.md", "analysis/iot-lan-protocol.md", "analysis/ap-provisioning.md", "analysis/stream-disconnect.md"]},
+                      "references": ["analysis/legacy-wire-spec.md", "analysis/iot-lan-protocol.md", "analysis/ap-provisioning.md", "analysis/stream-disconnect.md", "analysis/recordings-settings-wire.md"]},
+    "recordings_settings_validation": "validation/recordings-settings/results.json",
     "screenshots": [str(path.relative_to(ROOT)) for path in sorted((ROOT / ".impeccable/review").glob("phone-*-v2.png"))],
     "screenshots_scope": "Historical UI captures; no final camera connectivity or live footage validation",
     "not_validated": ["agent-run camera tests; user has reported authentication/render but stable compatibility remains unverified",
@@ -124,7 +125,10 @@ result = {
                       "SD/HD and HEVC real camera stream", "PTZ motor directions and stop",
                       "network recovery, permission revocation and offline LAN on hardware",
                       "final APK connection tests and active PTZ cancellation at runtime",
-                      "API35 runtime test suite; final IoT integration test pass"],
+                      "API35 runtime test suite; final IoT integration test pass",
+                      "0.3.0 native recordings/settings UI and synthetic MP4 runtime checks (emulator boot SIGSEGV)",
+                      "recording list/playback/download and settings interoperability on a camera",
+                      "SD format terminal enum: feature disabled until verified"],
 }
 assert result["jvm"]["failures"] == result["jvm"]["errors"] == result["jvm"]["skipped"] == 0
 assert all(runtime["tests"]["failures"] == runtime["tests"]["errors"] == runtime["tests"]["skipped"] == 0

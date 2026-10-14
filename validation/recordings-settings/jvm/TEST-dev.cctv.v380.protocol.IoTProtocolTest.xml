@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.protocol.IoTProtocolTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-14T02:41:32.022Z" hostname="fedora" time="0.254">
+  <properties/>
+  <testcase name="returnsTypedDeviceFailuresAndApHeader" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.006"/>
+  <testcase name="rejectsCorruptDigestLowOrderPointAndRepeatedExchange" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.204"/>
+  <testcase name="lanHandshakeUsesRfc7748AgreementAndAuthenticatesDigest" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.028"/>
+  <testcase name="rejectsUncorrelatedOversizedAndTruncatedPackets" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.004"/>
+  <testcase name="decodeFeedbackEchoesOnlyTheNumericChallengeAndUsesTheVendorDefaultDeficit" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.003"/>
+  <testcase name="streamMaySkipBoundedUnknownPacketsWhileTransactionsRemainStrict" classname="dev.cctv.v380.protocol.IoTProtocolTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

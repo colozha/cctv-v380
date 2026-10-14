@@ -1,0 +1,204 @@
+{
+  "version": "0.3.0-experimental",
+  "collected_at_utc": "2026-10-14T02:42:32.270657+00:00",
+  "source_sha256": "b30a6ec59b558f9cfd19e923a05b622159d31d991e627f04acc603cc8fc3fef2",
+  "scope": "Final offline software checks only. No camera, cloud, loopback session or SD format executed.",
+  "build": {
+    "status": "passed",
+    "tasks": [
+      "assembleDebug",
+      "assembleDebugAndroidTest",
+      "lintDebug",
+      "testDebugUnitTest (pure offline filters)"
+    ],
+    "command": "offline-build-command.txt",
+    "log": "offline-build.log"
+  },
+  "jvm": {
+    "tests": 40,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "reports": [
+      {
+        "report": "jvm/TEST-dev.cctv.v380.ApProtocolTest.xml",
+        "timestamp": "2026-10-14T02:41:31.683Z",
+        "cases": [
+          "dev.cctv.v380.ApProtocolTest.wifiSerializersKeepTheLegacyAndIotEncodingsDistinct",
+          "dev.cctv.v380.ApProtocolTest.discoveryMetadataDistinguishesConfigAndAlarmFromPlatform",
+          "dev.cctv.v380.ApProtocolTest.bindingTransactionRequiresAnActualCorrelatedReply",
+          "dev.cctv.v380.ApProtocolTest.binaryDiscoveryValidatesDatagramBoundariesIdentityAndSource",
+          "dev.cctv.v380.ApProtocolTest.encryptedWifiTransactionUsesTheProvedActionAndRejectsPlaintextSuccess",
+          "dev.cctv.v380.ApProtocolTest.bindingFieldsAndPasswordProofUseTheRecoveredSchema"
+        ]
+      },
+      {
+        "report": "jvm/TEST-dev.cctv.v380.CoreTest.xml",
+        "timestamp": "2026-10-14T02:41:31.823Z",
+        "cases": [
+          "dev.cctv.v380.CoreTest.annexBSupportsBothPrefixesAndBothCodecs",
+          "dev.cctv.v380.CoreTest.sparseCipherMatchesIndependentBlockEncryptionAndPreservesTails",
+          "dev.cctv.v380.CoreTest.exactReaderHandlesPartialCoalescedAndZeroReads",
+          "dev.cctv.v380.CoreTest.watchdogStopTransportFailureDoesNotEscapeItsBackgroundJob",
+          "dev.cctv.v380.CoreTest.discoveryChecksLengthSourceIdentityAndPort",
+          "dev.cctv.v380.CoreTest.profileValidationUsesEncodedByteLength",
+          "dev.cctv.v380.CoreTest.ptzStopLeaseRenewalAndDirectionChange"
+        ]
+      },
+      {
+        "report": "jvm/TEST-dev.cctv.v380.DiagnosticsTest.xml",
+        "timestamp": "2026-10-14T02:41:31.935Z",
+        "cases": [
+          "dev.cctv.v380.DiagnosticsTest.streamFailureExportsTypedStageAndPacketMetadataWithoutInventingAnAuthFailure"
+        ]
+      },
+      {
+        "report": "jvm/TEST-dev.cctv.v380.protocol.CameraFeatureProtocolTest.xml",
+        "timestamp": "2026-10-14T02:41:31.954Z",
+        "cases": [
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.destructiveActionOmitsInputAndRequestsAReplyWhileFlipUsesTheRecoveredAction",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.changesPreserveUnownedRecordingBitsAndRequireEveryAcknowledgement",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.replayAndDownloadUseDistinctModesAndRawPrerollWithoutChangingSegmentIdentity",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.capacityUsesVerifiedPipeFieldsWithoutInventingUnits",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.recordPagesHaveCorrelatedSlicesBoundedOffsetsAndExplicitCompletion",
+          "dev.cctv.v380.protocol.CameraFeatureProtocolTest.propertyReadsPreserveUnknownsAndRejectUnrelatedOrDuplicateValues"
+        ]
+      },
+      {
+        "report": "jvm/TEST-dev.cctv.v380.protocol.IoTMediaProtocolTest.xml",
+        "timestamp": "2026-10-14T02:41:31.998Z",
+        "cases": [
+          "dev.cctv.v380.protocol.IoTMediaProtocolTest.shortVideoTailsAndLargePlaintextGapsAreValidSparsePatterns",
+          "dev.cctv.v380.protocol.IoTMediaProtocolTest.readsNegotiatedCodecAndPtzCapabilitiesAndBuildsFiniteSteps",
+          "dev.cctv.v380.protocol.IoTMediaProtocolTest.decryptsSparseCbcAndEcbWithoutChainingAcrossPlaintextGaps",
+          "dev.cctv.v380.protocol.IoTMediaProtocolTest.parsesPlainFramesAndRejectsUnsafeChunkMetadata"
+        ]
+      },
+      {
+        "report": "jvm/TEST-dev.cctv.v380.protocol.IoTProtocolTest.xml",
+        "timestamp": "2026-10-14T02:41:32.022Z",
+        "cases": [
+          "dev.cctv.v380.protocol.IoTProtocolTest.returnsTypedDeviceFailuresAndApHeader",
+          "dev.cctv.v380.protocol.IoTProtocolTest.rejectsCorruptDigestLowOrderPointAndRepeatedExchange",
+          "dev.cctv.v380.protocol.IoTProtocolTest.lanHandshakeUsesRfc7748AgreementAndAuthenticatesDigest",
+          "dev.cctv.v380.protocol.IoTProtocolTest.rejectsUncorrelatedOversizedAndTruncatedPackets",
+          "dev.cctv.v380.protocol.IoTProtocolTest.decodeFeedbackEchoesOnlyTheNumericChallengeAndUsesTheVendorDefaultDeficit",
+          "dev.cctv.v380.protocol.IoTProtocolTest.streamMaySkipBoundedUnknownPacketsWhileTransactionsRemainStrict"
+        ]
+      },
+      {
+        "report": "jvm/TEST-dev.cctv.v380.protocol.LegacyProtocolTest.xml",
+        "timestamp": "2026-10-14T02:41:32.288Z",
+        "cases": [
+          "dev.cctv.v380.protocol.LegacyProtocolTest.passwordThresholdCountsUtf16AndHashesMiddleHexAsText",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.mediaCipherSelectsNativeModesAndRejectsUseAfterClose",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.streamAndPtzPacketsUseRecoveredNativeLayouts",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.initialResponsePaddingIsBoundedAndOnlyAllowedBeforeFirstFrame",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.authSerializerUses520BytesDateNonceAndTwoIndependentPkcs5Layers",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.innerTypesDetermineCodecKeyframeAndAudioWithoutPayloadGuessing",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.streamResponseRejectsNegativeStatusesImpossibleDimensionsAndUnknownModes",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.reassemblyRejectsMissingDuplicateOversizedAndInconsistentFragments",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.loginValidatesEverySuccessConditionAndPreservesUnsignedFields",
+          "dev.cctv.v380.protocol.LegacyProtocolTest.arbitraryTcpSplitsAndCoalescingPreserveNativeFrameMetadata"
+        ]
+      }
+    ]
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 11,
+    "hints": 1,
+    "report": "lint-results-debug.xml",
+    "issues": {
+      "UnusedAttribute": 1,
+      "AndroidGradlePluginVersion": 1,
+      "GradleDependency": 5,
+      "NewerVersionAvailable": 3,
+      "AutoboxingStateCreation": 1,
+      "UsableSpace": 1
+    }
+  },
+  "apk": {
+    "path": "app/build/outputs/apk/debug/app-debug.apk",
+    "bytes": 14726324,
+    "version_name": "0.3.0-experimental",
+    "sha256": "4cb2c8bceffe73e452a5b9415e53412b944127585dcc017851e3cd4e2cb2c4ad",
+    "signature_verification": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1",
+    "native_libraries": [
+      "lib/arm64-v8a/libandroidx.graphics.path.so",
+      "lib/armeabi-v7a/libandroidx.graphics.path.so",
+      "lib/x86/libandroidx.graphics.path.so",
+      "lib/x86_64/libandroidx.graphics.path.so"
+    ],
+    "proprietary_vendor_libraries_present": false
+  },
+  "instrumentation_apk": {
+    "compiled": true,
+    "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+    "sha256": "89c25e299a1fe57bcbbf1e9ba1e412b126d2452eb378dbbfc89f7784f3ed3140",
+    "new_native_tests_run": false
+  },
+  "new_native_checks": {
+    "status": "not_run_emulator_boot_crash",
+    "classes": [
+      "dev.cctv.v380.FeatureStorageAndExportTest",
+      "dev.cctv.v380.FeatureUiTest"
+    ],
+    "tests": 4,
+    "scope": "AtomicFile restart/duplicate guard, synthetic AVC MP4 sample count/PTS/temp cleanup, disconnected tabs and labelled UI fixtures/destructive dialog cancellation. No sockets or camera requests.",
+    "command": "native-offline-command.txt"
+  },
+  "emulator_attempts": [
+    {
+      "api": 37,
+      "renderer": "swiftshader",
+      "exit_code": 139,
+      "log": "v380-feature-emulator.log"
+    },
+    {
+      "api": 37,
+      "renderer": "swiftshader_indirect, Vulkan disabled, cameras none",
+      "exit_code": 139,
+      "log": "v380-feature-emulator2.log"
+    },
+    {
+      "api": 30,
+      "renderer": "swiftshader_indirect, Vulkan disabled, isolated AVD",
+      "exit_code": 139,
+      "log": "v380-feature-emulator30.log"
+    },
+    {
+      "api": 30,
+      "renderer": "gpu off, Vulkan disabled",
+      "exit_code": 139,
+      "log": "v380-feature-emulator30-off.log"
+    },
+    {
+      "api": 30,
+      "renderer": "swiftshader, accel off, Vulkan disabled",
+      "exit_code": 139,
+      "log": "v380-feature-emulator30-tcg.log"
+    }
+  ],
+  "visual_review": {
+    "new_screenshots": 0,
+    "new_native_ui_verified": false,
+    "source_review": "ui-review.md",
+    "historical_captures_do_not_validate_features": true
+  },
+  "connection_tests_run": false,
+  "physical_camera_tested": false,
+  "sd_format_command_sent": false,
+  "format_feature": {
+    "enabled": false,
+    "reason": "Terminal format-state enum not proved; Java parser skips DPID131330. UI, ViewModel and session entry points gated. Pending send-once/status code is not release acceptance."
+  },
+  "limits": [
+    "New wire features IoT only; Legacy unsupported",
+    "Single-segment AVC/HEVC MP4 video only; source pre-roll may precede displayed segment start",
+    "Native MP4/UI runtime checks compiled but not run; cancellation/full disk/provider errors source-reviewed only",
+    "Direct LAN/native contract is experimental; MQ/pver and owner firmware need per-feature acceptance",
+    "SD format and advanced light sensitivity/schedule remain gated",
+    "No new dependencies, no vendor native libraries in APK"
+  ]
+}

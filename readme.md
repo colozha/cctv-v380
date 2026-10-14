@@ -1,6 +1,6 @@
 # V380 LAN
 
-Client Android independen untuk kamera V380 pada Wi-Fi lokal. Versi **0.2.1-experimental** mengimplementasikan autentikasi Legacy/IoT LAN, live video AVC/HEVC dengan MediaCodec, PTZ, dan konfigurasi Wi-Fi melalui AP terautentikasi. **Pengguna sudah melaporkan login dan video berhasil, tetapi sesi versi0.2.0 terputus setelah beberapa detik; kompatibilitas stabil belum terverifikasi.** Pairing awal IoT yang membutuhkan binding cloud belum didukung. Rincian: [status implementasi dan kompatibilitas](IMPLEMENTATION.md).
+Client Android independen untuk kamera V380 pada Wi-Fi lokal. Versi **0.3.0-experimental** mengimplementasikan autentikasi Legacy/IoT LAN, live video AVC/HEVC dengan MediaCodec, PTZ, konfigurasi Wi-Fi melalui AP terautentikasi, serta rekaman/pengaturan IoT eksperimental. **Pengguna sudah melaporkan login dan video berhasil, tetapi sesi versi0.2.0 terputus setelah beberapa detik; kompatibilitas stabil belum terverifikasi.** Pairing awal IoT yang membutuhkan binding cloud belum didukung. Rincian: [status implementasi dan kompatibilitas](IMPLEMENTATION.md).
 
 Perbaikan0.2.1 mencakup parser frame kecil/sparse cipher, feedback NOTIFY197120, recovery error PTZ/reader, dan diagnostik schema2 yang membedakan error stream dari auth. [Bukti dan batas perbaikan disconnect](analysis/stream-disconnect.md). Pengujian koneksi tidak dijalankan ulang.
 
@@ -16,7 +16,7 @@ python3 tools/collect-validation.py --without-connection-tests
 "$ANDROID_HOME/platform-tools/adb" install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada build debug; tidak ada rilis kamera verified. Hasil pengujian dan hash: [validation/results.json](validation/results.json). Build akhir dan34 tes JVM murni lulus, lint0 error. Pengujian koneksi lanjutan ditunda sesuai instruksi pengguna; hasil emulator API26/30/37 sebelumnya ditandai historis karena source telah berubah. Uji integrasi IoT sintetis terakhir gagal saat teardown ActivityScenario dan belum diulang. API35 belum menjalankan suite runtime.
+APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada build debug; tidak ada rilis kamera verified. Hasil pengujian dan hash: [validation/results.json](validation/results.json), [hasil fitur0.3.0](validation/recordings-settings/results.json). Build akhir dan40 tes JVM murni lulus, lint0 error. Tes UI/ekspor Android baru belum berjalan karena emulator crash saat boot. Pengujian koneksi lanjutan ditunda sesuai instruksi pengguna; hasil emulator API26/30/37 sebelumnya ditandai historis karena source telah berubah. Uji integrasi IoT sintetis terakhir gagal saat teardown ActivityScenario dan belum diulang. API35 belum menjalankan suite runtime.
 
 ## Kamera sudah terhubung Wi-Fi
 
@@ -26,6 +26,17 @@ APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter e
 4. SD/HD dan PTZ aktif setelah stream/capability valid. Tahan arah untuk bergerak, lepaskan untuk stop. Saat aplikasi masuk background, stream ditutup.
 
 Opsi **ingat password** default nonaktif. Bila diaktifkan, akses disimpan terenkripsi dengan Keystore dan dikecualikan dari backup. Menghapus profil menghapus ciphertext-nya. Akses vendor tidak dipindahkan otomatis. Bila tidak mengetahui password lokal dan kamera tidak menawarkan pairing offline, jangan mengisi password akun sebagai penggantinya.
+
+## Rekaman dan pengaturan
+
+Buka detail kamera → **Rekaman** atau **Pengaturan**, lalu sambungkan akses lokal. Fitur baru tersedia eksperimental untuk sesi IoT; dukungan Legacy belum diimplementasikan.
+
+- **Rekaman:** pilih tanggal dan Semua/Peristiwa, lalu Muat rekaman. Waktu memakai zona Android; cocokkan dengan kamera. Pilih segmen untuk Putar/Jeda/seek.
+- **Simpan rekaman:** centang **Simpan video tanpa audio**, pilih lokasi dokumen, lalu sambungkan kembali jika document picker menutup sesi foreground. Aplikasi menyalin satu segmen penuh ke MP4. Audio, batch dan resume belum tersedia. Status tersimpan baru tampil setelah file selesai dan disalin; bila pembatalan gagal menghapus file parsial, hapus file tujuan yang disebutkan sebelum mencoba lagi.
+- **Pengaturan:** muat nilai kamera, ubah orientasi/lampu/perekaman yang tersedia, lalu simpan perubahan. Aplikasi membaca ulang sebelum menyatakan tersimpan. Pilihan unknown tidak diberi default buatan.
+- **Kartu SD:** status/ruang tersisa dapat dibaca. **Format SD card belum diaktifkan** karena bukti status akhir format belum cukup; format bukan reset kamera. Detail gerbang: [kontrak](analysis/recordings-settings-wire.md).
+
+Fitur belum diuji pada kamera pengguna. Tidak ada fallback cloud jika firmware memerlukan MQ/signaling server.
 
 ## Setup melalui hotspot/AP kamera
 
@@ -47,6 +58,6 @@ Pengujian otomatis memakai parser/cipher fixture sintetis, server loopback dan f
 
 ## Analisis V380 6.4.90
 
-[Laporan utama](analysis/REPORT.md), [Legacy wire](analysis/legacy-wire-spec.md), [IoT LAN](analysis/iot-lan-protocol.md), [AP provisioning](analysis/ap-provisioning.md), [discovery/PTZ](analysis/discovery-ptz.md), [P2P](analysis/p2p.md), [native decoder](analysis/native.md), [perbandingan repository](analysis/comparison.md), [indeks bukti/hash](analysis/evidence-index.md), [gerbang dukungan](analysis/protocol-gate.md).
+[Laporan utama](analysis/REPORT.md), [Legacy wire](analysis/legacy-wire-spec.md), [IoT LAN](analysis/iot-lan-protocol.md), [AP provisioning](analysis/ap-provisioning.md), [rekaman/pengaturan](analysis/recordings-settings-wire.md), [discovery/PTZ](analysis/discovery-ptz.md), [P2P](analysis/p2p.md), [native decoder](analysis/native.md), [perbandingan repository](analysis/comparison.md), [indeks bukti/hash](analysis/evidence-index.md), [gerbang dukungan](analysis/protocol-gate.md).
 
 Analisis statis menggunakan REA/JADX/DEX/ELF. APK vendor tidak dijalankan atau dimodifikasi, library proprietary tidak menjadi dependensi, dan token akun/kredensial tersimpan tidak diekstrak. Kedua repository pembanding menjadi referensi perilaku, bukan sumber kode runtime yang disalin.

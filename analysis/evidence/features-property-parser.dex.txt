@@ -1,0 +1,61 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->a(Lcom/macrovideo/sdk/setting/DeviceConfigInfo;Ljava/util/List;)Lcom/macrovideo/sdk/setting/DeviceConfigInfo; code_item_offset=8375180 registers=47
+19a7 dex@007ffeea invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+19aa dex@007ffef0 move-result-wide         v0 
+19ab dex@007ffef2 cmp-long                 v0 v0 v35 
+19ad dex@007ffef6 if-nez                   v0  -> 19ce
+19af dex@007ffefa invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getValue()Ljava/lang/Object;
+19b2 dex@007fff00 move-result-object       v0 
+19b3 dex@007fff02 invoke-static            v0 Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->getIntValue(Ljava/lang/Object;)I
+19b6 dex@007fff08 move-result              v0 
+19b7 dex@007fff0a if-nez                   v0  -> 19bc
+19b9 dex@007fff0e const/16                 v6 #1003 
+19bb dex@007fff12 goto                      -> 19c9
+19bc dex@007fff14 const/4                  v1 #1 
+19bd dex@007fff16 if-ne                    v0 v1  -> 19c2
+19bf dex@007fff1a const/16                 v6 #1001 
+19c1 dex@007fff1e goto                      -> 19c9
+19c2 dex@007fff20 const/4                  v1 #2 
+19c3 dex@007fff22 if-ne                    v0 v1  -> 19c8
+19c5 dex@007fff26 const/16                 v6 #1002 
+19c7 dex@007fff2a goto                      -> 19c9
+19c8 dex@007fff2c move                     v6 v0 
+19c9 dex@007fff2e invoke-virtual           v9 v6 Lcom/macrovideo/sdk/objects/DeviceXParam;->setnLightValue(I)V
+1a48 dex@0080002c invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+1a4b dex@00800032 move-result-wide         v0 
+1a4c dex@00800034 sget-wide                v11 Lcom/macrovideo/sdk/defines/Protocol;->DPID_SD_CAPACITY:J
+1a4e dex@00800038 cmp-long                 v0 v0 v11 
+1a50 dex@0080003c if-nez                   v0  -> 1a86
+1a52 dex@00800040 invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getValue()Ljava/lang/Object;
+1a55 dex@00800046 move-result-object       v0 
+1a56 dex@00800048 invoke-static            v0 Lcom/macrovideo/sdk/setting/DeviceConfigSetting;->getStringValue(Ljava/lang/Object;)Ljava/lang/String;
+1a59 dex@0080004e move-result-object       v0 
+1a5a dex@00800050 const-string             v1 <string-content-excluded>
+1a5c dex@00800054 invoke-virtual           v0 v1 Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
+1a5f dex@0080005a move-result-object       v0 
+1a60 dex@0080005c const/4                  v1 #0 
+1a61 dex@0080005e aget-object              v1 v0 v1 
+1a63 dex@00800062 invoke-static            v1 Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+1a66 dex@00800068 move-result              v1 
+1a67 dex@0080006a const/4                  v2 #1 
+1a68 dex@0080006c aget-object              v2 v0 v2 
+1a6a dex@00800070 invoke-static            v2 Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+1a6d dex@00800076 move-result              v2 
+1a6e dex@00800078 const/4                  v5 #2 
+1a6f dex@0080007a aget-object              v0 v0 v5 
+1a71 dex@0080007e invoke-static            v0 Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+1a74 dex@00800084 invoke-virtual           v6 v1 Lcom/macrovideo/sdk/setting/RecordConfigInfo;->setnDiskSize(I)V
+1a77 dex@0080008a invoke-virtual           v6 v2 Lcom/macrovideo/sdk/setting/RecordConfigInfo;->setnDiskRemainSize(I)V
+1a7a dex@00800090 goto/16                   -> 1b37
+1a7c dex@00800094 move-object/from16       v11 v25 
+1a7e dex@00800098 move-object/from16       v1 v45 
+1a80 dex@0080009c move-object/from16       v13 v20 
+1a82 dex@008000a0 move-object/from16       v5 v21 
+1a84 dex@008000a4 goto/16                   -> 1b58
+1a86 dex@008000a8 const/4                  v1 #0 
+1a87 dex@008000aa invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J
+1a8a dex@008000b0 move-result-wide         v11 
+1a8b dex@008000b2 sget-wide                v13 Lcom/macrovideo/sdk/defines/Protocol;->DPID_SD_FORMAT_STATE:J
+1a8d dex@008000b6 cmp-long                 v0 v11 v13 
+1a8f dex@008000ba if-nez                   v0  -> 1a93
+1a91 dex@008000be goto/16                   -> 1b37
+1a93 dex@008000c2 invoke-virtual           v5 Lcom/macrovideo/sdk/json/GetConfigResultJsonParse$Data$PObject;->getDpid()J

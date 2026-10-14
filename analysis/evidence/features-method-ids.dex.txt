@@ -1,0 +1,5 @@
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;->METHOD_ID_GET_PROPERTIES_REQUEST:I = 197376
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;->METHOD_ID_GET_PROPERTIES_RESPONSE:I = 197377
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;->METHOD_ID_REC_FILE_LIST_REQUEST:I = 197152
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;->METHOD_ID_SET_PROPERTIES_REQUEST:I = 197378
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;->METHOD_ID_SET_PROPERTIES_RESPONSE:I = 197379

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.protocol.CameraFeatureProtocolTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-14T02:41:31.954Z" hostname="fedora" time="0.041">
+  <properties/>
+  <testcase name="destructiveActionOmitsInputAndRequestsAReplyWhileFlipUsesTheRecoveredAction" classname="dev.cctv.v380.protocol.CameraFeatureProtocolTest" time="0.001"/>
+  <testcase name="changesPreserveUnownedRecordingBitsAndRequireEveryAcknowledgement" classname="dev.cctv.v380.protocol.CameraFeatureProtocolTest" time="0.014"/>
+  <testcase name="replayAndDownloadUseDistinctModesAndRawPrerollWithoutChangingSegmentIdentity" classname="dev.cctv.v380.protocol.CameraFeatureProtocolTest" time="0.004"/>
+  <testcase name="capacityUsesVerifiedPipeFieldsWithoutInventingUnits" classname="dev.cctv.v380.protocol.CameraFeatureProtocolTest" time="0.0"/>
+  <testcase name="recordPagesHaveCorrelatedSlicesBoundedOffsetsAndExplicitCompletion" classname="dev.cctv.v380.protocol.CameraFeatureProtocolTest" time="0.019"/>
+  <testcase name="propertyReadsPreserveUnknownsAndRejectUnrelatedOrDuplicateValues" classname="dev.cctv.v380.protocol.CameraFeatureProtocolTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

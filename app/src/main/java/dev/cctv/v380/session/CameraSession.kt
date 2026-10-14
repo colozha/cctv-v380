@@ -67,6 +67,9 @@ class CameraSession(
     private var watchdog: PtzWatchdog? = null
     private var firstFrame = CompletableDeferred<Unit>()
     private var iotMediaInfo: IoTMediaInfo? = null
+    private var activeRecording: RecordingSegment? = null
+    private val mutableRecordingPosition = MutableStateFlow(0L)
+    val recordingPosition = mutableRecordingPosition.asStateFlow()
     private class Reply(val id: Int, val method: Int, val result: CompletableDeferred<JSONObject>)
     @Volatile private var pendingReply: Reply? = null
 
@@ -141,7 +144,8 @@ class CameraSession(
                     IoTControlProtocol.abilityParams())
                 val ability = IoTControlProtocol.parseAbilities(data ?: throw IoTProtocolException(IoTFailure.MalformedPacket))
                 diagnostics.record(DiagnosticStage.CAPABILITIES)
-                caps.copy(ptz = ability.ptz, horizontalPtz = ability.horizontalPtz, verticalPtz = ability.verticalPtz)
+                caps.copy(ptz = ability.ptz, horizontalPtz = ability.horizontalPtz, verticalPtz = ability.verticalPtz,
+                    recordingQualities = IoTControlProtocol.recordingQualities(data))
             } catch (cancelled: CancellationException) { throw cancelled }
             catch (_: IoTProtocolException) { diagnostics.record(DiagnosticStage.CAPABILITIES, DiagnosticStatus.FAILED); caps }
         } else caps
@@ -311,10 +315,11 @@ class CameraSession(
             decoder?.close()
             decoderCodec = frame.codec
             decoderDimensions = width to height
-            decoder = VideoDecoder(renderSurface, width, height, frame.codec, onFirstFrame = {
+            decoder = VideoDecoder(renderSurface, width, height, frame.codec, paced = activeRecording != null, onFirstFrame = {
                 if (generation.get() == epoch) {
                     mutableCapabilities.value = mutableCapabilities.value?.copy(codecs = setOf(frame.codec))
-                    mutableState.value = SessionState.Streaming(quality)
+                    if (mutableState.value !is SessionState.RecordingEnded)
+                        mutableState.value = activeRecording?.let { SessionState.PlayingRecording(it) } ?: SessionState.Streaming(quality)
                     diagnostics.record(DiagnosticStage.FRAME)
                     firstFrame.complete(Unit)
                 }
@@ -323,7 +328,7 @@ class CameraSession(
                 scope.launch { operations.withLock { if (generation.get() == epoch) { stopStream(); fail(CameraFailure(error), DiagnosticStage.FRAME, DiagnosticDetail.DECODER) } } }
             } })
         }
-        decoder?.offer(frame)
+        if (activeRecording == null) decoder?.offer(frame)
     }
 
     private suspend fun guardedReader(epoch: Long, block: suspend CoroutineScope.() -> Unit) {
@@ -465,7 +470,8 @@ class CameraSession(
                 secureType = 2, sessionId = session.sessionId, key = key)
             try { channel.write(request, deadline) } finally { request.fill(0) }
             val header = IoTCommonProtocol.parseHeader(channel.readExact(16, deadline))
-            if (header.command != IoTCommonProtocol.COMMAND_IOT) throw IoTProtocolException(IoTFailure.MalformedPacket)
+            if (header.command != IoTCommonProtocol.COMMAND_IOT || header.sessionId !in setOf(0, session.sessionId))
+                throw IoTProtocolException(IoTFailure.MalformedPacket)
             val body = channel.readExact(header.bodySize, deadline)
             try {
                 val response = IoTCommonProtocol.validateResponse(IoTCommonProtocol.decodeJson(header, body, key), id, methodId = responseMethod)
@@ -473,6 +479,256 @@ class CameraSession(
                 return response.requireSuccess()
             } finally { body.fill(0) }
         } finally { channel.close(); key.fill(0); if (commandChannel === channel) commandChannel = null }
+    }
+
+    suspend fun stopMedia() = operations.withLock {
+        stopStream()
+        mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
+    }
+
+    private fun requireIoT() {
+        if (profile == null) throw CameraFailure(SessionError.AuthenticationFailed)
+        if (iot == null) throw CameraFailure(SessionError.FeatureUnsupported)
+    }
+
+    private suspend fun fetchSettings(): CameraSettings {
+        requireIoT()
+        val values = linkedMapOf<Int, Any>()
+        val rejected = linkedMapOf<Int, Int>()
+        for (ids in CameraSettingsProtocol.properties.chunked(10)) {
+            val data = exchangeIoT(CameraSettingsProtocol.GET, CameraSettingsProtocol.GET_RESPONSE,
+                CameraSettingsProtocol.getParams(ids)) ?: throw IoTProtocolException(IoTFailure.MalformedPacket)
+            val result = CameraSettingsProtocol.parseProperties(data, ids)
+            values.putAll(result.values); rejected.putAll(result.rejected)
+        }
+        return CameraSettings(values.toMap(), rejected.toMap())
+    }
+
+    suspend fun readSettings(): CameraSettings = operations.withLock {
+        fetchSettings().also { diagnostics.record(DiagnosticStage.SETTINGS) }
+    }
+
+    suspend fun saveSettings(changes: Map<Int, Any>, before: CameraSettings): CameraSettings = operations.withLock {
+        requireIoT()
+        val params = CameraSettingsProtocol.setParams(changes, before, capabilities.value?.recordingQualities.orEmpty())
+        val data = exchangeIoT(CameraSettingsProtocol.SET, CameraSettingsProtocol.SET_RESPONSE, params)
+            ?: throw IoTProtocolException(IoTFailure.MalformedPacket)
+        CameraSettingsProtocol.validateSet(data, changes.keys)
+        val after = fetchSettings()
+        if (changes.any { (id, value) -> after.values[id] != value }) throw CameraFailure(SessionError.DeviceRejected)
+        diagnostics.record(DiagnosticStage.SETTINGS)
+        after
+    }
+
+    suspend fun reverseImage(before: CameraSettings): CameraSettings = operations.withLock {
+        requireIoT()
+        val previous = before.int(CameraSettingsProtocol.FLIP_MODE) ?: throw CameraFailure(SessionError.FeatureUnsupported)
+        exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, CameraSettingsProtocol.flipParams())
+        val after = fetchSettings()
+        if (after.int(CameraSettingsProtocol.FLIP_MODE) == null || after.int(CameraSettingsProtocol.FLIP_MODE) == previous)
+            throw CameraFailure(SessionError.DeviceRejected)
+        diagnostics.record(DiagnosticStage.SETTINGS)
+        after
+    }
+
+    /** Acknowledgement only. The caller owns the durable, single-send marker and status monitoring. */
+    suspend fun sendSdFormat() = operations.withLock {
+        if (!CameraSettingsProtocol.FORMAT_STATUS_VERIFIED) throw CameraFailure(SessionError.FeatureUnsupported)
+        requireIoT()
+        stopStream()
+        mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
+        exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, CameraSettingsProtocol.formatParams())
+        diagnostics.record(DiagnosticStage.SD_FORMAT)
+        Unit
+    }
+
+    suspend fun listRecordings(startMs: Long, endMs: Long, eventsOnly: Boolean): List<RecordingSegment> = operations.withLock {
+        requireIoT()
+        val target = profile!!
+        val session = iot!!
+        val key = session.keyBytes()
+        val channel = channelFactory(target).also { commandChannel = it }
+        val deadline = deadlineAfterMillis(30000)
+        val id = requestIds.incrementAndGet()
+        try {
+            channel.connect(target.host, target.port)
+            sendRecordingControl(channel, session, key, RecordingProtocol.LIST, id,
+                RecordingProtocol.listParams(startMs, endMs, eventsOnly))
+            val result = linkedMapOf<String, RecordingSegment>()
+            var slice = 0
+            while (slice < 512) {
+                val header = IoTCommonProtocol.parseHeader(channel.readExact(16, deadline))
+                val bytes = channel.readExact(header.bodySize, deadline)
+                val json = try { IoTCommonProtocol.decodeJson(header, bytes, key) } finally { bytes.fill(0) }
+                if (header.command != IoTCommonProtocol.COMMAND_IOT || header.secureType != 2 || header.sessionId !in setOf(0, session.sessionId))
+                    throw IoTProtocolException(IoTFailure.MalformedPacket)
+                val data = IoTCommonProtocol.validateResponse(json, id, methodId = RecordingProtocol.LIST_RESPONSE).requireSuccess()
+                    ?: throw IoTProtocolException(IoTFailure.MalformedPacket)
+                val page = RecordingProtocol.parsePage(data, startMs, endMs, slice)
+                page.recordings.forEach { result[it.id] = it }
+                if (result.size > RecordingProtocol.MAX_SEGMENTS) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                slice = page.slice
+                if (!page.more) {
+                    diagnostics.record(DiagnosticStage.RECORDINGS, bytes = result.size)
+                    return@withLock result.values.sortedBy { it.startMs }
+                }
+            }
+            throw IoTProtocolException(IoTFailure.MalformedPacket)
+        } finally { key.fill(0); channel.close(); if (commandChannel === channel) commandChannel = null }
+    }
+
+    suspend fun playRecording(renderSurface: Surface, recording: RecordingSegment, positionMs: Long = recording.startMs) {
+        operations.withLock {
+            requireIoT()
+            stopStream()
+            surface = renderSurface
+            activeRecording = recording
+            firstFrame = CompletableDeferred()
+            val epoch = generation.get()
+            val target = profile!!
+            val session = iot!!
+            val key = session.keyBytes()
+            val channel = channelFactory(target).also { streamChannel = it }
+            mutableState.value = SessionState.LoadingRecording(recording)
+            streamJob = scope.launch {
+                try {
+                    channel.connect(target.host, target.port)
+                    var firstTimestamp: Long? = null
+                    consumeRecording(channel, session, key, recording, positionMs, false, epoch) { frame, info ->
+                        if (firstTimestamp == null) firstTimestamp = frame.timestampMs
+                        val delta = frame.timestampMs - firstTimestamp!!
+                        if (delta < 0 || delta > recording.durationMs + 60000) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                        val codec = recordingCodec(info.codecId)
+                        val encoded = EncodedFrame(codec, frame.channel, frame.keyframe, delta * 1000, frame.bytes)
+                        offerFrame(encoded, info.width, info.height, epoch)
+                        decoder?.offerPlayback(encoded)
+                        if (generation.get() == epoch) mutableRecordingPosition.value = (positionMs + delta).coerceAtMost(recording.endMs)
+                    }
+                    if (generation.get() == epoch) mutableState.value = SessionState.RecordingEnded(recording)
+                } catch (cancelled: CancellationException) { throw cancelled }
+                catch (error: Exception) {
+                    firstFrame.completeExceptionally(error)
+                    scope.launch { operations.withLock {
+                        if (generation.get() == epoch) { stopStream(); fail(error, DiagnosticStage.PLAYBACK) }
+                    } }
+                } finally { key.fill(0); channel.close() }
+            }
+        }
+    }
+
+    /** Uses the same replay wire in download mode, but never the dropping decoder queue. */
+    suspend fun downloadRecording(recording: RecordingSegment, sample: suspend (EncodedFrame, Int, Int) -> Unit) {
+        val target: CameraProfile
+        val session: IoTSession
+        val channel: TcpChannel
+        val epoch: Long
+        operations.withLock {
+            requireIoT(); stopStream()
+            target = profile!!; session = iot!!; epoch = generation.get()
+            channel = channelFactory(target).also { streamChannel = it }
+        }
+        val key = session.keyBytes()
+        var firstTimestamp: Long? = null
+        try {
+            channel.connect(target.host, target.port)
+            consumeRecording(channel, session, key, recording, recording.startMs, true, epoch) { frame, info ->
+                if (firstTimestamp == null) firstTimestamp = frame.timestampMs
+                val delta = frame.timestampMs - firstTimestamp!!
+                if (delta < 0 || delta > recording.durationMs + 60000) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                sample(EncodedFrame(recordingCodec(info.codecId), frame.channel, frame.keyframe, delta * 1000, frame.bytes), info.width, info.height)
+            }
+            diagnostics.record(DiagnosticStage.DOWNLOAD)
+        } finally {
+            key.fill(0); channel.close()
+            withContext(NonCancellable) { operations.withLock { if (epoch == generation.get()) {
+                stopStream(); mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
+            } } }
+        }
+    }
+
+    private fun recordingCodec(id: Int): VideoCodec = when (id) {
+        IoTMediaProtocol.CODEC_AVC -> VideoCodec.AVC
+        IoTMediaProtocol.CODEC_HEVC -> VideoCodec.HEVC
+        else -> throw CameraFailure(SessionError.UnsupportedCodec)
+    }
+
+    private suspend fun sendRecordingControl(channel: TcpChannel, session: IoTSession, key: ByteArray,
+        method: Int, id: Int, params: JSONObject) {
+        val request = IoTCommonProtocol.encodeRequest(methodId = method, requestId = id, params = params,
+            secureType = 2, sessionId = session.sessionId, key = key)
+        try { channel.write(request) } finally { request.fill(0) }
+    }
+
+    private suspend fun consumeRecording(channel: TcpChannel, session: IoTSession, key: ByteArray,
+        recording: RecordingSegment, positionMs: Long, download: Boolean, epoch: Long,
+        sample: suspend (IoTMediaFrame, IoTVideoInfo) -> Unit) {
+        val initial = requestIds.incrementAndGet()
+        val pending = mutableSetOf(initial)
+        sendRecordingControl(channel, session, key, RecordingProtocol.CONTROL, initial,
+            RecordingProtocol.startParams(recording, positionMs, download))
+        var media: IoTMediaInfo? = null
+        var confirmed = false
+        var received = 0
+        val early = ArrayList<IoTMediaFrame>()
+        suspend fun deliver(frame: IoTMediaFrame) {
+            if (frame.format != 1 || frame.channel != 0 || frame.audio) throw IoTProtocolException(IoTFailure.MalformedPacket)
+            val info = media ?: throw IoTProtocolException(IoTFailure.MalformedPacket)
+            sample(frame, info.views.getOrNull(0) ?: info.video)
+            received++
+            if (received % 90 == 0) {
+                if (pending.size > 2) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                val id = requestIds.incrementAndGet(); pending.add(id)
+                sendRecordingControl(channel, session, key, RecordingProtocol.CONTROL, id, RecordingProtocol.nextFramesParams())
+            }
+        }
+        while (currentCoroutineContext().isActive && generation.get() == epoch) {
+            val deadline = deadlineAfterMillis(15000)
+            val header = IoTCommonProtocol.parseHeader(channel.readExact(16, deadline))
+            if (header.secureType !in 1..2 || header.sessionId !in setOf(0, session.sessionId))
+                throw IoTProtocolException(IoTFailure.MalformedPacket)
+            val bytes = channel.readExact(header.bodySize, deadline)
+            try {
+                if (header.command == IoTCommonProtocol.COMMAND_MEDIA) {
+                    val frame = IoTMediaProtocol.parseFrame(header, bytes, key)
+                    if (confirmed && media != null) deliver(frame) else {
+                        if (early.size >= 3) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                        early.add(frame)
+                    }
+                } else if (header.command in setOf(IoTCommonProtocol.COMMAND_IOT, IoTCommonProtocol.COMMAND_NOTIFY)) {
+                    val json = IoTCommonProtocol.decodeJson(header, bytes, key)
+                    when (json.optInt("method_id", -1)) {
+                        RecordingProtocol.CONTROL_RESPONSE -> {
+                            if (header.secureType != 2) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                            val id = IoTCommonProtocol.exactInt(json, "id")
+                            if (!pending.remove(id)) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                            IoTCommonProtocol.validateResponse(json, id, methodId = RecordingProtocol.CONTROL_RESPONSE).requireSuccess()
+                            if (id == initial) confirmed = true
+                        }
+                        RecordingProtocol.INFORMATION -> {
+                            val info = RecordingProtocol.information(json)
+                            if (info.timeId != 1) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                            if (info.infoId == 1) media = info.media
+                            if (info.infoId == 3) {
+                                if (!confirmed || received == 0 || early.isNotEmpty()) throw IoTProtocolException(IoTFailure.MalformedPacket)
+                                return
+                            }
+                        }
+                        IoTCommonProtocol.DECODE_FEEDBACK -> {
+                            if (header.command == IoTCommonProtocol.COMMAND_NOTIFY) {
+                                val params = IoTControlProtocol.decodeFeedbackParams(json)
+                                if (params != null) sendRecordingControl(channel, session, key, IoTCommonProtocol.DECODE_FEEDBACK,
+                                    requestIds.incrementAndGet(), params)
+                            }
+                        }
+                    }
+                    if (confirmed && media != null && early.isNotEmpty()) {
+                        for (frame in early) deliver(frame)
+                        early.clear()
+                    }
+                } else throw java.io.EOFException("Replay ended without completion notification")
+            } finally { bytes.fill(0) }
+        }
+        throw CancellationException("Recording superseded")
     }
 
     suspend fun detachSurface() = operations.withLock {
@@ -492,6 +748,7 @@ class CameraSession(
         pendingReply?.result?.cancel(); pendingReply = null
         decoder?.close(); decoder?.awaitClosed(); decoder = null
         decoderCodec = null; decoderDimensions = null
+        activeRecording = null
         mediaCipher?.close(); mediaCipher = null
     }
     private suspend fun shutdown() {
@@ -531,7 +788,7 @@ class CameraSession(
             is LegacyUnsupportedProtocolException -> SessionError.UnsupportedProtocol
             is IoTProtocolException -> when (error.kind) {
                 IoTFailure.AuthenticationFailed -> SessionError.AuthenticationFailed
-                IoTFailure.PermissionDenied -> SessionError.OwnerBindingRequired
+                IoTFailure.PermissionDenied -> SessionError.CameraPermissionDenied
                 IoTFailure.MalformedPacket -> SessionError.MalformedPacket
                 IoTFailure.UnsupportedCipher -> SessionError.UnsupportedProtocol
                 IoTFailure.DeviceRejected -> SessionError.DeviceRejected

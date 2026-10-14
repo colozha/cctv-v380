@@ -14,6 +14,16 @@ object IoTControlProtocol {
 
     fun abilityParams(): JSONObject = JSONObject()
 
+    /** MVS_DMISC_ABLC_RECORD_VQUALITY ordinal8; quality bits SD/HD/FHD =1/2/4. */
+    fun recordingQualities(data: JSONObject): Set<Int> {
+        val misc = data.optJSONArray("misc") ?: return emptySet()
+        if (misc.length() <= 8) return emptySet()
+        val raw = misc.opt(8) as? Number ?: return emptySet()
+        val bits = raw.toLong()
+        if (bits !in 0..0xffffffffL || raw.toDouble() != bits.toDouble()) throw IoTProtocolException(IoTFailure.MalformedPacket)
+        return (1..3).filter { bits and (1L shl (it - 1)) != 0L }.toSet()
+    }
+
     /** Called only for an authenticated incoming NOTIFY197120, never its ordinary IoT reply. */
     fun decodeFeedbackParams(notification: JSONObject): JSONObject? {
         val time = notification.optJSONObject("params")?.opt("tms1") as? Number ?: return null
@@ -46,12 +56,13 @@ object IoTControlProtocol {
         return actionParams(PTZ_STEP_ACTION, JSONObject().put("op", operation.wireValue).put("cnt", count), view, noResponse = true)
     }
 
-    fun actionParams(actionId: Int, input: JSONObject, view: Int? = null, noResponse: Boolean = false): JSONObject {
+    fun actionParams(actionId: Int, input: JSONObject? = null, view: Int? = null, noResponse: Boolean = false): JSONObject {
         require(actionId >= 0 && (view == null || view in 0..3))
         val params = JSONObject().put("daid", actionId)
         if (view != null) params.put("vsbmp", 1 shl view)
         if (noResponse) params.put("no_rsp", true)
-        return params.put("in", input)
+        if (input != null) params.put("in", input)
+        return params
     }
 
     private fun mask(array: JSONArray?): Int? {

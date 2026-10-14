@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.protocol.LegacyProtocolTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-10-14T02:41:32.288Z" hostname="fedora" time="0.072">
+  <properties/>
+  <testcase name="passwordThresholdCountsUtf16AndHashesMiddleHexAsText" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.012"/>
+  <testcase name="mediaCipherSelectsNativeModesAndRejectsUseAfterClose" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.008"/>
+  <testcase name="streamAndPtzPacketsUseRecoveredNativeLayouts" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.002"/>
+  <testcase name="initialResponsePaddingIsBoundedAndOnlyAllowedBeforeFirstFrame" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.006"/>
+  <testcase name="authSerializerUses520BytesDateNonceAndTwoIndependentPkcs5Layers" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.012"/>
+  <testcase name="innerTypesDetermineCodecKeyframeAndAudioWithoutPayloadGuessing" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.001"/>
+  <testcase name="streamResponseRejectsNegativeStatusesImpossibleDimensionsAndUnknownModes" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.002"/>
+  <testcase name="reassemblyRejectsMissingDuplicateOversizedAndInconsistentFragments" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.004"/>
+  <testcase name="loginValidatesEverySuccessConditionAndPreservesUnsignedFields" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.004"/>
+  <testcase name="arbitraryTcpSplitsAndCoalescingPreserveNativeFrameMetadata" classname="dev.cctv.v380.protocol.LegacyProtocolTest" time="0.018"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

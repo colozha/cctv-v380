@@ -1,8 +1,24 @@
 # Status implementasi V380 LAN
 
-Versi **0.2.1-experimental** memiliki adapter wire nyata untuk Legacy V2 dan common IoT LAN: autentikasi, negosiasi video, decoding MediaCodec, PTZ, serta konfigurasi Wi-Fi melalui AP yang telah terautentikasi. Adapter aktif pada **APK debug**. Belum ada kamera yang dinyatakan kompatibel; rilis pengguna tetap dibatasi sampai acceptance kamera fisik lulus.
+Versi **0.3.0-experimental** memiliki adapter wire nyata untuk Legacy V2 dan common IoT LAN: autentikasi, negosiasi video, decoding MediaCodec, PTZ, serta konfigurasi Wi-Fi melalui AP yang telah terautentikasi. Adapter aktif pada **APK debug**. Belum ada kamera yang dinyatakan kompatibel; rilis pengguna tetap dibatasi sampai acceptance kamera fisik lulus.
 
 Target pertama: firmware `Hw_EV2X_NA1_XHR_V1.0_WF_20250804`, software `V2.1.6.0(HSC_A2X17XHR_20250804)`, berdasarkan screenshot pengguna. Nama firmware tidak digunakan untuk memilih generasi protokol.
+
+## Rekaman dan pengaturan0.3.0
+
+Detail kamera sekarang memiliki tab Live, Rekaman dan Pengaturan, tanpa dependensi baru. Fitur IoT memakai transport/auth/crypto yang sama; Legacy mengembalikan unsupported untuk fitur baru. [Spesifikasi dan bukti REA/DEX/ELF](analysis/recordings-settings-wire.md).
+
+| Fitur | Hasil implementasi |
+|---|---|
+| Rekaman SD | Daftar per hari/semua atau peristiwa, slice berkorelasi, playback AVC/HEVC berpacing timestamp, jeda dan seek melalui sesi baru. |
+| Salin ke Android | Satu segmen video-only, persetujuan audio tidak disertakan, SAF sebelum transfer, MediaMuxer tanpa antrean drop live, pemeriksaan MediaExtractor sebelum publikasi dan cleanup parsial. |
+| Pengaturan | Orientasi lewat action kamera; lampu otomatis/hidup/mati, indikator, mode/kualitas/audio/loop rekaman sesuai nilai dan ability yang dibaca. Write satu kali, ACK per properti dan readback. |
+| SD | Status dan persentase ruang tersisa. Format **belum diaktifkan**: kontrak enum terminal belum terbukti. Konfirmasi/pending send-once/status recovery tersedia dalam kode, entry point dikunci. Tidak ada klaim format selesai dari ACK. |
+| Lifecycle/diagnostik | Satu media aktif, cancel/join, cleanup background, draft/leave confirmation; diagnostik schema3 menambah tahap rekaman/playback/download/settings/format. |
+
+**Validasi0.3.0:** APK debug dan APK instrumentation terbangun, lint0 error, 40 tes JVM offline lulus. Tes Android baru untuk AtomicFile pending, MP4 sintetis dan UI native dikompilasi, tetapi belum dijalankan: emulator37.2.12 mengalami SIGSEGV saat boot pada API37 maupun API30 dengan beberapa renderer dan tanpa akselerasi. Tidak ada screenshot baru atau hasil native ekspor yang diklaim lulus. [Hasil/command/log](validation/recordings-settings/results.json). Tes koneksi, loopback session dan kamera tidak dijalankan sesuai instruksi pengguna. Paragraf validasi0.2.1 dan runtime historis di bawah bukan pengujian fitur baru.
+
+MQ/pver≥5, interoperabilitas firmware, video/ekspor nyata, ketahanan setting setelah reconnect, serta format fisik masih belum verified. Sensitivitas dan jadwal lampu tidak diberi kontrol tanpa label/kontrak yang terbukti. Rencana diimplementasikan dengan gerbang per fitur tersebut; format dan acceptance fisik belum selesai.
 
 ## Perbaikan disconnect0.2.1
 

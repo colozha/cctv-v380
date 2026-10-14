@@ -62,4 +62,7 @@ private fun stageLabel(stage: DiagnosticStage) = when (stage) {
     DiagnosticStage.PTZ -> "Kontrol PTZ"; DiagnosticStage.PROVISIONING -> "Konfigurasi Wi-Fi"
     DiagnosticStage.VERIFY_LAN -> "Verifikasi jaringan"; DiagnosticStage.RECONNECT -> "Pemulihan koneksi"
     DiagnosticStage.CLOSE -> "Penutupan sesi"
+    DiagnosticStage.RECORDINGS -> "Daftar rekaman"; DiagnosticStage.PLAYBACK -> "Playback rekaman"
+    DiagnosticStage.DOWNLOAD -> "Penyalinan rekaman"; DiagnosticStage.SETTINGS -> "Pengaturan kamera"
+    DiagnosticStage.SD_FORMAT -> "Format kartu SD"
 }

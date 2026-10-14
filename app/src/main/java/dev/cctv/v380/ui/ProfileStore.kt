@@ -13,6 +13,7 @@ import java.nio.ByteBuffer
 import java.nio.CharBuffer
 
 data class PendingSetup(val profile: CameraProfile, val targetSsid: String)
+data class PendingSdFormat(val profileId: String, val deviceId: String, val createdAtMs: Long)
 
 /** One atomic, non-backed-up file: metadata and optional ciphertext, never plaintext. */
 class ProfileStore(
@@ -22,6 +23,8 @@ class ProfileStore(
 ) {
     private val storage = AtomicFile(file)
     private val pending = AtomicFile(File(file.parentFile, "pending-${file.name}"))
+    // ponytail: one pending format per app; use per-profile files only if simultaneous camera work is introduced.
+    private val pendingFormat = AtomicFile(File(file.parentFile, "pending-sd-format.json"))
     private var migrationNeeded = false
 
     private fun records(): MutableList<JSONObject> {
@@ -133,6 +136,29 @@ class ProfileStore(
     }
     @Synchronized
     fun clearPendingSetup() { pending.delete() }
+
+    @Synchronized
+    fun savePendingFormat(profile: CameraProfile) {
+        require(profile.validationError() == null && loadPendingFormat() == null)
+        val bytes = JSONObject().put("version", 1).put("profileId", profile.id)
+            .put("deviceId", profile.deviceId).put("createdAtMs", System.currentTimeMillis()).toString().toByteArray()
+        val output = pendingFormat.startWrite()
+        try { output.write(bytes); pendingFormat.finishWrite(output) }
+        catch (error: Throwable) { pendingFormat.failWrite(output); throw error }
+    }
+
+    @Synchronized
+    fun loadPendingFormat(): PendingSdFormat? {
+        if (!pendingFormat.baseFile.exists() && !File(pendingFormat.baseFile.path + ".bak").exists()) return null
+        val json = pendingFormat.openRead().use { require(it.channel.size() <= 65536); JSONObject(it.readBytes().toString(Charsets.UTF_8)) }
+        require(json.getInt("version") == 1)
+        return PendingSdFormat(json.getString("profileId"), json.getString("deviceId"), json.getLong("createdAtMs")).also {
+            require(it.profileId.length in 1..128 && it.deviceId.length in 1..128 && it.createdAtMs >= 0)
+        }
+    }
+
+    @Synchronized
+    fun clearPendingFormat() { pendingFormat.delete() }
 
     private fun write(rows: List<JSONObject>) {
         val bytes = JSONObject().put("version", 2).put("profiles", JSONArray(rows)).toString().toByteArray(Charsets.UTF_8)

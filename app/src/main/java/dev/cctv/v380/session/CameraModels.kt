@@ -20,13 +20,15 @@ enum class AuthenticationMode { AUTO, USER_PASSWORD, LOCAL_PAIRING }
 enum class VideoCodec(val mime: String) { AVC("video/avc"), HEVC("video/hevc") }
 enum class Quality { SD, HD }
 data class CameraCapabilities(val codecs: Set<VideoCodec>, val qualities: Set<Quality>, val ptz: Boolean,
-    val wifiConfiguration: Boolean = false, val horizontalPtz: Boolean = ptz, val verticalPtz: Boolean = ptz)
+    val wifiConfiguration: Boolean = false, val horizontalPtz: Boolean = ptz, val verticalPtz: Boolean = ptz,
+    val recordingQualities: Set<Int> = emptySet())
 class EncodedFrame(val codec: VideoCodec, val channel: Int, val keyframe: Boolean, val ptsUs: Long, val bytes: ByteArray)
 
 enum class SessionError {
     PermissionDenied, NetworkUnavailable, AuthenticationFailed, Timeout, MalformedPacket,
     UnsupportedProtocol, UnsupportedCodec, StorageUnavailable, PairingRequired, OwnerBindingRequired,
     WifiConfigurationRejected, WifiVerificationTimeout, CloudRequired, IdentityMismatch, InvalidInput, DeviceRejected,
+    CameraPermissionDenied, FeatureUnsupported, ExportFailed,
 }
 sealed interface SessionState {
     data object Idle : SessionState
@@ -35,8 +37,21 @@ sealed interface SessionState {
     data class Ready(val capabilities: CameraCapabilities) : SessionState
     data class Negotiating(val quality: Quality) : SessionState
     data class Streaming(val quality: Quality) : SessionState
+    data class LoadingRecording(val recording: RecordingSegment) : SessionState
+    data class PlayingRecording(val recording: RecordingSegment) : SessionState
+    data class RecordingEnded(val recording: RecordingSegment) : SessionState
     data class Reconnecting(val attempt: Int) : SessionState
     data class Error(val reason: SessionError) : SessionState
+}
+
+enum class CameraTab(val label: String) { LIVE("Live"), RECORDINGS("Rekaman"), SETTINGS("Pengaturan") }
+data class RecordingSegment(val startMs: Long, val endMs: Long, val kind: Int, val sourceStartMs: Long = startMs) {
+    val id: String get() = "$startMs:$endMs:$kind"
+    val durationMs: Long get() = endMs - startMs
+}
+data class CameraSettings(val values: Map<Int, Any>, val rejected: Map<Int, Int>) {
+    fun int(id: Int): Int? = values[id] as? Int
+    fun bool(id: Int): Boolean? = values[id] as? Boolean
 }
 
 fun isIpv4(value: String): Boolean {

@@ -1,0 +1,54 @@
+{
+  "source_evidence_id": "ev_444d1d27345fa62cae2cc84628a5ede42f49993c56165d2c5aa1cd23075e8d01",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method_name": "createRecordConfigPidList",
+    "overload_index": 0
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.setting.DeviceConfigSetting",
+    "method": {
+      "name": "createRecordConfigPidList",
+      "reported_signature": "createRecordConfigPidList(com.macrovideo.sdk.setting.RecordConfigInfo): java.util.List<org.json.JSONObject>",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    /* JADX WARN: Multi-variable type inference failed */\n    /* JADX WARN: Type inference failed for: r2v1 */\n    /* JADX WARN: Type inference failed for: r2v21 */\n    /* JADX WARN: Type inference failed for: r2v22 */\n    public static List<JSONObject> createRecordConfigPidList(RecordConfigInfo recordConfigInfo) {\n        ?? r2;\n        int i;\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + recordConfigInfo + \"<literal omitted>\");\n        if (recordConfigInfo == null) {\n            return null;\n        }\n        ArrayList arrayList = new ArrayList();\n        boolean zIsbAutoRecord = recordConfigInfo.isbAutoRecord();\n        if (recordConfigInfo.isbAlarmRecord()) {\n            r2 = zIsbAutoRecord;\n            r2 = (zIsbAutoRecord ? 1 : 0) | 2;\n        }\n        r2 = zIsbAutoRecord;\n        int i2 = r2;\n        if (recordConfigInfo.getRetrenchRecordEnable() == 1) {\n            i2 = (r2 == true ? 1 : 0) | 8;\n        }\n        if (recordConfigInfo.getnFrameSize() == 1002 || recordConfigInfo.getnFrameSize() == 1003 || recordConfigInfo.getnFrameSize() == 1004 || recordConfigInfo.getnFrameSize() == 1005) {\n            i = 1;\n        } else if (recordConfigInfo.getnFrameSize() == 1001 || recordConfigInfo.getnFrameSize() == 1007) {\n            i = 2;\n        } else {\n            i = recordConfigInfo.getnFrameSize() == 1000 ? 3 : 0;\n        }\n        arrayList.add(createIntValueJsonObj(Protocol.DPID_RECORD_MODE, i2));\n        arrayList.add(createIntValueJsonObj(Protocol.DPID_RECORD_QUALITY, i));\n        arrayList.add(createBooleanValueJsonObj(Protocol.DPID_RECORD_AUDIO, recordConfigInfo.isAudioEnable()));\n        arrayList.add(createBooleanValueJsonObj(Protocol.DPID_RECORD_LOOP, recordConfigInfo.getnFullRecordOP() == 1300));\n        if (recordConfigInfo.getAovFrameMode() == AovFrameModeEnum.SPF.ordinal() && recordConfigInfo.getRetrenchTime() > 0) {\n            JSONObject jSONObject = new JSONObject();\n            JSONArray jSONArray = new JSONArray();\n            try {\n                jSONArray.put(IoTDevAbilityDefines._abl_lowpower_aov_frame_mode_bmpc32.ABL_LP_AOV_FRAME_MODE_SPF);\n                jSONArray.put(recordConfigInfo.getRetrenchTime());\n                jSONObject.put(\"sets\", jSONArray);\n                arrayList.add(createJSONObjectValueJsonObj(Protocol.DPID_LOWPOWER_AOV_FRAME_MODE, jSONObject));\n            } catch (JSONException unused) {\n            }\n        }\n        if (recordConfigInfo.getAovFrameMode() == AovFrameModeEnum.FPS.ordinal() && recordConfigInfo.getFrameRate() > 0) {\n            JSONObject jSONObject2 = new JSONObject();\n            JSONArray jSONArray2 = new JSONArray();\n            try {\n                jSONArray2.put(IoTDevAbilityDefines._abl_lowpower_aov_frame_mode_bmpc32.ABL_LP_AOV_FRAME_MODE_FPS);\n                jSONArray2.put(recordConfigInfo.getFrameRate());\n                jSONObject2.put(\"sets\", jSONArray2);\n                arrayList.add(createJSONObjectValueJsonObj(Protocol.DPID_LOWPOWER_AOV_FRAME_MODE, jSONObject2));\n            } catch (JSONException unused2) {\n            }\n        }\n        LogUtils.d(\"<literal omitted>\", \"<literal omitted>\" + arrayList);\n        return arrayList;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true,
+  "redaction": "All source string literals except JSON keys and selected encodings removed; derivative is noncanonical."
+}

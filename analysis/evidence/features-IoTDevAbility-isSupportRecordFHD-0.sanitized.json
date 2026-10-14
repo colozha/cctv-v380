@@ -1,0 +1,54 @@
+{
+  "source_evidence_id": "ev_8b878bb2eb24f8b6f1a38a8793d69c450ac7c8b821b5dc5c20c1bf01b9b18436",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.objects.IoTDevAbility",
+    "method_name": "isSupportRecordFHD",
+    "overload_index": 0
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 7952
+    },
+    "class_name": "com.macrovideo.sdk.objects.IoTDevAbility",
+    "method": {
+      "name": "isSupportRecordFHD",
+      "reported_signature": "isSupportRecordFHD(): boolean",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public boolean isSupportRecordFHD() {\n        if (this.misc == null) {\n            return false;\n        }\n        IoTDevAbilityDefines._dev_misc_ability_code _dev_misc_ability_codeVar = IoTDevAbilityDefines._dev_misc_ability_code.MVS_DMISC_ABLC_RECORD_VQUALITY;\n        if (_dev_misc_ability_codeVar.ordinal() >= this.misc.size()) {\n            return false;\n        }\n        int iIntValue = this.misc.get(_dev_misc_ability_codeVar.ordinal()).intValue();\n        int i = IoTDevAbilityDefines._abl_video_quality_bmpc32.ABL_VIDEO_QUAL_FHD;\n        return (iIntValue & i) == i;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "sanitized_noncanonical": true,
+  "redaction": "All source string literals except JSON keys and selected encodings removed; derivative is noncanonical."
+}
