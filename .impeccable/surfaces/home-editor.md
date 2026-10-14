@@ -1,0 +1,3 @@
+# Home and camera profiles
+
+Mode: Operate. User references own the new composition; DESIGN.md owns shared native tokens. Home exposes saved profiles, AP setup, Wi-Fi discovery and a labelled add FAB. Use purple camera badges, mint actions and bordered cards. Discovery responses are labelled Ditemukan; unknown profiles remain Belum diperiksa. Editor groups fields and wrapping protocol radio choices, keeps an independent password-memory card and full-width save. All existing validation, conditional fields, encryption, lifecycle clearing and delete confirmation remain. Verify both themes, 1.3× type, keyboard and landscape with native fixtures.

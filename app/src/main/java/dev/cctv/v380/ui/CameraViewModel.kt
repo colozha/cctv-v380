@@ -32,6 +32,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.combine
 import java.net.BindException
 import dev.cctv.v380.protocol.ApHotspotProtocol
 import android.os.Build
@@ -81,12 +82,13 @@ data class CameraFeatureState(
     val areaError: String? = null, val areaRequestId: Int = 0,
 )
 
-class CameraViewModel(application: Application, private val savedState: SavedStateHandle = SavedStateHandle()) : AndroidViewModel(application) {
+class CameraViewModel @JvmOverloads constructor(application: Application,
+    private val savedState: SavedStateHandle = SavedStateHandle(), sessionOverride: CameraSession? = null) : AndroidViewModel(application) {
     private val store = ProfileStore(application)
     private val wifi = WifiNetwork(application)
     private val discovery = LanDiscovery(wifi)
     val diagnostics = Diagnostics()
-    val session = CameraSession(wifi, discovery, diagnostics)
+    val session = sessionOverride ?: CameraSession(wifi, discovery, diagnostics)
     val provisioning = ProvisioningManager(wifi, discovery, session, store, viewModelScope)
     private val mutableUi = MutableStateFlow(CameraUiState())
     val ui = mutableUi.asStateFlow()
@@ -115,6 +117,7 @@ class CameraViewModel(application: Application, private val savedState: SavedSta
     private var apPassword: CharArray? = null
     private var apCameraPassword: CharArray? = null
     private var apHandoffUntil = 0L
+    private var automaticMotorAttempt = 0L
 
     private fun clearApSecrets() {
         apPassword?.fill('\u0000'); apPassword = null
@@ -131,7 +134,7 @@ class CameraViewModel(application: Application, private val savedState: SavedSta
                     clearAreaReference()
                     clearRecordingStorage()
                     mutableFeatures.update {
-                        it.copy(settings = null, draft = emptyMap(), management = emptyMap(), managementDraft = emptyMap(),
+                        it.copy(settings = null, draft = emptyMap(), management = emptyMap(), managementDraft = emptyMap(), managementErrors = emptyMap(),
                             managementNotice = if (it.management.isNotEmpty() || it.managementDraft.isNotEmpty())
                                 "Sesi kamera berubah. Muat ulang nilai sebelum mengubah pengaturan." else it.managementNotice)
                     }
@@ -143,8 +146,25 @@ class CameraViewModel(application: Application, private val savedState: SavedSta
                 if (reference == null && features.value.areaPhase in setOf(AreaCapturePhase.EDITING, AreaCapturePhase.STAGED)) clearAreaReference()
             }
         }
+        viewModelScope.launch {
+            combine(session.state, session.authenticationRevision, features) { state, revision, feature ->
+                Triple(state, revision, feature)
+            }.collect { (state, revision, feature) ->
+                val caps = session.capabilities.value
+                if (state is SessionState.Streaming && feature.tab == CameraTab.LIVE && revision > 0 &&
+                    revision != automaticMotorAttempt && feature.profileId == session.connectedProfile?.id &&
+                    caps?.ptz == true && caps.management.patrol == true && !feature.busy &&
+                    !managementWorkRunning && !apWorkRunning && feature.pendingAp == null) {
+                    automaticMotorAttempt = revision
+                    if (feature.management[ManagementGroup.MOTOR]?.revision != revision) loadManagement(ManagementGroup.MOTOR, automatic = true)
+                }
+            }
+        }
         viewModelScope.launch { reload() }
-        viewModelScope.launch { wifi.revision.collect { if (it > 0L) session.abort() } }
+        viewModelScope.launch { wifi.revision.collect { if (it > 0L) {
+            session.abort()
+            mutableUi.update { state -> state.copy(discovered = emptyList(), scanCompleted = false) }
+        } } }
         viewModelScope.launch(Dispatchers.IO) {
             // Only our temporary files; never delete user-selected documents on startup.
             application.cacheDir.listFiles()?.filter { it.name.startsWith("v380-recording-") && it.extension == "mp4" }?.forEach { it.delete() }
@@ -946,10 +966,17 @@ class CameraViewModel(application: Application, private val savedState: SavedSta
         }
     }
 
-    fun loadManagement(group: ManagementGroup) = launchManagement(group) {
+    fun loadManagement(group: ManagementGroup, automatic: Boolean = false) = launchManagement(group) {
         val selected = ui.value.profiles.firstOrNull { it.id == features.value.profileId } ?: throw CameraFailure(SessionError.IdentityMismatch)
         if (session.connectedProfile?.deviceId != selected.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
-        val snapshot = session.readManagement(selected.id, group)
+        val snapshot = try { session.readManagement(selected.id, group) }
+        catch (cancelled: CancellationException) {
+            if (automatic) automaticMotorAttempt = 0L
+            throw cancelled
+        }
+        currentCoroutineContext().ensureActive()
+        if (features.value.profileId != selected.id || session.authenticationRevision.value != snapshot.revision ||
+            !session.isAuthenticated(selected.id)) throw CameraFailure(SessionError.AuthenticationFailed)
         mutableFeatures.update { it.copy(management = it.management + (group to snapshot)) }
         if (group == ManagementGroup.ALARM && features.value.areaImage != null && !areaDraftReady()) clearAreaReference()
     }

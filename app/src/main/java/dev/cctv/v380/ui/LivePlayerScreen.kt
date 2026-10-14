@@ -4,19 +4,25 @@ import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,6 +35,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.cctv.v380.control.Direction
 import dev.cctv.v380.session.*
+import dev.cctv.v380.protocol.*
 import kotlinx.coroutines.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,6 +46,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     var overrideSaved by remember(profile.id) { mutableStateOf(false) }
     var surface by remember { mutableStateOf<Surface?>(null) }
     val feature by model.features.collectAsStateWithLifecycle()
+    var presetsOpen by rememberSaveable(profile.id) { mutableStateOf(false) }
     var pendingLeave by remember { mutableStateOf<(() -> Unit)?>(null) }
     LaunchedEffect(profile.id) { model.prepareFeatures(profile) }
     fun leave(action: () -> Unit) {
@@ -57,7 +65,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
         if (surface?.isValid == true && state is SessionState.Ready) model.surfaceReady(surface!!, profile.id)
     }
     Scaffold(topBar = { Column {
-        TopAppBar(title = { Text(profile.name) },
+        TopAppBar(title = { Text(profile.name, fontWeight = FontWeight.Bold) },
         navigationIcon = { IconButton(onClick = { leave(backAction) }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, if (feature.tab == CameraTab.RECORDINGS && feature.selected != null) "Kembali ke daftar rekaman" else "Kembali") } },
         actions = {
             IconButton(onClick = { leave(onDiagnostics) }) { Icon(Icons.Default.Info, "Diagnostik LAN") }
@@ -77,81 +85,166 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
             return@Scaffold
         }
         BoxWithConstraints(Modifier.fillMaxSize().padding(insets)) {
-        val videoHeight = minOf(maxWidth * 9f / 16f, maxHeight * .5f)
-        Column(Modifier.fillMaxSize()) {
-            // Keep the native Surface outside the scrolling controls, including in landscape.
-            Box(Modifier.fillMaxWidth().height(videoHeight).background(Color.Black), contentAlignment = Alignment.Center) {
-                CameraVideoSurface(videoHeight, onReady = { value -> surface = value; model.surfaceReady(value, profile.id) },
-                    onLost = { val old = surface; surface = null; model.surfaceLost(old) })
-                if (!streaming) Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(24.dp)) {
-                    if (busy) CircularProgressIndicator(color = Color.White, modifier = Modifier.size(32.dp))
-                    else Icon(CameraIcon, null, Modifier.size(40.dp), tint = Color.White.copy(alpha = .7f))
-                    Spacer(Modifier.height(12.dp))
-                    Text(when (state) {
-                        SessionState.Connecting -> "Menghubungkan kamera…"
-                        SessionState.Authenticating -> "Memverifikasi akses lokal…"
-                        is SessionState.Ready -> "Kamera terautentikasi"
-                        is SessionState.Negotiating -> "Menunggu video…"
-                        is SessionState.Reconnecting -> "Menyambungkan kembali (${state.attempt}/3)…"
-                        is SessionState.Error -> "Video belum tersedia"
-                        else -> "Belum terhubung"
-                    }, color = Color.White, style = MaterialTheme.typography.titleMedium)
+            val videoHeight = minOf((maxWidth - 16.dp) * 9f / 16f, maxHeight * .45f)
+            Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+                // Keep the native Surface attached outside the scrolling controls and modal sheet.
+                Box(Modifier.padding(horizontal = 8.dp).fillMaxWidth().height(videoHeight)
+                    .clip(RoundedCornerShape(16.dp)).background(androidx.compose.ui.graphics.Color.Black), contentAlignment = Alignment.Center) {
+                    CameraVideoSurface(videoHeight, cornerRadius = 16.dp, onReady = { value -> surface = value; model.surfaceReady(value, profile.id) },
+                        onLost = { val old = surface; surface = null; model.surfaceLost(old) })
+                    if (!streaming) Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(16.dp)) {
+                        if (busy) CircularProgressIndicator(color = androidx.compose.ui.graphics.Color.White, modifier = Modifier.size(28.dp))
+                        else Icon(CameraIcon, null, Modifier.size(32.dp), tint = androidx.compose.ui.graphics.Color.White.copy(alpha = .7f))
+                        Spacer(Modifier.height(8.dp))
+                        Text(when (state) {
+                            SessionState.Connecting -> "Menghubungkan kamera…"
+                            SessionState.Authenticating -> "Memverifikasi akses lokal…"
+                            is SessionState.Ready -> "Kamera terautentikasi"
+                            is SessionState.Negotiating -> "Menunggu video…"
+                            is SessionState.Reconnecting -> "Menyambungkan kembali (${state.attempt}/3)…"
+                            is SessionState.Error -> "Video belum tersedia"
+                            else -> "Belum terhubung"
+                        }, color = androidx.compose.ui.graphics.Color.White, style = MaterialTheme.typography.titleMedium)
+                    }
+                }
+                Column(Modifier.weight(1f).widthIn(max = 680.dp).fillMaxWidth()
+                    .verticalScroll(rememberScrollState()).imePadding().padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    CameraPanel {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            SectionIcon(WifiIcon)
+                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                Text("Koneksi lokal", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                                Text("${profile.host}:${profile.port}", style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                StatusLabel(if (streaming) "Terhubung" else if (busy) "Menghubungkan…" else "Belum terhubung", streaming)
+                            }
+                        }
+                        (state as? SessionState.Error)?.let { ErrorNotice(it.reason.userMessage()) }
+                        error?.let { ErrorNotice(it, model::dismissError) }
+                        if (!streaming && !busy) {
+                            if (!profile.hasSavedPassword || overrideSaved) OutlinedTextField(password, { password = it.take(4096) },
+                                label = { Text("Password lokal kamera") }, supportingText = { Text("Gunakan akses perangkat kamera, terpisah dari akun V380 dan Wi-Fi rumah.") },
+                                visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                                modifier = Modifier.fillMaxWidth(), singleLine = true)
+                            if (profile.hasSavedPassword) TextButton(onClick = { overrideSaved = !overrideSaved; password = "" }) {
+                                Text(if (overrideSaved) "Gunakan akses tersimpan" else "Masukkan password lain")
+                            }
+                            Button(onClick = {
+                                val entered = if (profile.hasSavedPassword && !overrideSaved) null else password.toCharArray()
+                                password = ""; onConnect(entered)
+                            }, enabled = surface?.isValid == true, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                                Icon(Icons.Default.PlayArrow, null); Spacer(Modifier.width(8.dp)); Text("Sambungkan")
+                            }
+                        }
+                        if (state !is SessionState.Idle) OutlinedButton(onClick = model::disconnect,
+                            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)) {
+                            Text(if (busy) "Batalkan koneksi" else "Putuskan koneksi")
+                        }
+                    }
+                    CameraPanel {
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            SectionIcon(Icons.Default.Settings)
+                            Text("Kualitas video", Modifier.weight(1f), style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold)
+                            SingleChoiceSegmentedButtonRow(Modifier.width(128.dp)) {
+                                Quality.entries.forEachIndexed { index, quality -> SegmentedButton(
+                                    selected = (state as? SessionState.Streaming)?.quality == quality || (state as? SessionState.Negotiating)?.quality == quality,
+                                    onClick = { model.changeQuality(quality) }, enabled = streaming && quality in capabilities?.qualities.orEmpty(),
+                                    shape = SegmentedButtonDefaults.itemShape(index, Quality.entries.size), icon = {},
+                                    colors = SegmentedButtonDefaults.colors(activeContainerColor = MaterialTheme.colorScheme.primary,
+                                        activeContentColor = MaterialTheme.colorScheme.onPrimary), label = { Text(quality.name) }) }
+                            }
+                        }
+                    }
+                    CameraPanel {
+                        PanelHeading(Icons.Default.Settings, "Kontrol kamera")
+                        val ptz = streaming && model.session.manualPtzAllowed && !model.managementBlocked() && !feature.busy && capabilities?.ptz == true
+                        if (!ptz) {
+                            Text(when {
+                                !streaming -> "Kontrol tersedia setelah video berjalan dan kemampuan PTZ dikonfirmasi kamera."
+                                capabilities?.ptz != true -> "Kamera belum mengonfirmasi dukungan PTZ."
+                                feature.managementLoading == ManagementGroup.MOTOR -> "Memeriksa status motor kamera…"
+                                model.managementBlocked() -> "Kontrol menunggu pemeriksaan operasi kamera yang belum selesai."
+                                feature.busy -> "Tunggu operasi kamera selesai."
+                                else -> {
+                                    val patrol = feature.management[ManagementGroup.MOTOR]?.settings?.values?.get(CameraManagementProtocol.PATROL) as? CameraPatrol
+                                    if (patrol?.enabled == true || patrol?.timerEnabled == true)
+                                        "Patroli kamera aktif. Kontrol arah menunggu konfigurasi patroli tidak aktif."
+                                    else "Status motor belum dapat diperiksa. Coba periksa ulang."
+                                }
+                            }, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            if (streaming && capabilities?.management?.patrol == true && !feature.busy)
+                                OutlinedButton(onClick = { model.loadManagement(ManagementGroup.MOTOR) },
+                                    enabled = !model.managementBlocked(), modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                                    Icon(Icons.Default.Refresh, null); Spacer(Modifier.width(8.dp)); Text("Periksa ulang status motor")
+                                }
+                        }
+                        Column(Modifier.align(Alignment.CenterHorizontally), horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            PtzButton(Icons.Default.KeyboardArrowUp, "Atas", Direction.UP, ptz && capabilities?.verticalPtz == true, model)
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                PtzButton(Icons.Default.KeyboardArrowLeft, "Kiri", Direction.LEFT, ptz && capabilities?.horizontalPtz == true, model)
+                                val scope = rememberCoroutineScope()
+                                OutlinedButton(onClick = { scope.launch { model.stopPtz() } }, enabled = streaming && capabilities?.ptz == true,
+                                    shape = CircleShape, contentPadding = PaddingValues(8.dp), modifier = Modifier.size(72.dp)) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Icon(StopIcon, null, Modifier.size(20.dp)); Text("Stop", style = MaterialTheme.typography.labelMedium)
+                                    }
+                                }
+                                PtzButton(Icons.Default.KeyboardArrowRight, "Kanan", Direction.RIGHT, ptz && capabilities?.horizontalPtz == true, model)
+                            }
+                            PtzButton(Icons.Default.KeyboardArrowDown, "Bawah", Direction.DOWN, ptz && capabilities?.verticalPtz == true, model)
+                        }
+                        feature.managementErrors[ManagementGroup.MOTOR]?.let { ErrorNotice(it) }
+                    }
+                    Surface(onClick = { presetsOpen = true }, shape = RoundedCornerShape(20.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), modifier = Modifier.fillMaxWidth()) {
+                        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            SectionIcon(BookmarkIcon)
+                            Column(Modifier.weight(1f)) {
+                                Text("Preset & patroli", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                                val presets = feature.management[ManagementGroup.MOTOR]?.settings?.values?.get(CameraManagementProtocol.PRESETS) as? CameraPresets
+                                Text(if (presets != null && capabilities?.management?.presets != null)
+                                    "${presets.used.size}/${capabilities?.management?.presets} preset tersimpan" else "Atur posisi dan rute kamera",
+                                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                            Icon(Icons.Default.KeyboardArrowRight, null)
+                        }
+                    }
+                    feature.managementNotice?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
                 }
             }
-            Column(Modifier.weight(1f).fillMaxWidth().widthIn(max = 680.dp).verticalScroll(rememberScrollState()).imePadding().padding(24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("Koneksi lokal", style = MaterialTheme.typography.titleLarge)
-                Text("${profile.host}:${profile.port}", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                (state as? SessionState.Error)?.let { ErrorNotice(it.reason.userMessage()) }
-                error?.let { ErrorNotice(it, model::dismissError) }
-                if (!streaming && !busy) {
-                    if (!profile.hasSavedPassword || overrideSaved) OutlinedTextField(password, { password = it.take(4096) },
-                        label = { Text("Password lokal kamera") }, supportingText = { Text("Gunakan akses perangkat kamera, terpisah dari akun V380 dan Wi-Fi rumah.") },
-                        visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        modifier = Modifier.fillMaxWidth(), singleLine = true)
-                    if (profile.hasSavedPassword) TextButton(onClick = { overrideSaved = !overrideSaved; password = "" }) {
-                        Text(if (overrideSaved) "Gunakan akses tersimpan" else "Masukkan password lain")
-                    }
-                    Button(onClick = {
-                        val entered = if (profile.hasSavedPassword && !overrideSaved) null else password.toCharArray()
-                        password = ""; onConnect(entered)
-                    }, enabled = surface?.isValid == true, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
-                        Icon(Icons.Default.PlayArrow, null); Spacer(Modifier.width(8.dp)); Text("Sambungkan")
-                    }
-                }
-                if (state !is SessionState.Idle) OutlinedButton(onClick = model::disconnect,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(if (busy) "Batalkan koneksi" else "Putuskan koneksi") }
-                HorizontalDivider()
-                Text("Kualitas video", style = MaterialTheme.typography.titleMedium)
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Quality.entries.forEach { quality -> FilterChip(
-                        selected = (state as? SessionState.Streaming)?.quality == quality || (state as? SessionState.Negotiating)?.quality == quality,
-                        onClick = { model.changeQuality(quality) }, enabled = streaming && quality in capabilities?.qualities.orEmpty(),
-                        label = { Text(quality.name) }) }
-                }
-                Text("Kontrol kamera", style = MaterialTheme.typography.titleMedium)
-                val ptz = streaming && model.session.manualPtzAllowed && !model.managementBlocked() && !feature.busy && capabilities?.ptz == true
-                if (!ptz) Text(if (streaming && capabilities?.management?.patrol == true && !model.session.manualPtzAllowed)
-                    "Muat status pada Preset dan patroli terlebih dahulu. Kontrol arah terkunci jika konfigurasi patroli aktif atau belum diketahui."
-                    else "Kontrol tersedia setelah video berjalan dan kemampuan PTZ dikonfirmasi kamera.",
-                    style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Column(Modifier.align(Alignment.CenterHorizontally), horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    PtzButton(Icons.Default.KeyboardArrowUp, "Atas", Direction.UP, ptz && capabilities?.verticalPtz == true, model)
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        PtzButton(Icons.Default.KeyboardArrowLeft, "Kiri", Direction.LEFT, ptz && capabilities?.horizontalPtz == true, model)
-                        val scope = rememberCoroutineScope()
-                        OutlinedButton(onClick = { scope.launch { model.stopPtz() } }, enabled = ptz,
-                            modifier = Modifier.sizeIn(minWidth = 72.dp, minHeight = 56.dp)) { Text("Stop") }
-                        PtzButton(Icons.Default.KeyboardArrowRight, "Kanan", Direction.RIGHT, ptz && capabilities?.horizontalPtz == true, model)
-                    }
-                    PtzButton(Icons.Default.KeyboardArrowDown, "Bawah", Direction.DOWN, ptz && capabilities?.verticalPtz == true, model)
-                }
-                feature.managementNotice?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
-                CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.MOTOR, live = true)
-            }
-        }
         }
     }
+    if (presetsOpen) {
+        val protected by rememberUpdatedState(feature.busy || feature.managementDraft.isNotEmpty() || feature.draft.isNotEmpty())
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true, confirmValueChange = { value ->
+            if (value == SheetValue.Hidden && protected) {
+                pendingLeave = { presetsOpen = false }
+                false
+            } else true
+        })
+        ModalBottomSheet(onDismissRequest = { leave { presetsOpen = false } }, sheetState = sheetState,
+            containerColor = MaterialTheme.colorScheme.surface, contentColor = MaterialTheme.colorScheme.onSurface) {
+            Column(Modifier.fillMaxWidth().heightIn(max = (LocalConfiguration.current.screenHeightDp * .7f).dp)
+                .verticalScroll(rememberScrollState()).imePadding().padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Icon(BookmarkIcon, null, tint = MaterialTheme.colorScheme.primary)
+                    Text("Preset & patroli", Modifier.weight(1f), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                    IconButton(onClick = { leave { presetsOpen = false } }) { Icon(Icons.Default.Close, "Tutup preset dan patroli") }
+                }
+                CameraManagementGroup(model, profile, feature, ManagementGroup.MOTOR, live = true)
+                feature.managementNotice?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
+            }
+        }
+    }
+
     if (pendingLeave != null) AlertDialog(onDismissRequest = { pendingLeave = null },
         title = { Text(if ((feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty())) "Buang perubahan?" else "Tinggalkan pekerjaan ini?") },
         text = { Text(when {

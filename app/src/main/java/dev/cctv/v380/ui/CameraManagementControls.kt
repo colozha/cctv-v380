@@ -15,7 +15,7 @@ import dev.cctv.v380.session.*
 @Composable
 fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, feature: CameraFeatureState,
     group: ManagementGroup, live: Boolean = false) {
-    var expanded by remember(profile.id, group) { mutableStateOf(false) }
+    var expanded by remember(profile.id, group, live) { mutableStateOf(live) }
     var confirmation by remember(profile.id, group) { mutableStateOf<Pair<String, () -> Unit>?>(null) }
     val authenticated = model.session.isAuthenticated(profile.id)
     val caps by model.session.capabilities.collectAsState()
@@ -26,7 +26,7 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
     fun value(id: Int): Any? = feature.managementDraft[id] ?: values[id]
     fun change(id: Int, v: Any) = model.draftManagement(group, id, v)
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        TextButton(onClick = { expanded = !expanded },
+        if (!live) TextButton(onClick = { expanded = !expanded },
             enabled = group != ManagementGroup.ALARM || feature.areaPhase !in setOf(AreaCapturePhase.CAPTURING, AreaCapturePhase.EDITING),
             modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
             Text(if (expanded) "${group.label} · Tutup" else "${group.label} · Buka", style = MaterialTheme.typography.titleMedium)
@@ -46,9 +46,10 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
                 OutlinedButton(onClick = { confirmation = "Saya sudah memeriksa bahwa gerak kamera telah berhenti." to model::acknowledgeCalibration },
                     enabled = !feature.busy && feature.pendingCalibration?.profileId == profile.id, modifier = Modifier.heightIn(min = 48.dp)) { Text("Gerak kamera sudah berhenti") }
             }
-            OutlinedButton(onClick = { model.loadManagement(group) }, enabled = authenticated && !feature.busy && feature.pendingAp == null &&
+            if (!live || values[CameraManagementProtocol.PRESETS] !is CameraPresets || (ability.presets ?: 0) <= 0)
+                OutlinedButton(onClick = { model.loadManagement(group) }, enabled = authenticated && !feature.busy && feature.pendingAp == null &&
                 (group != ManagementGroup.ALARM || feature.areaPhase != AreaCapturePhase.EDITING),
-                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Muat ${group.label.lowercase()}") }
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(if (live) "Muat preset dan patroli" else "Muat ${group.label.lowercase()}") }
             if (feature.managementLoading == group) LinearProgressIndicator(Modifier.fillMaxWidth())
             feature.managementErrors[group]?.let { ErrorNotice(it) }
             if (snapshot == null) Text(if (authenticated) "Muat nilai dari kamera untuk melihat pengaturan yang tersedia."
@@ -108,27 +109,31 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
                     val slots = values[CameraManagementProtocol.PRESETS] as? CameraPresets
                     val patrol = value(CameraManagementProtocol.PATROL) as? CameraPatrol
                     val stoppedConfiguration = ability.patrol == false || patrol != null && !patrol.enabled && !patrol.timerEnabled
-                    if (live && slots != null && ability.presets != null && ability.presets!! > 0) {
+                    if (live && slots != null && ability.presets != null && ability.presets!! > 0) CameraPanel {
                         var slot by remember(profile.id) { mutableIntStateOf(0) }
                         var menu by remember { mutableStateOf(false) }
                         Text("Preset tersimpan: ${slots.used.size}/${ability.presets}", style = MaterialTheme.typography.bodyMedium)
                         Box {
-                            OutlinedButton(onClick = { menu = true }, enabled = enabled, modifier = Modifier.heightIn(min = 48.dp)) { Text("Slot ${slot + 1}${if (slot in slots.used) " · Terisi" else " · Kosong"}") }
+                            OutlinedButton(onClick = { menu = true }, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Slot ${slot + 1}${if (slot in slots.used) " · Terisi" else " · Kosong"}") }
                             DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                                 repeat(ability.presets!!.coerceAtMost(256)) { id -> DropdownMenuItem(text = { Text("Slot ${id + 1}${if (id in slots.used) " · Terisi" else ""}") },
                                     onClick = { slot = id; menu = false }) }
                             }
                         }
+                        OutlinedButton(onClick = { model.loadManagement(group) }, enabled = enabled,
+                            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Muat preset dan patroli") }
                         OutlinedButton(onClick = {
                             if (slot in slots.used) confirmation = "Timpa posisi yang tersimpan pada slot ${slot + 1}?" to { model.presetAction(slot, 1) }
                             else model.presetAction(slot, 1)
-                        }, enabled = enabled && stoppedConfiguration, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Simpan posisi") }
+                        }, enabled = enabled && stoppedConfiguration, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Icon(SaveIcon, null); Spacer(Modifier.width(8.dp)); Text("Simpan posisi") }
                         OutlinedButton(onClick = { model.presetAction(slot, 2) }, enabled = enabled && stoppedConfiguration && slot in slots.used,
                             modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Ke posisi") }
                         TextButton(onClick = { confirmation = "Hapus preset pada slot ${slot + 1}?" to { model.presetAction(slot, 3) } },
+                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
                             enabled = enabled && stoppedConfiguration && slot in slots.used, modifier = Modifier.heightIn(min = 48.dp)) { Text("Hapus preset") }
                     } else if (live) Text("Daftar preset atau kemampuan slot belum dikonfirmasi kamera.")
                     if (patrol != null) {
+                        val patrolContent: @Composable ColumnScope.() -> Unit = {
                         Text(if (patrol.enabled || patrol.timerEnabled) "Konfigurasi patroli kamera aktif. Status gerak motor belum diketahui." else "Konfigurasi patroli kamera tidak aktif.")
                         Text("Aktivasi dan penghentian patroli belum tersedia sampai status motor dapat diverifikasi.", style = MaterialTheme.typography.bodySmall)
                         patrol.routes.forEachIndexed { index, route ->
@@ -173,6 +178,9 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
                             firstSlot != null && patrol.routes.size < patrol.maxRoutes,
                             modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Tambah rute patroli") }
                         Text("Waktu rute mengikuti jam kamera; zona waktu belum dikonfirmasi. Mengubah rute tidak mengaktifkan patroli. Simpan preset terlebih dahulu untuk menambah posisi.", style = MaterialTheme.typography.bodySmall)
+                        }
+                        if (live) CameraPanel(content = patrolContent)
+                        else Column(verticalArrangement = Arrangement.spacedBy(12.dp), content = patrolContent)
                     }
                     if (!live) {
                         OutlinedButton(onClick = { confirmation = "Kalibrasi akan menggerakkan lensa kamera. Status akhir belum dapat dibaca; periksa geraknya sebelum melakukan aksi lain." to model::calibrateCamera },

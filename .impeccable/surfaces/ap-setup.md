@@ -1,0 +1,5 @@
+# Camera AP setup
+
+Mode: Operate. Initial composition follows the owner reference: centered camera/radio raster, heading and instructions, SSID/secret card with visibility control, Wi-Fi list, mint connect, Android-settings handoff and already-connected action. Later phases inherit DESIGN.md panels and spacing. Do not conflate this onboarding flow with the authenticated AP editor in Settings (ap-hotspot.md). Preserve permissions, API-specific connection paths, secret clearing, separate credentials, authentication, send-once writes, identity verification and recovery.
+
+Raster provenance: built-in image_gen, 2026-10-14. Asset: app/src/main/res/drawable/ap_camera_illustration.png, generated with a transparent background; no resizing, compositing or background editing. Prompt: Single polished 3D white indoor pan-tilt camera, front view, black oval glass faceplate, central lens and mint status dot, white cylindrical swivel base, three mint radio arcs at upper right, soft studio lighting, no text/UI/frame/floor/background. The complete prompt is preserved in validation/camera-redesign/illustration-prompt.txt.

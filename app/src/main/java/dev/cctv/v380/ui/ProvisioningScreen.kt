@@ -7,12 +7,14 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -21,6 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.painterResource
+import dev.cctv.v380.R
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
@@ -61,10 +68,13 @@ fun ProvisioningScreen(model: CameraViewModel, onBack: () -> Unit, onComplete: (
     BackHandler(onBack = onBack)
     val busy = state.phase in setOf(ProvisioningPhase.CONNECTING_AP, ProvisioningPhase.DISCOVERING,
         ProvisioningPhase.AUTHENTICATING, ProvisioningPhase.SENDING_WIFI, ProvisioningPhase.VERIFYING)
-    Scaffold(topBar = { TopAppBar(title = { Text("Setup Wi-Fi kamera") },
+    val initial = state.phase in setOf(ProvisioningPhase.IDLE, ProvisioningPhase.CONNECTING_AP)
+    Scaffold(topBar = { TopAppBar(title = { Text("Setup Wi-Fi kamera", fontWeight = FontWeight.SemiBold) },
         navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Kembali") } }) }) { insets ->
-        Column(Modifier.fillMaxSize().padding(insets).imePadding().verticalScroll(rememberScrollState()).padding(24.dp),
+        Column(Modifier.fillMaxSize().padding(insets).imePadding().verticalScroll(rememberScrollState()).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            if (initial) Image(painterResource(R.drawable.ap_camera_illustration), contentDescription = null,
+                modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth().height(152.dp))
             Text(when (state.phase) {
                 ProvisioningPhase.IDLE, ProvisioningPhase.CONNECTING_AP -> "Hubungkan ke hotspot kamera"
                 ProvisioningPhase.DISCOVERING, ProvisioningPhase.CHOOSE_CAMERA -> "Pilih kamera"
@@ -73,23 +83,29 @@ fun ProvisioningScreen(model: CameraViewModel, onBack: () -> Unit, onComplete: (
                 ProvisioningPhase.WAITING_LAN, ProvisioningPhase.VERIFYING -> "Temukan kamera kembali"
                 ProvisioningPhase.COMPLETE -> "Kamera siap"
                 ProvisioningPhase.ERROR -> "Setup perlu diperiksa"
-            }, style = MaterialTheme.typography.headlineSmall)
+            }, modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold, textAlign = if (initial) TextAlign.Center else TextAlign.Start)
             if (busy) LinearProgressIndicator(Modifier.fillMaxWidth())
             validation?.let { ErrorNotice(it) }
             state.error?.let { ErrorNotice(it.userMessage()) }
             ui.error?.let { ErrorNotice(it, model::dismissError) }
+            SetupContent(initial) {
             when (state.phase) {
                 ProvisioningPhase.IDLE, ProvisioningPhase.CONNECTING_AP -> {
-                    Text("Aktifkan mode hotspot/AP pada kamera sesuai panduannya. Pilih Wi-Fi yang dipancarkan kamera; koneksi ini dapat tetap dipakai tanpa internet.", style = MaterialTheme.typography.bodyLarge)
-                    OutlinedTextField(apSsid, { apSsid = it; apPassword = "" }, label = { Text("SSID hotspot kamera") }, singleLine = true,
+                    Text("Aktifkan mode hotspot/AP pada kamera sesuai panduannya. Pilih Wi-Fi yang dipancarkan kamera; koneksi ini dapat tetap dipakai tanpa internet.", style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                    CameraPanel {
+                    OutlinedTextField(apSsid, { apSsid = it; apPassword = "" }, label = { Text("SSID hotspot kamera") }, leadingIcon = { SectionIcon(WifiIcon) }, singleLine = true,
                         enabled = !busy, modifier = Modifier.fillMaxWidth())
                     SecretField(apPassword, { apPassword = it }, "Password hotspot kamera", !busy,
                         supporting = "Isi bila hotspot kamera meminta password.")
                     OutlinedButton(onClick = { requestScanPermissions { model.scanWifi() } }, enabled = !busy && !ui.wifiScanning,
-                        modifier = Modifier.heightIn(min = 48.dp)) { Text(if (ui.wifiScanning) "Mencari Wi-Fi…" else "Lihat daftar Wi-Fi") }
+                        modifier = Modifier.heightIn(min = 48.dp)) { Icon(Icons.Default.Menu, null); Spacer(Modifier.width(8.dp)); Text(if (ui.wifiScanning) "Mencari Wi-Fi…" else "Lihat daftar Wi-Fi") }
                     ui.nearbyWifi.take(12).forEach { network -> TextButton(onClick = { apSsid = network.ssid; apPassword = "" }, enabled = !busy) {
                         Text("${network.ssid} · ${network.security}")
                     } }
+                    }
                     if (Build.VERSION.SDK_INT >= 29) Button(onClick = {
                         if (apSsid.toByteArray(Charsets.UTF_8).size !in 1..32 || apPassword.isNotEmpty() && apPassword.length !in 8..63) {
                             validation = "Periksa SSID dan password hotspot. Password hotspot WPA2 memerlukan 8–63 karakter."
@@ -97,9 +113,9 @@ fun ProvisioningScreen(model: CameraViewModel, onBack: () -> Unit, onComplete: (
                             val password = apPassword.toCharArray(); apPassword = ""
                             requestApPermissions({ password.fill('\u0000') }) { model.connectAp(apSsid, password) }
                         }
-                    }, enabled = !busy, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text("Hubungkan ke hotspot kamera") }
+                    }, enabled = !busy, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Icon(WifiIcon, null); Spacer(Modifier.width(12.dp)); Text("Hubungkan ke hotspot kamera") }
                     OutlinedButton(onClick = ::openWifiSettings, enabled = !busy,
-                        modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Pilih hotspot di pengaturan Android") }
+                        modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Icon(Icons.Default.Settings, null); Spacer(Modifier.width(12.dp)); Text("Pilih hotspot di pengaturan Android") }
                     TextButton(onClick = { lan { model.provisioning.discoverCurrentAp() } }, enabled = !busy,
                         modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Saya sudah di hotspot kamera") }
                 }
@@ -185,15 +201,28 @@ fun ProvisioningScreen(model: CameraViewModel, onBack: () -> Unit, onComplete: (
                     } else OutlinedButton(onClick = { lan { model.provisioning.discoverCurrentAp() } }, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Cari kamera kembali") }
                 }
             }
+            }
             Spacer(Modifier.height(8.dp))
         }
     }
 }
 
 @Composable
+private fun SetupContent(initial: Boolean, content: @Composable ColumnScope.() -> Unit) {
+    if (initial) Column(verticalArrangement = Arrangement.spacedBy(16.dp), content = content)
+    else CameraPanel(content = content)
+}
+
+@Composable
 private fun SecretField(value: String, onChange: (String) -> Unit, label: String, enabled: Boolean = true, supporting: String? = null) {
+    var visible by remember { mutableStateOf(false) }
+    LifecycleEventEffect(Lifecycle.Event.ON_STOP) { visible = false }
     OutlinedTextField(value, onChange, label = { Text(label) }, enabled = enabled, modifier = Modifier.fillMaxWidth(), singleLine = true,
-        supportingText = supporting?.let { text -> { Text(text) } }, visualTransformation = PasswordVisualTransformation(),
+        leadingIcon = { SectionIcon(Icons.Default.Lock) },
+        trailingIcon = { IconButton(onClick = { visible = !visible }, enabled = enabled) {
+            Icon(if (visible) EyeOffIcon else EyeIcon, if (visible) "Sembunyikan $label" else "Tampilkan $label")
+        } }, supportingText = supporting?.let { text -> { Text(text) } },
+        visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
 }
 @Composable

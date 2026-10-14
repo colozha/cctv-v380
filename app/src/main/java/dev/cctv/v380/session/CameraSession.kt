@@ -94,6 +94,8 @@ class CameraSession(
     @Volatile private var apNetworkValid: (() -> Boolean)? = null
     private var softApSupported: Boolean? = null
     @Volatile private var managementRevision = 0L
+    private val mutableAuthenticationRevision = MutableStateFlow(0L)
+    val authenticationRevision = mutableAuthenticationRevision.asStateFlow()
     @Volatile private var areaCapturing = false
     private val mutableVideoGeometry = MutableStateFlow<VideoGeometry?>(null)
     val videoGeometry = mutableVideoGeometry.asStateFlow()
@@ -288,6 +290,7 @@ class CameraSession(
         patrolActive = if (resolvedCaps.management.patrol == false) false else null
         authenticatedIoT = iot
         managementRevision++
+        mutableAuthenticationRevision.value = managementRevision
         submittedManagementActions.clear()
         accessRevoked = false
         mutableState.value = SessionState.Ready(resolvedCaps)

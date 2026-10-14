@@ -14,6 +14,8 @@ class UiTest {
         compose.onNodeWithText("Setup lewat AP kamera").performClick()
         compose.onNodeWithText("SSID hotspot kamera").performTextInput("Synthetic-camera-AP")
         compose.onNodeWithText("Password hotspot kamera").performTextInput(java.util.UUID.randomUUID().toString())
+        compose.onNodeWithContentDescription("Tampilkan Password hotspot kamera").performClick()
+        compose.onNodeWithContentDescription("Sembunyikan Password hotspot kamera").assertExists().performClick()
         compose.activityRule.scenario.recreate()
         compose.onNodeWithText("Setup Wi-Fi kamera").assertIsDisplayed()
         compose.onNodeWithText("SSID hotspot kamera").assertTextContains("Synthetic-camera-AP")

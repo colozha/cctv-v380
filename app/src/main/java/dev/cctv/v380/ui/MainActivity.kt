@@ -13,6 +13,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -21,6 +22,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -42,6 +45,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -69,11 +75,31 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun V380Theme(content: @Composable () -> Unit) {
     val scheme = if (isSystemInDarkTheme()) darkColorScheme(
-        primary = Color(0xFF95D6B1), secondary = Color(0xFFB4CCBD),
-        surface = Color(0xFF101511), background = Color(0xFF101511),
+        primary = Color(0xFF82DEB8), onPrimary = Color(0xFF06291D),
+        primaryContainer = Color(0xFF12372D), onPrimaryContainer = Color(0xFFA0F0D3),
+        secondary = Color(0xFFAAF2DF), onSecondary = Color(0xFF06382D),
+        secondaryContainer = Color(0xFF233A35), onSecondaryContainer = Color(0xFFC0F2DD),
+        tertiary = Color(0xFF6531CF), onTertiary = Color.White,
+        tertiaryContainer = Color(0xFF37205F), onTertiaryContainer = Color(0xFFE8DAFF),
+        surface = Color(0xFF080E10), background = Color(0xFF080E10),
+        onSurface = Color(0xFFF3F4F8), onBackground = Color(0xFFF3F4F8),
+        surfaceContainer = Color(0xFF131B20), surfaceContainerHigh = Color(0xFF1C252C),
+        surfaceContainerLow = Color(0xFF10171C), surfaceContainerHighest = Color(0xFF252E35),
+        surfaceVariant = Color(0xFF222B32), onSurfaceVariant = Color(0xFFB9BBCB),
+        outline = Color(0xFF7D8495), outlineVariant = Color(0xFF2E3842),
     ) else lightColorScheme(
-        primary = Color(0xFF185C43), secondary = Color(0xFF496453),
-        surface = Color(0xFFF8FAF6), background = Color(0xFFF8FAF6),
+        primary = Color(0xFF185C43), onPrimary = Color.White,
+        primaryContainer = Color(0xFFD0EFDF), onPrimaryContainer = Color(0xFF123526),
+        secondary = Color(0xFF296852), onSecondary = Color.White,
+        secondaryContainer = Color(0xFFDEEEE7), onSecondaryContainer = Color(0xFF123526),
+        tertiary = Color(0xFF6531CF), onTertiary = Color.White,
+        tertiaryContainer = Color(0xFFEDE2FF), onTertiaryContainer = Color(0xFF43247A),
+        surface = Color(0xFFF5F8F6), background = Color(0xFFF5F8F6),
+        onSurface = Color(0xFF17231E), onBackground = Color(0xFF17231E),
+        surfaceContainer = Color.White, surfaceContainerHigh = Color(0xFFE9F0ED),
+        surfaceContainerLow = Color(0xFFF0F5F2), surfaceContainerHighest = Color(0xFFE1E9E5),
+        surfaceVariant = Color(0xFFE7EEE9), onSurfaceVariant = Color(0xFF4C5E55),
+        outline = Color(0xFF6C7D74), outlineVariant = Color(0xFFD9E2DC),
     )
     MaterialTheme(colorScheme = scheme, content = content)
 }
@@ -147,81 +173,130 @@ fun V380App(model: CameraViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CameraList(
+internal fun CameraList(
     state: CameraUiState, onScan: () -> Unit, onCancel: () -> Unit, onAdd: () -> Unit,
     onOpen: (CameraProfile) -> Unit, onEdit: (CameraProfile) -> Unit,
     onFound: (DiscoveredCamera) -> Unit, onDismissError: () -> Unit,
     onSetup: () -> Unit, onDiagnostics: () -> Unit,
 ) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("V380 LAN", fontWeight = FontWeight.SemiBold) }, actions = {
+        topBar = { TopAppBar(title = { Text(buildAnnotatedString {
+            append("V380 ")
+            withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) { append("LAN") }
+        }, fontWeight = FontWeight.Bold) }, actions = {
             IconButton(onClick = onDiagnostics) { Icon(Icons.Default.Info, "Diagnostik LAN") }
             TextButton(onClick = if (state.scanning) onCancel else onScan) {
                 Icon(if (state.scanning) Icons.Default.Close else Icons.Default.Search, null)
                 Spacer(Modifier.width(8.dp)); Text(if (state.scanning) "Batal" else "Cari")
             }
         }) },
-        floatingActionButton = { FloatingActionButton(onClick = onAdd) { Icon(Icons.Default.Add, "Tambah kamera manual") } },
+        floatingActionButton = {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                FloatingActionButton(onClick = onAdd, containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary, shape = RoundedCornerShape(20.dp)) {
+                    Icon(Icons.Default.Add, "Tambah kamera manual", Modifier.size(32.dp))
+                }
+                Text("Tambah kamera", Modifier.padding(top = 8.dp), style = MaterialTheme.typography.labelMedium)
+            }
+        },
     ) { insets ->
-        LazyColumn(Modifier.fillMaxSize().padding(insets), contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 104.dp)) {
+        LazyColumn(Modifier.fillMaxSize().padding(insets).widthIn(max = 680.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 120.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)) {
             item {
-                Spacer(Modifier.height(20.dp))
-                Text("Kamera Anda", style = MaterialTheme.typography.headlineMedium)
+                Text("Kamera Anda", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(8.dp))
-                Text("Pantau kamera melalui Wi-Fi yang sama.", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Spacer(Modifier.height(12.dp))
-                TextButton(onClick = onSetup, modifier = Modifier.heightIn(min = 48.dp)) { Text("Setup lewat AP kamera") }
-                Spacer(Modifier.height(28.dp))
-                state.error?.let { ErrorNotice(it, onDismissError); Spacer(Modifier.height(16.dp)) }
-                if (state.loading || state.scanning) {
-                    LinearProgressIndicator(Modifier.fillMaxWidth().semantics { contentDescription = "Mencari kamera" })
-                    Spacer(Modifier.height(12.dp))
-                    Text(if (state.loading) "Membaca profil…" else "Mencari kamera di Wi-Fi…", style = MaterialTheme.typography.bodyMedium)
-                    Spacer(Modifier.height(24.dp))
+                Text("Pantau kamera melalui Wi-Fi yang sama.", style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.height(20.dp))
+                Surface(onClick = onSetup, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)) {
+                    Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        SectionIcon(WifiIcon)
+                        Text("Setup lewat AP kamera", Modifier.weight(1f), color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                        Icon(Icons.Default.KeyboardArrowRight, null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
+                    }
                 }
             }
+            state.error?.let { message -> item { ErrorNotice(message, onDismissError) } }
+            if (state.loading || state.scanning) item {
+                LinearProgressIndicator(Modifier.fillMaxWidth().semantics { contentDescription = "Mencari kamera" })
+                Text(if (state.loading) "Membaca profil…" else "Mencari kamera di Wi-Fi…", Modifier.padding(top = 8.dp),
+                    style = MaterialTheme.typography.bodyMedium)
+            }
             if (!state.loading && state.profiles.isEmpty()) item {
-                Column(Modifier.fillMaxWidth().padding(top = 36.dp, bottom = 40.dp), horizontalAlignment = Alignment.Start) {
-                    Icon(CameraIcon, null, Modifier.size(56.dp), tint = MaterialTheme.colorScheme.primary)
-                    Spacer(Modifier.height(24.dp))
-                    Text("Belum ada kamera", style = MaterialTheme.typography.headlineSmall)
-                    Spacer(Modifier.height(12.dp))
+                CameraPanel {
+                    CameraBadge()
+                    Text("Belum ada kamera", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
                     Text("Cari kamera di jaringan lokal atau tambahkan alamat IP secara manual.",
-                        style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Spacer(Modifier.height(24.dp))
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Button(onClick = onScan, enabled = !state.scanning, modifier = Modifier.heightIn(min = 48.dp)) { Text("Cari di Wi-Fi") }
                     TextButton(onClick = onAdd, modifier = Modifier.heightIn(min = 48.dp)) { Text("Tambah manual") }
                 }
             }
             items(state.profiles, key = { it.id }) { profile ->
-                Row(Modifier.fillMaxWidth().clickable { onOpen(profile) }.padding(vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(CameraIcon, null, Modifier.size(48.dp).background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(12.dp)).padding(12.dp), tint = MaterialTheme.colorScheme.onPrimaryContainer)
-                    Spacer(Modifier.width(16.dp))
-                    Column(Modifier.weight(1f)) {
-                        Text(profile.name, style = MaterialTheme.typography.titleMedium)
-                        Spacer(Modifier.height(4.dp))
-                        Text("${profile.host}:${profile.port}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Surface(onClick = { onOpen(profile) }, shape = RoundedCornerShape(20.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainer,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)) {
+                    Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        CameraBadge()
+                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text(profile.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                            Text("${profile.host}:${profile.port}", style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            val found = state.discovered.any { it.deviceId == profile.deviceId }
+                            StatusLabel(if (found) "Ditemukan di Wi-Fi" else "Belum diperiksa", found)
+                        }
+                        IconButton(onClick = { onEdit(profile) }) { Icon(Icons.Default.Edit, "Edit ${profile.name}") }
                     }
-                    IconButton(onClick = { onEdit(profile) }) { Icon(Icons.Default.Edit, "Edit ${profile.name}") }
                 }
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             }
-            if (state.discovered.isNotEmpty()) item {
-                Spacer(Modifier.height(32.dp))
-                Text("Ditemukan di Wi-Fi", style = MaterialTheme.typography.titleLarge)
-                Spacer(Modifier.height(8.dp))
+            if (state.discovered.isNotEmpty() || state.scanCompleted) item {
+                HorizontalDivider(Modifier.padding(top = 12.dp, bottom = 20.dp), color = MaterialTheme.colorScheme.outlineVariant)
+                Text("Ditemukan di Wi-Fi", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text("Kamera yang ditemukan pada jaringan Wi-Fi saat ini.", Modifier.padding(top = 8.dp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium)
             }
             if (state.scanCompleted && state.discovered.isEmpty()) item {
                 Text("Tidak ada kamera ditemukan. Pastikan kamera menyala dan tersambung ke Wi-Fi yang sama, atau tambahkan IP manual.",
                     style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             items(state.discovered, key = { "discovered-${it.deviceId}" }) { camera ->
-                val saved = state.profiles.any { it.deviceId == camera.deviceId }
-                ListItem(headlineContent = { Text("Kamera ${camera.deviceId}") },
-                    supportingContent = { Text("${camera.host}:${camera.port}") },
-                    trailingContent = {
-                        TextButton(onClick = { onFound(camera) }, enabled = !saved) { Text(if (saved) "Tersimpan" else "Tambah") }
-                    })
+                val saved = state.profiles.firstOrNull { it.deviceId == camera.deviceId }
+                var menu by remember(camera.deviceId) { mutableStateOf(false) }
+                CameraPanel {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        CameraBadge(Modifier.size(48.dp))
+                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text(saved?.name ?: "Kamera ${camera.deviceId}", style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold)
+                            Text("${camera.host}:${camera.port}", style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            StatusLabel("Ditemukan", true)
+                        }
+                        Box {
+                            IconButton(onClick = { menu = true }) { Icon(Icons.Default.MoreVert, "Opsi kamera ${camera.deviceId}") }
+                            DropdownMenu(menu, onDismissRequest = { menu = false }) {
+                                DropdownMenuItem(text = { Text(if (saved == null) "Lihat detail" else "Edit kamera") },
+                                    onClick = { menu = false; if (saved == null) onFound(camera) else onEdit(saved) })
+                            }
+                        }
+                    }
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                        if (saved != null) Surface(color = MaterialTheme.colorScheme.primaryContainer, shape = RoundedCornerShape(50)) {
+                            Text("Tersimpan", Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                                color = MaterialTheme.colorScheme.onPrimaryContainer, style = MaterialTheme.typography.labelLarge)
+                        } else FilledTonalButton(onClick = { onFound(camera) }, modifier = Modifier.heightIn(min = 48.dp),
+                            colors = ButtonDefaults.filledTonalButtonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer)) {
+                            Icon(Icons.Default.Add, null); Spacer(Modifier.width(8.dp)); Text("Tambah")
+                        }
+                    }
+                }
             }
         }
     }
@@ -229,7 +304,7 @@ private fun CameraList(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ProfileEditor(
+internal fun ProfileEditor(
     existing: CameraProfile?, initialHost: String, initialPort: Int, initialDeviceId: String?, initialPlatform: Int?, initialGeneration: Int?, saving: Boolean, error: String?, onBack: () -> Unit,
     onSave: (CameraProfile, CharArray?, Boolean) -> Unit, onDelete: (CameraProfile) -> Unit,
 ) {
@@ -257,25 +332,40 @@ private fun ProfileEditor(
             navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") } },
             actions = { if (existing != null) IconButton(onClick = { confirmDelete = true }, enabled = !saving) { Icon(Icons.Default.Delete, "Hapus kamera") } })
     }) { insets ->
-        Column(Modifier.fillMaxSize().padding(insets).imePadding().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Text("Detail kamera", style = MaterialTheme.typography.headlineSmall)
-            Text("Gunakan alamat dan akses lokal kamera. Profil protokol dipilih dari hasil discovery.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            OutlinedTextField(name, { name = it.take(80) }, label = { Text("Nama kamera") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
-            OutlinedTextField(host, { host = it }, label = { Text("Alamat IP") }, placeholder = { Text("192.168.1.10") },
+        Column(Modifier.fillMaxSize().padding(insets).imePadding().verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Text("Detail kamera", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
+            Text("Gunakan alamat dan akses lokal kamera. Profil protokol dipilih dari hasil discovery.", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            CameraPanel {
+            OutlinedTextField(name, { name = it.take(80) }, label = { Text("Nama kamera") }, leadingIcon = { Icon(CameraIcon, null) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+            OutlinedTextField(host, { host = it }, label = { Text("Alamat IP") }, placeholder = { Text("192.168.1.10") }, leadingIcon = { Icon(WifiIcon, null) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth(), singleLine = true)
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 OutlinedTextField(port, { port = it }, label = { Text("Port") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.weight(1f), singleLine = true)
-                OutlinedTextField(deviceId, { deviceId = it }, label = { Text("Device ID") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.weight(2f), singleLine = true)
+                OutlinedTextField(deviceId, { deviceId = it }, label = { Text("Device ID") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.weight(1f), singleLine = true)
             }
             if (protocol != "iot-lan" && (existing?.platformType ?: initialPlatform) != 2)
-                OutlinedTextField(username, { username = it }, label = { Text("Username kamera") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
-            Text("Protokol", style = MaterialTheme.typography.titleSmall)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(username, { username = it }, label = { Text("Username kamera") }, leadingIcon = { Icon(Icons.Default.Person, null) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+            HorizontalDivider(Modifier.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.outlineVariant)
+            Text("Protokol", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            FlowRow(Modifier.selectableGroup(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("auto" to "Otomatis", "legacy-v2" to "Legacy V2", "iot-lan" to "IoT LAN").forEach { (id, label) ->
-                    FilterChip(selected = protocol == id, onClick = { protocol = id; if (id == "iot-lan" && port == "8800") port = "8089" }, label = { Text(label) })
+                    val selected = protocol == id
+                    Surface(shape = RoundedCornerShape(14.dp),
+                        color = if (selected) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surfaceContainer,
+                        border = BorderStroke(1.dp, if (selected) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.outlineVariant)) {
+                        Row(Modifier.selectable(selected, role = Role.RadioButton, onClick = {
+                            protocol = id; if (id == "iot-lan" && port == "8800") port = "8089"
+                        }).heightIn(min = 48.dp).padding(end = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(selected, onClick = null, colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.onTertiaryContainer))
+                            Text(label, color = if (selected) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.labelLarge)
+                        }
+                    }
                 }
             }
             if (protocol != "auto") Text("Pilih manual hanya jika generasi protokol sudah diketahui. Tidak ada percobaan format login alternatif.", style = MaterialTheme.typography.bodySmall)
+            }
+            CameraPanel {
             Row(Modifier.fillMaxWidth().toggleable(rememberPassword, role = Role.Checkbox, onValueChange = ::setRemember).heightIn(min = 56.dp), verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(rememberPassword, onCheckedChange = null)
                 Spacer(Modifier.width(8.dp)); Column {
@@ -291,6 +381,7 @@ private fun ProfileEditor(
                     label = { Text("Password kamera") }, supportingText = { Text("Biarkan kosong jika kamera tidak memakai password.") },
                     visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), modifier = Modifier.fillMaxWidth(), singleLine = true)
             }
+            }
             (validation ?: error)?.let { ErrorNotice(it) }
             Spacer(Modifier.height(8.dp))
             Button(onClick = {
@@ -303,7 +394,9 @@ private fun ProfileEditor(
                     password = ""
                     onSave(profile, secret, rememberPassword)
                 }
-            }, enabled = !saving, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(if (saving) "Menyimpan…" else "Simpan kamera") }
+            }, enabled = !saving, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) {
+                Icon(SaveIcon, null); Spacer(Modifier.width(12.dp)); Text(if (saving) "Menyimpan…" else "Simpan kamera")
+            }
         }
     }
     if (confirmDelete && existing != null) AlertDialog(onDismissRequest = { confirmDelete = false },

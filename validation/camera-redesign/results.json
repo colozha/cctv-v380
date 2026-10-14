@@ -1,0 +1,66 @@
+{
+  "feature": "Home, camera profile editor, AP setup and Live redesign; automatic motor/patrol status read",
+  "source_sha256": "6a33d96e42cfe5660c68e5f6b6cd89a0d579522a95b59dc3afd12b11c45dc42f",
+  "build": {
+    "status": "passed",
+    "command": "JAVA_HOME=/home/husain/.local/share/java/temurin-21 ANDROID_HOME=/home/husain/Android/Sdk ./gradlew --offline :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug --console=plain",
+    "log": "validation/camera-redesign/build.log"
+  },
+  "unit_tests": {
+    "tests": 83,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "lint": {
+    "Hint": 1,
+    "Warning": 18
+  },
+  "native": {
+    "device": "physical Android API33",
+    "status": "passed",
+    "tests": 3,
+    "failures": 0,
+    "log": "validation/camera-redesign/native-final.log",
+    "scope": "Encrypted loopback property reads with post-authentication fixtures; queued automatic MOTOR read, quality deduplication, reconnect, busy/maintenance and axis guards, active patrol, rejected status, explicit retry, stale replies, unsupported capabilities, and AP recovery without replay. No real camera login, decoded footage or physical movement."
+  },
+  "visual_qa": {
+    "status": "blocked",
+    "screenshots": [],
+    "reasons": [
+      "Connected device securely locked/on AOD; user asked to unlock, no reply during implementation. ADB wake denied INJECT_EVENTS; no security settings changed or lock bypass attempted.",
+      "Native visual instrumentation failed with no Compose hierarchy while locked; remaining UI tests stopped.",
+      "API37 emulator boot and one TCG fallback both segfaulted (exit 139)."
+    ],
+    "compiled_scenarios": [
+      "Home/editor/AP/Live/sheet in light, dark, dark 1.3x type, landscape",
+      "Native Surface survives sheet open/close",
+      "Patrol draft close confirmation",
+      "Profile add/edit/delete and password clearing/visibility"
+    ],
+    "first_attempt_log": "validation/camera-redesign/native-first.log",
+    "finish_review": "validation/camera-redesign/review.md",
+    "finish_verdict": "recapture; no confirmed code blocker"
+  },
+  "assets": {
+    "path": "app/src/main/res/drawable/ap_camera_illustration.png",
+    "generator": "built-in image_gen",
+    "prompt": "validation/camera-redesign/illustration-prompt.txt",
+    "transparent": true,
+    "sha256": "8bd04ca43e525c61bb0c7154d0c962a1da1996cd0c9d30627e510c55320eb0bd"
+  },
+  "artifacts": [
+    {
+      "path": "app/build/outputs/apk/debug/app-debug.apk",
+      "bytes": 16412691,
+      "sha256": "6f619e1a5016f822337df25ca6c3bc7e1b2bed26c0396507fe26480f39d77097"
+    },
+    {
+      "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+      "bytes": 1426430,
+      "sha256": "d7f4781148044e0f645c193c0546c5c1abf6f9d529d99da6df556924d6122c7b"
+    }
+  ],
+  "installation": "Final debug and instrumentation APKs installed with adb install -r; no app data reset.",
+  "camera_acceptance": "Not run; synthetic fixtures do not establish owner firmware compatibility or real PTZ movement."
+}
