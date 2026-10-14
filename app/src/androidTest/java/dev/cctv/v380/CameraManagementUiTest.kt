@@ -135,12 +135,12 @@ class CameraManagementUiTest {
             } }
         }
         try {
-            compose.onNodeWithText("Alarm dan deteksi gerakan · Buka").performClick()
+            compose.onNodeWithText("Alarm dan deteksi gerakan").performClick()
             compose.onNodeWithText("Alarm utama").assertExists()
             compose.onNodeWithText("Muat alarm dan deteksi gerakan").assertIsNotEnabled()
             capture("alarm")
-            compose.onNodeWithText("Alarm dan deteksi gerakan · Tutup").performScrollTo().performClick()
-            compose.onNodeWithText("Perangkat · Buka").performScrollTo().performClick()
+            compose.onNodeWithText("Alarm dan deteksi gerakan").performScrollTo().performClick()
+            compose.onNodeWithText("Perangkat").performScrollTo().performClick()
             compose.onNodeWithText("MODEL-SYNTHETIC").assertExists()
             compose.onNodeWithText("Restart kamera").performScrollTo().assertIsNotEnabled()
             capture("device")

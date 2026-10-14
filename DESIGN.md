@@ -29,7 +29,7 @@ spacing:
 
 ## Authority and platform
 
-The owner-supplied Home, Add Camera, AP Setup and Live references replace the former flat green Material composition on those surfaces. Mode: Operate. Retain Indonesian copy, Kotlin/Compose Material 3, native Android navigation, system-selected light/dark themes and font scaling. The accepted plan preserves all existing functions and validation. Recordings retains its own approved composition and palette; Settings keeps its existing task structure. No new UI dependency is added.
+The owner-supplied Home, Add Camera, AP Setup, Live and Settings references replace the former flat green Material composition on those surfaces. Mode: Operate. Retain Indonesian copy, Kotlin/Compose Material 3, native Android navigation, system-selected light/dark themes and font scaling. The accepted plan preserves all existing functions and validation. Recordings retains its own approved composition and palette. No new UI dependency is added.
 
 ## Visual system
 
@@ -57,6 +57,18 @@ Preset & patroli opens a scrollable Material bottom sheet with a close action, s
 
 Manual PTZ no longer depends on opening the preset UI. The ViewModel schedules one read of the existing MOTOR group per authenticated Live session after Streaming, waiting for conflicting work to finish. Authentication revision survives quality changes and changes on reconnect. A failed read has an explicit retry on the control card, with no automatic retry loop. Cancelled reads can be queued again. Stale session/profile replies cannot populate current controls. Streaming, capability/axis checks, maintenance/area-capture guards, inactive-patrol configuration, watchdog renewal and cancellation/release STOP remain authoritative.
 
+## Settings
+
+Settings follows the owner's charcoal/mint card reference with the existing light counterpart. Use 16dp outer gutters, 12dp card spacing, 20dp bordered cards and circular mint section icons. Lead with Pengaturan kamera and its description. Cards appear in this order: Hotspot kamera, Jadwal lampu, Alarm dan deteksi gerakan, Preset dan patroli, Perangkat, Gambar, Lampu, Perekaman, Kartu SD. Only the header toggles expansion; multiple cards may remain open. Expansion starts closed and survives saved-state restoration per camera. Capture/edit of an alarm area forces that card open and disables collapsing.
+
+Collapsed cards show actual summaries; group errors, progress, dirty state and pending recovery remain visible. The hotspot inspection action stays outside the collapsible form. Closing the hotspot form clears hotspot and local-login passwords plus visibility, while retaining the nonsecret SSID draft. Basic and management drafts remain in the ViewModel. Opening a card never reads or writes the camera.
+
+Use pill outlined secondary actions, mint filled primary actions, wrapping radio pills for light/quality, native switches and time input, and 14dp outlined hotspot fields. Settings locally overrides error-container roles to burgundy/pink in dark mode and pale red/dark red in light mode; error notices include a warning icon and polite announcement. Device information uses label/value rows, stacking below 340dp available width or above 1.15× font scale. SD progress represents verified remaining capacity, never invented units. Load remains below the cards; basic Save appears there while drafts exist, independent of expansion. Existing capability/maintenance guards, confirmation, readback and send-once recovery remain authoritative; SD format and patrol activation stay gated.
+
+Diagnostics displays events in reverse insertion order, newest first, while its bounded storage and JSON export remain chronological. No timestamp sorting is used, so events with the same elapsed time retain the intended reverse insertion order.
+
 ## Verification and evidence
 
 Native fixtures label synthetic cameras and never imply owner-camera authentication or physical movement. Screenshots cover the four screens and preset sheet in light/dark, 1.3× type and landscape; evidence and test results belong in validation/camera-redesign/results.json. Existing captures in .impeccable/review/phone-*-v2.png predate this redesign and are historical only. Inspect the batched captures once, fix the resulting defects together, then perform at most one confirmation round. Native Compose does not use the HTML/CSS design detector.
+
+Settings validation is recorded separately in validation/settings-redesign/results.json. After an API37 emulator boot ended with SIGSEGV before installation, all 11 selected SettingsUiTest, FeatureUiTest and CameraManagementUiTest cases passed on a physical Android API33 device; see native-final.log. These labelled synthetic fixtures cover disclosure, drafts, locks, secret disposal and diagnostic order. Captures in validation/settings-redesign/review-final comprise 45 matrix/diagnostic comparison images and three auxiliary closed-state images taken after actual taps; the latter may retain readable transient feedback. The matrix covers light/dark, injected 1.3× type, landscape and every section. A separate targeted recapture test passed in native-chrome-confirm.log, replacing dark-top with readable white system-bar icons. The final reviewer disposition is ship for the two scored evidence fixes: system-bar capture and 45+3 evidence precision, with no observed regressions from those fixes. Exact owner-image fidelity was not independently verified; owner-camera acceptance remains untested. Historical Recordings captures demonstrate palette lineage only.

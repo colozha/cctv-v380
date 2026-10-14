@@ -1,0 +1,289 @@
+{
+  "feature": "Settings card redesign matching owner reference and newest-first diagnostic view",
+  "source_sha256": "d2389468a43a2a680d004d710cec230585ac53fd477970e5bac273f16ef327fc",
+  "build": {
+    "status": "passed",
+    "commands": [
+      "JAVA_HOME=/home/husain/.local/share/java/temurin-21 ANDROID_HOME=/home/husain/Android/Sdk ./gradlew --offline :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug --console=plain",
+      "JAVA_HOME=/home/husain/.local/share/java/temurin-21 ANDROID_HOME=/home/husain/Android/Sdk ./gradlew --offline :app:assembleDebugAndroidTest :app:lintDebug --console=plain"
+    ],
+    "logs": [
+      "build-final.log",
+      "test-fixes-build.log"
+    ]
+  },
+  "unit_tests": {
+    "status": "passed",
+    "tests": 83,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "lint": {
+    "status": "passed",
+    "Warning": 18,
+    "Hint": 1
+  },
+  "native": {
+    "status": "passed",
+    "device": "physical Android API33, M2101K6G",
+    "size": "1080x2400",
+    "density_dpi": 440,
+    "tests": 11,
+    "failures": 0,
+    "classes": [
+      "SettingsUiTest",
+      "FeatureUiTest",
+      "CameraManagementUiTest"
+    ],
+    "log": "native-final.log",
+    "scope": "Labelled synthetic native fixtures; expansion/restoration, draft persistence, errors, locks, radio/switch changes, hotspot validation and password disposal, explicit destructive confirmation cancellation, alarm intervals, diagnostic insertion order and chronological export.",
+    "harness": "OEM blocks background activity starts; direct MAIN/LAUNCHER shell foreground launches let ActivityScenario begin. No security settings changed.",
+    "font_scale_system_before_after": ".86 / .86",
+    "app_data_reset": false,
+    "apk_install": "adb install -r",
+    "earlier_test_failures": "Initial assertions/setup failures are preserved in native-settings.log and native-first-full.log. Test-only corrections pass in native-final.log.",
+    "additional_capture_check": {
+      "status": "passed",
+      "tests": 1,
+      "failures": 0,
+      "log": "native-chrome-confirm.log",
+      "scope": "Settled dark Settings window system-bar appearance and replacement top screenshot."
+    }
+  },
+  "visual_qa": {
+    "status": "reviewed",
+    "review_mode": "Independent generic agent using Impeccable reviewer contract; shipped agent type unavailable.",
+    "directory": "review-final",
+    "capture_count": 48,
+    "variants": [
+      "light portrait 1.0x",
+      "dark portrait 1.0x",
+      "dark portrait 1.3x",
+      "dark landscape 1.0x"
+    ],
+    "scope": "All nine expanded sections, default closed summaries, landscape control continuations, closed draft/progress/restart status, newest-first diagnostics.",
+    "capture_note": "Matrix captures use semantic header actions to avoid transient ripple. Two actual-tap auxiliary state captures retain native feedback; content remains readable.",
+    "screenshots": [
+      {
+        "path": "review-final/closed-draft.png",
+        "sha256": "d357c1e3fdb858014e0f51718b260beb2b5f2541e310f15fc6998d2eeb5e7204"
+      },
+      {
+        "path": "review-final/closed-management-progress.png",
+        "sha256": "c3dff5cfe6785ff44d1071de5a9179c56088e9d586f4c42a3538c23317282c34"
+      },
+      {
+        "path": "review-final/closed-restart-recovery.png",
+        "sha256": "19116ceff609e3ac266f064b98d17e1f9e4290c5a1d8fa4fa95d333ba8065956"
+      },
+      {
+        "path": "review-final/dark-Alarm-dan-deteksi-gerakan.png",
+        "sha256": "e6bd8ae9ab76ab6c29566ae4c2d52f9d0d056b15eb965e0255466d9889356028"
+      },
+      {
+        "path": "review-final/dark-Gambar.png",
+        "sha256": "531dd59df1584ead4864b9b91f8dd4b2e6456a12b0170a4cca44e648fd6775a8"
+      },
+      {
+        "path": "review-final/dark-Hotspot-kamera.png",
+        "sha256": "c3bc851e825cc2f215a59cc30fbdd2b0917285302c0de82e7508aea154f8b209"
+      },
+      {
+        "path": "review-final/dark-Jadwal-lampu.png",
+        "sha256": "fd689f18512ef487590d81b73e35537dd5b4a760da7f4c4fc5b4b06f7f7a545c"
+      },
+      {
+        "path": "review-final/dark-Kartu-SD.png",
+        "sha256": "031a5908aa511891dcdbcec038b6f4bd988fc39954da281a2bf48742844ebdd0"
+      },
+      {
+        "path": "review-final/dark-Lampu.png",
+        "sha256": "ebe527e8223cc0caa339bfbb69cf2421c3f93c47b1c81db41f11e6eeabb9460c"
+      },
+      {
+        "path": "review-final/dark-Perangkat.png",
+        "sha256": "befbea8fa918c79aa66cf3542213b8af06de2f65594817dfca4b8853208194e3"
+      },
+      {
+        "path": "review-final/dark-Perekaman.png",
+        "sha256": "cd97d7ca2e52f149a1579d5eeebdc24253fbfd6e839d96e455413c095c6f5f56"
+      },
+      {
+        "path": "review-final/dark-Preset-dan-patroli.png",
+        "sha256": "8e4eacb80834877b17dac95df0142411102803ccd081445fe414624d6952da43"
+      },
+      {
+        "path": "review-final/dark-landscape-Alarm-dan-deteksi-gerakan.png",
+        "sha256": "d9a40d4e71b1c18aacacd6f379b6260c2d93b59ca19339e7bf2202266d0f8bb6"
+      },
+      {
+        "path": "review-final/dark-landscape-Gambar.png",
+        "sha256": "b1723cb22720ac21c3e8d080974846d7a6f3409d9202be351701b1136b22f208"
+      },
+      {
+        "path": "review-final/dark-landscape-Hotspot-kamera-controls.png",
+        "sha256": "a049761be0743089df63695c0135b9e0976ef8dee4f215d6e2f49e00f5deb4e3"
+      },
+      {
+        "path": "review-final/dark-landscape-Hotspot-kamera.png",
+        "sha256": "fcf841fc7e44ff68e1e868d1b1f42b459ed80d6ee1858b8f53dc4ecdaca155e5"
+      },
+      {
+        "path": "review-final/dark-landscape-Jadwal-lampu-controls.png",
+        "sha256": "17e46fd8c665108141db22c8c1cfe45f258afcbf7a1fa813e30a6e58f6704bb4"
+      },
+      {
+        "path": "review-final/dark-landscape-Jadwal-lampu.png",
+        "sha256": "34067967ce6bf1c41ab483b505cb52cd129a81f660c8bc262cc3e7f4b59c543a"
+      },
+      {
+        "path": "review-final/dark-landscape-Kartu-SD.png",
+        "sha256": "8f6c6e84b46d4d7366f52a3e3a0b1be365598bdbae85bd51b65eed37df00f83c"
+      },
+      {
+        "path": "review-final/dark-landscape-Lampu.png",
+        "sha256": "837a58300001e62033b93b7c27553fe6798d17634e1609fa31f7a95c37a9cdfa"
+      },
+      {
+        "path": "review-final/dark-landscape-Perangkat.png",
+        "sha256": "e49ad987d55a42c0bedb8564a8b12de3b6646a4336ad7dc806733566a125ee5f"
+      },
+      {
+        "path": "review-final/dark-landscape-Perekaman-controls.png",
+        "sha256": "3b50581a557402552a65a3f2705f134b699e63a9056e7424233a9de9cfc0a463"
+      },
+      {
+        "path": "review-final/dark-landscape-Perekaman.png",
+        "sha256": "f87961218c770ac99ec8873bde05d960acc2f5b4aa6dfb2a73e3e9eb569fa001"
+      },
+      {
+        "path": "review-final/dark-landscape-Preset-dan-patroli-controls.png",
+        "sha256": "56d7418c2d6c9b61d5d05783d5e22e362c6fe54114bddb38c54f9dafa2cb0afc"
+      },
+      {
+        "path": "review-final/dark-landscape-Preset-dan-patroli.png",
+        "sha256": "ad7cdf2b3d9314c4ef9e1adcec3be4a25b1d4ebb820063d1c7a480b5a9f2c772"
+      },
+      {
+        "path": "review-final/dark-landscape-top.png",
+        "sha256": "0e873ce2384cadb86d74bcaa1e8ec7f64cd99c1b13302de4a4642f0fb841102c"
+      },
+      {
+        "path": "review-final/dark-large-Alarm-dan-deteksi-gerakan.png",
+        "sha256": "c4ec97882de229a6b348e9a6a813250676254e4cd6960e94e410a965b995b20e"
+      },
+      {
+        "path": "review-final/dark-large-Gambar.png",
+        "sha256": "3629f64015c427592b732bff0105751b54ba88725d955068d75b496efc551d40"
+      },
+      {
+        "path": "review-final/dark-large-Hotspot-kamera.png",
+        "sha256": "b206ef20a7dffa428ac7441008b079b56931f1e61d9c8039ccf9a75d149bfb1c"
+      },
+      {
+        "path": "review-final/dark-large-Jadwal-lampu.png",
+        "sha256": "ef70b3eaca2e5e3cf04367bee7590dd2ae753454c76804c15d61a5bed1b7b0dc"
+      },
+      {
+        "path": "review-final/dark-large-Kartu-SD.png",
+        "sha256": "91b4acbb140903da7f440d48cdb4c68f39d802a41417801aa021b628c0c37447"
+      },
+      {
+        "path": "review-final/dark-large-Lampu.png",
+        "sha256": "f55f764b07f6f0c2516787943f9c3b5dae834d15d7fb18dca32cbe2afc9bff9a"
+      },
+      {
+        "path": "review-final/dark-large-Perangkat.png",
+        "sha256": "a3388e027cb9d6138564d741e599b2f83d666105c606d81ce85b6836cab31913"
+      },
+      {
+        "path": "review-final/dark-large-Perekaman.png",
+        "sha256": "9b87829396ad23897f6f1e810e7f2e35a46fb4e4ebebf2744690a6e9b8cc2fde"
+      },
+      {
+        "path": "review-final/dark-large-Preset-dan-patroli.png",
+        "sha256": "25610f90e349f04ce78f914465851827a97f46fc40160a8c27a2eaa740975135"
+      },
+      {
+        "path": "review-final/dark-large-top.png",
+        "sha256": "d6f48dc353611f1b377b9d8df8035b8a22870d9a663e19e9e6307fb5dd581688"
+      },
+      {
+        "path": "review-final/dark-top.png",
+        "sha256": "0522c98571e4e8ebb05b9058a724ec8b19341b747706da50ec4d2286f3480d17"
+      },
+      {
+        "path": "review-final/diagnostics-newest-first.png",
+        "sha256": "13f94ebf4da9d10a6a56facb64118bae540e8e3ce5cd2b4f7c77f83dc9d68370"
+      },
+      {
+        "path": "review-final/light-Alarm-dan-deteksi-gerakan.png",
+        "sha256": "3ca1e99f95e46aac065600026c11e959c861bc92678452e1b0926bc393e8d193"
+      },
+      {
+        "path": "review-final/light-Gambar.png",
+        "sha256": "11028aeb011b2ae52961cbe9b04a9fdd4d64a332b1c6d4d64129fb08602f0ce1"
+      },
+      {
+        "path": "review-final/light-Hotspot-kamera.png",
+        "sha256": "bc0461cc8094e02553db07458bc2cdbbda368ac71d46a942e6709cdbf9953212"
+      },
+      {
+        "path": "review-final/light-Jadwal-lampu.png",
+        "sha256": "34038c165770547de02e9d4ccaafc815d029297ec945dc9b2b31698874ab5aaa"
+      },
+      {
+        "path": "review-final/light-Kartu-SD.png",
+        "sha256": "94c8811994925c1dc9ed603ad606dec6d1aec2c07b3e802071bf1bd2dd2bb47a"
+      },
+      {
+        "path": "review-final/light-Lampu.png",
+        "sha256": "b8b886dc814dfc4be1eb48365dc4faf680f90f86cecc35fd01ed99061c79e001"
+      },
+      {
+        "path": "review-final/light-Perangkat.png",
+        "sha256": "8835618aa14ed2c5daff12ce0b6cdbc00c502b7d3f16be330bc282c82fcf3551"
+      },
+      {
+        "path": "review-final/light-Perekaman.png",
+        "sha256": "c87d954234dabdd4910deb58bcde83e493346bd10e7ccd782b52bff53b93bc14"
+      },
+      {
+        "path": "review-final/light-Preset-dan-patroli.png",
+        "sha256": "642374409b1c770896307a52397fbc191dced8cec2102ab564ecd36ffc0e420e"
+      },
+      {
+        "path": "review-final/light-top.png",
+        "sha256": "241f2e50664bce27230e02c7f08e7fd335849d92d9b28a4a9048977afb3ded19"
+      }
+    ],
+    "full_review_disposition": "fix",
+    "final_disposition": "ship",
+    "verdict_scope": "Both listed evidence fixes resolved: settled dark-top system chrome and precise 45 comparison / 3 tap-state capture wording. Exact owner-image fidelity was not independently scored.",
+    "review": "ui-review.md",
+    "comparison_captures": 45,
+    "auxiliary_state_captures": 3
+  },
+  "emulator": {
+    "status": "boot_failed",
+    "avd": "Medium_Phone_API_37.0",
+    "exit_code": 139,
+    "log": "emulator-boot.log"
+  },
+  "camera_acceptance": "Not run. No owner-camera authentication, writes, footage or physical movement claimed.",
+  "dependencies_added": false,
+  "protocol_changes": false,
+  "artifacts": [
+    {
+      "path": "app/build/outputs/apk/debug/app-debug.apk",
+      "bytes": 16412691,
+      "sha256": "f45026f037aedb22d00b10220164beeaa8bd3181fa1d8e5b0482904f5fe3ff21"
+    },
+    {
+      "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+      "bytes": 1444464,
+      "sha256": "ce1bdfba46a78226b4637e366ba23ec9fcd6a616cf20bd24625d71c7b30d7d63"
+    }
+  ]
+}

@@ -107,3 +107,38 @@ internal val EyeOffIcon = ImageVector.Builder("VisibilityOff", 24.dp, 24.dp, 24f
         moveTo(9f, 10f); quadTo(6f, 15f, 14f, 16f)
     }
 }.build()
+
+internal val LightIcon = ImageVector.Builder("Lampu", 24.dp, 24.dp, 24f, 24f).apply {
+    path(fill = SolidColor(Color.Black)) {
+        moveTo(8f, 17f); curveTo(8f, 13f, 5f, 13f, 5f, 8f)
+        arcTo(7f, 7f, 0f, true, true, 19f, 8f); curveTo(19f, 13f, 16f, 13f, 16f, 17f); close()
+        moveTo(8f, 19f); lineTo(16f, 19f); lineTo(16f, 21f); lineTo(8f, 21f); close()
+        moveTo(10f, 22f); lineTo(14f, 22f); lineTo(13f, 24f); lineTo(11f, 24f); close()
+    }
+}.build()
+
+internal val MotionIcon = ImageVector.Builder("Gerakan", 24.dp, 24.dp, 24f, 24f).apply {
+    path(fill = SolidColor(Color.Black)) {
+        moveTo(14f, 3f); arcTo(2.5f, 2.5f, 0f, true, true, 19f, 3f); arcTo(2.5f, 2.5f, 0f, true, true, 14f, 3f)
+        moveTo(9f, 6f); lineTo(14f, 6f); lineTo(17f, 10f); lineTo(21f, 10f); lineTo(21f, 13f)
+        lineTo(15f, 13f); lineTo(13f, 10f); lineTo(12f, 14f); lineTo(16f, 17f); lineTo(16f, 23f)
+        lineTo(13f, 23f); lineTo(13f, 19f); lineTo(9f, 16f); lineTo(7f, 21f); lineTo(2f, 21f)
+        lineTo(2f, 18f); lineTo(5f, 18f); lineTo(8f, 10f); lineTo(5f, 12f); lineTo(3f, 10f); close()
+    }
+}.build()
+
+internal val PatrolIcon = ImageVector.Builder("Patroli", 24.dp, 24.dp, 24f, 24f).apply {
+    path(stroke = SolidColor(Color.Black), strokeLineWidth = 2.5f, strokeLineCap = StrokeCap.Round) {
+        moveTo(10f, 15f); lineTo(7f, 18f); arcTo(4f, 4f, 0f, true, true, 2f, 12f); lineTo(5f, 9f)
+        moveTo(14f, 9f); lineTo(17f, 6f); arcTo(4f, 4f, 0f, true, true, 22f, 12f); lineTo(19f, 15f)
+        moveTo(8f, 16f); lineTo(16f, 8f)
+    }
+}.build()
+
+internal val PictureIcon = ImageVector.Builder("Gambar", 24.dp, 24.dp, 24f, 24f).apply {
+    path(stroke = SolidColor(Color.Black), strokeLineWidth = 2f, strokeLineJoin = androidx.compose.ui.graphics.StrokeJoin.Round) {
+        moveTo(3f, 3f); lineTo(21f, 3f); lineTo(21f, 21f); lineTo(3f, 21f); close()
+        moveTo(3f, 17f); lineTo(9f, 11f); lineTo(13f, 15f); lineTo(17f, 10f); lineTo(21f, 14f)
+        moveTo(7f, 7f); lineTo(8f, 7f)
+    }
+}.build()

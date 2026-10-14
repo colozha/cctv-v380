@@ -1,0 +1,207 @@
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stream=
+dev.cctv.v380.SettingsUiTest:
+INSTRUMENTATION_STATUS: test=diagnosticsShowNewestFirstAfterAppendingAndExportStaysChronological
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=diagnosticsShowNewestFirstAfterAppendingAndExportStaysChronological
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=2
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=hotspotKeepsNameButClearsPasswordOnCollapseAndRejectsInvalidInput
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=2
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [Password hotspot kamera,])
+Semantics of the node:
+Node #378 at (l=88.0, t=1461.0, r=992.0, b=1736.0)px
+ContentDataType = 'AndroidContentDataType(androidAutofillType=1)'
+ContentType = 'androidx.compose.ui.autofill.AndroidContentType@320203c'
+EditableText = ''
+FillableData = 'androidx.compose.ui.autofill.AndroidFillableData@e6e39ba'
+Focused = 'false'
+ImeAction = 'Default'
+InputText = ''
+IsEditable = 'true'
+LiveRegion = 'Polite'
+Text = '[Password hotspot kamera, 8–30 karakter: huruf, angka, atau @#_^*%.+ tanpa spasi.]'
+TextSelectionRange = 'TextRange(0, 0)'
+[Password]
+Actions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnClick, OnFillData, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]
+MergeDescendants = 'true'
+Has 1 child, 6 siblings
+Selector used: (Text + InputText + EditableText contains 'Password hotspot kamera' (ignoreCase: false))
+
+	at androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:293)
+	at androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:283)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals(Assertions.kt:207)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals$default(Assertions.kt:203)
+	at dev.cctv.v380.SettingsUiTest.hotspotKeepsNameButClearsPasswordOnCollapseAndRejectsInvalidInput(SettingsUiTest.kt:125)
+
+INSTRUMENTATION_STATUS: stream=
+Error in hotspotKeepsNameButClearsPasswordOnCollapseAndRejectsInvalidInput(dev.cctv.v380.SettingsUiTest):
+java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [Password hotspot kamera,])
+Semantics of the node:
+Node #378 at (l=88.0, t=1461.0, r=992.0, b=1736.0)px
+ContentDataType = 'AndroidContentDataType(androidAutofillType=1)'
+ContentType = 'androidx.compose.ui.autofill.AndroidContentType@320203c'
+EditableText = ''
+FillableData = 'androidx.compose.ui.autofill.AndroidFillableData@e6e39ba'
+Focused = 'false'
+ImeAction = 'Default'
+InputText = ''
+IsEditable = 'true'
+LiveRegion = 'Polite'
+Text = '[Password hotspot kamera, 8–30 karakter: huruf, angka, atau @#_^*%.+ tanpa spasi.]'
+TextSelectionRange = 'TextRange(0, 0)'
+[Password]
+Actions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnClick, OnFillData, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]
+MergeDescendants = 'true'
+Has 1 child, 6 siblings
+Selector used: (Text + InputText + EditableText contains 'Password hotspot kamera' (ignoreCase: false))
+
+	at androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:293)
+	at androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:283)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals(Assertions.kt:207)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals$default(Assertions.kt:203)
+	at dev.cctv.v380.SettingsUiTest.hotspotKeepsNameButClearsPasswordOnCollapseAndRejectsInvalidInput(SettingsUiTest.kt:125)
+
+INSTRUMENTATION_STATUS: test=hotspotKeepsNameButClearsPasswordOnCollapseAndRejectsInvalidInput
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=3
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=independentCardsRestoreExpansionAndDraftAfterSavedStateRestoration
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=3
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stack=java.lang.IllegalStateException: dev.cctv.v380.ui.MainActivity@79057c2 has already set content. If you have populated the Activity with a ComposeView, make sure to call setContent on that ComposeView instead of on the test rule; and make sure that that call to `setContent {}` is done after the ComposeTestRule has run
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.setContent(ComposeUiTest.android.kt:936)
+	at androidx.compose.ui.test.junit4.AndroidComposeTestRule.setContent(AndroidComposeTestRule.android.kt:542)
+	at androidx.compose.ui.test.junit4.StateRestorationTester.setContent(StateRestorationTester.android.kt:54)
+	at dev.cctv.v380.SettingsUiTest.independentCardsRestoreExpansionAndDraftAfterSavedStateRestoration(SettingsUiTest.kt:85)
+
+INSTRUMENTATION_STATUS: stream=
+Error in independentCardsRestoreExpansionAndDraftAfterSavedStateRestoration(dev.cctv.v380.SettingsUiTest):
+java.lang.IllegalStateException: dev.cctv.v380.ui.MainActivity@79057c2 has already set content. If you have populated the Activity with a ComposeView, make sure to call setContent on that ComposeView instead of on the test rule; and make sure that that call to `setContent {}` is done after the ComposeTestRule has run
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.setContent(ComposeUiTest.android.kt:936)
+	at androidx.compose.ui.test.junit4.AndroidComposeTestRule.setContent(AndroidComposeTestRule.android.kt:542)
+	at androidx.compose.ui.test.junit4.StateRestorationTester.setContent(StateRestorationTester.android.kt:54)
+	at dev.cctv.v380.SettingsUiTest.independentCardsRestoreExpansionAndDraftAfterSavedStateRestoration(SettingsUiTest.kt:85)
+
+INSTRUMENTATION_STATUS: test=independentCardsRestoreExpansionAndDraftAfterSavedStateRestoration
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=4
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=captureSettingsAcrossThemesLargeTypeAndLandscape
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=4
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=captureSettingsAcrossThemesLargeTypeAndLandscape
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=5
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=cardsKeepDraftsAndErrorsVisibleWhileClosedAndUnauthenticatedControlsStayLocked
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=dev.cctv.v380.SettingsUiTest
+INSTRUMENTATION_STATUS: current=5
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=5
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Action performScrollTo() failed.
+Reason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Rekam peristiwa' (ignoreCase: false))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at dev.cctv.v380.SettingsUiTest.cardsKeepDraftsAndErrorsVisibleWhileClosedAndUnauthenticatedControlsStayLocked(SettingsUiTest.kt:77)
+
+INSTRUMENTATION_STATUS: stream=
+Error in cardsKeepDraftsAndErrorsVisibleWhileClosedAndUnauthenticatedControlsStayLocked(dev.cctv.v380.SettingsUiTest):
+java.lang.AssertionError: Action performScrollTo() failed.
+Reason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Rekam peristiwa' (ignoreCase: false))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at dev.cctv.v380.SettingsUiTest.cardsKeepDraftsAndErrorsVisibleWhileClosedAndUnauthenticatedControlsStayLocked(SettingsUiTest.kt:77)
+
+INSTRUMENTATION_STATUS: test=cardsKeepDraftsAndErrorsVisibleWhileClosedAndUnauthenticatedControlsStayLocked
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_RESULT: stream=
+
+Time: 147.065
+There were 3 failures:
+1) hotspotKeepsNameButClearsPasswordOnCollapseAndRejectsInvalidInput(dev.cctv.v380.SettingsUiTest)
+java.lang.AssertionError: Failed to assert the following: (Text + EditableText = [Password hotspot kamera,])
+Semantics of the node:
+Node #378 at (l=88.0, t=1461.0, r=992.0, b=1736.0)px
+ContentDataType = 'AndroidContentDataType(androidAutofillType=1)'
+ContentType = 'androidx.compose.ui.autofill.AndroidContentType@320203c'
+EditableText = ''
+FillableData = 'androidx.compose.ui.autofill.AndroidFillableData@e6e39ba'
+Focused = 'false'
+ImeAction = 'Default'
+InputText = ''
+IsEditable = 'true'
+LiveRegion = 'Polite'
+Text = '[Password hotspot kamera, 8–30 karakter: huruf, angka, atau @#_^*%.+ tanpa spasi.]'
+TextSelectionRange = 'TextRange(0, 0)'
+[Password]
+Actions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnClick, OnFillData, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]
+MergeDescendants = 'true'
+Has 1 child, 6 siblings
+Selector used: (Text + InputText + EditableText contains 'Password hotspot kamera' (ignoreCase: false))
+
+	at androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:293)
+	at androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:283)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals(Assertions.kt:207)
+	at androidx.compose.ui.test.AssertionsKt.assertTextEquals$default(Assertions.kt:203)
+	at dev.cctv.v380.SettingsUiTest.hotspotKeepsNameButClearsPasswordOnCollapseAndRejectsInvalidInput(SettingsUiTest.kt:125)
+2) independentCardsRestoreExpansionAndDraftAfterSavedStateRestoration(dev.cctv.v380.SettingsUiTest)
+java.lang.IllegalStateException: dev.cctv.v380.ui.MainActivity@79057c2 has already set content. If you have populated the Activity with a ComposeView, make sure to call setContent on that ComposeView instead of on the test rule; and make sure that that call to `setContent {}` is done after the ComposeTestRule has run
+	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.setContent(ComposeUiTest.android.kt:936)
+	at androidx.compose.ui.test.junit4.AndroidComposeTestRule.setContent(AndroidComposeTestRule.android.kt:542)
+	at androidx.compose.ui.test.junit4.StateRestorationTester.setContent(StateRestorationTester.android.kt:54)
+	at dev.cctv.v380.SettingsUiTest.independentCardsRestoreExpansionAndDraftAfterSavedStateRestoration(SettingsUiTest.kt:85)
+3) cardsKeepDraftsAndErrorsVisibleWhileClosedAndUnauthenticatedControlsStayLocked(dev.cctv.v380.SettingsUiTest)
+java.lang.AssertionError: Action performScrollTo() failed.
+Reason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Rekam peristiwa' (ignoreCase: false))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at dev.cctv.v380.SettingsUiTest.cardsKeepDraftsAndErrorsVisibleWhileClosedAndUnauthenticatedControlsStayLocked(SettingsUiTest.kt:77)
+
+FAILURES!!!
+Tests run: 5,  Failures: 3
+
+
+INSTRUMENTATION_CODE: -1

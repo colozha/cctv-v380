@@ -40,7 +40,7 @@ fun DiagnosticsScreen(model: CameraViewModel, onBack: () -> Unit) {
                     ?: "Jaringan belum dipilih untuk pemeriksaan.", style = MaterialTheme.typography.bodyMedium)
             }
             if (events.isEmpty()) item { Text("Belum ada pemeriksaan. Cari atau sambungkan kamera untuk memulai.") }
-            itemsIndexed(events) { _, event ->
+            itemsIndexed(events.asReversed()) { _, event ->
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text("${stageLabel(event.stage)} · ${when (event.status) { DiagnosticStatus.STARTED -> "Dimulai"; DiagnosticStatus.OK -> "OK"; DiagnosticStatus.FAILED -> "Gagal"; DiagnosticStatus.CANCELLED -> "Dibatalkan" }}", style = MaterialTheme.typography.titleMedium)
                     Text(buildString {

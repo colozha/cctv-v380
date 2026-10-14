@@ -1,110 +1,161 @@
 package dev.cctv.v380.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.cctv.v380.protocol.ManagementGroup
 import dev.cctv.v380.protocol.CameraSettingsProtocol as P
 import dev.cctv.v380.session.*
 
 @Composable
 fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session: SessionState,
     feature: CameraFeatureState, onConnect: (CharArray?) -> Unit, modifier: Modifier = Modifier) {
-    var confirmFormat by remember { mutableStateOf(false) }
+    var confirmFormat by remember(profile.id) { mutableStateOf(false) }
     val settings = feature.settings
-    val enabled = !model.managementBlocked() && !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingFormat == null && feature.pendingAp == null
+    val authenticated = model.session.isAuthenticated(profile.id)
+    val enabled = !model.managementBlocked() && !feature.busy && authenticated && feature.pendingFormat == null && feature.pendingAp == null
+    val caps by model.session.capabilities.collectAsState()
     fun int(id: Int): Int? = feature.draft[id] as? Int ?: settings?.int(id)
     fun bool(id: Int): Boolean? = feature.draft[id] as? Boolean ?: settings?.bool(id)
-    Column(modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        CameraAccess(model, profile, session, onConnect)
-        FeatureFeedback(feature, showProgress = !feature.apBusy)
-        ApHotspotSettings(model, profile, session, feature)
-        feature.managementNotice?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
-        CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.LIGHT)
-        CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.ALARM)
-        CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.MOTOR)
-        CameraManagementGroup(model, profile, feature, dev.cctv.v380.protocol.ManagementGroup.DEVICE)
-        Button(onClick = model::loadSettings, enabled = !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingAp == null,
-            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Muat pengaturan kamera") }
-        if (feature.busy && !feature.apBusy) TextButton(onClick = model::cancelFeature) {
-            Text(if (feature.pendingFormat != null) "Hentikan pemeriksaan status" else "Batalkan")
-        }
-        if (settings == null) Text("Nilai pengaturan akan tampil setelah dibaca dari kamera. Kemampuan setiap kamera dapat berbeda.")
-        else {
-            HorizontalDivider()
-            Text("Gambar", style = MaterialTheme.typography.titleLarge)
-            if (settings.int(P.FLIP_MODE) != null) {
-                Text("Balik orientasi gambar pada kamera. Perubahan berlaku untuk tayangan kamera, bukan hanya layar ini.")
-                OutlinedButton(onClick = model::reverseImage, enabled = enabled && feature.draft.isEmpty(), modifier = Modifier.heightIn(min = 48.dp)) {
-                    Text("Balik orientasi")
-                }
-            } else UnsupportedSetting(settings, P.FLIP_MODE, "Orientasi")
-            HorizontalDivider()
-            Text("Lampu", style = MaterialTheme.typography.titleLarge)
-            val light = int(P.LIGHT_MODE)
-            if (light in 0..2) SettingChoices("Lampu putih", light!!,
-                listOf(0 to "Otomatis", 1 to "Hidup", 2 to "Mati"), enabled) { model.draftSetting(P.LIGHT_MODE, it) }
-            else UnsupportedSetting(settings, P.LIGHT_MODE, "Lampu putih")
-            bool(P.INDICATOR)?.let { SettingSwitch("Lampu indikator", it, enabled) { value -> model.draftSetting(P.INDICATOR, value) } }
-            HorizontalDivider()
-            Text("Perekaman", style = MaterialTheme.typography.titleLarge)
-            val mode = int(P.RECORD_MODE)
-            if (mode != null && mode >= 0) {
-                SettingSwitch("Rekam terus-menerus", mode and 1 != 0, enabled) { on ->
-                    model.draftSetting(P.RECORD_MODE, if (on) mode or 1 else mode and 1.inv())
-                }
-                SettingSwitch("Rekam peristiwa", mode and 2 != 0, enabled) { on ->
-                    model.draftSetting(P.RECORD_MODE, if (on) mode or 2 else mode and 2.inv())
-                }
-            } else UnsupportedSetting(settings, P.RECORD_MODE, "Mode perekaman")
-            val quality = int(P.RECORD_QUALITY)
-            val caps by model.session.capabilities.collectAsState()
-            val choices = listOf(1 to "SD", 2 to "HD", 3 to "Full HD").filter { it.first in caps?.recordingQualities.orEmpty() }
-            if (quality in 1..3) {
-                if (choices.isNotEmpty()) SettingChoices("Kualitas rekaman", quality!!, choices, enabled) { model.draftSetting(P.RECORD_QUALITY, it) }
-                else Text("Kualitas saat ini: ${listOf("SD", "HD", "Full HD")[quality!! - 1]}. Pilihan lainnya belum dikonfirmasi kamera.")
+    val unfilled = "Muat pengaturan kamera untuk melihat nilai yang tersedia."
+    val dark = isSystemInDarkTheme()
+    val scheme = MaterialTheme.colorScheme.copy(
+        errorContainer = if (dark) Color(0xFF3B1F24) else Color(0xFFFFE8E9),
+        onErrorContainer = if (dark) Color(0xFFFFB4B8) else Color(0xFF8C202B))
+    MaterialTheme(colorScheme = scheme) {
+        Column(modifier.fillMaxSize().verticalScroll(rememberScrollState()).imePadding().padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text("Pengaturan kamera", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                Text("Kelola fitur dan preferensi kamera Anda.", style = MaterialTheme.typography.bodyMedium,
+                    color = scheme.onSurfaceVariant)
             }
-            bool(P.RECORD_AUDIO)?.let { SettingSwitch("Sertakan audio di rekaman SD", it, enabled) { value -> model.draftSetting(P.RECORD_AUDIO, value) } }
-            bool(P.RECORD_LOOP)?.let { SettingSwitch("Timpa rekaman terlama saat kartu penuh", it, enabled) { value -> model.draftSetting(P.RECORD_LOOP, value) } }
+            if (authenticated) Text("Akses kamera tersambung", style = MaterialTheme.typography.bodySmall, color = scheme.primary)
+            else CameraPanel { CameraAccess(model, profile, session, onConnect) }
+            feature.error?.let { SettingsNotice(it, error = true) }
+            feature.notice?.let { SettingsNotice(it) }
+            if (feature.busy && !feature.apBusy && feature.managementLoading == null) LinearProgressIndicator(Modifier.fillMaxWidth())
+            feature.managementNotice?.let { SettingsNotice(it) }
+            ApHotspotSettings(model, profile, session, feature)
+            CameraManagementGroup(model, profile, feature, ManagementGroup.LIGHT)
+            CameraManagementGroup(model, profile, feature, ManagementGroup.ALARM)
+            CameraManagementGroup(model, profile, feature, ManagementGroup.MOTOR)
+            CameraManagementGroup(model, profile, feature, ManagementGroup.DEVICE)
+
+            SettingsCard(profile.id, "Gambar", PictureIcon, if (settings == null) "Belum diperiksa" else "Orientasi tayangan kamera") {
+                if (settings == null) Text(unfilled, style = MaterialTheme.typography.bodyMedium)
+                else if (settings.int(P.FLIP_MODE) != null) {
+                    Text("Balik orientasi gambar pada kamera. Perubahan berlaku untuk tayangan kamera, bukan hanya layar ini.",
+                        style = MaterialTheme.typography.bodyMedium, color = scheme.onSurfaceVariant)
+                    OutlinedButton(onClick = model::reverseImage, enabled = enabled && feature.draft.isEmpty(),
+                        modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                        Icon(Icons.Default.Refresh, null); Spacer(Modifier.width(8.dp)); Text("Balik orientasi")
+                    }
+                } else UnsupportedSetting(settings, P.FLIP_MODE, "Orientasi")
+            }
+            SettingsCard(profile.id, "Lampu", LightIcon,
+                summary = when (int(P.LIGHT_MODE)) { 0 -> "Lampu putih · Otomatis"; 1 -> "Lampu putih · Hidup"; 2 -> "Lampu putih · Mati"; else -> "Belum diperiksa" },
+                status = { if (listOf(P.LIGHT_MODE, P.INDICATOR).any { it in feature.draft }) SettingsNotice("Perubahan belum disimpan") }) {
+                if (settings == null) Text(unfilled, style = MaterialTheme.typography.bodyMedium)
+                else {
+                    val light = int(P.LIGHT_MODE)
+                    if (light in 0..2) SettingChoices("Lampu putih", light!!,
+                        listOf(0 to "Otomatis", 1 to "Hidup", 2 to "Mati"), enabled) { model.draftSetting(P.LIGHT_MODE, it) }
+                    else UnsupportedSetting(settings, P.LIGHT_MODE, "Lampu putih")
+                    bool(P.INDICATOR)?.let { SettingSwitch("Lampu indikator", it, enabled) { value -> model.draftSetting(P.INDICATOR, value) } }
+                }
+            }
+            SettingsCard(profile.id, "Perekaman", CameraIcon,
+                summary = if (settings == null) "Belum diperiksa" else "Mode dan kualitas rekaman SD",
+                status = { if (listOf(P.RECORD_MODE, P.RECORD_QUALITY, P.RECORD_AUDIO, P.RECORD_LOOP).any { it in feature.draft })
+                    SettingsNotice("Perubahan belum disimpan") }) {
+                if (settings == null) Text(unfilled, style = MaterialTheme.typography.bodyMedium)
+                else {
+                    val mode = int(P.RECORD_MODE)
+                    if (mode != null && mode >= 0) {
+                        SettingSwitch("Rekam terus-menerus", mode and 1 != 0, enabled) { on ->
+                            model.draftSetting(P.RECORD_MODE, if (on) mode or 1 else mode and 1.inv())
+                        }
+                        SettingSwitch("Rekam peristiwa", mode and 2 != 0, enabled) { on ->
+                            model.draftSetting(P.RECORD_MODE, if (on) mode or 2 else mode and 2.inv())
+                        }
+                    } else UnsupportedSetting(settings, P.RECORD_MODE, "Mode perekaman")
+                    HorizontalDivider(color = scheme.outlineVariant)
+                    val quality = int(P.RECORD_QUALITY)
+                    val choices = listOf(1 to "SD", 2 to "HD", 3 to "Full HD").filter { it.first in caps?.recordingQualities.orEmpty() }
+                    if (quality in 1..3) {
+                        if (choices.isNotEmpty()) SettingChoices("Kualitas rekaman", quality!!, choices, enabled) { model.draftSetting(P.RECORD_QUALITY, it) }
+                        else Text("Kualitas saat ini: ${listOf("SD", "HD", "Full HD")[quality!! - 1]}. Pilihan lainnya belum dikonfirmasi kamera.",
+                            style = MaterialTheme.typography.bodyMedium, color = scheme.onSurfaceVariant)
+                    }
+                    bool(P.RECORD_AUDIO)?.let { SettingSwitch("Sertakan audio di rekaman SD", it, enabled) { value -> model.draftSetting(P.RECORD_AUDIO, value) } }
+                    bool(P.RECORD_LOOP)?.let { SettingSwitch("Timpa rekaman terlama saat kartu penuh", it, enabled) { value -> model.draftSetting(P.RECORD_LOOP, value) } }
+                }
+            }
+            SettingsCard(profile.id, "Kartu SD", RecordingSdIcon,
+                summary = if (settings == null) "Belum diperiksa" else sdStatus(settings.int(P.SD_STATUS)),
+                status = {
+                    if (feature.pendingFormat != null) SettingsNotice(when (feature.format) {
+                        SdFormatPhase.SENDING -> "Mengirim perintah format…"
+                        SdFormatPhase.CHECKING -> "Memeriksa status kartu. Proses format di kamera tetap berjalan jika Anda meninggalkan layar."
+                        else -> "Hasil format sebelumnya belum dapat dipastikan. Perintah tidak akan dikirim ulang secara otomatis."
+                    }, error = !feature.busy)
+                }) {
+                if (settings == null) Text(unfilled, style = MaterialTheme.typography.bodyMedium)
+                else {
+                    Text(sdStatus(settings.int(P.SD_STATUS)), style = MaterialTheme.typography.bodyMedium)
+                    P.remainingPercent(settings)?.let { remaining ->
+                        Text("$remaining% ruang kartu tersedia", style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
+                        LinearProgressIndicator(progress = { remaining / 100f }, modifier = Modifier.fillMaxWidth().height(8.dp),
+                            trackColor = scheme.outlineVariant, gapSize = 0.dp, drawStopIndicator = {})
+                    }
+                    if (feature.pendingFormat != null) {
+                        if (feature.pendingFormat.profileId == profile.id) {
+                            OutlinedButton(onClick = model::loadSettings, enabled = !feature.busy && authenticated && feature.pendingAp == null,
+                                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Periksa status kartu") }
+                            TextButton(onClick = model::acknowledgeFormat, enabled = !feature.busy,
+                                modifier = Modifier.heightIn(min = 48.dp)) { Text("Tutup status setelah kartu diperiksa") }
+                        } else Text("Buka kamera yang memiliki pemeriksaan format tertunda terlebih dahulu.")
+                    }
+                    OutlinedButton(onClick = { confirmFormat = true }, enabled = P.FORMAT_STATUS_VERIFIED && enabled && feature.pendingLoaded && feature.draft.isEmpty() &&
+                        settings.int(P.SD_STATUS) in setOf(1, 2, 3, 8) && settings.int(P.SD_FORMAT_STATE) != null,
+                        modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = scheme.error)) { Text("Format SD card") }
+                    Text("Format menghapus rekaman pada kartu. Fitur belum diaktifkan karena status akhir format belum terverifikasi.",
+                        style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
+                }
+            }
+            Button(onClick = model::loadSettings, enabled = !feature.busy && authenticated && feature.pendingAp == null,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
+                Icon(Icons.Default.Settings, null); Spacer(Modifier.width(8.dp)); Text("Muat pengaturan kamera")
+            }
             if (feature.draft.isNotEmpty()) {
                 Button(onClick = model::saveSettings, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
-                    Text("Simpan pengaturan")
+                    Icon(SaveIcon, null); Spacer(Modifier.width(8.dp)); Text("Simpan pengaturan")
                 }
-                Text("Perubahan diperiksa kembali pada kamera sebelum dinyatakan tersimpan.", style = MaterialTheme.typography.bodySmall)
+                Text("Perubahan diperiksa kembali pada kamera sebelum dinyatakan tersimpan.", style = MaterialTheme.typography.bodySmall,
+                    color = scheme.onSurfaceVariant)
             }
-            HorizontalDivider()
-            Text("Kartu SD", style = MaterialTheme.typography.titleLarge)
-            Text(sdStatus(settings.int(P.SD_STATUS)), style = MaterialTheme.typography.bodyLarge)
-            P.remainingPercent(settings)?.let { Text("$it% ruang kartu tersedia", style = MaterialTheme.typography.bodyMedium) }
-            if (feature.pendingFormat != null) {
-                Text(when (feature.format) {
-                    SdFormatPhase.SENDING -> "Mengirim perintah format…"
-                    SdFormatPhase.CHECKING -> "Memeriksa status kartu. Proses format di kamera tetap berjalan jika Anda meninggalkan layar."
-                    else -> "Hasil format sebelumnya belum dapat dipastikan. Perintah tidak akan dikirim ulang secara otomatis."
-                })
-                if (feature.pendingFormat.profileId == profile.id) {
-                    OutlinedButton(onClick = model::loadSettings, enabled = !feature.busy && model.session.isAuthenticated(profile.id) && feature.pendingAp == null) { Text("Periksa status kartu") }
-                    TextButton(onClick = model::acknowledgeFormat, enabled = !feature.busy) { Text("Tutup status setelah kartu diperiksa") }
-                } else Text("Buka kamera yang memiliki pemeriksaan format tertunda terlebih dahulu.")
+            if (feature.busy && !feature.apBusy) TextButton(onClick = model::cancelFeature, modifier = Modifier.heightIn(min = 48.dp)) {
+                Text(if (feature.pendingFormat != null) "Hentikan pemeriksaan status" else "Batalkan")
             }
-            OutlinedButton(onClick = { confirmFormat = true }, enabled = P.FORMAT_STATUS_VERIFIED && enabled && feature.pendingLoaded && feature.draft.isEmpty() &&
-                settings.int(P.SD_STATUS) in setOf(1, 2, 3, 8) && settings.int(P.SD_FORMAT_STATE) != null,
-                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)) { Text("Format SD card") }
-            Text("Format menghapus rekaman pada kartu. Fitur belum diaktifkan karena status akhir format belum terverifikasi.", style = MaterialTheme.typography.bodySmall)
         }
+        if (confirmFormat) SdFormatConfirmation(profile.name,
+            onConfirm = { confirmFormat = false; model.formatSdCard(profile) }, onDismiss = { confirmFormat = false })
     }
-    if (confirmFormat) SdFormatConfirmation(profile.name,
-        onConfirm = { confirmFormat = false; model.formatSdCard(profile) }, onDismiss = { confirmFormat = false })
 }
 
 @Composable
@@ -123,21 +174,6 @@ private fun SettingSwitch(label: String, value: Boolean, enabled: Boolean, chang
         horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(label, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
         Switch(checked = value, onCheckedChange = null, enabled = enabled)
-    }
-}
-
-@Composable
-private fun SettingChoices(label: String, value: Int, choices: List<Pair<Int, String>>, enabled: Boolean, change: (Int) -> Unit) {
-    Text(label, style = MaterialTheme.typography.titleMedium)
-    Column(Modifier.selectableGroup()) {
-        choices.forEach { (id, name) ->
-            Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).selectable(value == id, enabled = enabled,
-                role = Role.RadioButton, onClick = { change(id) }), verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                RadioButton(selected = value == id, onClick = null, enabled = enabled)
-                Text(name)
-            }
-        }
     }
 }
 

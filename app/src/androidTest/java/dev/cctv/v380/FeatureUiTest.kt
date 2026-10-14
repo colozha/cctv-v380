@@ -45,10 +45,10 @@ class FeatureUiTest {
         compose.onNodeWithContentDescription("Muat ulang rekaman").assertIsNotEnabled()
         capture("recordings-disconnected")
         compose.onNodeWithText("Pengaturan").performClick()
-        compose.onNodeWithText("Muat pengaturan kamera").assertIsDisplayed().assertIsNotEnabled()
+        compose.onNodeWithText("Muat pengaturan kamera").performScrollTo().assertIsDisplayed().assertIsNotEnabled()
         capture("settings-disconnected")
         compose.onNodeWithText("Live").performClick()
-        compose.onNodeWithText("Belum terhubung").assertIsDisplayed()
+        compose.onAllNodesWithText("Belum terhubung")[0].assertIsDisplayed()
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -79,9 +79,9 @@ class FeatureUiTest {
                 }
             }
         }
-        compose.onNodeWithText("Gambar").performScrollTo()
+        compose.onNodeWithText("Gambar").performScrollTo().performClick()
         capture("settings-synthetic")
-        compose.onNodeWithText("Kartu SD").performScrollTo()
+        compose.onNodeWithText("Kartu SD").performScrollTo().performClick()
         compose.onNodeWithText("50% ruang kartu tersedia").assertExists()
         compose.onNodeWithText("Format SD card").assertIsNotEnabled()
         capture("storage-synthetic")

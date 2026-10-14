@@ -363,7 +363,7 @@ private val RecordingDownloadIcon = ImageVector.Builder("Simpan", 24.dp, 24.dp, 
         moveTo(4f, 18f); horizontalLineTo(6f); verticalLineTo(20f); horizontalLineTo(18f); verticalLineTo(18f)
         horizontalLineTo(20f); verticalLineTo(22f); horizontalLineTo(4f); close() }
 }.build()
-private val RecordingSdIcon = ImageVector.Builder("Kartu SD", 24.dp, 24.dp, 24f, 24f).apply {
+internal val RecordingSdIcon = ImageVector.Builder("Kartu SD", 24.dp, 24.dp, 24f, 24f).apply {
     path(fill = SolidColor(Color.Black), pathFillType = androidx.compose.ui.graphics.PathFillType.EvenOdd) {
         moveTo(7f, 2f); lineTo(3f, 6f); verticalLineTo(22f); horizontalLineTo(21f); verticalLineTo(2f); close()
         moveTo(8f, 4f); horizontalLineTo(10f); verticalLineTo(9f); horizontalLineTo(8f); close()
