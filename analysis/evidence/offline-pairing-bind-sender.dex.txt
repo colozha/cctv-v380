@@ -1,0 +1,58 @@
+DEX classes6.dex method Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->run()V code_item_offset=7176756 registers=14
+0000 dex@006d8244 const/4                  v0 #0 
+0001 dex@006d8246 move                     v1 v0 
+0002 dex@006d8248 move                     v2 v1 
+0003 dex@006d824a const/4                  v3 #3 
+0004 dex@006d824c if-ge                    v1 v3  -> 0049
+0006 dex@006d8250 iget                     v3 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->val$threadId:I
+0008 dex@006d8254 iget-object              v4 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->this$0:Lcom/macrovideo/v380/fragments/AddDeviceApFragment;
+000a dex@006d8258 invoke-static            v4 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->access$5800(Lcom/macrovideo/v380/fragments/AddDeviceApFragment;)I
+000d dex@006d825e move-result              v4 
+000e dex@006d8260 if-ne                    v3 v4  -> 0049
+0010 dex@006d8264 invoke-static            Lcom/macrovideo/v380/utils/LogUtil;->feedback()Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;
+0013 dex@006d826a move-result-object       v2 
+0014 dex@006d826c const-string/jumbo       v3 <string-content-excluded>
+0017 dex@006d8272 const-string             v4 <string-content-excluded>
+0019 dex@006d8276 invoke-virtual           v2 v4 v3 Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;->i(Ljava/lang/String;Ljava/lang/String;)V
+001c dex@006d827c iget-object              v6 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->val$fastPin:Ljava/lang/String;
+001e dex@006d8280 iget                     v7 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->val$finalPinCode:I
+0020 dex@006d8284 iget-object              v8 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->val$mQrConfigNetContent:Ljava/lang/String;
+0022 dex@006d8288 sget                     v2 Lcom/macrovideo/v380/utils/GlobalDefines;->sLoginUserId:I
+0024 dex@006d828c int-to-long              v9 v2 
+0025 dex@006d828e const-wide/16            v11 #0 
+0027 dex@006d8292 const/4                  v5 #2 
+0028 dex@006d8294 invoke-static/range      v5..12 Lcom/macrovideo/sdk/media/LoginHelper;->requestBindIotDeviceByAP(ILjava/lang/String;ILjava/lang/String;JJ)I
+002b dex@006d829a move-result              v2 
+002c dex@006d829c invoke-static            Lcom/macrovideo/v380/utils/LogUtil;->feedback()Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;
+002f dex@006d82a2 move-result-object       v3 
+0030 dex@006d82a4 new-instance             v5 Ljava/lang/StringBuilder;
+0032 dex@006d82a8 const-string             v6 <string-content-excluded>
+0034 dex@006d82ac invoke-direct            v5 v6 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0037 dex@006d82b2 invoke-virtual           v5 v2 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+003a dex@006d82b8 invoke-virtual           v5 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+003d dex@006d82be move-result-object       v5 
+003e dex@006d82c0 invoke-virtual           v3 v4 v5 Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;->d(Ljava/lang/String;Ljava/lang/String;)V
+0041 dex@006d82c6 const/16                 v3 #-257 
+0043 dex@006d82ca if-eq                    v2 v3  -> 0046
+0045 dex@006d82ce goto                      -> 0049
+0046 dex@006d82d0 add-int/lit8             v1 v1 #1 
+0048 dex@006d82d4 goto                      -> 0003
+0049 dex@006d82d6 const/16                 v1 #1000 
+004b dex@006d82da if-eq                    v2 v1  -> 005f
+004d dex@006d82de const/16                 v1 #1107 
+004f dex@006d82e2 if-ne                    v2 v1  -> 0052
+0051 dex@006d82e6 goto                      -> 005f
+0052 dex@006d82e8 iget-object              v1 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->this$0:Lcom/macrovideo/v380/fragments/AddDeviceApFragment;
+0054 dex@006d82ec iget-object              v1 v1 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mBaseFragmentHandler:Landroid/os/Handler;
+0056 dex@006d82f0 new-instance             v3 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35$2;
+0058 dex@006d82f4 invoke-direct            v3 v13 v2 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35$2;-><init>(Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;I)V
+005b dex@006d82fa invoke-virtual           v1 v3 Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+005e dex@006d8300 goto                      -> 006b
+005f dex@006d8302 iget-object              v1 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->this$0:Lcom/macrovideo/v380/fragments/AddDeviceApFragment;
+0061 dex@006d8306 iget-object              v1 v1 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mBaseFragmentHandler:Landroid/os/Handler;
+0063 dex@006d830a new-instance             v2 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35$1;
+0065 dex@006d830e invoke-direct            v2 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35$1;-><init>(Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;)V
+0068 dex@006d8314 invoke-virtual           v1 v2 Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+006b dex@006d831a iget-object              v1 v13 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;->this$0:Lcom/macrovideo/v380/fragments/AddDeviceApFragment;
+006d dex@006d831e invoke-static            v1 v0 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->access$5702(Lcom/macrovideo/v380/fragments/AddDeviceApFragment;Z)Z
+0070 dex@006d8324 return-void              

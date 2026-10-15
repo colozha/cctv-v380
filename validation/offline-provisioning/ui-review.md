@@ -1,0 +1,11 @@
+# Offline setup review — 15 October 2026
+
+The existing approved AP illustration, native Material panels, mint/charcoal palette, light/dark themes and scroll behavior are retained. Setup source now uses resource IDs for all fixed copy, including labels, validation, stage headings, secrets and accessibility descriptions. Four stages describe the actual task, and the optional LAN-password form is collapsed initially. Headings announce phase changes politely; error notices reuse the existing polite semantics. Recovery separates a known SSID mismatch, an unavailable SSID requiring confirmation, and a previously submitted write with an uncertain outcome.
+
+Source review confirms that retry/recovery receive no router password, clear-progress explains that camera changes are not undone, and completion describes local identity/authentication rather than video. Secret controls reset visibility/background state, and no new dependency or visual asset was added.
+
+Native fixture coverage was compiled for Indonesian/English, light/dark, 1.3x text, landscape, unreadable/wrong SSID, disabled verification, permission denial, secret erasure and the cloud-binding boundary. Existing AP recreation tests remain included. These are compiled scenarios, not runtime results.
+
+**Visual verification: not run.** No Android device is attached according to adb-devices.txt. No current screenshots exist for these changes. Historical API37 emulator boot SIGSEGV with and without KVM is recorded in validation/sd-maintenance/results.json; the same boot attempts were not repeated. This task therefore makes no claim about final screenshot fidelity, real TalkBack behavior, OEM dialogs or Wi-Fi radio behavior. Inspect one combined native capture batch, fix observed defects together, and perform at most one confirmation pass when an Android runtime is available.
+
+**Physical-camera acceptance: not run.** A separate session must disconnect the router WAN, allow local client communication, perform three AP→router→same-ID login→rendered Live transitions and check recovery without replay. Static REA and synthetic loopback do not establish firmware compatibility, fresh owner binding or camera Wi-Fi association.

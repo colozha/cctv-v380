@@ -751,24 +751,45 @@ class CameraSession(
         } finally { request.fill(0) }
     }
 
-    suspend fun configureWifi(ssid: String, password: CharArray) = try { operations.withLock {
+    suspend fun configureWifi(profileId: String, deviceId: String, expectedAuthenticationRevision: Long,
+        ssid: String, password: CharArray, networkValid: () -> Boolean,
+        beforeWrite: suspend () -> Unit, onWriteStarted: () -> Unit = {},
+    ) = try { operations.withLock {
         if (maintenancePending) throw CameraFailure(SessionError.FeatureUnsupported)
-        if (state.value !is SessionState.Ready) throw CameraFailure(SessionError.AuthenticationFailed)
         val target = profile ?: throw CameraFailure(SessionError.AuthenticationFailed)
+        fun checkOwner() {
+            if (!isAuthenticated(profileId) || target.deviceId != deviceId || profile !== target ||
+                authenticationRevision.value != expectedAuthenticationRevision || state.value !is SessionState.Ready)
+                throw CameraFailure(SessionError.AuthenticationFailed)
+            if (!networkValid()) throw CameraFailure(SessionError.NetworkUnavailable)
+        }
+        checkOwner()
+        ApProtocol.validateWifiInput(ssid, password, legacy = iot == null)
         val channel = channelFactory(target).also { commandChannel = it }
         try {
             channel.connect(target.host, target.port)
             val deadline = deadlineAfterMillis()
+            val write: suspend (ByteArray) -> Unit = { request ->
+                currentCoroutineContext().ensureActive(); checkOwner()
+                beforeWrite()
+                currentCoroutineContext().ensureActive(); checkOwner()
+                onWriteStarted()
+                channel.write(request, deadline)
+            }
             val session = iot
             if (session == null) {
                 val login = legacy ?: throw CameraFailure(SessionError.AuthenticationFailed)
                 val response = ApProtocol.configureLegacyWifi(target.deviceId, login.handle, ssid, password,
-                    write = { channel.write(it, deadline) }, readExact = { channel.readExact(it, deadline) })
+                    write = write, readExact = { channel.readExact(it, deadline) })
                 if (!response.acknowledged) throw CameraFailure(SessionError.WifiConfigurationRejected)
             } else {
                 val key = session.keyBytes()
-                try { ApProtocol.configureWifi(ssid, password, requestIds.incrementAndGet(), session.sessionId,
-                    sessionKey = key, write = { channel.write(it, deadline) }, readExact = { channel.readExact(it, deadline) }).requireSuccess() }
+                try {
+                    val response = ApProtocol.configureWifi(ssid, password, requestIds.incrementAndGet(), session.sessionId,
+                        sessionKey = key, write = write, readExact = { channel.readExact(it, deadline) })
+                    // Only an encrypted, correlated rejection can establish that this write was refused.
+                    response.requireSuccess()
+                }
                 finally { key.fill(0) }
             }
             diagnostics.record(DiagnosticStage.PROVISIONING)

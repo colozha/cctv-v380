@@ -70,12 +70,12 @@ ACK belum berarti selesai. Jika hasil belum diketahui/restart, **Sambungkan dan 
 1. Aktifkan mode AP kamera mengikuti petunjuk perangkat; pilih **Setup lewat AP kamera**.
 2. Masukkan/pilih SSID hotspot dan password hotspot bila diperlukan. API29+ menggunakan dialog koneksi Android; API26–28 membuka pengaturan Wi-Fi sistem. Persetujuan dialog sistem tetap diperlukan. Daftar SSID dapat memerlukan izin lokasi dan layanan lokasi; input manual tetap tersedia.
 3. Cari/pilih identitas kamera, lalu verifikasi akses lokal yang sah. Untuk kamera yang memang belum memakai password lokal, pilih opsi tersebut secara eksplisit. Kamera terikat pemilik tidak diambil alih atau di-reset.
-4. Setelah autentikasi berhasil, masukkan SSID/password Wi-Fi rumah, lalu kirim sekali. Batas legacy password32 byte GBK; input yang melebihi format ditolak.
-5. Kembali ke Wi-Fi rumah dan pilih **Periksa kamera di Wi-Fi rumah**. Setup baru selesai setelah ID yang sama ditemukan dan autentikasi ulang berhasil; ACK bukan bukti kamera berhasil masuk Wi-Fi.
+4. Setelah autentikasi berhasil, masukkan SSID/password Wi-Fi router, lalu kirim sekali. Router boleh tanpa koneksi internet; gunakan jaringan yang mengizinkan komunikasi antarklien. Batas legacy password32 byte GBK; input yang melebihi format ditolak.
+5. Buka Pengaturan Android, pilih Wi-Fi router tujuan, lalu kembali dan pilih **Periksa kamera di router**. Jika Android memperingatkan tidak ada internet, tetap gunakan Wi-Fi tersebut. SSID yang terbaca harus cocok; bila tidak dapat dibaca, konfirmasikan bahwa router tujuan sudah dipilih. Setup baru selesai setelah ID yang sama ditemukan dan autentikasi ulang berhasil; ACK bukan bukti kamera berhasil masuk Wi-Fi.
 
-Jika AP terputus/ACK hilang/proses mati, lanjutkan verifikasi dahulu. Password Wi-Fi tidak dipulihkan atau dikirim ulang otomatis. Menu **Setup ulang lewat hotspot** menghapus progres lokal saja. Penggunaan AP langsung tersedia setelah akses lokal terverifikasi.
+Jika AP terputus/ACK hilang/proses mati, lanjutkan verifikasi dahulu. Password Wi-Fi tidak dipulihkan atau dikirim ulang otomatis. Menu **Hapus progres setup lokal** menghapus progres aplikasi saja dan tidak membatalkan konfigurasi kamera. Penggunaan AP langsung tersedia setelah akses lokal terverifikasi.
 
-**Pairing baru platform IoT:** jalur PIN dalam APK memakai token binding dari cloud. Tombol pairing menjelaskan batas ini (`CloudRequired`); alur offline penuh untuk kamera demikian belum dibuktikan. ONVIF bukan prasyarat dan tidak dipakai sebagai pengganti.
+**Pairing baru platform IoT:** jalur PIN dalam APK memakai token binding dari cloud. Tombol pairing menjelaskan batas ini (`CloudRequired`); alur offline penuh untuk kamera demikian belum dibuktikan. ONVIF bukan prasyarat dan tidak dipakai sebagai pengganti. Riset REA/DEX tambahan belum membuktikan bahwa token kosong dapat menggantikan binding cloud. [Kontrak dan hasil investigasi offline](analysis/ap-provisioning.md#offline-router-setup-investigation-and-implementation-15-october-2026).
 
 ## Diagnostik dan pengujian
 

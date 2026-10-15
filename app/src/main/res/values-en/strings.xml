@@ -326,7 +326,6 @@
     <string name="end_time">Ends %1$s</string>
     <string name="selected_cells_count">%1$d of %2$d cells selected</string>
     <string name="choose_cell">Select row %1$d, column %2$d</string>
-    <string name="camera_on_wifi_help">Connect your phone to Wi-Fi %1$s. The camera may get a new IP address; the app will search for the same device identity.</string>
     <string name="diagnostic_wifi_info">Selected Wi-Fi · IPv4 %1$s\nGateway %2$s</string>
     <string name="not_available">not available</string>
     <string name="event_status_started">Started</string>
@@ -661,4 +660,37 @@
     <string name="copy_tinggalkan_pekerjaan_ini_6b40ea40">Leave this operation?</string>
     <string name="copy_lihat_daftar_wi_fi_600054fc">View Wi-Fi networks</string>
     <string name="copy_menyambungkan_1bcaea89">Connecting…</string>
+
+    <string name="setup_offline_title">Camera Wi-Fi setup</string>
+    <string name="setup_offline_help">The router can work without internet. Choose the same Wi-Fi for your phone and camera; if Android warns that it has no internet, stay connected.</string>
+    <string name="setup_stage">Step %1$d of 4 · %2$s</string>
+    <string name="setup_stage_ap">Connect to hotspot</string>
+    <string name="setup_stage_access">Verify access</string>
+    <string name="setup_stage_router">Choose router</string>
+    <string name="setup_stage_verify">Check camera</string>
+    <string name="setup_router_title">Connect to router Wi-Fi</string>
+    <string name="setup_router_ssid">Router Wi-Fi SSID</string>
+    <string name="setup_router_password">Router Wi-Fi password</string>
+    <string name="setup_router_open">Router Wi-Fi has no password</string>
+    <string name="setup_open_router">Choose router Wi-Fi in Android</string>
+    <string name="setup_verify_router">Check camera on router</string>
+    <string name="setup_verify_help">Choose router Wi-Fi %1$s in Android Settings, then return and check the camera. Internet is not required. The camera may receive a new IP address.</string>
+    <string name="setup_wrong_network">Your phone is still on the camera hotspot or another Wi-Fi. Choose router Wi-Fi %1$s, then check again.</string>
+    <string name="setup_ssid_hidden">Android is not showing the current Wi-Fi name. Make sure your phone is on the target router Wi-Fi. The app will still check camera identity and local login.</string>
+    <string name="setup_confirm_router">I have selected router Wi-Fi %1$s</string>
+    <string name="setup_reset_help">Starting over only clears app progress. It does not undo or change camera settings. Check the target Wi-Fi before sending a new configuration.</string>
+    <string name="setup_reset">Clear local setup progress</string>
+    <string name="setup_local_options">Local access options</string>
+    <string name="setup_local_password_help">Optional: change the LAN login password after verifying access. This does not bind an account. Your remember-password choice is preserved.</string>
+    <string name="setup_cloud_limit">Initial pairing for this camera is not yet supported offline. The PIN flow found in the vendor app uses a cloud token. If you already have local access, enter it to continue.</string>
+    <string name="setup_pairing_limit">Offline bootstrap for a new camera is not proven for this device. If the camera genuinely has no local password, select that option and verify access.</string>
+    <string name="setup_access_rejected">Local access was rejected. Check the camera local password; the router and V380 account passwords are different.</string>
+    <string name="setup_wifi_rejected">The camera rejected the Wi-Fi configuration. Check the router SSID and password before sending again.</string>
+    <string name="setup_invalid_wifi">Check the router SSID and password. SSID allows up to 32 UTF-8 bytes; Legacy passwords allow up to 32 GBK bytes and must be representable in that encoding.</string>
+    <string name="setup_unknown_result">The send result is unknown. The camera may have changed networks. Checking again will not resend the Wi-Fi configuration.</string>
+    <string name="setup_network_lost">The camera network or session changed. Reconnect to the camera hotspot and verify access before sending configuration.</string>
+    <string name="setup_wifi_item">%1$s · %2$s</string>
+    <string name="setup_endpoint">%1$s:%2$d</string>
+    <string name="setup_synthetic">Synthetic setup fixture · no camera connection</string>
+    <string name="setup_set_password">Change local password</string>
 </resources>

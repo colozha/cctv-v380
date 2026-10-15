@@ -11,6 +11,26 @@ import java.util.Base64
 
 /** Local AP/LAN operations recovered from V380 6.4.90. No cloud account binding is fabricated. */
 object ApProtocol {
+    /** Validate before persisting pending metadata or opening a credential-bearing transaction. */
+    fun validateWifiInput(ssid: String, password: CharArray, legacy: Boolean) {
+        require(ssid.toByteArray(Charsets.UTF_8).size in 1..32 && '\u0000' !in ssid && password.none { it == '\u0000' })
+        if (legacy) legacyPassword(password).fill(0)
+        else require(Charsets.UTF_8.encode(CharBuffer.wrap(password)).let { buffer ->
+            try { buffer.remaining() <= 63 } finally { if (buffer.hasArray()) buffer.array().fill(0) }
+        })
+    }
+
+    private fun legacyPassword(password: CharArray): ByteArray {
+        val buffer = try {
+            Charset.forName("GBK").newEncoder().onMalformedInput(CodingErrorAction.REPORT)
+                .onUnmappableCharacter(CodingErrorAction.REPORT).encode(CharBuffer.wrap(password))
+        } catch (_: java.nio.charset.CharacterCodingException) { throw IllegalArgumentException("Invalid Wi-Fi encoding") }
+        try {
+            require(buffer.remaining() <= 32)
+            return ByteArray(buffer.remaining()).also { buffer.get(it) }
+        } finally { if (buffer.hasArray()) buffer.array().fill(0) }
+    }
+
     /** These values must come from the user's authorized provisioning flow. timeout is passed verbatim. */
     fun bindInfo(action: Int, fastPin: String?, pinCode: Int, bindInfo: String, clientCode: Long, timeout: Long): JSONObject {
         require(bindInfo.toByteArray(Charsets.UTF_8).size <= 65536 && (fastPin?.length ?: 0) <= 1024)
@@ -21,6 +41,7 @@ object ApProtocol {
 
     /** DeviceNetworkSetting.setNetworkConfig new-platform action arguments. */
     fun wifiConfigParams(ssid: String, wifiPassword: CharArray): JSONObject {
+        validateWifiInput(ssid, wifiPassword, legacy = false)
         val ssidBytes = ssid.toByteArray(Charsets.UTF_8)
         val passwordBytes = String(wifiPassword).toByteArray(Charsets.UTF_8)
         try {
@@ -38,9 +59,7 @@ object ApProtocol {
         val id = deviceId.toLongOrNull()
         require(id != null && id in 1..0xffffffffL && handle in 0..0xffffffffL)
         val ssidBytes = ssid.toByteArray(Charsets.UTF_8)
-        val passwordBytes = Charset.forName("GBK").newEncoder().onMalformedInput(CodingErrorAction.REPORT)
-            .onUnmappableCharacter(CodingErrorAction.REPORT).encode(CharBuffer.wrap(wifiPassword))
-        val password = ByteArray(passwordBytes.remaining()).also { passwordBytes.get(it) }
+        val password = legacyPassword(wifiPassword)
         try {
             require(ssidBytes.size in 1..32 && password.size <= 32 && '\u0000' !in ssid && wifiPassword.none { it == '\u0000' })
             val packet = ByteBuffer.allocate(256).order(ByteOrder.LITTLE_ENDIAN)
@@ -51,7 +70,6 @@ object ApProtocol {
         } finally {
             ssidBytes.fill(0)
             password.fill(0)
-            if (passwordBytes.hasArray()) passwordBytes.array().fill(0)
         }
     }
 
@@ -88,7 +106,8 @@ object ApProtocol {
     ): IoTResponse {
         require(magic == 0)
         return exchange(wifiActionParams(ssid, wifiPassword), IoTCommonProtocol.ACTION_REQUEST,
-            IoTCommonProtocol.ACTION_RESPONSE, requestId, write, readExact, sessionId, 0, sessionKey)
+            IoTCommonProtocol.ACTION_RESPONSE, requestId, write, readExact, sessionId, 0, sessionKey,
+            strict = true)
     }
 
     /** LoginHelper.changeLanPassSync: the old password authenticates the masked new password. */
@@ -133,6 +152,7 @@ object ApProtocol {
         params: JSONObject, method: Int, responseMethod: Int, requestId: Int,
         write: suspend (ByteArray) -> Unit, readExact: suspend (Int) -> ByteArray,
         sessionId: Int = 0, magic: Int = 0, key: ByteArray? = null,
+        strict: Boolean = false,
     ): IoTResponse {
         val request = IoTCommonProtocol.encodeRequest(methodId = method, requestId = requestId,
             params = params, secureType = if (key == null) 0 else 2, sessionId = sessionId, magic = magic, key = key)
@@ -140,9 +160,15 @@ object ApProtocol {
         val header = IoTCommonProtocol.parseHeader(readExact(IoTCommonProtocol.HEADER_SIZE))
         if (header.command != IoTCommonProtocol.COMMAND_IOT)
             throw IoTProtocolException(IoTFailure.MalformedPacket)
+        if (strict && (header.secureType != 2 || header.sessionId !in setOf(0, sessionId)))
+            throw IoTProtocolException(IoTFailure.MalformedPacket)
         val payload = readExact(header.bodySize)
         try {
             val json = IoTCommonProtocol.decodeJson(header, payload, key)
+            if (strict && (IoTCommonProtocol.exactInt(json, "id") != requestId ||
+                    IoTCommonProtocol.exactInt(json, "chn") !in setOf(0, 1) ||
+                    IoTCommonProtocol.exactInt(json, "method_id") != responseMethod))
+                throw IoTProtocolException(IoTFailure.MalformedPacket)
             val response = IoTCommonProtocol.validateResponse(json, requestId, methodId = responseMethod)
             if (key != null && response.code == 1000 && header.secureType != 2)
                 throw IoTProtocolException(IoTFailure.MalformedPacket)

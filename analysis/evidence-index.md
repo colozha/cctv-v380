@@ -296,3 +296,19 @@ Implementasi hotspot menambah [konstanta network](evidence/ap-hotspot-network-co
 | [talkback-IoTDevAbility-isSupportSpeak.sanitized.json](evidence/talkback-IoTDevAbility-isSupportSpeak.sanitized.json) | `ev_d7aa554dc3139f5805efc4878057cb0838c865ad84bc39ecb5b63707999bd10c` |
 | [talkback-MicrophoneRecorder-init.sanitized.json](evidence/talkback-MicrophoneRecorder-init.sanitized.json) | `ev_ec1fa2e8b959fe374850a3ddc81ffac8470dc79aaeda629644fdaddf86d923a9` |
 | [talkback-MicrophoneRecorder-a.sanitized.json](evidence/talkback-MicrophoneRecorder-a.sanitized.json) | `ev_745ab5ace7cbe65a9c8c526b0c8929ec0c38ae4613813ea22773a5b9fddff9fe` |
+
+
+## Offline provisioning, 15 October 2026
+
+[Findings and implementation contract](ap-provisioning.md#offline-router-setup-investigation-and-implementation-15-october-2026). Same V380 6.4.90 APK SHA-256 as above. Eight REA 6.4.0/JADX 0.7.1 projections are noncanonical derivatives; canonical bundles are local and ignored. Four DEX dumps use the existing bounded collector, with arbitrary strings/arrays excluded. [Manifest and hashes](evidence/offline-pairing-summary.json), [REA collector](evidence/offline-pairing-collect.py). No runtime, camera or cloud evidence.
+
+| Method | Source Evidence ID | Projection |
+|---|---|---|
+| `com.macrovideo.v380.fragments.AddDeviceApFragment.getBindToken` | `ev_fedbb07439008e10d6847f84481d31d147d7f1d34f3f94fe4c7156c414e8800d` | [offline-pairing-AddDeviceApFragment-getBindToken.sanitized.json](evidence/offline-pairing-AddDeviceApFragment-getBindToken.sanitized.json) |
+| `com.macrovideo.v380.fragments.AddDeviceApFragment.sendPinCode` | `ev_fef8c8801abeef20057a01c208227d234b885b5297e0ab6b51f62fccba785713` | [offline-pairing-AddDeviceApFragment-sendPinCode.sanitized.json](evidence/offline-pairing-AddDeviceApFragment-sendPinCode.sanitized.json) |
+| `com.macrovideo.v380.fragments.AddDeviceApFragment.broadcastPinCode` | `ev_c7e4b14ae1b81a0d0891c1295aa8bab12df6288c7845d062fce4e3c6a8c95d9c` | [offline-pairing-AddDeviceApFragment-broadcastPinCode.sanitized.json](evidence/offline-pairing-AddDeviceApFragment-broadcastPinCode.sanitized.json) |
+| `com.macrovideo.sdk.tools.QRContentUtils.generateConfigNetQRContent` | `ev_cfd1b5ef92d4f6365893f9cda1ba29455508c7d7dcbcf6024ea6babac0e510eb` | [offline-pairing-QRContentUtils-generateConfigNetQRContent.sanitized.json](evidence/offline-pairing-QRContentUtils-generateConfigNetQRContent.sanitized.json) |
+| `com.macrovideo.sdk.media.LoginHelper.requestBindIotDeviceByAP` | `ev_079137c315503980e410ae8558ff4902d1c9d1b6a025642f5e76d25853a647d7` | [offline-pairing-LoginHelper-requestBindIotDeviceByAP.sanitized.json](evidence/offline-pairing-LoginHelper-requestBindIotDeviceByAP.sanitized.json) |
+| `com.macrovideo.sdk.media.LoginHelper.keyExchangeByLanSync` | `ev_2e4864dac1fa2f6138ea561a769478580b99dfdafa4c28174ad34f806a2f16ec` | [offline-pairing-LoginHelper-keyExchangeByLanSync.sanitized.json](evidence/offline-pairing-LoginHelper-keyExchangeByLanSync.sanitized.json) |
+| `com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass35.run` | `ev_ee02d17bb9f0f378b95cf2e2c02daf308d7340d124e63d3d3b33f922b82db686` | [offline-pairing-BindSender-run.sanitized.json](evidence/offline-pairing-BindSender-run.sanitized.json) |
+| `com.macrovideo.sdk.setting.DeviceConfigSetting.startActionNewPlatform` | `ev_ef28b3e53de8b9577999f59f6c094922a0ea512c85c7a0a3400fd47528bf49aa` | [offline-pairing-DeviceConfigSetting-startActionNewPlatform.sanitized.json](evidence/offline-pairing-DeviceConfigSetting-startActionNewPlatform.sanitized.json) |

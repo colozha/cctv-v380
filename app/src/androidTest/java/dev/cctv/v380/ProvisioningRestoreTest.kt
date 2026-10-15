@@ -37,6 +37,14 @@ class ProvisioningRestoreTest {
             assertEquals(0, attempts.get()); assertEquals(SessionState.Idle, session.state.value)
             manager.cancel()
             assertNotNull("Leaving setup must preserve verification metadata", store.loadPendingSetup())
+            manager.resumePending()
+            withTimeout(3000) { while (manager.state.value.phase != ProvisioningPhase.WAITING_LAN) delay(10) }
+            manager.onBackground(false)
+            assertNotNull("Background must preserve the uncertain result without storing credentials", store.loadPendingSetup())
+            assertEquals(0, attempts.get())
+            manager.discardPending()
+            withTimeout(3000) { while (store.loadPendingSetup() != null || manager.state.value.phase != ProvisioningPhase.IDLE) delay(10) }
+            assertEquals("Discard only clears local progress", 0, attempts.get())
         } finally { manager.cancel(); scope.cancel(); session.dispose(); store.clearPendingSetup(); file.delete() }
     }
 }

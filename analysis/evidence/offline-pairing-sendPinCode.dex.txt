@@ -1,0 +1,80 @@
+DEX classes6.dex method Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->sendPinCode(Ljava/lang/String;)V code_item_offset=7200424 registers=10
+0000 dex@006ddeb8 invoke-static            Lcom/macrovideo/v380/utils/LogUtil;->feedback()Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;
+0003 dex@006ddebe move-result-object       v0 
+0004 dex@006ddec0 new-instance             v1 Ljava/lang/StringBuilder;
+0006 dex@006ddec4 const-string             v2 <string-content-excluded>
+0008 dex@006ddec8 invoke-direct            v1 v2 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+000b dex@006ddece invoke-virtual           v1 v9 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000e dex@006dded4 const-string             v2 <string-content-excluded>
+0010 dex@006dded8 invoke-virtual           v1 v2 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0013 dex@006ddede invoke-virtual           v1 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0016 dex@006ddee4 move-result-object       v1 
+0017 dex@006ddee6 const-string             v2 <string-content-excluded>
+0019 dex@006ddeea invoke-virtual           v0 v2 v1 Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;->d(Ljava/lang/String;Ljava/lang/String;)V
+001c dex@006ddef0 invoke-direct            v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->checkIsConnectedSpecifiedAP()Z
+001f dex@006ddef6 move-result              v0 
+0020 dex@006ddef8 if-nez                   v0  -> 0026
+0022 dex@006ddefc invoke-direct            v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->showConnectSpecifiedAPDialog()V
+0025 dex@006ddf02 return-void              
+0026 dex@006ddf04 const/4                  v0 #0 
+0027 dex@006ddf06 if-nez                   v9  -> 0064
+0029 dex@006ddf0a iget-object              v1 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->binding:Landroidx/viewbinding/ViewBinding;
+002b dex@006ddf0e check-cast               v1 Lcom/macrovideo/v380/databinding/FragmentAddDeviceApBinding;
+002d dex@006ddf12 iget-object              v1 v1 Lcom/macrovideo/v380/databinding/FragmentAddDeviceApBinding;->customPinCodeView:Lcom/macrovideo/v380/ui/CustomPinCodeView;
+002f dex@006ddf16 invoke-virtual           v1 Lcom/macrovideo/v380/ui/CustomPinCodeView;->getInputText()Ljava/lang/String;
+0032 dex@006ddf1c move-result-object       v1 
+0033 dex@006ddf1e if-eqz                   v1  -> 005a
+0035 dex@006ddf22 invoke-virtual           v1 Ljava/lang/String;->length()I
+0038 dex@006ddf28 move-result              v2 
+0039 dex@006ddf2a const/4                  v3 #4 
+003a dex@006ddf2c if-eq                    v2 v3  -> 003d
+003c dex@006ddf30 goto                      -> 005a
+003d dex@006ddf32 invoke-static            v1 Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+0040 dex@006ddf38 move-result              v1 
+0041 dex@006ddf3a goto                      -> 0043
+0042 dex@006ddf3c move                     v1 v0 
+0043 dex@006ddf3e if-nez                   v1  -> 0058
+0045 dex@006ddf42 iget-object              v9 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->binding:Landroidx/viewbinding/ViewBinding;
+0047 dex@006ddf46 check-cast               v9 Lcom/macrovideo/v380/databinding/FragmentAddDeviceApBinding;
+0049 dex@006ddf4a iget-object              v9 v9 Lcom/macrovideo/v380/databinding/FragmentAddDeviceApBinding;->customPinCodeView:Lcom/macrovideo/v380/ui/CustomPinCodeView;
+004b dex@006ddf4e invoke-virtual           v9 Lcom/macrovideo/v380/ui/CustomPinCodeView;->clearInput()V
+004e dex@006ddf54 iget-object              v9 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mActivity:Lcom/macrovideo/v380/activities/AddDeviceActivity;
+0050 dex@006ddf58 sget                     v1 Lcom/macrovideo/v380/R$string;->please_input_correct_pin_code:I
+0052 dex@006ddf5c new-array                v0 v0 [I
+0054 dex@006ddf60 invoke-virtual           v9 v1 v0 Lcom/macrovideo/v380/activities/AddDeviceActivity;->showToast(I[I)V
+0057 dex@006ddf66 return-void              
+0058 dex@006ddf68 move                     v6 v1 
+0059 dex@006ddf6a goto                      -> 0065
+005a dex@006ddf6c iget-object              v9 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mActivity:Lcom/macrovideo/v380/activities/AddDeviceActivity;
+005c dex@006ddf70 sget                     v1 Lcom/macrovideo/v380/R$string;->please_input_correct_pin_code:I
+005e dex@006ddf74 new-array                v0 v0 [I
+0060 dex@006ddf78 invoke-virtual           v9 v1 v0 Lcom/macrovideo/v380/activities/AddDeviceActivity;->showToast(I[I)V
+0063 dex@006ddf7e return-void              
+0064 dex@006ddf80 move                     v6 v0 
+0065 dex@006ddf82 const/4                  v1 #1 
+0066 dex@006ddf84 iput-boolean             v1 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mIsPinCodeSending:Z
+0068 dex@006ddf88 iget-object              v2 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mActivity:Lcom/macrovideo/v380/activities/AddDeviceActivity;
+006a dex@006ddf8c new-instance             v3 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$34;
+006c dex@006ddf90 invoke-direct            v3 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$34;-><init>(Lcom/macrovideo/v380/fragments/AddDeviceApFragment;)V
+006f dex@006ddf96 const-string             v4 <string-content-excluded>
+0071 dex@006ddf9a invoke-virtual           v2 v0 v4 v3 Lcom/macrovideo/v380/activities/AddDeviceActivity;->showLoadingDialog(ZLjava/lang/String;Lcom/macrovideo/v380/fragments/dialogfragments/LoadingDialog$LoadingDialogOnCancelListener;)V
+0074 dex@006ddfa0 iget-object              v2 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mWifiName:Ljava/lang/String;
+0076 dex@006ddfa4 iget-object              v3 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mWifiPassword:Ljava/lang/String;
+0078 dex@006ddfa8 iget-object              v4 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mBindToken:Ljava/lang/String;
+007a dex@006ddfac invoke-static            v0 v2 v3 v4 Lcom/macrovideo/sdk/tools/QRContentUtils;->generateConfigNetQRContent(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+007d dex@006ddfb2 move-result-object       v7 
+007e dex@006ddfb4 invoke-static            Ljava/lang/System;->currentTimeMillis()J
+0081 dex@006ddfba move-result-wide         v2 
+0082 dex@006ddfbc sput-wide                v2 Lcom/macrovideo/v380/utils/GlobalDefines;->sSendApConfigNetActionTimestamp:J
+0084 dex@006ddfc0 iget                     v0 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mSendPinCodeThreadId:I
+0086 dex@006ddfc4 add-int/lit8             v4 v0 #1 
+0088 dex@006ddfc8 iput                     v4 v8 Lcom/macrovideo/v380/fragments/AddDeviceApFragment;->mSendPinCodeThreadId:I
+008a dex@006ddfcc new-instance             v0 Ljava/lang/Thread;
+008c dex@006ddfd0 new-instance             v1 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;
+008e dex@006ddfd4 move-object              v2 v1 
+008f dex@006ddfd6 move-object              v3 v8 
+0090 dex@006ddfd8 move-object              v5 v9 
+0091 dex@006ddfda invoke-direct/range      v2..7 Lcom/macrovideo/v380/fragments/AddDeviceApFragment$35;-><init>(Lcom/macrovideo/v380/fragments/AddDeviceApFragment;ILjava/lang/String;ILjava/lang/String;)V
+0094 dex@006ddfe0 invoke-direct            v0 v1 Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;)V
+0097 dex@006ddfe6 invoke-virtual           v0 Ljava/lang/Thread;->start()V
+009a dex@006ddfec return-void              

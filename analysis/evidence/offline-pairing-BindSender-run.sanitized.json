@@ -1,0 +1,52 @@
+{
+  "kind": "sanitized noncanonical REA projection",
+  "source_evidence_id": "ev_ee02d17bb9f0f378b95cf2e2c02daf308d7340d124e63d3d3b33f922b82db686",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass35",
+    "method_name": "run"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass35",
+    "method": {
+      "name": "run",
+      "reported_signature": "run(): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "        @Override // java.lang.Runnable\n        public void run() {\n            final int iRequestBindIotDeviceByAP = 0;\n            for (int i = 0; i < 3 && this.val$threadId == AddDeviceApFragment.this.mSendPinCodeThreadId; i++) {\n                LogUtil.feedback().i(AddDeviceApFragment.TAG, \"<redacted>\");\n                iRequestBindIotDeviceByAP = LoginHelper.requestBindIotDeviceByAP(2, this.val$fastPin, this.val$finalPinCode, this.val$mQrConfigNetContent, GlobalDefines.sLoginUserId, 0L);\n                LogUtil.feedback().d(AddDeviceApFragment.TAG, \"<redacted>\" + iRequestBindIotDeviceByAP);\n                if (iRequestBindIotDeviceByAP != -257) {\n                    break;\n                }\n            }\n            if (iRequestBindIotDeviceByAP == 1000 || iRequestBindIotDeviceByAP == 1107) {\n                AddDeviceApFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.35.1\n                    @Override // java.lang.Runnable\n                    public void run() {\n                        if (AnonymousClass35.this.val$threadId != AddDeviceApFragment.this.mSendPinCodeThreadId) {\n                            return;\n                        }\n                        AddDeviceApFragment.this.mActivity.dismissLoadingDialog();\n                        AddDeviceApFragment.this.stopBroadcastPinCode();\n                        AddDeviceApFragment.this.mActivity.connectToSpecifiedWifi(2, AddDeviceApFragment.this.mWifiName, AddDeviceApFragment.this.mWifiPassword, AddDeviceApFragment.this.mWifiScanResult != null ? AddDeviceApFragment.this.mWifiScanResult.capabilities : \"<redacted>\");\n                        LogUtil.feedback().i(AddDeviceApFragment.TAG, \"<redacted>\");\n                        AddDeviceApFragment.this.mActivity.showLoadDialog(false, false, BaseActivity.getDarkModeStatus(AddDeviceApFragment.this.mActivity), AddDeviceApFragment.this.getString(R.string.device_binding), true, new LoadingDialog.LoadingDialogOnCancelListener() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.35.1.1\n                            @Override // com.macrovideo.v380.fragments.dialogfragments.LoadingDialog.LoadingDialogOnCancelListener\n                            public void onCancel() {\n                                AddDeviceApFragment.this.mActivity.stopBindStatusQueryThread();\n                            }\n                        });\n                        AddDeviceApFragment.this.mBaseFragmentHandler.postDelayed(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.35.1.2\n                            @Override // java.lang.Runnable\n                            public void run() {\n                                AddDeviceApFragment.this.mActivity.startBindStatusQueryThread(AddDeviceApFragment.this.mBindToken, AddDeviceApFragment.this.mDeviceId, i.a, AddDeviceApFragment.this.mBaseFragmentHandler);\n                            }\n                        }, 500L);\n                    }\n                });\n            } else {\n                AddDeviceApFragment.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.35.2\n                    @Override // java.lang.Runnable\n                    public void run() {\n                        if (AnonymousClass35.this.val$threadId != AddDeviceApFragment.this.mSendPinCodeThreadId) {\n                            return;\n                        }\n                        AddDeviceApFragment.this.mActivity.dismissLoadingDialog();\n                        if (AnonymousClass35.this.val$fastPin != null) {\n                            AddDeviceApFragment.this.startBroadcastPinCode(true);\n                        } else if (iRequestBindIotDeviceByAP != 1119) {\n                            AddDeviceApFragment.this.mActivity.showToast(R.string.send_pin_code_fail, new int[0]);\n                            ((FragmentAddDeviceApBinding) AddDeviceApFragment.this.binding).customPinCodeView.clearInput();\n                        } else {\n                            AddDeviceApFragment.this.mActivity.showToast(R.string.pin_code_error, new int[0]);\n                            ((FragmentAddDeviceApBinding) AddDeviceApFragment.this.binding).customPinCodeView.clearInput();\n                        }\n                    }\n                });\n            }\n            AddDeviceApFragment.this.mIsPinCodeSending = false;\n        }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ]
+}

@@ -124,6 +124,33 @@ class ApProtocolTest {
         assertEquals(1000, ApProtocol.configureWifi("synthetic-wifi", "synthetic".toCharArray(), 77, 5,
             sessionKey = key, write = write, readExact = read).code)
         assertEquals(1, writeCount)
+        for ((id, channel, method, sid) in listOf(
+            listOf(78, 1, 197385, 5), listOf(77, 2, 197385, 5),
+            listOf(77, 1, 197384, 5), listOf(77, 1, 197385, 6))) {
+            val body = JSONObject().put("id", id).put("chn", channel).put("method_id", method)
+                .put("result", JSONObject().put("code", 1000)).toString().toByteArray()
+            reply = packet(crypt(body, Cipher.ENCRYPT_MODE), 2).also { it[6] = sid.toByte() }; offset = 0
+            try {
+                ApProtocol.configureWifi("synthetic-wifi", "synthetic".toCharArray(), 77, 5,
+                    sessionKey = key, write = write, readExact = read)
+                fail("Unrelated Wi-Fi responses cannot acknowledge a write")
+            } catch (_: IoTProtocolException) { }
+        }
+        reply = packet(crypt("{\"id\":77,\"chn\":1,\"method_id\":197385,\"result\":{\"code\":1109}}".toByteArray(), Cipher.ENCRYPT_MODE), 2); offset = 0
+        val refusal = ApProtocol.configureWifi("synthetic-wifi", "synthetic".toCharArray(), 77, 5,
+            sessionKey = key, write = write, readExact = read)
+        try { refusal.requireSuccess(); fail("Authenticated refusal must retain its typed reason") }
+        catch (error: IoTProtocolException) {
+            assertEquals(dev.cctv.v380.protocol.IoTFailure.PermissionDenied, error.kind)
+            assertEquals(1109, error.deviceCode)
+        }
+        // A plaintext refusal cannot establish that a camera write was rejected either.
+        reply = packet("{\"result\":{\"code\":1103}}".toByteArray(), 0); offset = 0
+        try {
+            ApProtocol.configureWifi("synthetic-wifi", "synthetic".toCharArray(), 77, 5,
+                sessionKey = key, write = write, readExact = read)
+            fail("Uncorrelated plaintext refusal must leave the outcome uncertain")
+        } catch (_: IoTProtocolException) { }
         reply = packet(plain, 0); offset = 0
         try {
             ApProtocol.configureWifi("synthetic-wifi", "synthetic".toCharArray(), 77, 5,

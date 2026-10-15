@@ -1,0 +1,52 @@
+{
+  "kind": "sanitized noncanonical REA projection",
+  "source_evidence_id": "ev_fedbb07439008e10d6847f84481d31d147d7f1d34f3f94fe4c7156c414e8800d",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment",
+    "method_name": "getBindToken"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.v380.fragments.AddDeviceApFragment",
+    "method": {
+      "name": "getBindToken",
+      "reported_signature": "getBindToken(int): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    private void getBindToken(final int i) {\n        LogUtil.feedback().d(TAG, \"<redacted>\" + i + \"<redacted>\" + this.mActivity.mIntCountryCode);\n        this.mActivity.showLoadingDialog(false, \"<redacted>\", new LoadingDialog.LoadingDialogOnCancelListener() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.36\n            @Override // com.macrovideo.v380.fragments.dialogfragments.LoadingDialog.LoadingDialogOnCancelListener\n            public void onCancel() {\n                OkHttpUtil.cancelGetAuthorizeToken();\n            }\n        });\n        OkHttpUtil.getAuthorizeToken(0, this.mActivity.mIntCountryCode, new Callback() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.37\n            @Override // okhttp3.Callback\n            public void onFailure(Call call, IOException iOException) {\n                LogUtil.feedback().e(AddDeviceApFragment.TAG, \"<redacted>\" + iOException.toString());\n                if (call.isCanceled()) {\n                    return;\n                }\n                AddDeviceApFragment.this.mActivity.runOnUiThread(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.37.1\n                    @Override // java.lang.Runnable\n                    public void run() {\n                        AddDeviceApFragment.this.mActivity.dismissLoadingDialog();\n                        AddDeviceApFragment.this.mActivity.showToast(R.string.str_network_error, new int[0]);\n                    }\n                });\n            }\n\n            /* JADX WARN: Code duplicated, block: B:21:0x009c  */\n            @Override // okhttp3.Callback\n            public void onResponse(Call call, Response response) throws IOException {\n                int i2;\n                LogUtil.feedback().d(AddDeviceApFragment.TAG, \"<redacted>\" + response.toString());\n                AddDeviceApFragment.this.mActivity.runOnUiThread(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.37.2\n                    @Override // java.lang.Runnable\n                    public void run() {\n                        AddDeviceApFragment.this.mActivity.dismissLoadingDialog();\n                    }\n                });\n                if (call.isCanceled()) {\n                    return;\n                }\n                String string = null;\n                int i3 = -1;\n                if (response.isSuccessful()) {\n                    String strString = response.body() != null ? response.body().string() : null;\n                    LogUtil.feedback().d(AddDeviceApFragment.TAG, \"<redacted>\" + strString);\n                    if (strString != null) {\n                        try {\n                            JSONObject jSONObject = new JSONObject(strString);\n                            int i4 = jSONObject.getInt(\"result\");\n                            try {\n                                i3 = jSONObject.getInt(\"<redacted>\");\n                                string = jSONObject.getString(\"bind_token\");\n                                i3 = i4;\n                                i2 = i3;\n                            } catch (JSONException e) {\n                                e = e;\n                                int i5 = i3;\n                                i3 = i4;\n                                i2 = i5;\n                                e.printStackTrace();\n                                LogUtil.feedback().e(AddDeviceApFragment.TAG, \"<redacted>\" + e.toString());\n                            }\n                        } catch (JSONException e2) {\n                            e = e2;\n                            i2 = -1;\n                        }\n                    } else {\n                        i2 = -1;\n                    }\n                } else {\n                    i2 = -1;\n                }\n                if (i3 == 0 && i2 == 0 && string != null) {\n                    AddDeviceApFragment.this.mBindToken = string;\n                    AddDeviceApFragment.this.mActivity.mBindToken = string;\n                    AddDeviceApFragment.this.mActivity.runOnUiThread(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.37.3\n                        @Override // java.lang.Runnable\n                        public void run() {\n                            if (i == 1) {\n                                AddDeviceApFragment.this.showConnectApLayout();\n                                if (AddDeviceApFragment.this.mStartType == 2) {\n                                    AddDeviceApFragment.this.onHotspotSelected(AddDeviceApFragment.this.mHotspotScanResult);\n                                }\n                            }\n                        }\n                    });\n                } else {\n                    if (i2 == 37001) {\n                        AddDeviceApFragment.this.mActivity.runOnUiThread(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.37.4\n                            @Override // java.lang.Runnable\n                            public void run() {\n                                AddDeviceApFragment.this.mActivity.showToast(R.string.str_server_error, new int[0]);\n                            }\n                        });\n                        return;\n                    }\n                    if (i2 == 37004) {\n                        AddDeviceApFragment.this.mActivity.runOnUiThread(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.37.5\n                            @Override // java.lang.Runnable\n                            public void run() {\n                                AddDeviceApFragment.this.mActivity.showToast(R.string.device_bound, new int[0]);\n                            }\n                        });\n                    } else if (i2 == 37005) {\n                        AddDeviceApFragment.this.mActivity.runOnUiThread(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.37.6\n                            @Override // java.lang.Runnable\n                            public void run() {\n                                AddDeviceApFragment.this.mActivity.showToast(R.string.device_had_bound_other, new int[0]);\n                            }\n                        });\n                    } else {\n                        AddDeviceApFragment.this.mActivity.runOnUiThread(new Runnable() { // from class: com.macrovideo.v380.fragments.AddDeviceApFragment.37.7\n                            @Override // java.lang.Runnable\n                            public void run() {\n                                AddDeviceApFragment.this.mActivity.showToast(R.string.net_error_connect_to_available_net_first, new int[0]);\n                            }\n                        });\n                    }\n                }\n            }\n        });\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ]
+}

@@ -1,0 +1,93 @@
+DEX classes5.dex method Lcom/macrovideo/sdk/tools/QRContentUtils;->generateConfigNetQRContent(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String; code_item_offset=8761668 registers=10
+0000 dex@0085b154 new-instance             v0 Ljava/lang/StringBuilder;
+0002 dex@0085b158 const-string             v1 <string-content-excluded>
+0004 dex@0085b15c invoke-direct            v0 v1 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0007 dex@0085b162 invoke-virtual           v0 v6 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+000a dex@0085b168 const-string             v1 <string-content-excluded>
+000c dex@0085b16c invoke-virtual           v0 v1 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+000f dex@0085b172 invoke-virtual           v0 v7 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0012 dex@0085b178 const-string             v1 <string-content-excluded>
+0014 dex@0085b17c invoke-virtual           v0 v1 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0017 dex@0085b182 invoke-virtual           v0 v8 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001a dex@0085b188 const-string             v1 <string-content-excluded>
+001c dex@0085b18c invoke-virtual           v0 v1 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+001f dex@0085b192 invoke-virtual           v0 v9 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0022 dex@0085b198 const-string             v1 <string-content-excluded>
+0024 dex@0085b19c invoke-virtual           v0 v1 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0027 dex@0085b1a2 invoke-virtual           v0 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+002a dex@0085b1a8 move-result-object       v0 
+002b dex@0085b1aa filled-new-array         v0 [Ljava/lang/Object;
+002e dex@0085b1b0 move-result-object       v0 
+002f dex@0085b1b2 const-string             v1 <string-content-excluded>
+0031 dex@0085b1b6 invoke-static            v1 v0 Lcom/macrovideo/sdk/tools/LogUtils;->d(Ljava/lang/String;[Ljava/lang/Object;)V
+0034 dex@0085b1bc invoke-static            v9 Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+0037 dex@0085b1c2 move-result              v0 
+0038 dex@0085b1c4 const-string             v2 <string-content-excluded>
+003a dex@0085b1c8 const/4                  v3 #2 
+003b dex@0085b1ca const-string             v4 <string-content-excluded>
+003d dex@0085b1ce if-nez                   v0  -> 0059
+003f dex@0085b1d2 new-instance             v0 Ljava/lang/String;
+0041 dex@0085b1d6 invoke-virtual           v9 Ljava/lang/String;->getBytes()[B
+0044 dex@0085b1dc move-result-object       v9 
+0045 dex@0085b1de invoke-virtual           v2 Ljava/lang/String;->getBytes()[B
+0048 dex@0085b1e4 move-result-object       v5 
+0049 dex@0085b1e6 invoke-static            v9 v5 Lcom/macrovideo/sdk/tools/ED25519Utils;->xor([B[B)[B
+004c dex@0085b1ec move-result-object       v9 
+004d dex@0085b1ee invoke-direct            v0 v9 Ljava/lang/String;-><init>([B)V
+0050 dex@0085b1f4 invoke-virtual           v0 Ljava/lang/String;->getBytes()[B
+0053 dex@0085b1fa move-result-object       v9 
+0054 dex@0085b1fc invoke-static            v9 v3 Landroid/util/Base64;->encodeToString([BI)Ljava/lang/String;
+0057 dex@0085b202 move-result-object       v9 
+0058 dex@0085b204 goto                      -> 005a
+0059 dex@0085b206 move-object              v9 v4 
+005a dex@0085b208 invoke-static            v7 Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+005d dex@0085b20e move-result              v0 
+005e dex@0085b210 if-nez                   v0  -> 0069
+0060 dex@0085b214 invoke-virtual           v7 Ljava/lang/String;->getBytes()[B
+0063 dex@0085b21a move-result-object       v7 
+0064 dex@0085b21c invoke-static            v7 v3 Landroid/util/Base64;->encodeToString([BI)Ljava/lang/String;
+0067 dex@0085b222 move-result-object       v7 
+0068 dex@0085b224 goto                      -> 006a
+0069 dex@0085b226 move-object              v7 v4 
+006a dex@0085b228 invoke-static            v8 Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+006d dex@0085b22e move-result              v0 
+006e dex@0085b230 if-nez                   v0  -> 0089
+0070 dex@0085b234 new-instance             v0 Ljava/lang/String;
+0072 dex@0085b238 invoke-virtual           v8 Ljava/lang/String;->getBytes()[B
+0075 dex@0085b23e move-result-object       v8 
+0076 dex@0085b240 invoke-virtual           v2 Ljava/lang/String;->getBytes()[B
+0079 dex@0085b246 move-result-object       v2 
+007a dex@0085b248 invoke-static            v8 v2 Lcom/macrovideo/sdk/tools/ED25519Utils;->xor([B[B)[B
+007d dex@0085b24e move-result-object       v8 
+007e dex@0085b250 invoke-direct            v0 v8 Ljava/lang/String;-><init>([B)V
+0081 dex@0085b256 invoke-virtual           v0 Ljava/lang/String;->getBytes()[B
+0084 dex@0085b25c move-result-object       v8 
+0085 dex@0085b25e invoke-static            v8 v3 Landroid/util/Base64;->encodeToString([BI)Ljava/lang/String;
+0088 dex@0085b264 move-result-object       v4 
+0089 dex@0085b266 new-instance             v8 Ljava/lang/StringBuilder;
+008b dex@0085b26a const-string             v0 <string-content-excluded>
+008d dex@0085b26e invoke-direct            v8 v0 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0090 dex@0085b274 invoke-virtual           v8 v6 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+0093 dex@0085b27a const-string             v6 <string-content-excluded>
+0095 dex@0085b27e invoke-virtual           v8 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0098 dex@0085b284 invoke-virtual           v8 v9 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+009b dex@0085b28a const-string             v6 <string-content-excluded>
+009d dex@0085b28e invoke-virtual           v8 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00a0 dex@0085b294 invoke-virtual           v8 v7 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00a3 dex@0085b29a const-string             v6 <string-content-excluded>
+00a5 dex@0085b29e invoke-virtual           v8 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00a8 dex@0085b2a4 invoke-virtual           v8 v4 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00ab dex@0085b2aa const-string             v6 <string-content-excluded>
+00ad dex@0085b2ae invoke-virtual           v8 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00b0 dex@0085b2b4 invoke-static            Lcom/macrovideo/sdk/tools/DatetimeUtils;->getCustomTimeZone()Ljava/lang/String;
+00b3 dex@0085b2ba move-result-object       v6 
+00b4 dex@0085b2bc invoke-virtual           v8 v6 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+00b7 dex@0085b2c2 invoke-virtual           v8 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00ba dex@0085b2c8 move-result-object       v6 
+00bb dex@0085b2ca const-string             v7 <string-content-excluded>
+00bd dex@0085b2ce invoke-static            v7 v6 Lcom/macrovideo/sdk/obf/c;->a(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+00c0 dex@0085b2d4 move-result-object       v7 
+00c1 dex@0085b2d6 filled-new-array         v7 [Ljava/lang/Object;
+00c4 dex@0085b2dc move-result-object       v7 
+00c5 dex@0085b2de invoke-static            v1 v7 Lcom/macrovideo/sdk/tools/LogUtils;->i(Ljava/lang/String;[Ljava/lang/Object;)V
+00c8 dex@0085b2e4 return-object            v6 

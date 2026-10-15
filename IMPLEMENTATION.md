@@ -1,5 +1,12 @@
 # Status implementasi V380 LAN
 
+## Setup router offline, 15 Oktober 2026
+
+Alur AP→router yang sudah ada kini memvalidasi encoding sebelum pending/write, mengikat writer ke profil/device/revisi autentikasi dan jaringan AP, serta menyimpan marker atomik tepat sebelum satu pengiriman. Penolakan eksplisit dipisahkan dari hasil belum diketahui; respons IoT Wi-Fi yang tidak terenkripsi atau tidak berkorelasi tidak dapat menyatakan penolakan/sukses. Pemulihan proses, retry dan background tidak mengulang konfigurasi. Pemilihan router memakai Pengaturan Android. SSID terbaca yang berbeda ditolak; SSID tidak tersedia memerlukan konfirmasi pada Network saat itu, dilanjutkan discovery ID sama dan login ulang. Konfirmasi pengguna bukan bukti nama router. Password LAN opsional mengikuti pilihan ingat password pengguna.
+
+Setup menampilkan empat tahap, bantuan router tanpa internet, pemisahan tiga credential, pesan pairing cloud/akses ditolak/hasil ambigu dan pemulihan yang jelas. Semua copy setup menggunakan resource Indonesia/Inggris dalam desain yang sudah disetujui. [Riset REA/DEX dan kontrak](analysis/ap-provisioning.md#offline-router-setup-investigation-and-implementation-15-october-2026) belum membuktikan bootstrap binding baru tanpa cloud; tidak ada token/credential tebakan. [Hasil validasi dan source manifest](validation/offline-provisioning/results.json) memisahkan software sintetis dari runtime Android dan acceptance kamera yang belum dijalankan.
+
+
 ## Koneksi otomatis Live dan Rekaman — 15 Oktober 2026
 
 Masuk ke Live atau Rekaman otomatis memakai password kamera tersimpan; tab yang ditinggalkan menutup sesi, dan retry tersedia setelah gagal. Profil tanpa password tersimpan langsung meminta kredensial. Build debug/instrumentation APK, lint, dan106 tes JVM lulus dengan locale `id-ID`; instrumentation tidak dijalankan dan kompatibilitas kamera fisik belum diuji.

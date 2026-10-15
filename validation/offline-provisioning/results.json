@@ -1,0 +1,227 @@
+{
+  "date": "2026-10-15",
+  "feature": "Offline AP-to-router setup guards, recovery, localized UI and bounded fresh-bootstrap investigation",
+  "base_revision": "876a477776cfff2820dcf28645a23fa8e9bc99b5",
+  "source_manifest": "source-manifest.json",
+  "source_sha256": "f6d7e7f3770372ba5de368416d9d3452bda2dbb4a4915f6762c7cf15b4aa732a",
+  "command": "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' JAVA_HOME=/home/husain/.local/share/java/temurin-21 ANDROID_HOME=/home/husain/Android/Sdk ./gradlew --offline :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug --console=plain",
+  "build": {
+    "status": "passed",
+    "log": "final-build.log",
+    "tasks": [
+      "testDebugUnitTest",
+      "assembleDebug",
+      "assembleDebugAndroidTest",
+      "lintDebug"
+    ]
+  },
+  "jvm": {
+    "status": "passed",
+    "locale": "id_ID",
+    "totals": {
+      "tests": 113,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "suite": "dev.cctv.v380.ApProtocolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.CameraSessionTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.CoreTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.DiagnosticsTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.ManagementSessionGuardTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.RecordingExportCopyTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.RecordingReplayTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.SdMaintenanceTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.TalkbackRecorderTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.TalkbackSessionTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.TransportDeadlineTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.WifiProvisioningTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.protocol.ApHotspotTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.protocol.CameraAreaProtocolTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.protocol.CameraFeatureProtocolTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.protocol.CameraManagementProtocolTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.protocol.IoTMediaProtocolTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.protocol.IoTProtocolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.protocol.IoTTalkbackProtocolTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.cctv.v380.protocol.LegacyProtocolTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "earlier_default_locale_run": "full-suite-en.log: 112/113 passed; the existing recording-label test expects Oktober but default en_US returns October. No recording implementation or test was changed."
+  },
+  "lint": {
+    "status": "passed",
+    "severity_counts": {
+      "Warning": 40,
+      "Hint": 1
+    }
+  },
+  "research": {
+    "manifest": "../../analysis/evidence/offline-pairing-summary.json",
+    "rea_methods": 8,
+    "supplementary_dex_dumps": 4,
+    "scope": "Static REA/JADX/DEX only. Same reference APK; no vendor APK execution or camera/cloud connection.",
+    "fresh_offline_bootstrap": "Not established. Empty-token serializer branch is not firmware acceptance; no new binding writer added."
+  },
+  "native": {
+    "status": "compiled_not_run",
+    "reason": "adb devices reports no attached Android device (adb-devices.txt). Historical API37 emulator failures with and without KVM are recorded in validation/sd-maintenance/results.json; emulator boot was not retried in this task.",
+    "scenarios": [
+      "OfflineProvisioningUiTest: explicit SSID confirmation and reset semantics",
+      "OfflineProvisioningUiTest: recovery in Indonesian/English, light/dark, 1.3x text and landscape",
+      "OfflineProvisioningUiTest: denied AP permission erases secret, fresh pairing explains cloud boundary",
+      "ProvisioningRestoreTest: process restore/background/clear local progress never replay or login",
+      "Existing UiTest: AP draft restoration and secret erasure"
+    ]
+  },
+  "visual_qa": {
+    "status": "not_run",
+    "screenshots": [],
+    "review": "ui-review.md",
+    "reason": "Native fixtures compiled; no Android runtime available. No screenshot fidelity, TalkBack, radio or OEM behavior claim."
+  },
+  "camera_acceptance": {
+    "status": "not_run",
+    "required": [
+      "Router WAN disconnected and local client communication allowed",
+      "Explicit local login, or explicitly selected empty local password accepted by firmware",
+      "Three AP-to-router transitions with same-ID discovery, local login and actual Live frame",
+      "ACK loss/process death recovery without resend; Wi-Fi radio and permission behavior"
+    ],
+    "scope": "Separate owner-camera acceptance session. No camera write, pairing or reset was performed by validation."
+  },
+  "diagnostics": "Existing sanitized allowlist unchanged. No credentials, key/session values or video in new diagnostic events.",
+  "artifacts": [
+    {
+      "path": "app/build/outputs/apk/debug/app-debug.apk",
+      "bytes": 16767197,
+      "sha256": "99b15487cf035566c02f57bb71b51070114790730c9f56358868ed0570ee13e0"
+    },
+    {
+      "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+      "bytes": 1553568,
+      "sha256": "a5389a9a22c6d9d78e0a62d8604d4e8693c175a4ea2a77bf228eee8073eb31df"
+    }
+  ],
+  "resource_validation": "All setup resource IDs resolve in both Indonesian/English XML; no duplicate resource names.",
+  "evidence_integrity": "All eight sanitized REA projections and four DEX dumps match the evidence manifest."
+}

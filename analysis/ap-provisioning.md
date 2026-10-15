@@ -87,3 +87,34 @@ Firmware branding, an HSC SSID, or an ONVIF toggle outcome does not establish th
 `ApProtocolTest` uses synthetic values and in-memory transport callbacks. It checks exact binding/password field schemas, legacy offsets and fixed-size failures, modern action shape with independent JCE AES-CBC decoding, actual correlated acknowledgements, rejection of unrelated/plaintext-success responses, metadata distinctions, and binary packet truncation/source/identity bounds. No live camera or account fixture is used.
 
 Focused isolated JVM compilation and JUnit execution **passed all 6 tests** against the actual AP/common-IoT sources. [Validation record](evidence/ap-validation.json). Full app Gradle execution initially encountered the concurrent root-owned String device-ID UI migration; final Android integration validation remains with the root task.
+
+
+## Offline router setup investigation and implementation, 15 October 2026
+
+A bounded new pass used REA 6.4.0/JADX 0.7.1 against the same V380 6.4.90 APK identified above. Eight method projections and four supplementary DEX dumps are listed with hashes in [offline-pairing-summary.json](evidence/offline-pairing-summary.json). The [collector](evidence/offline-pairing-collect.py) preserves canonical bundles only in ignored local references and exports projections with Java string literals removed except selected field names. DEX output excludes arbitrary string/array contents. No vendor APK execution, account request, camera connection or physical Wi-Fi change was performed.
+
+### Bootstrap findings
+
+| Boundary | Static observation | What remains unproved |
+|---|---|---|
+| Token acquisition | `getBindToken` obtains an authorization response and assigns `bind_token` before proceeding to AP selection. | No local token issuer or supported offline substitute was found in this chain. |
+| PIN request | `sendPinCode` passes `mBindToken` to `generateConfigNetQRContent`; DEX code units `0x78..0x7a` confirm the field and call. | A PIN alone does not establish local login or owner binding. |
+| Empty-token branch | The QR serializer tests token emptiness; DEX `0x34..0x59` confirms a serialization branch without a nonempty token. | Serializer permissiveness is not proof that firmware accepts an empty token or completes setup without cloud. No writer for that branch was added. |
+| AP binding transport | `broadcastPinCode` uses action 1; `AnonymousClass35.run` sends action 2. Results 1000/1107 lead to Wi-Fi migration and a server binding-status query using `mBindToken`. | Action 1 is not account binding, and an action-2 ACK is not completion. |
+| LAN password | `keyExchangeByLanSync` rejects null password but can serialize an explicitly supplied empty password. It computes verification material using that supplied password. | This does not prove a fresh camera permits empty-password authentication. The user must choose the no-local-password option explicitly. |
+| Action routing | `startActionNewPlatform` overload 0 selects the direct common branch for `pver < 5` or the selected MQ-offline/P2P condition; other branches and renewal can use MQ/HTTPS. DEX `0xbc..0xc5` confirms the pver comparison. | Direct action support is not universal across firmware. The client does not copy vendor cloud fallback or automatic write retries. |
+
+The gate for an additional bootstrap writer remains unmet: no complete cloudless authorization/credential initialization contract and firmware acceptance evidence were established. This is a bounded finding, not a claim that all V380 firmware requires internet. SmartLink radio encoding remains outside this recovered Java AP path.
+
+### Local implementation contract
+
+- Reuse command 320/mode 1002 for authenticated Legacy and action 262656/mode 2 for authenticated direct IoT. Mode 1 remains the separate hotspot editor.
+- Validate input before opening the configuration transaction or saving pending metadata. Legacy password GBK encoding is strict and bounded to 32 bytes; modern password is bounded to 63 UTF-8 bytes. Empty password remains explicit in the UI.
+- The Wi-Fi writer requires the expected profile ID, device ID, authentication revision, active Ready session and the network captured during AP authentication. Guards run before transport creation and immediately before the sole write, including after the pending callback.
+- A callback atomically saves the existing version-1 pending record before write. Pre-write failure or a correlated explicit rejection clears it. Any other error after write may have started retains an unknown result. Cancellation closes the channel; restore/retry never invokes the writer.
+- IoT Wi-Fi replies require encryption, the matching transaction/method/channel and SID zero or the expected SID. An unauthenticated or unrelated refusal cannot clear an uncertain result. Correlated encrypted refusals preserve typed authentication/session/permission causes while clearing the pending write. This stricter Wi-Fi rule does not change other AP binding/password transactions.
+- After sending, release the AP request. Router selection uses Android Wi-Fi Settings. Internet/VALIDATED capability is not required, and sockets remain bound to the selected Wi-Fi Network.
+- Verification rejects a readable SSID differing from the requested SSID and the original AP Network. When SSID is unavailable, an explicit confirmation is tied to that Network only. The app then requires same-ID rediscovery and local login; network checks repeat after discovery/authentication and during credential re-entry. Confirmation does not prove the router's SSID.
+- Pending restoration keeps no router/AP credentials and repeats discovery/login only. Discarding progress clears local metadata and does not undo a camera change. Optional LAN-password changes preserve the user's remember-password choice.
+
+Current build/test results and their source manifest are in [offline provisioning validation](../validation/offline-provisioning/results.json). Native UI/radio and owner-camera acceptance remain unverified. No additional fresh-binding capability is advertised.

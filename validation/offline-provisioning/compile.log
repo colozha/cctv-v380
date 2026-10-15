@@ -1,0 +1,18 @@
+Starting a Gradle Daemon (subsequent builds will be faster)
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:processDebugNavigationResources
+> Task :app:parseDebugLocalResources
+> Task :app:generateDebugRFile
+
+> Task :app:compileDebugKotlin
+w: file:///home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/session/CameraSession.kt:400:21 Condition is always 'true'.
+w: file:///home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/session/CameraSession.kt:405:21 Condition is always 'true'.
+
+BUILD SUCCESSFUL in 27s
+7 actionable tasks: 6 executed, 1 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.3.1/userguide/configuration_cache_enabling.html

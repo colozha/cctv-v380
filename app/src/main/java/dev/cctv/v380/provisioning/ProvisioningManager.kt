@@ -4,6 +4,8 @@ import android.net.Network
 import dev.cctv.v380.discovery.DiscoveredCamera
 import dev.cctv.v380.discovery.LanDiscovery
 import dev.cctv.v380.session.*
+import dev.cctv.v380.protocol.ApProtocol
+import dev.cctv.v380.protocol.IoTProtocolException
 import dev.cctv.v380.transport.*
 import dev.cctv.v380.ui.ProfileStore
 import kotlinx.coroutines.*
@@ -15,7 +17,16 @@ enum class ProvisioningPhase { IDLE, CONNECTING_AP, DISCOVERING, CHOOSE_CAMERA, 
 data class ProvisioningState(val phase: ProvisioningPhase = ProvisioningPhase.IDLE,
     val cameras: List<DiscoveredCamera> = emptyList(), val camera: DiscoveredCamera? = null,
     val targetSsid: String = "", val error: SessionError? = null, val mayHaveConfigured: Boolean = false,
-    val profile: CameraProfile? = null)
+    val profile: CameraProfile? = null, val routerCheck: RouterCheck? = null)
+
+enum class RouterCheck { MATCHED, WRONG_NETWORK, CONFIRMATION_REQUIRED }
+
+/** Missing SSID is not evidence of a match. Confirmation applies only to the current Network. */
+fun routerCheck(targetSsid: String, activeSsid: String?, confirmed: Boolean): RouterCheck = when {
+    activeSsid != null -> if (activeSsid == targetSsid) RouterCheck.MATCHED else RouterCheck.WRONG_NETWORK
+    confirmed -> RouterCheck.MATCHED
+    else -> RouterCheck.CONFIRMATION_REQUIRED
+}
 
 /** A Wi-Fi ACK is provisional. Completion requires the same device identity and a successful login. */
 class ProvisioningManager(
@@ -29,14 +40,18 @@ class ProvisioningManager(
     private var remember = false
     private var target: CameraProfile? = null
     private var apNetwork: Network? = null
-    private var sequence = 0L
+    @Volatile private var sequence = 0L
+    private var authenticatedLink: WifiLink? = null
+    private var apAuthenticationRevision = -1L
+    private var verificationLink: WifiLink? = null
+    private var confirmationNetwork: Network? = null
 
     private fun step(vararg ownedSecrets: CharArray, block: suspend () -> Unit) {
         val previous = work
         val epoch = ++sequence
         work = scope.launch(Dispatchers.IO) {
             previous?.cancelAndJoin()
-            try { block() }
+            try { currentCoroutineContext().ensureActive(); block() }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) {
                 if (epoch == sequence) mutable.value = mutable.value.copy(phase = ProvisioningPhase.ERROR,
@@ -69,6 +84,7 @@ class ProvisioningManager(
     /** API26-28 or an AP selected in Android Settings. Does not assume a fixed gateway. */
     fun discoverCurrentAp() = step {
         session.close()
+        clearCredential(); authenticatedLink = null; verificationLink = null; confirmationNetwork = null
         apNetwork = wifi.resolve().network
         discover()
     }
@@ -83,14 +99,19 @@ class ProvisioningManager(
             error = if (cameras.isEmpty()) SessionError.NetworkUnavailable else null)
     }
 
-    fun choose(camera: DiscoveredCamera) {
+    fun choose(camera: DiscoveredCamera) = step {
+        check(!state.value.mayHaveConfigured)
         clearCredential()
+        authenticatedLink = null; verificationLink = null
         mutable.value = mutable.value.copy(phase = ProvisioningPhase.CREDENTIALS, camera = camera, error = null)
     }
 
     fun authenticate(name: String, username: String, password: CharArray, saveAccess: Boolean) = step(password) {
         try {
             val verifying = state.value.phase == ProvisioningPhase.VERIFICATION_CREDENTIALS
+            val link = if (verifying) requireVerificationNetwork() else wifi.resolve().also {
+                if (it.network != apNetwork) throw CameraFailure(SessionError.NetworkUnavailable)
+            }
             val camera = state.value.camera ?: throw CameraFailure(SessionError.IdentityMismatch)
             val previous = if (verifying) target else withContext(Dispatchers.IO) { store.load().firstOrNull { it.deviceId == camera.deviceId } }
             val candidate = (previous ?: CameraProfile(name = name, deviceId = camera.deviceId)).copy(
@@ -99,6 +120,10 @@ class ProvisioningManager(
                 authenticationMode = if (camera.platformType == 1) AuthenticationMode.USER_PASSWORD else AuthenticationMode.AUTO)
             mutable.value = state.value.copy(phase = ProvisioningPhase.AUTHENTICATING, error = null)
             session.connect(candidate, password.copyOf())
+            currentCoroutineContext().ensureActive()
+            if (!wifi.isCurrent(link)) throw CameraFailure(SessionError.NetworkUnavailable)
+            if (verifying) requireVerificationNetwork()
+            else { authenticatedLink = link; apAuthenticationRevision = session.authenticationRevision.value }
             clearCredential()
             credential = password.copyOf()
             remember = saveAccess
@@ -119,13 +144,17 @@ class ProvisioningManager(
         try {
             val profile = target ?: throw CameraFailure(SessionError.AuthenticationFailed)
             mutable.value = state.value.copy(phase = ProvisioningPhase.AUTHENTICATING, error = null)
+            val link = authenticatedLink ?: throw CameraFailure(SessionError.NetworkUnavailable)
+            if (!wifi.isCurrent(link) || session.authenticationRevision.value != apAuthenticationRevision)
+                throw CameraFailure(SessionError.NetworkUnavailable)
             session.changeLanPassword(old, newPassword)
             // A password-change ACK is also verified with the newly chosen credential before storage.
             session.connect(profile.copy(authenticationMode = AuthenticationMode.LOCAL_PAIRING), newPassword.copyOf())
             clearCredential()
             credential = newPassword.copyOf()
             target = session.connectedProfile
-            remember = true
+            if (!wifi.isCurrent(link)) throw CameraFailure(SessionError.NetworkUnavailable)
+            apAuthenticationRevision = session.authenticationRevision.value
             mutable.value = state.value.copy(phase = ProvisioningPhase.READY_AP, profile = target, error = null)
         } finally { old.fill('\u0000'); newPassword.fill('\u0000') }
     }
@@ -133,53 +162,79 @@ class ProvisioningManager(
     fun useApDirectly() = step { finish() }
     fun discardPending() = step {
         session.close(); clearCredential(); wifi.releaseAp(); target = null; apNetwork = null
+        authenticatedLink = null; verificationLink = null; confirmationNetwork = null
         withContext(Dispatchers.IO) { store.clearPendingSetup() }
         mutable.value = ProvisioningState()
     }
 
     fun configureWifi(ssid: String, password: CharArray) = step(password) {
+        check(state.value.phase == ProvisioningPhase.READY_AP)
+        val profile = target ?: throw CameraFailure(SessionError.AuthenticationFailed)
+        val link = authenticatedLink ?: throw CameraFailure(SessionError.NetworkUnavailable)
+        val epoch = sequence
+        val revision = apAuthenticationRevision
+        var started = false
+        var pending = false
+        var rejected = false
+        var cancelled = false
+        mutable.value = state.value.copy(phase = ProvisioningPhase.SENDING_WIFI, error = null, routerCheck = null)
         try {
-            check(state.value.phase == ProvisioningPhase.READY_AP)
-            require(ssid.toByteArray(Charsets.UTF_8).size in 1..32)
-            val profile = target ?: throw CameraFailure(SessionError.AuthenticationFailed)
-            withContext(Dispatchers.IO) { store.savePendingSetup(profile, ssid) }
-            mutable.value = state.value.copy(phase = ProvisioningPhase.SENDING_WIFI, targetSsid = ssid,
-                error = null, mayHaveConfigured = true)
-            var uncertain = false
-            try { session.configureWifi(ssid, password) }
-            catch (cancelled: CancellationException) { throw cancelled }
-            catch (error: Exception) {
-                when (CameraSession.reason(error)) {
-                    SessionError.NetworkUnavailable, SessionError.Timeout -> uncertain = true
-                    SessionError.InvalidInput, SessionError.DeviceRejected, SessionError.WifiConfigurationRejected -> {
-                        withContext(Dispatchers.IO) { store.clearPendingSetup() }
-                        mutable.value = state.value.copy(phase = ProvisioningPhase.READY_AP,
-                            error = if (CameraSession.reason(error) == SessionError.InvalidInput) SessionError.InvalidInput
-                                else SessionError.WifiConfigurationRejected, mayHaveConfigured = false)
-                        return@step
-                    }
-                    else -> throw error
+            ApProtocol.validateWifiInput(ssid, password,
+                legacy = profile.platformType == 1 || profile.protocolProfileId == "legacy-v2")
+            session.configureWifi(profile.id, profile.deviceId, revision, ssid, password,
+                networkValid = { epoch == sequence && wifi.isCurrent(link) && link.network == apNetwork },
+                beforeWrite = {
+                    // Cancellation may arrive while AtomicFile finishes. Keep an uncertain marker in that case.
+                    withContext(NonCancellable + Dispatchers.IO) { store.savePendingSetup(profile, ssid); pending = true }
+                    if (epoch == sequence) mutable.value = state.value.copy(targetSsid = ssid, mayHaveConfigured = true)
+                }, onWriteStarted = { started = true })
+        } catch (error: CancellationException) { cancelled = true; throw error }
+        catch (error: Exception) {
+            rejected = CameraSession.reason(error) == SessionError.WifiConfigurationRejected ||
+                error is IoTProtocolException && error.deviceCode != null
+            if (epoch == sequence) mutable.value = state.value.copy(error = CameraSession.reason(error))
+        } finally {
+            withContext(NonCancellable) {
+                if (!started || rejected) {
+                    if (pending) withContext(Dispatchers.IO) { store.clearPendingSetup() }
+                    if (epoch == sequence && !cancelled) mutable.value = state.value.copy(phase = ProvisioningPhase.READY_AP,
+                        mayHaveConfigured = false)
+                } else {
+                    session.close(); wifi.releaseAp(); authenticatedLink = null
+                    if (epoch == sequence) mutable.value = state.value.copy(phase = ProvisioningPhase.WAITING_LAN,
+                        mayHaveConfigured = true)
                 }
             }
-            session.close()
-            wifi.releaseAp()
-            mutable.value = state.value.copy(phase = ProvisioningPhase.WAITING_LAN,
-                error = if (uncertain) SessionError.Timeout else null)
-        } finally { password.fill('\u0000') }
+        }
     }
 
     /** Manual retry repeats discovery/login only, never the credential-bearing Wi-Fi command. */
-    fun verifyLan() = step {
+    fun verifyLan(confirmedRouter: Boolean = false) = step {
         val expected = target ?: throw CameraFailure(SessionError.IdentityMismatch)
-        mutable.value = state.value.copy(phase = ProvisioningPhase.VERIFYING, error = null)
+        verificationLink = null
+        mutable.value = state.value.copy(phase = ProvisioningPhase.VERIFYING, error = null, routerCheck = null)
         session.diagnostics.record(DiagnosticStage.VERIFY_LAN, DiagnosticStatus.STARTED)
         try {
             withTimeout(120_000) {
                 while (currentCoroutineContext().isActive) {
                     val link = runCatching { wifi.resolve() }.getOrNull()
-                    if (link == null || link.network == apNetwork) { delay(500); continue }
+                    if (link == null) { delay(500); continue }
+                    if (link.network == apNetwork) {
+                        mutable.value = state.value.copy(phase = ProvisioningPhase.WAITING_LAN, routerCheck = RouterCheck.WRONG_NETWORK)
+                        return@withTimeout
+                    }
+                    val check = routerCheck(state.value.targetSsid, wifi.currentSsid(link),
+                        confirmedRouter && confirmationNetwork == link.network)
+                    if (check != RouterCheck.MATCHED) {
+                        confirmationNetwork = if (check == RouterCheck.CONFIRMATION_REQUIRED) link.network else null
+                        mutable.value = state.value.copy(phase = ProvisioningPhase.WAITING_LAN, routerCheck = check)
+                        return@withTimeout
+                    }
                     val found = discovery.scan(link).firstOrNull { it.deviceId == expected.deviceId }
+                    if (!wifi.isCurrent(link)) { delay(500); continue }
                     if (found == null) { delay(500); continue }
+                    verificationLink = link
+                    requireVerificationNetwork()
                     target = expected.copy(host = found.host, port = found.port,
                         platformType = found.platformType, discoveryGeneration = found.generation)
                     val password = credential
@@ -189,6 +244,7 @@ class ProvisioningManager(
                         return@withTimeout
                     }
                     session.connect(target!!, password.copyOf())
+                    requireVerificationNetwork()
                     finish()
                     return@withTimeout
                 }
@@ -199,12 +255,23 @@ class ProvisioningManager(
         }
     }
 
+    private fun requireVerificationNetwork(): WifiLink {
+        val link = verificationLink ?: throw CameraFailure(SessionError.NetworkUnavailable)
+        if (!wifi.isCurrent(link) || link.network == apNetwork ||
+            routerCheck(state.value.targetSsid, wifi.currentSsid(link), confirmationNetwork == link.network) != RouterCheck.MATCHED)
+            throw CameraFailure(SessionError.NetworkUnavailable)
+        return link
+    }
+
     private suspend fun finish() {
         val connected = session.connectedProfile ?: throw CameraFailure(SessionError.AuthenticationFailed)
         if (session.state.value !is SessionState.Ready) throw CameraFailure(SessionError.AuthenticationFailed)
-        if (connected.deviceId != target?.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        currentCoroutineContext().ensureActive()
+        if (state.value.mayHaveConfigured) requireVerificationNetwork()
+        if (connected.id != target?.id || connected.deviceId != target?.deviceId) throw CameraFailure(SessionError.IdentityMismatch)
         val password = credential
         withContext(Dispatchers.IO) { store.save(connected, password, remember); store.clearPendingSetup() }
+        currentCoroutineContext().ensureActive()
         val saved = connected.copy(hasSavedPassword = remember && password != null)
         target = saved
         mutable.value = state.value.copy(phase = ProvisioningPhase.COMPLETE, profile = saved, error = null)
@@ -216,6 +283,7 @@ class ProvisioningManager(
     fun onBackground(expectedSystemHandoff: Boolean) {
         if (expectedSystemHandoff) return
         work?.cancel()
+        authenticatedLink = null; verificationLink = null; confirmationNetwork = null
         clearCredential()
         wifi.releaseAp()
         if (state.value.mayHaveConfigured) mutable.value = state.value.copy(phase = ProvisioningPhase.WAITING_LAN)
@@ -224,8 +292,10 @@ class ProvisioningManager(
 
     fun cancel() {
         sequence++
-        work?.cancel(); work = null
+        // Keep the last job so a subsequent resume waits for its pending-marker cleanup.
+        work?.cancel()
         clearCredential(); wifi.releaseAp(); target = null; apNetwork = null
+        authenticatedLink = null; verificationLink = null; confirmationNetwork = null
         mutable.value = ProvisioningState()
     }
     private fun clearCredential() { credential?.fill('\u0000'); credential = null }

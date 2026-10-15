@@ -1,0 +1,87 @@
+{
+  "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "scope": "Static REA only; no APK execution, camera or cloud connection",
+  "queries": [
+    {
+      "method": "com.macrovideo.v380.fragments.AddDeviceApFragment.getBindToken",
+      "status": "collected",
+      "source_evidence_id": "ev_fedbb07439008e10d6847f84481d31d147d7f1d34f3f94fe4c7156c414e8800d",
+      "file": "offline-pairing-AddDeviceApFragment-getBindToken.sanitized.json",
+      "sha256": "90a7c639d1aef3b21eb9d876f0f08fb091b7efb8580230d433cf852492067c9d"
+    },
+    {
+      "method": "com.macrovideo.v380.fragments.AddDeviceApFragment.sendPinCode",
+      "status": "collected",
+      "source_evidence_id": "ev_fef8c8801abeef20057a01c208227d234b885b5297e0ab6b51f62fccba785713",
+      "file": "offline-pairing-AddDeviceApFragment-sendPinCode.sanitized.json",
+      "sha256": "259939c52490e9aeff84c5af89cdd84bda00e4bdc09389c9b466889003fa6434"
+    },
+    {
+      "method": "com.macrovideo.v380.fragments.AddDeviceApFragment.broadcastPinCode",
+      "status": "collected",
+      "source_evidence_id": "ev_c7e4b14ae1b81a0d0891c1295aa8bab12df6288c7845d062fce4e3c6a8c95d9c",
+      "file": "offline-pairing-AddDeviceApFragment-broadcastPinCode.sanitized.json",
+      "sha256": "f5334cad204904aebdda49c6b635c2bf7b262431563f3a4f95b625935afe648e"
+    },
+    {
+      "method": "com.macrovideo.sdk.tools.QRContentUtils.generateConfigNetQRContent",
+      "status": "collected",
+      "source_evidence_id": "ev_cfd1b5ef92d4f6365893f9cda1ba29455508c7d7dcbcf6024ea6babac0e510eb",
+      "file": "offline-pairing-QRContentUtils-generateConfigNetQRContent.sanitized.json",
+      "sha256": "c95bf49785f378ccf5cfb9a26d83da4de84c8c93b5d593e86957b4a0506cedeb"
+    },
+    {
+      "method": "com.macrovideo.sdk.media.LoginHelper.requestBindIotDeviceByAP",
+      "status": "collected",
+      "source_evidence_id": "ev_079137c315503980e410ae8558ff4902d1c9d1b6a025642f5e76d25853a647d7",
+      "file": "offline-pairing-LoginHelper-requestBindIotDeviceByAP.sanitized.json",
+      "sha256": "91f2cdbbe48c78f8ad350222b7f222094531a3b375951ca85fd7e2761c52d668"
+    },
+    {
+      "method": "com.macrovideo.sdk.media.LoginHelper.keyExchangeByLanSync",
+      "status": "collected",
+      "source_evidence_id": "ev_2e4864dac1fa2f6138ea561a769478580b99dfdafa4c28174ad34f806a2f16ec",
+      "file": "offline-pairing-LoginHelper-keyExchangeByLanSync.sanitized.json",
+      "sha256": "71e19b2097dc396e23d906fdbd3489fc0ec9e5bb8246112517e424a4345d63a6"
+    },
+    {
+      "method": "com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass35.run",
+      "status": "collected",
+      "source_evidence_id": "ev_ee02d17bb9f0f378b95cf2e2c02daf308d7340d124e63d3d3b33f922b82db686",
+      "file": "offline-pairing-BindSender-run.sanitized.json",
+      "sha256": "7c52ed5ebb0088ecc5f2f2fca5d78c65da8e0547a2c958540295e58fcc201566"
+    },
+    {
+      "method": "com.macrovideo.sdk.setting.DeviceConfigSetting.startActionNewPlatform",
+      "status": "collected",
+      "source_evidence_id": "ev_ef28b3e53de8b9577999f59f6c094922a0ea512c85c7a0a3400fd47528bf49aa",
+      "file": "offline-pairing-DeviceConfigSetting-startActionNewPlatform.sanitized.json",
+      "sha256": "20e1d208801a520ea01dda55780579b261ee6bf04fadc7519fc31d9a5162e187"
+    }
+  ],
+  "date": "2026-10-15",
+  "rea_version": "6.4.0",
+  "jadx_version": "0.7.1",
+  "collector_sha256": "f7fbb2bfb0a3ccf0f6d1de641ad47051fe6c15f8db6683aabfcbbc8439b6fe45",
+  "dex_collector": "ap-dex-instructions.java (existing bounded collector; string/array contents excluded)",
+  "dex_collector_sha256": "7db057bd6cfbe5ac7ce7a6c7773d3e1a4a0665f8455dab04c269e49049f8f841",
+  "supplementary_dex": [
+    {
+      "file": "offline-pairing-action-routing.dex.txt",
+      "sha256": "e137df7e6ce89bf1a9e946f1c28b4e636e102cd6f3d3bcf0f51e6a7ae483c201"
+    },
+    {
+      "file": "offline-pairing-bind-sender.dex.txt",
+      "sha256": "33f2467d8184bcfa87e54a7a530317086f9c875bbe3e1cdd291bdbe6ed559672"
+    },
+    {
+      "file": "offline-pairing-qr.dex.txt",
+      "sha256": "865f1c2d0508e824b8b3f3dbaed458998231cb97328de704bafccaf527a5959a"
+    },
+    {
+      "file": "offline-pairing-sendPinCode.dex.txt",
+      "sha256": "99bc6a97ddb5c6546698b6e87287edfd4fcf6ee192c244fee9e1250e30b933e0"
+    }
+  ],
+  "finding": "No proved cloudless fresh owner-binding bootstrap. Empty token/password serialization is not firmware acceptance. Existing authenticated AP-to-router path remains supported experimentally."
+}
