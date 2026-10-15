@@ -35,7 +35,7 @@ Fitur eksperimental ini memerlukan kemampuan menerima suara dan format **PCM mon
 
 ## Rekaman dan pengaturan
 
-Buka detail kamera → **Rekaman** atau **Pengaturan**, lalu sambungkan akses lokal. Fitur baru tersedia eksperimental untuk sesi IoT; dukungan Legacy belum diimplementasikan.
+Buka detail kamera → **Rekaman** atau **Pengaturan**. Aplikasi otomatis menyambungkan akses lokal jika password kamera tersimpan; jika belum tersimpan, masukkan password lokal kamera. Saat tidak tersambung, tombol **Sambungkan kamera** tetap tersedia. Fitur baru tersedia eksperimental untuk sesi IoT; dukungan Legacy belum diimplementasikan.
 
 - **Rekaman:** kartu SD menampilkan persentase aktual. Pilih tanggal dengan panah atau date picker dan filter Semua/Peristiwa; daftar dimuat otomatis. Ikon refresh memuat ulang, menu urutan memilih Terbaru/Terlama. Kartu rekaman menampilkan waktu, tanggal dan durasi tanpa thumbnail. Putar membuka mode fokus player; tombol/gesture kembali memulihkan daftar dan posisi scroll.
 - **Simpan rekaman:** gunakan menu kartu atau tombol **Simpan rekaman** di player dan pilih lokasi file Android. Aplikasi menyalin satu segmen penuh ke MP4 **tanpa audio**, tanpa checkbox tambahan. Perpindahan ke pemilih file mempertahankan akses kamera; bila sesi sudah hilang, lokasi simpan menunggu autentikasi ulang. Status tersimpan baru tampil setelah MP4 tervalidasi, file selesai ditulis dan dibaca ulang identik; bila pembatalan gagal menghapus file parsial, hapus file tujuan sebelum mencoba lagi. Audio, batch dan resume unduhan belum tersedia.

@@ -57,8 +57,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     var pendingLeave by remember { mutableStateOf<(() -> Unit)?>(null) }
     LaunchedEffect(profile.id) {
         model.prepareFeatures(profile)
-        if (model.features.value.tab != CameraTab.SETTINGS && profile.hasSavedPassword &&
-            !model.session.isAuthenticated(profile.id)) onConnect(null)
+        if (profile.hasSavedPassword && !model.session.isAuthenticated(profile.id)) onConnect(null)
     }
     fun leave(action: () -> Unit) {
         if (feature.busy || feature.download in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS) || feature.areaPhase == AreaCapturePhase.EDITING || feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty()) pendingLeave = action else action()
@@ -98,10 +97,11 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
             CameraTab.entries.forEach { tab -> Tab(selected = feature.tab == tab,
                 onClick = { leave {
                     val transition = model.selectTab(tab)
-                    if (tab != CameraTab.SETTINGS && profile.hasSavedPassword && transition != null)
+                    if (profile.hasSavedPassword && transition != null)
                         scope.launch {
                             transition.join()
-                            if (model.features.value.tab == tab && !model.session.isAuthenticated(profile.id)) onConnect(null)
+                            if (!transition.isCancelled && model.features.value.profileId == profile.id &&
+                                model.features.value.tab == tab && !model.session.isAuthenticated(profile.id)) onConnect(null)
                         }
                 } }, text = { Text(tab.label) }) }
         }

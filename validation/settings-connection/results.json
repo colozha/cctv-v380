@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-15",
+  "base_revision": "e2b27cb7bf62c2f36be9a67787adc1e81703da86",
+  "source_sha256": {
+    "app/src/main/java/dev/cctv/v380/ui/LivePlayerScreen.kt": "3c6dfe03192b8cba96f1b8752a4f5f965ec96260d5ce5cc5a88612f4ef8e3fac",
+    "app/src/main/java/dev/cctv/v380/ui/RecordingsScreen.kt": "f96f5f456ced16f6dec76339afd75832ba37943372041214bf2a4869e40053a7",
+    "app/src/androidTest/java/dev/cctv/v380/CameraConnectionUiTest.kt": "1aa957a439a8398999a8a5cdc930070573846d70ac26c9638ae1a5a5a2632b1d"
+  },
+  "summary": "Settings now requests saved-password connection after tab cleanup, cancelled or stale-profile transitions cannot request it, and CameraAccess Idle offers Connect instead of indefinite progress.",
+  "build": {
+    "status": "passed",
+    "log": "build-final.log",
+    "command": "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' ./gradlew --offline :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug --console=plain"
+  },
+  "lint": {
+    "Warning": 40,
+    "Hint": 1
+  },
+  "jvm": {
+    "status": "passed",
+    "tests": 10,
+    "failures": 0,
+    "log": "build-id.log",
+    "command": "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' ./gradlew --offline :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug :app:testDebugUnitTest --tests 'dev.cctv.v380.protocol.CameraFeatureProtocolTest' --tests 'dev.cctv.v380.DiagnosticsTest' --console=plain",
+    "initial_attempt": "build-default-locale.log: 9/10 passed; the existing recording-label test expects Oktober but the host default locale returns October. Rerun with the documented Indonesian locale passed."
+  },
+  "native": {
+    "status": "incomplete_environment_failure",
+    "api": 33,
+    "device_type": "physical Android device; synthetic app fixtures only",
+    "command": "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' ./gradlew --offline :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=dev.cctv.v380.CameraConnectionUiTest --console=plain",
+    "planned": 6,
+    "passed": [
+      "retainedSettingsConnectsWhenDetailIsReopened"
+    ],
+    "failed": [
+      "tabsWithoutSavedPasswordWaitForManualCredentials: No compose hierarchies found while the device returned to AOD/keyguard."
+    ],
+    "interrupted": [
+      "idleShowsConnectAndOnlyActiveConnectionStatesShowSpinner: runner interrupted by force-stopping the test app after the device blocked UI access."
+    ],
+    "not_run": [
+      "settingsConnectsOnceAfterLeavingLiveAndRecordings",
+      "cancelledTransitionsCannotConnectWhenTheSameTabIsSelectedAgain",
+      "staleProfileTransitionCannotRequestCredentialsForTheOldCamera"
+    ],
+    "logs": [
+      "native-first.log",
+      "native-first-results.log"
+    ],
+    "final_fixture_change": "Added FLAG_KEEP_SCREEN_ON to the test Activity after the interrupted run. Final fixture compiled and linted; runtime rerun requires an unlocked device.",
+    "device_settings": "stay_on_while_plugged_in was 0 before and after validation."
+  },
+  "limits": [
+    "No physical camera contacted or configured.",
+    "Connection callbacks and injected states are synthetic; successful camera authentication/settings reads and owner-firmware compatibility remain unverified.",
+    "No complete native regression pass is claimed.",
+    "All CameraAccess copy reuses existing Indonesian and English resources; no new copy or wire changes."
+  ]
+}

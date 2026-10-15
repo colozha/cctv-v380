@@ -7,9 +7,13 @@ Alur AP→router yang sudah ada kini memvalidasi encoding sebelum pending/write,
 Setup menampilkan empat tahap, bantuan router tanpa internet, pemisahan tiga credential, pesan pairing cloud/akses ditolak/hasil ambigu dan pemulihan yang jelas. Semua copy setup menggunakan resource Indonesia/Inggris dalam desain yang sudah disetujui. [Riset REA/DEX dan kontrak](analysis/ap-provisioning.md#offline-router-setup-investigation-and-implementation-15-october-2026) belum membuktikan bootstrap binding baru tanpa cloud; tidak ada token/credential tebakan. [Hasil validasi dan source manifest](validation/offline-provisioning/results.json) memisahkan software sintetis dari runtime Android dan acceptance kamera yang belum dijalankan.
 
 
-## Koneksi otomatis Live dan Rekaman — 15 Oktober 2026
+## Koneksi otomatis Live, Rekaman dan Pengaturan — 15 Oktober 2026
 
-Masuk ke Live atau Rekaman otomatis memakai password kamera tersimpan; tab yang ditinggalkan menutup sesi, dan retry tersedia setelah gagal. Profil tanpa password tersimpan langsung meminta kredensial. Build debug/instrumentation APK, lint, dan106 tes JVM lulus dengan locale `id-ID`; instrumentation tidak dijalankan dan kompatibilitas kamera fisik belum diuji.
+Masuk ke ketiga tab otomatis memakai password lokal kamera tersimpan. Meninggalkan Live/Rekaman tetap menutup sesi; koneksi baru menunggu transisi selesai dan memeriksa pembatalan, profil serta tab aktif. Pengaturan kini mengikuti alur ini, termasuk ketika detail dibuka kembali pada tab tersebut. Setelah login dari Pengaturan, jalur `connect()` yang sudah ada memuat pengaturan tanpa pemicu pembacaan tambahan atau retry otomatis. Profil tanpa password tersimpan langsung meminta kredensial. `CameraAccess` menampilkan aksi Sambungkan saat Idle; indikator koneksi hanya mengikuti Connecting/Authenticating/Reconnecting. Copy panel memakai resource Indonesia/Inggris yang sudah tersedia.
+
+[Validasi perbaikan dan hash source](validation/settings-connection/results.json): build debug/instrumentation dan lint lulus (0 error, 40 warning, 1 hint); 10 tes JVM terpilih lulus dengan locale `id-ID`. Run locale default sempat gagal pada tes tanggal lama yang mengharapkan “Oktober”. Enam tes UI sintetis ditambahkan untuk koneksi antar-tab, Settings yang dibuka kembali, password manual, pembatalan, pergantian profil, serta status koneksi/error. Run Android API33 hanya meluluskan tes membuka kembali Settings; tes berikutnya gagal saat perangkat kembali ke AOD/keyguard dan tidak menyediakan hierarchy Compose. Runner dihentikan saat tes ketiga; tiga tes sisanya belum berjalan. Fixture akhir menjaga layar Activity menyala dan sudah dikompilasi/lint, tetapi belum diuji ulang. Tidak ada koneksi kamera fisik, pengujian login/readback kamera, atau klaim kompatibilitas firmware dari hasil sintetis ini.
+
+Validasi sebelum perbaikan Settings (historis): build debug/instrumentation, lint dan 106 tes JVM lulus dengan locale `id-ID`; hasil tersebut bukan validasi source perbaikan ini.
 
 ## Talkback PCM IoT — 15 Oktober 2026
 
