@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
@@ -28,6 +29,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.cctv.v380.protocol.ApHotspotProtocol
+import dev.cctv.v380.R
 import dev.cctv.v380.session.*
 
 @Composable
@@ -107,7 +109,7 @@ fun ApHotspotSettings(model: CameraViewModel, profile: CameraProfile, session: S
         if (pending != null && !permitted()) OutlinedButton(onClick = { permissionRequest.launch(permissions.toTypedArray()) },
             enabled = !feature.busy, modifier = Modifier.heightIn(min = 48.dp)) { Text("Izinkan akses Wi-Fi") }
         if (pending != null && ownPending) {
-            Text("Hotspot tujuan: ${pending.targetSsid}", style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.hotspot_target, pending.targetSsid), style = MaterialTheme.typography.bodyLarge)
             Text("Perintah tidak dikirim ulang. Verifikasi hanya menyambungkan dan membaca status kamera.",
                 style = MaterialTheme.typography.bodyMedium)
             if (feature.apPhase == ApEditPhase.WAITING_WIFI) {

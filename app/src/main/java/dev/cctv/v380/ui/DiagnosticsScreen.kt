@@ -11,9 +11,11 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.cctv.v380.session.*
+import dev.cctv.v380.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,19 +38,27 @@ fun DiagnosticsScreen(model: CameraViewModel, onBack: () -> Unit) {
                 Spacer(Modifier.height(12.dp))
                 Text("Kompatibilitas firmware masih dalam pengujian.", style = MaterialTheme.typography.bodyMedium)
                 Spacer(Modifier.height(12.dp))
-                Text(network?.let { "Wi-Fi terpilih · IPv4 ${it.localIpv4}\nGateway ${it.gateway ?: "tidak tersedia"}" }
+                Text(network?.let { stringResource(R.string.diagnostic_wifi_info, it.localIpv4,
+                    it.gateway ?: stringResource(R.string.not_available)) }
                     ?: "Jaringan belum dipilih untuk pemeriksaan.", style = MaterialTheme.typography.bodyMedium)
             }
             if (events.isEmpty()) item { Text("Belum ada pemeriksaan. Cari atau sambungkan kamera untuk memulai.") }
             itemsIndexed(events.asReversed()) { _, event ->
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("${stageLabel(event.stage)} · ${when (event.status) { DiagnosticStatus.STARTED -> "Dimulai"; DiagnosticStatus.OK -> "OK"; DiagnosticStatus.FAILED -> "Gagal"; DiagnosticStatus.CANCELLED -> "Dibatalkan" }}", style = MaterialTheme.typography.titleMedium)
-                    Text(buildString {
-                        append("${event.elapsedMs} ms")
-                        event.code?.let { append(" · kode $it") }
-                        event.bytes?.let { append(" · panjang $it") }
-                        event.protocolVersion?.let { append(" · versi $it") }
-                    }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.event_stage_status, localizedCopy(stageLabel(event.stage)), stringResource(when (event.status) {
+                        DiagnosticStatus.STARTED -> R.string.event_status_started
+                        DiagnosticStatus.OK -> R.string.event_status_ok
+                        DiagnosticStatus.FAILED -> R.string.event_status_failed
+                        DiagnosticStatus.CANCELLED -> R.string.event_status_cancelled
+                    })), style = MaterialTheme.typography.titleMedium)
+                    val details = listOfNotNull(
+                        stringResource(R.string.diagnostic_elapsed, event.elapsedMs),
+                        event.code?.let { stringResource(R.string.diagnostic_code, it) },
+                        event.bytes?.let { stringResource(R.string.diagnostic_length, it) },
+                        event.protocolVersion?.let { stringResource(R.string.diagnostic_version, it) },
+                    )
+                    Text(details.joinToString(" · "), style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(8.dp)); HorizontalDivider()
                 }
             }

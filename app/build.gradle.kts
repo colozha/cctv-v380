@@ -22,6 +22,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildTypes { release { isMinifyEnabled = true; proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt")) } }
+    bundle { language { enableSplit = false } }
 }
 
 dependencies {

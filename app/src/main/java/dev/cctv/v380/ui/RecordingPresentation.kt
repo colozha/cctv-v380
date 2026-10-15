@@ -24,7 +24,7 @@ enum class RecordingOrder(val label: String) {
 fun recordingRange(recording: RecordingSegment, zone: ZoneId = ZoneId.systemDefault()): String {
     val start = Instant.ofEpochMilli(recording.startMs).atZone(zone)
     val end = Instant.ofEpochMilli(recording.endMs).atZone(zone)
-    val date = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.forLanguageTag("id-ID"))
+    val date = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
     val time = DateTimeFormatter.ofPattern("HH:mm:ss")
     return if (start.toLocalDate() == end.toLocalDate())
         "${date.format(start)}\n${time.format(start)} – ${time.format(end)}"
@@ -64,6 +64,6 @@ fun recordingTimes(recording: RecordingSegment): String =
 fun recordingDates(recording: RecordingSegment, zone: ZoneId = ZoneId.systemDefault()): String {
     val start = Instant.ofEpochMilli(recording.startMs).atZone(zone).toLocalDate()
     val end = Instant.ofEpochMilli(recording.endMs).atZone(zone).toLocalDate()
-    val date = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.forLanguageTag("id-ID"))
+    val date = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
     return if (start == end) date.format(start) else "${date.format(start)} – ${date.format(end)}"
 }

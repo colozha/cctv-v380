@@ -27,6 +27,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import dev.cctv.v380.R
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -123,7 +124,7 @@ fun ProvisioningScreen(model: CameraViewModel, onBack: () -> Unit, onComplete: (
                     Text("Pilih perangkat yang akan Anda konfigurasi.")
                     state.cameras.forEach { camera -> OutlinedButton(onClick = { model.provisioning.choose(camera) },
                         modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp)) {
-                        Column(Modifier.fillMaxWidth()) { Text("Kamera ${camera.deviceId}"); Text("${camera.host}:${camera.port}", style = MaterialTheme.typography.bodySmall) }
+                        Column(Modifier.fillMaxWidth()) { Text(stringResource(R.string.camera_number, camera.deviceId)); Text("${camera.host}:${camera.port}", style = MaterialTheme.typography.bodySmall) }
                     } }
                     TextButton(onClick = { lan { model.provisioning.discoverCurrentAp() } }, modifier = Modifier.heightIn(min = 48.dp)) { Text("Cari lagi") }
                 }
@@ -179,7 +180,7 @@ fun ProvisioningScreen(model: CameraViewModel, onBack: () -> Unit, onComplete: (
                     }
                 }
                 ProvisioningPhase.WAITING_LAN -> {
-                    Text("Hubungkan HP ke Wi-Fi ${state.targetSsid}. Kamera dapat memperoleh IP baru; aplikasi akan mencari identitas perangkat yang sama.")
+                    Text(stringResource(R.string.camera_on_wifi_help, state.targetSsid))
                     if (state.mayHaveConfigured) Text("Konfigurasi mungkin sudah diterapkan. Pemeriksaan berikut tidak mengirim ulang password Wi-Fi.", style = MaterialTheme.typography.bodyMedium)
                     OutlinedButton(onClick = ::openWifiSettings, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Buka Wi-Fi rumah") }
                     Button(onClick = { lan { model.provisioning.verifyLan() } }, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text("Periksa kamera di Wi-Fi rumah") }
@@ -220,7 +221,8 @@ private fun SecretField(value: String, onChange: (String) -> Unit, label: String
     OutlinedTextField(value, onChange, label = { Text(label) }, enabled = enabled, modifier = Modifier.fillMaxWidth(), singleLine = true,
         leadingIcon = { SectionIcon(Icons.Default.Lock) },
         trailingIcon = { IconButton(onClick = { visible = !visible }, enabled = enabled) {
-            Icon(if (visible) EyeOffIcon else EyeIcon, if (visible) "Sembunyikan $label" else "Tampilkan $label")
+            Icon(if (visible) EyeOffIcon else EyeIcon,
+                stringResource(if (visible) R.string.hide_secret else R.string.show_secret, localizedCopy(label)))
         } }, supportingText = supporting?.let { text -> { Text(text) } },
         visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))

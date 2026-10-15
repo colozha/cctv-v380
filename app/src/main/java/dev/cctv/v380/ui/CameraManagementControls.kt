@@ -9,10 +9,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import dev.cctv.v380.protocol.*
 import dev.cctv.v380.session.*
+import dev.cctv.v380.R
 
 @Composable
 fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, feature: CameraFeatureState,
@@ -44,7 +46,8 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
         if (!live || values[CameraManagementProtocol.PRESETS] !is CameraPresets || (ability.presets ?: 0) <= 0)
             OutlinedButton(onClick = { model.loadManagement(group) }, enabled = authenticated && !feature.busy && feature.pendingAp == null &&
             (group != ManagementGroup.ALARM || feature.areaPhase != AreaCapturePhase.EDITING),
-            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(if (live) "Muat preset dan patroli" else "Muat ${group.label.lowercase()}") }
+            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(if (live)
+                stringResource(R.string.load_presets_and_patrol) else stringResource(R.string.load_group, localizedCopy(group.label).lowercase())) }
         if (live) {
             if (feature.managementLoading == group) LinearProgressIndicator(Modifier.fillMaxWidth())
             feature.managementErrors[group]?.let { ErrorNotice(it) }
@@ -80,7 +83,8 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
                     }
                     if (schedule.windows.isEmpty()) Text("Belum ada interval jadwal. Tambahkan waktu agar lampu mengikuti jadwal.")
                     schedule.windows.forEachIndexed { i, window ->
-                        ManagementTimeWindow(window, enabled && ability.lightSchedule == true, "Jadwal ${i + 1}") { updated ->
+                        ManagementTimeWindow(window, enabled && ability.lightSchedule == true,
+                            stringResource(R.string.schedule_number, i + 1)) { updated ->
                             change(CameraManagementProtocol.LIGHT_SCHEDULE, schedule.copy(windows = schedule.windows.toMutableList().also { it[i] = updated }))
                         }
                     }
@@ -103,42 +107,51 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
                 if (live && slots != null && ability.presets != null && ability.presets!! > 0) CameraPanel {
                     var slot by remember(profile.id) { mutableIntStateOf(0) }
                     var menu by remember { mutableStateOf(false) }
-                    Text("Preset tersimpan: ${slots.used.size}/${ability.presets}", style = MaterialTheme.typography.bodyMedium)
+                    val overwriteQuestion = stringResource(R.string.overwrite_preset_question, slot + 1)
+                    val deleteQuestion = stringResource(R.string.delete_preset_question, slot + 1)
+                    Text(stringResource(R.string.preset_count, slots.used.size, ability.presets ?: 0), style = MaterialTheme.typography.bodyMedium)
                     Box {
-                        OutlinedButton(onClick = { menu = true }, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Slot ${slot + 1}${if (slot in slots.used) " · Terisi" else " · Kosong"}") }
+                        OutlinedButton(onClick = { menu = true }, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                            Text(stringResource(R.string.slot_status, slot + 1, stringResource(if (slot in slots.used) R.string.occupied else R.string.empty)))
+                        }
                         DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
-                            repeat(ability.presets!!.coerceAtMost(256)) { id -> DropdownMenuItem(text = { Text("Slot ${id + 1}${if (id in slots.used) " · Terisi" else ""}") },
+                            repeat(ability.presets!!.coerceAtMost(256)) { id -> DropdownMenuItem(text = { Text(if (id in slots.used)
+                                stringResource(R.string.slot_status, id + 1, stringResource(R.string.occupied)) else stringResource(R.string.slot_status_empty, id + 1)) },
                                 onClick = { slot = id; menu = false }) }
                         }
                     }
                     OutlinedButton(onClick = { model.loadManagement(group) }, enabled = enabled,
                         modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Muat preset dan patroli") }
                     OutlinedButton(onClick = {
-                        if (slot in slots.used) confirmation = "Timpa posisi yang tersimpan pada slot ${slot + 1}?" to { model.presetAction(slot, 1) }
+                        if (slot in slots.used) confirmation = overwriteQuestion to { model.presetAction(slot, 1) }
                         else model.presetAction(slot, 1)
                     }, enabled = enabled && stoppedConfiguration, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Icon(SaveIcon, null); Spacer(Modifier.width(8.dp)); Text("Simpan posisi") }
                     OutlinedButton(onClick = { model.presetAction(slot, 2) }, enabled = enabled && stoppedConfiguration && slot in slots.used,
                         modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Ke posisi") }
-                    TextButton(onClick = { confirmation = "Hapus preset pada slot ${slot + 1}?" to { model.presetAction(slot, 3) } },
+                    TextButton(onClick = { confirmation = deleteQuestion to { model.presetAction(slot, 3) } },
                         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
                         enabled = enabled && stoppedConfiguration && slot in slots.used, modifier = Modifier.heightIn(min = 48.dp)) { Text("Hapus preset") }
                 } else if (live) Text("Daftar preset atau kemampuan slot belum dikonfirmasi kamera.")
                 if (patrol != null) {
                     val patrolContent: @Composable ColumnScope.() -> Unit = {
+                    val patrolStatus = stringResource(if (patrol.enabled || patrol.timerEnabled)
+                        R.string.patrol_active_status else R.string.patrol_inactive_status)
+                    val unavailableStatus = stringResource(R.string.patrol_control_unavailable)
                     if (live) {
-                        Text(if (patrol.enabled || patrol.timerEnabled) "Konfigurasi patroli kamera aktif. Status gerak motor belum diketahui." else "Konfigurasi patroli kamera tidak aktif.")
-                        Text("Aktivasi dan penghentian patroli belum tersedia sampai status motor dapat diverifikasi.", style = MaterialTheme.typography.bodySmall)
-                    } else SettingsNotice("${if (patrol.enabled || patrol.timerEnabled) "Konfigurasi patroli kamera aktif. Status gerak motor belum diketahui." else "Konfigurasi patroli kamera tidak aktif."}\nAktivasi dan penghentian patroli belum tersedia sampai status motor dapat diverifikasi.", error = true)
+                        Text(patrolStatus)
+                        Text(unavailableStatus, style = MaterialTheme.typography.bodySmall)
+                    } else SettingsNotice("$patrolStatus\n$unavailableStatus", error = true)
                     patrol.routes.forEachIndexed { index, route ->
-                        Text("Rute ${index + 1}", style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(R.string.route_number, index + 1), style = MaterialTheme.typography.titleSmall)
                         val editable = enabled && ability.patrol == true && !patrol.enabled && !patrol.timerEnabled
                         fun updateRoute(updated: CameraPatrolRoute) = change(CameraManagementProtocol.PATROL,
                             patrol.copy(routes = patrol.routes.toMutableList().also { it[index] = updated }))
-                        ManagementTimeWindow(CameraTimeWindow(route.start, route.end, true), editable, "Waktu patroli", toggle = false) {
+                ManagementTimeWindow(CameraTimeWindow(route.start, route.end, true), editable,
+                    stringResource(R.string.patrol_time), toggle = false) {
                             updateRoute(route.copy(start = it.start, end = it.end))
                         }
                         route.points.forEachIndexed { pointIndex, point ->
-                            Text("Urutan ${pointIndex + 1} · Slot ${point.id + 1} · ${point.staySeconds / 60} menit", style = MaterialTheme.typography.bodyMedium)
+                            Text(stringResource(R.string.route_position_order, pointIndex + 1, point.id + 1, point.staySeconds / 60), style = MaterialTheme.typography.bodyMedium)
                             FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 TextButton(onClick = {
                                     val points = route.points.toMutableList()
@@ -149,18 +162,20 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
                                     enabled = editable && route.points.size > 1, modifier = Modifier.heightIn(min = 48.dp)) { Text("Hapus posisi") }
                             }
                             if (point.staySeconds in 60..3600 && point.staySeconds % 60 == 0) {
-                                Text("Waktu berhenti: ${point.staySeconds / 60} menit", style = MaterialTheme.typography.bodySmall)
+                                Text(stringResource(R.string.stop_duration_minutes, point.staySeconds / 60), style = MaterialTheme.typography.bodySmall)
                                 Slider(value = point.staySeconds / 60f, onValueChange = { minutes ->
                                     val seconds = kotlin.math.round(minutes).toInt().coerceIn(1, 60) * 60
                                     updateRoute(route.copy(points = route.points.toMutableList().also { it[pointIndex] = point.copy(staySeconds = seconds) }))
                                 }, valueRange = 1f..60f, steps = 58, enabled = editable,
                                     modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp))
-                            } else Text("Waktu berhenti dari kamera: ${point.staySeconds} detik. Nilai ini dipertahankan.", style = MaterialTheme.typography.bodySmall)
+                            } else Text(stringResource(R.string.camera_stop_duration, point.staySeconds), style = MaterialTheme.typography.bodySmall)
                         }
                         val nextSlot = slots?.used?.firstOrNull { id -> route.points.none { it.id == id } }
                         OutlinedButton(onClick = { nextSlot?.let { updateRoute(route.copy(points = route.points + CameraPatrolPoint(it, 60))) } },
                             enabled = editable && nextSlot != null && route.points.size < patrol.maxPoints,
-                            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Tambah posisi${nextSlot?.let { " · Slot ${it + 1}" }.orEmpty()}") }
+                            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(nextSlot?.let {
+                                stringResource(R.string.add_position_slot, it + 1)
+                            } ?: stringResource(R.string.add_position)) }
                         TextButton(onClick = { change(CameraManagementProtocol.PATROL, patrol.copy(routes = patrol.routes.filterIndexed { i, _ -> i != index })) },
                             enabled = editable, modifier = Modifier.heightIn(min = 48.dp)) { Text("Hapus rute") }
                     }
@@ -186,7 +201,8 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
                     CameraManagementProtocol.HARDWARE to "Hardware", CameraManagementProtocol.MODULE to "Module").forEach { (id, label) ->
                     SettingsValue(label, values[id] as? String ?: "Tidak tersedia pada kamera ini")
                 }
-                OutlinedButton(onClick = { confirmation = "Restart kamera ${profile.name}? Tayangan dan proses perekaman aktif akan terputus sementara." to { model.restartCamera(profile) } },
+                val restartQuestion = stringResource(R.string.camera_restart_question, profile.name)
+                OutlinedButton(onClick = { confirmation = restartQuestion to { model.restartCamera(profile) } },
                     enabled = enabled && ability.restart == true && feature.draft.isEmpty() && feature.managementDraft.isEmpty(),
                     modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Restart kamera") }
                 if (ability.restart != true) Text("Kemampuan restart belum dikonfirmasi kamera.", style = MaterialTheme.typography.bodySmall)
@@ -204,12 +220,12 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
                 CameraManagementProtocol.PATROL -> "Patroli"
                 else -> "Sebagian pengaturan"
             }
-            Text(if (code == 1109) "$label tidak diizinkan untuk akses kamera ini." else "$label tidak tersedia pada kamera ini.", style = MaterialTheme.typography.bodySmall)
+            Text(stringResource(if (code == 1109) R.string.setting_not_allowed else R.string.setting_not_available, localizedCopy(label).lowercase()), style = MaterialTheme.typography.bodySmall)
         }
         if (snapshot != null && values.isEmpty()) Text("Pengaturan grup ini tidak tersedia atau tidak diizinkan pada kamera ini.")
         if (snapshot != null && group != ManagementGroup.ALARM && CameraManagementProtocol.ids(group).any { it in feature.managementDraft }) {
             Button(onClick = { model.saveManagement(group) }, enabled = enabled,
-                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text("Simpan ${group.label.lowercase()}") }
+                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(stringResource(R.string.save_group, localizedCopy(group.label).lowercase())) }
         }
         if (live && feature.managementLoading == group && feature.busy) Text("Sedang memeriksa kamera…", style = MaterialTheme.typography.bodySmall)
     }
@@ -218,8 +234,8 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
         val patrol = values[CameraManagementProtocol.PATROL] as? CameraPatrol
         val summary = when (group) {
             ManagementGroup.DEVICE -> listOfNotNull(
-                (values[CameraManagementProtocol.MODEL] as? String)?.let { "Model $it" },
-                (values[CameraManagementProtocol.SOFTWARE] as? String)?.let { "Firmware $it" }).joinToString("\n").ifEmpty { "Belum diperiksa" }
+                (values[CameraManagementProtocol.MODEL] as? String)?.let { stringResource(R.string.device_model_summary, it) },
+                (values[CameraManagementProtocol.SOFTWARE] as? String)?.let { stringResource(R.string.device_firmware_summary, it) }).joinToString("\n").ifEmpty { "Belum diperiksa" }
             ManagementGroup.MOTOR -> when {
                 patrol == null -> "Belum diperiksa"
                 patrol.enabled || patrol.timerEnabled -> "Konfigurasi patroli aktif; status gerak belum diketahui."
@@ -278,10 +294,10 @@ fun CameraAlarmControls(before: CameraSettings, draft: Map<Int, Any>, ability: M
             val names = p.dayLabels
             val dayName = names[p.dayNames.indexOf(day)]
             Box {
-                OutlinedButton(onClick = { menu = true }, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Hari: $dayName") }
+                OutlinedButton(onClick = { menu = true }, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.schedule_day, localizedCopy(dayName))) }
                 DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                     p.dayNames.forEachIndexed { index, name ->
-                        DropdownMenuItem(text = { Text("${names[index]} · ${schedule.days.getValue(name).size} interval") },
+                        DropdownMenuItem(text = { Text(stringResource(R.string.day_interval_count, localizedCopy(names[index]), schedule.days.getValue(name).size)) },
                             onClick = { day = name; menu = false })
                     }
                 }
@@ -290,16 +306,16 @@ fun CameraAlarmControls(before: CameraSettings, draft: Map<Int, Any>, ability: M
                 val windows = schedule.days.getValue(day)
                 val limit = p.alarmIntervalLimit(original, day)
                 fun update(w: List<CameraTimeWindow>) = onChange(p.ALARM_SCHEDULE, schedule.copy(days = schedule.days + (day to w)))
-                Text("${windows.size} interval · Batas editor $limit", style = MaterialTheme.typography.labelLarge)
-                if (windows.isEmpty()) Text("Belum ada interval pada $dayName.")
+                Text(stringResource(R.string.interval_limit, windows.size, limit), style = MaterialTheme.typography.labelLarge)
+                if (windows.isEmpty()) Text(stringResource(R.string.no_intervals_day, localizedCopy(dayName)))
                 windows.forEachIndexed { index, window ->
                     key(window.origin ?: -index - 1) {
                         Column(Modifier.fillMaxWidth().testTag("alarm-interval-$index"), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            ManagementTimeWindow(window, enabled, "Interval ${index + 1}", showError = false) { updated ->
+                            ManagementTimeWindow(window, enabled, stringResource(R.string.interval_number, index + 1), showError = false) { updated ->
                                 update(windows.toMutableList().also { it[index] = updated })
                             }
                             TextButton(onClick = { update(windows.filterIndexed { i, _ -> i != index }) }, enabled = enabled,
-                                modifier = Modifier.heightIn(min = 48.dp)) { Text("Hapus interval ${index + 1}") }
+                                modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.delete_interval, index + 1)) }
                         }
                     }
                 }
@@ -317,7 +333,7 @@ fun CameraAlarmControls(before: CameraSettings, draft: Map<Int, Any>, ability: M
         }
         (value(p.ALARM_AREA) as? CameraAlarmArea)?.let {
             if (areaContent != null) areaContent(it)
-            else Text("Area deteksi: ${it.rows} × ${it.columns}, ${it.cells.count { cell -> cell != 0 }} sel dipilih")
+            else Text(stringResource(R.string.selected_detection_cells, it.rows, it.columns, it.cells.count { cell -> cell != 0 }))
         }
         Text("Sensitivitas gerakan belum tersedia melalui kontrak pengaturan lokal yang terverifikasi.", style = MaterialTheme.typography.bodySmall)
         if (dirty) {
@@ -349,10 +365,10 @@ private fun ManagementTimeWindow(window: CameraTimeWindow, enabled: Boolean, lab
     else Text(label, style = MaterialTheme.typography.labelLarge)
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
         OutlinedButton(onClick = { editingStart = true }, enabled = enabled, modifier = Modifier.weight(1f).heightIn(min = 48.dp)) {
-            Text("Mulai ${CameraManagementProtocol.time(window.start)}")
+            Text(stringResource(R.string.start_time, CameraManagementProtocol.time(window.start)))
         }
         OutlinedButton(onClick = { editingStart = false }, enabled = enabled, modifier = Modifier.weight(1f).heightIn(min = 48.dp)) {
-            Text("Selesai ${CameraManagementProtocol.time(window.end)}")
+            Text(stringResource(R.string.end_time, CameraManagementProtocol.time(window.end)))
         }
     }
     if (showError && window.start >= window.end) Text("Waktu mulai harus sebelum selesai. Jadwal lintas tengah malam belum didukung.", color = MaterialTheme.colorScheme.error)

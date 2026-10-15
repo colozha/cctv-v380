@@ -58,7 +58,8 @@ Some documents include historical results and dated constraints. Check their dat
 - Preserve capability checks, session/device identity guards, readback, send-once recovery, and disabled states where protocol outcomes remain uncertain. In particular, SD format/delete and patrol start/stop are gated; consult `IMPLEMENTATION.md` and their wire specs before touching them.
 - Keep camera login, camera AP, and home Wi-Fi credentials distinct. Do not log, commit, export, or include credentials, auth payloads, keys, session identifiers, or video footage in diagnostics or fixtures. Maintain the existing sanitized diagnostic allowlist.
 - Use synthetic fixtures for automated protocol/UI coverage. Do not contact a physical camera or perform a camera write, restart, format, or delete operation as part of routine validation unless the task explicitly requires it.
-- Preserve Indonesian UI copy, system light/dark theming, accessibility semantics, and existing user-facing flows unless the task asks to change them.
+- Keep all user-visible app copy in Android string resources for both Indonesian (`values/strings.xml`) and English (`values-en/strings.xml`). Every new feature, button, label, status, error, and accessibility description must add or update both translations in the same change; do not add hard-coded user-facing strings to Kotlin.
+- Preserve the Indonesian and English UI, the selected light/dark theme behavior, accessibility semantics, and existing user-facing flows unless the task asks to change them.
 - Update the relevant status/specification documentation when implementation or verification status changes. Report only checks actually run and state when a result is historical, synthetic, or still unverified.
 
 ## Build and validation

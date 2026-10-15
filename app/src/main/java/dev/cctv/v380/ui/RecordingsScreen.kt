@@ -8,7 +8,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,11 +27,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.platform.LocalLocale
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,7 +42,7 @@ import dev.cctv.v380.session.*
 import kotlinx.coroutines.launch
 import java.time.*
 import java.time.format.DateTimeFormatter
-import java.util.Locale
+import dev.cctv.v380.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,6 +53,7 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val position by model.session.recordingPosition.collectAsStateWithLifecycle()
+    val recordingFilenamePrefix = stringResource(R.string.recording_filename_prefix)
     val selected = feature.selected
     val authenticated = model.session.isAuthenticated(profile.id)
     val rows = remember(feature.recordings, feature.recordingOrder) { feature.recordingOrder.sort(feature.recordings) }
@@ -60,8 +62,11 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
     fun export(recording: RecordingSegment) {
         scope.launch {
             try {
-                if (model.beginRecordingExport(recording)) save.launch("Rekaman-${DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")
-                    .format(Instant.ofEpochMilli(recording.startMs).atZone(ZoneId.systemDefault()))}.mp4")
+                if (model.beginRecordingExport(recording)) {
+                    val stamp = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")
+                        .format(Instant.ofEpochMilli(recording.startMs).atZone(ZoneId.systemDefault()))
+                    save.launch("$recordingFilenamePrefix$stamp.mp4")
+                }
             } catch (cancelled: kotlinx.coroutines.CancellationException) { model.completeRecordingExport(null); throw cancelled }
             catch (_: Exception) { model.completeRecordingExport(null); model.message("Pemilih lokasi penyimpanan tidak dapat dibuka. Coba lagi.") }
         }
@@ -71,7 +76,7 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
             !feature.recordingsLoaded && !feature.busy && !exportPending) model.loadRecordings()
     }
 
-    val dark = isSystemInDarkTheme()
+    val dark = LocalAppDarkTheme.current
     val scheme = MaterialTheme.colorScheme.copy(
         primary = if (dark) Color(0xFF82DEB8) else Color(0xFF185C43),
         onPrimary = if (dark) Color(0xFF08291D) else Color.White,
@@ -102,7 +107,7 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text("Rekaman di kartu SD", Modifier.weight(1f), style = MaterialTheme.typography.titleLarge)
                             IconButton(onClick = model::loadRecordings, enabled = authenticated && !feature.busy && !exportPending) {
-                                Icon(Icons.Default.Refresh, "Muat ulang rekaman")
+                                Icon(Icons.Default.Refresh, stringResource(R.string.recording_refresh))
                             }
                             RecordingOrderMenu(feature.recordingOrder, model::setRecordingOrder)
                         }
@@ -114,7 +119,7 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
                             FilterChip(feature.eventsOnly, { if (!feature.eventsOnly) onLeave { model.setEventsOnly(true) } }, label = { Text("Peristiwa") },
                                 modifier = Modifier.weight(1f).heightIn(min = 48.dp), shape = RoundedCornerShape(50), colors = recordingChipColors(), enabled = feature.pendingAp == null)
                         }
-                        Text("Waktu ${ZoneId.systemDefault().id}", style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
+                        Text(stringResource(R.string.recording_timezone, ZoneId.systemDefault().id), style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
                     }
                                     }
                     if (feature.recordingsLoaded && rows.isEmpty()) item("empty") {
@@ -146,6 +151,7 @@ private fun RecordingPlayer(model: CameraViewModel, profile: CameraProfile, sess
     onConnect: (CharArray?) -> Unit, onExport: (RecordingSegment) -> Unit,
     onDateChange: (LocalDate) -> Unit, onPicker: () -> Unit) {
     val selected = feature.selected ?: return
+    val positionDescription = stringResource(R.string.recording_position)
     val authenticated = model.session.isAuthenticated(profile.id)
     val exportPending = feature.download in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS)
     val scheme = MaterialTheme.colorScheme
@@ -206,7 +212,7 @@ private fun RecordingPlayer(model: CameraViewModel, profile: CameraProfile, sess
                         Slider(seek, { dragging = true; seek = it }, onValueChangeFinished = {
                             dragging = false; model.requestPlayback(selected, selected.startMs + (seek * (selected.durationMs - 1)).toLong())
                         }, enabled = authenticated && !feature.busy && !exportPending && feature.pendingAp == null,
-                            modifier = Modifier.semantics { contentDescription = "Posisi rekaman" })
+                            modifier = Modifier.semantics { contentDescription = positionDescription })
                         Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             Button(onClick = {
                                 if (session is SessionState.PlayingRecording) model.pausePlayback()
@@ -265,12 +271,12 @@ private fun RecordingDateControl(date: LocalDate, onChange: (LocalDate) -> Unit,
     Surface(shape = RoundedCornerShape(50), color = MaterialTheme.colorScheme.surfaceContainer,
         border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline), modifier = Modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton({ onChange(date.minusDays(1)) }, enabled = enabled) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Tanggal sebelumnya") }
+            IconButton({ onChange(date.minusDays(1)) }, enabled = enabled) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.date_previous)) }
             TextButton(onPicker, enabled = enabled, modifier = Modifier.weight(1f).fillMaxHeight().heightIn(min = 52.dp)) {
                 Icon(Icons.Default.DateRange, null); Spacer(Modifier.width(8.dp))
-                Text(date.format(DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.forLanguageTag("id-ID"))), color = MaterialTheme.colorScheme.onSurface)
+                Text(date.format(DateTimeFormatter.ofPattern("d MMMM yyyy", LocalLocale.current.platformLocale)), color = MaterialTheme.colorScheme.onSurface)
             }
-            IconButton({ onChange(date.plusDays(1)) }, enabled = enabled) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, "Tanggal berikutnya") }
+            IconButton({ onChange(date.plusDays(1)) }, enabled = enabled) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.date_next)) }
         }
     }
 }
@@ -279,7 +285,7 @@ private fun RecordingDateControl(date: LocalDate, onChange: (LocalDate) -> Unit,
 fun RecordingOrderMenu(order: RecordingOrder, onChange: (RecordingOrder) -> Unit, enabled: Boolean = true) {
     var expanded by remember { mutableStateOf(false) }
     Box {
-        IconButton({ expanded = true }, enabled = enabled) { Icon(Icons.Default.MoreVert, "Urutan: ${order.label}") }
+        IconButton({ expanded = true }, enabled = enabled) { Icon(Icons.Default.MoreVert, stringResource(R.string.recording_order, localizedCopy(order.label))) }
         DropdownMenu(expanded, { expanded = false }) { RecordingOrder.entries.forEach { option ->
             DropdownMenuItem(text = { Text(option.label) }, onClick = { onChange(option); expanded = false },
                 trailingIcon = { if (order == option) Icon(Icons.Default.Check, null) })
@@ -297,15 +303,18 @@ private fun RecordingCard(recording: RecordingSegment, enabled: Boolean, onPlay:
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(recordingTimes(recording), style = MaterialTheme.typography.titleMedium)
                 Text(recordingDates(recording), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text("${recording.durationMs / 1000} detik · ${if (recording.kind == 2) "Peristiwa" else "Rekaman"}",
+                Text(stringResource(R.string.recording_duration_type, recording.durationMs / 1000,
+                    stringResource(if (recording.kind == 2) R.string.recording_event_kind else R.string.recording_video_kind)),
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Box {
-                IconButton({ menu = true }) { Icon(Icons.Default.MoreVert, "Opsi rekaman ${recordingTime(recording.startMs)}") }
+                IconButton({ menu = true }) {
+                    Icon(Icons.Default.MoreVert, stringResource(R.string.recording_options, recordingTime(recording.startMs)))
+                }
                 DropdownMenu(menu, { menu = false }) {
                     DropdownMenuItem(text = { Text("Putar") }, onClick = { menu = false; onPlay() }, enabled = enabled)
                     DropdownMenuItem(text = { Text("Simpan rekaman") }, onClick = { menu = false; onSave() }, enabled = enabled)
-                    DropdownMenuItem(text = { Text(RECORDING_DELETE_UNAVAILABLE) }, onClick = {}, enabled = false)
+                    DropdownMenuItem(text = { Text(stringResource(R.string.recording_delete_unavailable)) }, onClick = {}, enabled = false)
                 }
             }
         }
@@ -334,7 +343,7 @@ fun RecordingStorageStatus(storage: CameraSettings?, loading: Boolean, error: St
                 Text(when {
                     loading -> "Memeriksa kapasitas…"
                     error != null -> error
-                    capacity != null -> "${capacity.usedPercent}% ruang terpakai"
+                    capacity != null -> stringResource(R.string.used_space_percent, capacity.usedPercent)
                     else -> "Kapasitas kartu SD belum tersedia."
                 }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
@@ -436,7 +445,8 @@ fun FeatureFeedback(feature: CameraFeatureState, showProgress: Boolean = true) {
     feature.notice?.let { Text(it, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite }, style = MaterialTheme.typography.bodyMedium) }
     if (feature.busy && showProgress) LinearProgressIndicator(Modifier.fillMaxWidth())
     if (feature.download in setOf(DownloadPhase.DOWNLOADING, DownloadPhase.SAVING)) {
-        Text(if (feature.download == DownloadPhase.SAVING) "Menyimpan file…" else "Mengunduh rekaman · ${feature.downloadBytes / 1024} KB diterima")
+        Text(if (feature.download == DownloadPhase.SAVING) stringResource(R.string.saving_file)
+            else stringResource(R.string.download_progress, feature.downloadBytes / 1024))
     }
     if (feature.download == DownloadPhase.CANCELLED) Text("Penyalinan dibatalkan.")
 }

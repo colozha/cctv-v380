@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.cctv.v380.control.Direction
 import dev.cctv.v380.session.*
 import dev.cctv.v380.protocol.*
+import dev.cctv.v380.R
 import kotlinx.coroutines.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,7 +103,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                             SessionState.Authenticating -> "Memverifikasi akses lokal…"
                             is SessionState.Ready -> "Kamera terautentikasi"
                             is SessionState.Negotiating -> "Menunggu video…"
-                            is SessionState.Reconnecting -> "Menyambungkan kembali (${state.attempt}/3)…"
+                            is SessionState.Reconnecting -> stringResource(R.string.reconnecting_attempt, state.attempt)
                             is SessionState.Error -> "Video belum tersedia"
                             else -> "Belum terhubung"
                         }, color = androidx.compose.ui.graphics.Color.White, style = MaterialTheme.typography.titleMedium)
@@ -210,7 +212,8 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                                 Text("Preset & patroli", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                                 val presets = feature.management[ManagementGroup.MOTOR]?.settings?.values?.get(CameraManagementProtocol.PRESETS) as? CameraPresets
                                 Text(if (presets != null && capabilities?.management?.presets != null)
-                                    "${presets.used.size}/${capabilities?.management?.presets} preset tersimpan" else "Atur posisi dan rute kamera",
+                                    stringResource(R.string.saved_presets, presets.used.size, capabilities?.management?.presets ?: 0)
+                                    else stringResource(R.string.preset_position_route),
                                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                             Icon(Icons.Default.KeyboardArrowRight, null)
@@ -237,7 +240,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Icon(BookmarkIcon, null, tint = MaterialTheme.colorScheme.primary)
                     Text("Preset & patroli", Modifier.weight(1f), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-                    IconButton(onClick = { leave { presetsOpen = false } }) { Icon(Icons.Default.Close, "Tutup preset dan patroli") }
+                    IconButton(onClick = { leave { presetsOpen = false } }) { Icon(Icons.Default.Close, stringResource(R.string.preset_patrol_close)) }
                 }
                 CameraManagementGroup(model, profile, feature, ManagementGroup.MOTOR, live = true)
                 feature.managementNotice?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }

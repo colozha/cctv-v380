@@ -17,11 +17,13 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import dev.cctv.v380.protocol.*
 import dev.cctv.v380.session.CameraProfile
+import dev.cctv.v380.R
 import kotlin.math.roundToInt
 
 @Composable
@@ -31,7 +33,7 @@ fun CameraAreaControls(model: CameraViewModel, profile: CameraProfile, feature: 
     val capabilities by model.session.capabilities.collectAsState()
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text("Area deteksi", style = MaterialTheme.typography.titleSmall)
-        Text("${area.rows} × ${area.columns} · ${area.cells.count { it == 1 }} sel dipilih")
+        Text(stringResource(R.string.selected_detection_cells, area.rows, area.columns, area.cells.count { it == 1 }))
         feature.areaError?.let { ErrorNotice(it) }
         when (feature.areaPhase) {
             AreaCapturePhase.CAPTURING -> {
@@ -78,6 +80,7 @@ fun AreaCaptureFeedback(loading: Boolean, error: String?) {
 @Composable
 fun CameraAreaEditor(bitmap: Bitmap, area: CameraAlarmArea, enabled: Boolean, onUse: (CameraAlarmArea) -> Unit, onCancel: () -> Unit) {
     require(CameraAreaProtocol.valid(area))
+    val imageDescription = stringResource(R.string.area_reference_accessibility, area.cells.count { it == 1 })
     var cells by remember(bitmap, area.source) { mutableStateOf(area.cells) }
     var row by remember(bitmap) { mutableIntStateOf(0) }
     var column by remember(bitmap) { mutableIntStateOf(0) }
@@ -87,7 +90,7 @@ fun CameraAreaEditor(bitmap: Bitmap, area: CameraAlarmArea, enabled: Boolean, on
         Text("Ketuk sel pada gambar atau pilih baris dan kolom. Gambar ini adalah referensi, bukan tayangan langsung.", style = MaterialTheme.typography.bodyMedium)
         Text("Jika arah kamera berubah, ambil gambar referensi ulang.", style = MaterialTheme.typography.bodySmall)
         Canvas(Modifier.fillMaxWidth().aspectRatio(bitmap.width.toFloat() / bitmap.height).testTag("area-grid")
-            .semantics { contentDescription = "Gambar referensi area. ${cells.count { it == 1 }} sel dipilih. Alternatif pemilihan tersedia di bawah gambar." }
+            .semantics { contentDescription = imageDescription }
             .pointerInput(enabled, bitmap, area.rows, area.columns) {
                 if (enabled) detectTapGestures { point ->
                     CameraAreaProtocol.cellAt(point.x, point.y, size.width.toFloat(), size.height.toFloat(), area.rows, area.columns)?.let { index ->
@@ -115,13 +118,13 @@ fun CameraAreaEditor(bitmap: Bitmap, area: CameraAlarmArea, enabled: Boolean, on
             drawRect(Color.Black, Offset(column * w, row * h), Size(w, h), style = Stroke(5.dp.toPx()))
             drawRect(Color.White, Offset(column * w, row * h), Size(w, h), style = Stroke(2.dp.toPx()))
         }
-        Text("${cells.count { it == 1 }} dari ${cells.size} sel dipilih", modifier = Modifier.testTag("area-count"))
+        Text(stringResource(R.string.selected_cells_count, cells.count { it == 1 }, cells.size), modifier = Modifier.testTag("area-count"))
         AreaCoordinateChoice("Baris", row, area.rows, enabled) { row = it }
         AreaCoordinateChoice("Kolom", column, area.columns, enabled) { column = it }
         val index = row * area.columns + column
         Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).toggleable(cells[index] == 1, enabled = enabled, role = Role.Switch,
             onValueChange = { checked -> cells = cells.toMutableList().also { it[index] = if (checked) 1 else 0 } }), verticalAlignment = Alignment.CenterVertically) {
-            Text("Pilih sel baris ${row + 1}, kolom ${column + 1}", Modifier.weight(1f))
+            Text(stringResource(R.string.choose_cell, row + 1, column + 1), Modifier.weight(1f))
             Switch(cells[index] == 1, onCheckedChange = null, enabled = enabled)
         }
         OutlinedButton(onClick = { cells = List(cells.size) { 1 } }, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Pilih semua") }
@@ -135,9 +138,9 @@ fun CameraAreaEditor(bitmap: Bitmap, area: CameraAlarmArea, enabled: Boolean, on
 private fun AreaCoordinateChoice(label: String, value: Int, count: Int, enabled: Boolean, change: (Int) -> Unit) {
     var open by remember { mutableStateOf(false) }
     Box {
-        OutlinedButton(onClick = { open = true }, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("$label ${value + 1}") }
+        OutlinedButton(onClick = { open = true }, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text(stringResource(R.string.label_number, localizedCopy(label), value + 1)) }
         DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
-            repeat(count) { index -> DropdownMenuItem(text = { Text("$label ${index + 1}") },
+            repeat(count) { index -> DropdownMenuItem(text = { Text(stringResource(R.string.label_number, localizedCopy(label), index + 1)) },
                 onClick = { change(index); open = false }, modifier = Modifier.heightIn(min = 48.dp)) }
         }
     }

@@ -29,7 +29,7 @@ spacing:
 
 ## Authority and platform
 
-The owner-supplied Home, Add Camera, AP Setup, Live and Settings references replace the former flat green Material composition on those surfaces. Mode: Operate. Retain Indonesian copy, Kotlin/Compose Material 3, native Android navigation, system-selected light/dark themes and font scaling. The accepted plan preserves all existing functions and validation. Recordings retains its own approved composition and palette. No new UI dependency is added.
+The owner-supplied Home, Add Camera, AP Setup, Live and Settings references replace the former flat green Material composition on those surfaces. Mode: Operate. Use resource-backed Indonesian and English copy, Kotlin/Compose Material 3, native Android navigation, app-selected light/dark themes (system theme until a choice is saved), and font scaling. The accepted plan preserves all existing functions and validation. Recordings retains its own approved composition and palette. No new UI dependency is added.
 
 ## Visual system
 
@@ -39,7 +39,7 @@ Use the Android Material type scale in sp: bold headline roles for page headings
 
 ## Home and profile editor
 
-Home leads with V380 LAN (LAN in mint), diagnostics/search, the Kamera Anda heading and an AP setup card. Saved camera cards show name, address, discovery evidence and a separate edit action. The discovered section carries the existing add/saved behavior and an overflow action for details/edit. Discovery is evidence of a response, not perpetual reachability: labels say Ditemukan or Belum diperiksa, never infer Offline from absence. Changing Wi-Fi clears old discovery results. The purple FAB has a visible Tambah kamera label and reserved list space.
+Home leads with V380 LAN (LAN in mint), app Settings and diagnostics/search actions, the Kamera Anda heading and an AP setup card. Saved camera cards show name, address, discovery evidence and a separate edit action. The discovered section carries the existing add/saved behavior and an overflow action for details/edit. Discovery is evidence of a response, not perpetual reachability: labels say Ditemukan or Belum diperiksa, never infer Offline from absence. Changing Wi-Fi clears old discovery results. The purple FAB has a visible Tambah kamera label and reserved list space.
 
 Add/Edit puts camera fields and protocol radio choices in one bordered panel; Port and Device ID have equal width. Protocol choices wrap when necessary. Remember-password and its conditional password controls form a separate panel, followed by a full-width save action. Existing protocol defaults, conditional username, field validation, Keystore behavior, password replacement and delete confirmation remain. Nonsecret drafts survive recreation; passwords are cleared on background/disposal.
 
@@ -58,6 +58,8 @@ Preset & patroli opens a scrollable Material bottom sheet with a close action, s
 Manual PTZ no longer depends on opening the preset UI. The ViewModel schedules one read of the existing MOTOR group per authenticated Live session after Streaming, waiting for conflicting work to finish. Authentication revision survives quality changes and changes on reconnect. A failed read has an explicit retry on the control card, with no automatic retry loop. Cancelled reads can be queued again. Stale session/profile replies cannot populate current controls. Streaming, capability/axis checks, maintenance/area-capture guards, inactive-patrol configuration, watchdog renewal and cancellation/release STOP remain authoritative.
 
 ## Settings
+
+App Settings is a separate destination from per-camera Pengaturan. Open it from the Home app bar and provide a native back action. Reuse the Home gutters, mint/charcoal palette, bordered 20dp cards, circular section icons, and Material type. Present two preference cards in order: Bahasa (EN · English / ID · Indonesia) and Tema (Light / Dark). The language applies to all app resources and persists; Indonesian is the initial language. Theme changes immediately and persists; before the first explicit choice, follow the system theme. Keep the selection controls accessible as radio choices and synchronize status/navigation bar icon contrast with the selected theme.
 
 Settings follows the owner's charcoal/mint card reference with the existing light counterpart. Use 16dp outer gutters, 12dp card spacing, 20dp bordered cards and circular mint section icons. Lead with Pengaturan kamera and its description. Cards appear in this order: Hotspot kamera, Jadwal lampu, Alarm dan deteksi gerakan, Preset dan patroli, Perangkat, Gambar, Lampu, Perekaman, Kartu SD. Only the header toggles expansion; multiple cards may remain open. Expansion starts closed and survives saved-state restoration per camera. Capture/edit of an alarm area forces that card open and disables collapsing.
 

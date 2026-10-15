@@ -1,6 +1,7 @@
 package dev.cctv.v380.ui
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -39,6 +40,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
@@ -56,25 +58,48 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.core.view.WindowCompat
 import dev.cctv.v380.control.Direction
 import dev.cctv.v380.discovery.DiscoveredCamera
 import dev.cctv.v380.session.*
 import dev.cctv.v380.provisioning.ProvisioningPhase
+import dev.cctv.v380.R
+
+internal val LocalAppDarkTheme = compositionLocalOf { false }
 
 class MainActivity : ComponentActivity() {
     private val model by lazy { ViewModelProvider(this)[CameraViewModel::class.java] }
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(AppPreferences.localizedContext(newBase))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { V380Theme { V380App(model) } }
+        setContent {
+            val preferences = remember { AppPreferences(this) }
+            var themeOverride by remember { mutableStateOf(preferences.theme) }
+            val darkTheme = themeOverride?.let { it == AppTheme.DARK } ?: isSystemInDarkTheme()
+            SideEffect {
+                WindowCompat.getInsetsController(window, window.decorView).apply {
+                    isAppearanceLightStatusBars = !darkTheme
+                    isAppearanceLightNavigationBars = !darkTheme
+                }
+            }
+            V380Theme(darkTheme) {
+                V380App(model, preferences, themeOverride, onThemeSelected = { selected ->
+                    preferences.theme = selected
+                    themeOverride = selected
+                })
+            }
+        }
     }
     override fun onResume() { super.onResume(); model.onForeground() }
     override fun onStop() { if (!isChangingConfigurations) model.onBackground(); super.onStop() }
 }
 
 @Composable
-fun V380Theme(content: @Composable () -> Unit) {
-    val scheme = if (isSystemInDarkTheme()) darkColorScheme(
+fun V380Theme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    val scheme = if (darkTheme) darkColorScheme(
         primary = Color(0xFF82DEB8), onPrimary = Color(0xFF06291D),
         primaryContainer = Color(0xFF12372D), onPrimaryContainer = Color(0xFFA0F0D3),
         secondary = Color(0xFFAAF2DF), onSecondary = Color(0xFF06382D),
@@ -101,11 +126,18 @@ fun V380Theme(content: @Composable () -> Unit) {
         surfaceVariant = Color(0xFFE7EEE9), onSurfaceVariant = Color(0xFF4C5E55),
         outline = Color(0xFF6C7D74), outlineVariant = Color(0xFFD9E2DC),
     )
-    MaterialTheme(colorScheme = scheme, content = content)
+    CompositionLocalProvider(LocalAppDarkTheme provides darkTheme) {
+        MaterialTheme(colorScheme = scheme, content = content)
+    }
 }
 
 @Composable
-fun V380App(model: CameraViewModel) {
+internal fun V380App(
+    model: CameraViewModel,
+    preferences: AppPreferences,
+    themeOverride: AppTheme?,
+    onThemeSelected: (AppTheme) -> Unit,
+) {
     val state by model.ui.collectAsStateWithLifecycle()
     val session by model.session.state.collectAsStateWithLifecycle()
     var selectedId by rememberSaveable { mutableStateOf<String?>(null) }
@@ -116,6 +148,7 @@ fun V380App(model: CameraViewModel) {
     var editorOpen by rememberSaveable { mutableStateOf(false) }
     var setupOpen by rememberSaveable { mutableStateOf(false) }
     var diagnosticsOpen by rememberSaveable { mutableStateOf(false) }
+    var appSettingsOpen by rememberSaveable { mutableStateOf(false) }
     var draftPlatform by rememberSaveable { mutableStateOf<Int?>(null) }
     var draftGeneration by rememberSaveable { mutableStateOf<Int?>(null) }
     var pendingPermission by remember { mutableStateOf<PendingNetworkAction?>(null) }
@@ -144,9 +177,22 @@ fun V380App(model: CameraViewModel) {
     DisposableEffect(Unit) { onDispose { pendingPermission?.cancel?.invoke(); pendingPermission = null } }
     val selected = state.profiles.firstOrNull { it.id == selectedId }
     val editing = state.profiles.firstOrNull { it.id == editingId }
+    BackHandler(appSettingsOpen) { appSettingsOpen = false }
     when {
         state.loading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
         diagnosticsOpen -> DiagnosticsScreen(model, onBack = { diagnosticsOpen = false })
+        appSettingsOpen -> AppSettingsScreen(
+            language = preferences.language,
+            theme = themeOverride ?: if (isSystemInDarkTheme()) AppTheme.DARK else AppTheme.LIGHT,
+            onLanguageSelected = { language ->
+                if (language != preferences.language) {
+                    preferences.language = language
+                    (context as? ComponentActivity)?.recreate()
+                }
+            },
+            onThemeSelected = onThemeSelected,
+            onBack = { appSettingsOpen = false },
+        )
         setupOpen -> ProvisioningScreen(model, onBack = { model.cancelSetup(); setupOpen = false },
             onComplete = { camera -> model.reloadAfterSetup(); selectedId = camera.id; setupOpen = false },
             requestApPermissions = { cancel, action -> withPermissions(apPermissions, onDenied = cancel, action = action) },
@@ -167,7 +213,8 @@ fun V380App(model: CameraViewModel) {
             onOpen = { selectedId = it.id; model.dismissError() },
             onEdit = { editingId = it.id; editorOpen = true; model.dismissError() },
             onFound = { editingId = null; draftHost = it.host; draftPort = it.port; draftDeviceId = it.deviceId; draftPlatform = it.platformType; draftGeneration = it.generation; editorOpen = true },
-            onSetup = { model.beginSetup(); setupOpen = true }, onDiagnostics = { diagnosticsOpen = true }, onDismissError = model::dismissError)
+            onSetup = { model.beginSetup(); setupOpen = true }, onDiagnostics = { diagnosticsOpen = true }, onDismissError = model::dismissError,
+            onSettings = { appSettingsOpen = true })
     }
 }
 
@@ -178,25 +225,28 @@ internal fun CameraList(
     onOpen: (CameraProfile) -> Unit, onEdit: (CameraProfile) -> Unit,
     onFound: (DiscoveredCamera) -> Unit, onDismissError: () -> Unit,
     onSetup: () -> Unit, onDiagnostics: () -> Unit,
+    onSettings: () -> Unit = {},
 ) {
+    val searchingDescription = stringResource(R.string.searching_for_cameras)
     Scaffold(
         topBar = { TopAppBar(title = { Text(buildAnnotatedString {
             append("V380 ")
             withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) { append("LAN") }
         }, fontWeight = FontWeight.Bold) }, actions = {
-            IconButton(onClick = onDiagnostics) { Icon(Icons.Default.Info, "Diagnostik LAN") }
+            IconButton(onClick = onSettings) { Icon(Icons.Default.Settings, stringResource(R.string.app_settings_title)) }
+            IconButton(onClick = onDiagnostics) { Icon(Icons.Default.Info, stringResource(R.string.lan_diagnostics)) }
             TextButton(onClick = if (state.scanning) onCancel else onScan) {
                 Icon(if (state.scanning) Icons.Default.Close else Icons.Default.Search, null)
-                Spacer(Modifier.width(8.dp)); Text(if (state.scanning) "Batal" else "Cari")
+                Spacer(Modifier.width(8.dp)); Text(stringResource(if (state.scanning) R.string.cancel else R.string.search))
             }
         }) },
         floatingActionButton = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 FloatingActionButton(onClick = onAdd, containerColor = MaterialTheme.colorScheme.tertiary,
                     contentColor = MaterialTheme.colorScheme.onTertiary, shape = RoundedCornerShape(20.dp)) {
-                    Icon(Icons.Default.Add, "Tambah kamera manual", Modifier.size(32.dp))
+                    Icon(Icons.Default.Add, stringResource(R.string.add_camera_manually), Modifier.size(32.dp))
                 }
-                Text("Tambah kamera", Modifier.padding(top = 8.dp), style = MaterialTheme.typography.labelMedium)
+                Text(stringResource(R.string.add_camera), Modifier.padding(top = 8.dp), style = MaterialTheme.typography.labelMedium)
             }
         },
     ) { insets ->
@@ -204,9 +254,9 @@ internal fun CameraList(
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 120.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)) {
             item {
-                Text("Kamera Anda", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.your_cameras), style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(8.dp))
-                Text("Pantau kamera melalui Wi-Fi yang sama.", style = MaterialTheme.typography.bodyLarge,
+                Text(stringResource(R.string.home_description), style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(20.dp))
                 Surface(onClick = onSetup, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp),
@@ -215,7 +265,7 @@ internal fun CameraList(
                     Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         SectionIcon(WifiIcon)
-                        Text("Setup lewat AP kamera", Modifier.weight(1f), color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        Text(stringResource(R.string.camera_ap_setup), Modifier.weight(1f), color = MaterialTheme.colorScheme.onPrimaryContainer,
                             style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                         Icon(Icons.Default.KeyboardArrowRight, null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
                     }
@@ -223,18 +273,18 @@ internal fun CameraList(
             }
             state.error?.let { message -> item { ErrorNotice(message, onDismissError) } }
             if (state.loading || state.scanning) item {
-                LinearProgressIndicator(Modifier.fillMaxWidth().semantics { contentDescription = "Mencari kamera" })
-                Text(if (state.loading) "Membaca profil…" else "Mencari kamera di Wi-Fi…", Modifier.padding(top = 8.dp),
+                LinearProgressIndicator(Modifier.fillMaxWidth().semantics { contentDescription = searchingDescription })
+                Text(stringResource(if (state.loading) R.string.reading_profiles else R.string.searching_on_wifi), Modifier.padding(top = 8.dp),
                     style = MaterialTheme.typography.bodyMedium)
             }
             if (!state.loading && state.profiles.isEmpty()) item {
                 CameraPanel {
                     CameraBadge()
-                    Text("Belum ada kamera", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-                    Text("Cari kamera di jaringan lokal atau tambahkan alamat IP secara manual.",
+                    Text(stringResource(R.string.no_cameras_yet), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.no_cameras_help),
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Button(onClick = onScan, enabled = !state.scanning, modifier = Modifier.heightIn(min = 48.dp)) { Text("Cari di Wi-Fi") }
-                    TextButton(onClick = onAdd, modifier = Modifier.heightIn(min = 48.dp)) { Text("Tambah manual") }
+                    Button(onClick = onScan, enabled = !state.scanning, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.search_on_wifi)) }
+                    TextButton(onClick = onAdd, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.add_manually)) }
                 }
             }
             items(state.profiles, key = { it.id }) { profile ->
@@ -249,20 +299,20 @@ internal fun CameraList(
                             Text("${profile.host}:${profile.port}", style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant)
                             val found = state.discovered.any { it.deviceId == profile.deviceId }
-                            StatusLabel(if (found) "Ditemukan di Wi-Fi" else "Belum diperiksa", found)
+                            StatusLabel(stringResource(if (found) R.string.found_on_wifi else R.string.not_checked), found)
                         }
-                        IconButton(onClick = { onEdit(profile) }) { Icon(Icons.Default.Edit, "Edit ${profile.name}") }
+                        IconButton(onClick = { onEdit(profile) }) { Icon(Icons.Default.Edit, stringResource(R.string.edit_camera_named, profile.name)) }
                     }
                 }
             }
             if (state.discovered.isNotEmpty() || state.scanCompleted) item {
                 HorizontalDivider(Modifier.padding(top = 12.dp, bottom = 20.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                Text("Ditemukan di Wi-Fi", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text("Kamera yang ditemukan pada jaringan Wi-Fi saat ini.", Modifier.padding(top = 8.dp),
+                Text(stringResource(R.string.found_on_wifi), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.cameras_found_description), Modifier.padding(top = 8.dp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium)
             }
             if (state.scanCompleted && state.discovered.isEmpty()) item {
-                Text("Tidak ada kamera ditemukan. Pastikan kamera menyala dan tersambung ke Wi-Fi yang sama, atau tambahkan IP manual.",
+                Text(stringResource(R.string.no_cameras_found),
                     style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             items(state.discovered, key = { "discovered-${it.deviceId}" }) { camera ->
@@ -272,28 +322,28 @@ internal fun CameraList(
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         CameraBadge(Modifier.size(48.dp))
                         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text(saved?.name ?: "Kamera ${camera.deviceId}", style = MaterialTheme.typography.titleMedium,
+                            Text(saved?.name ?: stringResource(R.string.camera_number, camera.deviceId), style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.SemiBold)
                             Text("${camera.host}:${camera.port}", style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            StatusLabel("Ditemukan", true)
+                            StatusLabel(stringResource(R.string.found), true)
                         }
                         Box {
-                            IconButton(onClick = { menu = true }) { Icon(Icons.Default.MoreVert, "Opsi kamera ${camera.deviceId}") }
+                        IconButton(onClick = { menu = true }) { Icon(Icons.Default.MoreVert, stringResource(R.string.camera_options, camera.deviceId)) }
                             DropdownMenu(menu, onDismissRequest = { menu = false }) {
-                                DropdownMenuItem(text = { Text(if (saved == null) "Lihat detail" else "Edit kamera") },
+                                DropdownMenuItem(text = { Text(stringResource(if (saved == null) R.string.view_details else R.string.edit_camera)) },
                                     onClick = { menu = false; if (saved == null) onFound(camera) else onEdit(saved) })
                             }
                         }
                     }
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                         if (saved != null) Surface(color = MaterialTheme.colorScheme.primaryContainer, shape = RoundedCornerShape(50)) {
-                            Text("Tersimpan", Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                            Text(stringResource(R.string.saved), Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                                 color = MaterialTheme.colorScheme.onPrimaryContainer, style = MaterialTheme.typography.labelLarge)
                         } else FilledTonalButton(onClick = { onFound(camera) }, modifier = Modifier.heightIn(min = 48.dp),
                             colors = ButtonDefaults.filledTonalButtonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 contentColor = MaterialTheme.colorScheme.onTertiaryContainer)) {
-                            Icon(Icons.Default.Add, null); Spacer(Modifier.width(8.dp)); Text("Tambah")
+                            Icon(Icons.Default.Add, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.add))
                         }
                     }
                 }
@@ -309,7 +359,8 @@ internal fun ProfileEditor(
     onSave: (CameraProfile, CharArray?, Boolean) -> Unit, onDelete: (CameraProfile) -> Unit,
 ) {
     val id = rememberSaveable { existing?.id ?: java.util.UUID.randomUUID().toString() }
-    var name by rememberSaveable { mutableStateOf(existing?.name ?: initialDeviceId?.let { "Kamera $it" }.orEmpty()) }
+    val defaultName = initialDeviceId?.let { stringResource(R.string.default_camera_name, it) }.orEmpty()
+    var name by rememberSaveable { mutableStateOf(existing?.name ?: defaultName) }
     var host by rememberSaveable { mutableStateOf(existing?.host ?: initialHost) }
     var port by rememberSaveable { mutableStateOf((existing?.port ?: initialPort).toString()) }
     var protocol by rememberSaveable { mutableStateOf(existing?.protocolProfileId ?: "auto") }
@@ -328,27 +379,27 @@ internal fun ProfileEditor(
         if (!value) { password = ""; replacePassword = false }
     }
     Scaffold(topBar = {
-        TopAppBar(title = { Text(if (existing == null) "Tambah kamera" else "Edit kamera") },
-            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") } },
-            actions = { if (existing != null) IconButton(onClick = { confirmDelete = true }, enabled = !saving) { Icon(Icons.Default.Delete, "Hapus kamera") } })
+        TopAppBar(title = { Text(stringResource(if (existing == null) R.string.add_camera else R.string.edit_camera)) },
+            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
+            actions = { if (existing != null) IconButton(onClick = { confirmDelete = true }, enabled = !saving) { Icon(Icons.Default.Delete, stringResource(R.string.delete_camera)) } })
     }) { insets ->
         Column(Modifier.fillMaxSize().padding(insets).imePadding().verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Text("Detail kamera", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
-            Text("Gunakan alamat dan akses lokal kamera. Profil protokol dipilih dari hasil discovery.", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.camera_details), style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.camera_details_help), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
             CameraPanel {
-            OutlinedTextField(name, { name = it.take(80) }, label = { Text("Nama kamera") }, leadingIcon = { Icon(CameraIcon, null) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
-            OutlinedTextField(host, { host = it }, label = { Text("Alamat IP") }, placeholder = { Text("192.168.1.10") }, leadingIcon = { Icon(WifiIcon, null) },
+            OutlinedTextField(name, { name = it.take(80) }, label = { Text(stringResource(R.string.camera_name)) }, leadingIcon = { Icon(CameraIcon, null) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+            OutlinedTextField(host, { host = it }, label = { Text(stringResource(R.string.ip_address)) }, placeholder = { Text("192.168.1.10") }, leadingIcon = { Icon(WifiIcon, null) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth(), singleLine = true)
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                OutlinedTextField(port, { port = it }, label = { Text("Port") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.weight(1f), singleLine = true)
+                OutlinedTextField(port, { port = it }, label = { Text(stringResource(R.string.port)) }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.weight(1f), singleLine = true)
                 OutlinedTextField(deviceId, { deviceId = it }, label = { Text("Device ID") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.weight(1f), singleLine = true)
             }
             if (protocol != "iot-lan" && (existing?.platformType ?: initialPlatform) != 2)
-                OutlinedTextField(username, { username = it }, label = { Text("Username kamera") }, leadingIcon = { Icon(Icons.Default.Person, null) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+                OutlinedTextField(username, { username = it }, label = { Text(stringResource(R.string.camera_username)) }, leadingIcon = { Icon(Icons.Default.Person, null) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
             HorizontalDivider(Modifier.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.outlineVariant)
-            Text("Protokol", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.protocol), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
             FlowRow(Modifier.selectableGroup(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("auto" to "Otomatis", "legacy-v2" to "Legacy V2", "iot-lan" to "IoT LAN").forEach { (id, label) ->
+                listOf("auto" to stringResource(R.string.automatic), "legacy-v2" to "Legacy V2", "iot-lan" to "IoT LAN").forEach { (id, label) ->
                     val selected = protocol == id
                     Surface(shape = RoundedCornerShape(14.dp),
                         color = if (selected) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surfaceContainer,
@@ -363,22 +414,22 @@ internal fun ProfileEditor(
                     }
                 }
             }
-            if (protocol != "auto") Text("Pilih manual hanya jika generasi protokol sudah diketahui. Tidak ada percobaan format login alternatif.", style = MaterialTheme.typography.bodySmall)
+            if (protocol != "auto") Text(stringResource(R.string.manual_protocol_warning), style = MaterialTheme.typography.bodySmall)
             }
             CameraPanel {
             Row(Modifier.fillMaxWidth().toggleable(rememberPassword, role = Role.Checkbox, onValueChange = ::setRemember).heightIn(min = 56.dp), verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(rememberPassword, onCheckedChange = null)
                 Spacer(Modifier.width(8.dp)); Column {
-                    Text("Ingat password", style = MaterialTheme.typography.titleSmall)
-                    Text("Terenkripsi di perangkat ini", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.remember_password), style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(R.string.encrypted_on_device), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
             if (rememberPassword) {
                 if (existing?.hasSavedPassword == true) TextButton(onClick = { replacePassword = !replacePassword; password = "" }) {
-                    Text(if (replacePassword) "Pertahankan password tersimpan" else "Ganti password tersimpan")
+                    Text(stringResource(if (replacePassword) R.string.keep_saved_password else R.string.replace_saved_password))
                 }
                 if (existing?.hasSavedPassword != true || replacePassword) OutlinedTextField(password, { password = it },
-                    label = { Text("Password kamera") }, supportingText = { Text("Biarkan kosong jika kamera tidak memakai password.") },
+                    label = { Text(stringResource(R.string.camera_password)) }, supportingText = { Text(stringResource(R.string.password_optional)) },
                     visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), modifier = Modifier.fillMaxWidth(), singleLine = true)
             }
             }
@@ -395,14 +446,14 @@ internal fun ProfileEditor(
                     onSave(profile, secret, rememberPassword)
                 }
             }, enabled = !saving, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) {
-                Icon(SaveIcon, null); Spacer(Modifier.width(12.dp)); Text(if (saving) "Menyimpan…" else "Simpan kamera")
+                Icon(SaveIcon, null); Spacer(Modifier.width(12.dp)); Text(stringResource(if (saving) R.string.saving else R.string.save_camera))
             }
         }
     }
     if (confirmDelete && existing != null) AlertDialog(onDismissRequest = { confirmDelete = false },
-        title = { Text("Hapus kamera?") }, text = { Text("Profil ${existing.name} dan password tersimpannya akan dihapus dari perangkat ini.") },
-        confirmButton = { TextButton(onClick = { confirmDelete = false; onDelete(existing) }) { Text("Hapus") } },
-        dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("Batal") } })
+        title = { Text(stringResource(R.string.delete_camera_question)) }, text = { Text(stringResource(R.string.delete_camera_help, existing.name)) },
+        confirmButton = { TextButton(onClick = { confirmDelete = false; onDelete(existing) }) { Text(stringResource(R.string.delete)) } },
+        dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.cancel)) } })
 }
 
 @Composable
@@ -410,7 +461,7 @@ internal fun ErrorNotice(message: String, onDismiss: (() -> Unit)? = null) {
     Surface(modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite }, color = MaterialTheme.colorScheme.errorContainer, shape = RoundedCornerShape(12.dp)) {
         Column(Modifier.fillMaxWidth().padding(16.dp)) {
             Text(message, color = MaterialTheme.colorScheme.onErrorContainer, style = MaterialTheme.typography.bodyMedium)
-            if (onDismiss != null) TextButton(onClick = onDismiss) { Text("Tutup") }
+            if (onDismiss != null) TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) }
         }
     }
 }

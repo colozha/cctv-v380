@@ -20,6 +20,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import dev.cctv.v380.R
 
 @Composable
 internal fun SettingsCard(profileId: String, title: String, icon: ImageVector, summary: String? = null,
@@ -27,11 +29,13 @@ internal fun SettingsCard(profileId: String, title: String, icon: ImageVector, s
     content: @Composable ColumnScope.() -> Unit) {
     var open by rememberSaveable(profileId, title) { mutableStateOf(false) }
     val expanded = open || !canCollapse
+    val stateDescription = stringResource(if (expanded) R.string.section_expanded else R.string.section_collapsed)
+    val clickLabel = stringResource(if (expanded) R.string.close_section else R.string.open_section, localizedCopy(title))
     CameraPanel {
         Row(Modifier.fillMaxWidth().heightIn(min = 48.dp)
-            .semantics { stateDescription = if (expanded) "Terbuka" else "Tertutup" }
+            .semantics { this.stateDescription = stateDescription }
             .clickable(enabled = canCollapse, role = Role.Button,
-                onClickLabel = if (expanded) "Tutup $title" else "Buka $title") { open = !open },
+                onClickLabel = clickLabel) { open = !open },
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             SectionIcon(icon)
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {

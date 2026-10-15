@@ -1,6 +1,5 @@
 package dev.cctv.v380.ui
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
@@ -14,8 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.cctv.v380.protocol.ManagementGroup
+import dev.cctv.v380.R
 import dev.cctv.v380.protocol.CameraSettingsProtocol as P
 import dev.cctv.v380.session.*
 
@@ -31,7 +32,7 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
     fun int(id: Int): Int? = feature.draft[id] as? Int ?: settings?.int(id)
     fun bool(id: Int): Boolean? = feature.draft[id] as? Boolean ?: settings?.bool(id)
     val unfilled = "Muat pengaturan kamera untuk melihat nilai yang tersedia."
-    val dark = isSystemInDarkTheme()
+    val dark = LocalAppDarkTheme.current
     val scheme = MaterialTheme.colorScheme.copy(
         errorContainer = if (dark) Color(0xFF3B1F24) else Color(0xFFFFE8E9),
         onErrorContainer = if (dark) Color(0xFFFFB4B8) else Color(0xFF8C202B))
@@ -102,7 +103,7 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
                     val choices = listOf(1 to "SD", 2 to "HD", 3 to "Full HD").filter { it.first in caps?.recordingQualities.orEmpty() }
                     if (quality in 1..3) {
                         if (choices.isNotEmpty()) SettingChoices("Kualitas rekaman", quality!!, choices, enabled) { model.draftSetting(P.RECORD_QUALITY, it) }
-                        else Text("Kualitas saat ini: ${listOf("SD", "HD", "Full HD")[quality!! - 1]}. Pilihan lainnya belum dikonfirmasi kamera.",
+                        else Text(stringResource(R.string.current_quality_unverified, listOf("SD", "HD", "Full HD")[quality!! - 1]),
                             style = MaterialTheme.typography.bodyMedium, color = scheme.onSurfaceVariant)
                     }
                     bool(P.RECORD_AUDIO)?.let { SettingSwitch("Sertakan audio di rekaman SD", it, enabled) { value -> model.draftSetting(P.RECORD_AUDIO, value) } }
@@ -123,7 +124,7 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
                 else {
                     Text(sdStatus(settings.int(P.SD_STATUS)), style = MaterialTheme.typography.bodyMedium)
                     P.remainingPercent(settings)?.let { remaining ->
-                        Text("$remaining% ruang kartu tersedia", style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
+                        Text(stringResource(R.string.remaining_card_space, remaining), style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
                         LinearProgressIndicator(progress = { remaining / 100f }, modifier = Modifier.fillMaxWidth().height(8.dp),
                             trackColor = scheme.outlineVariant, gapSize = 0.dp, drawStopIndicator = {})
                     }
@@ -170,7 +171,7 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
 fun SdFormatConfirmation(cameraName: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
     AlertDialog(onDismissRequest = onDismiss,
         title = { Text("Format SD card?") },
-        text = { Text("Semua rekaman pada kartu SD kamera “$cameraName” akan dihapus. Simpan rekaman yang diperlukan terlebih dahulu. Setelah dikirim, proses format tidak dapat dibatalkan dari aplikasi.") },
+        text = { Text(stringResource(R.string.format_camera_confirmation, cameraName)) },
         confirmButton = { TextButton(onClick = onConfirm,
             colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)) { Text("Hapus rekaman dan format") } },
         dismissButton = { TextButton(onClick = onDismiss) { Text("Batal") } })
@@ -188,9 +189,9 @@ private fun SettingSwitch(label: String, value: Boolean, enabled: Boolean, chang
 @Composable
 private fun UnsupportedSetting(settings: CameraSettings, id: Int, label: String) {
     Text(when (settings.rejected[id]) {
-        1109 -> "$label tidak diizinkan untuk akses kamera ini."
-        null -> "$label belum dapat dikonfirmasi kamera."
-        else -> "$label tidak tersedia pada kamera ini."
+        1109 -> stringResource(R.string.setting_not_allowed, localizedCopy(label).lowercase())
+        null -> stringResource(R.string.unsupported_setting_unconfirmed, localizedCopy(label).lowercase())
+        else -> stringResource(R.string.setting_not_available, localizedCopy(label).lowercase())
     }, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
 }
 
