@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-15",
+  "recorded_at": "2026-10-15T06:17:14.536633+07:00",
+  "timezone": "Asia/Jakarta",
+  "status": "partial_implementation_protocol_blocked",
+  "source_sha256": "98985553455ba018f2556b35fd5950b79ef5d5d391f96850c01b61056334b2a1",
+  "app_version": "0.4.3-experimental",
+  "build": {
+    "debug": "passed",
+    "debug_android_test": "passed",
+    "log": "offline-build.log",
+    "command": "offline-build-command.sh",
+    "apk_sha256": "a720618104d0f4fa0d58d7ff7ec96f011066ffa818cb45ccc3bb57105df01869"
+  },
+  "jvm": {
+    "tests": 73,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "scope": "Selected protocol, guards, diagnostics, export copy and encrypted in-memory transcripts; no real sockets.",
+    "suites": [
+      {
+        "name": "dev.cctv.v380.ApProtocolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.DiagnosticsTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.ManagementSessionGuardTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.RecordingExportCopyTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.RecordingReplayTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.SdMaintenanceTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.ApHotspotTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.CameraAreaProtocolTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.CameraFeatureProtocolTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.CameraManagementProtocolTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.IoTMediaProtocolTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.IoTProtocolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.LegacyProtocolTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 18,
+    "hints": 1,
+    "report": "lint-results-debug.xml"
+  },
+  "implemented": [
+    "Identity/revision/correlation-checked read-only SD recovery.",
+    "Operation-scoped format API, durable marker sync/readback, ID-matched verified cleanup.",
+    "Pending controls available without settings, explicit close confirmation, unknown outcome preserved.",
+    "2-second polling with a 120-second deadline prepared behind the existing format gate."
+  ],
+  "blocked": {
+    "recording_delete": "No proven TF delete opcode/target/shared-source boundary/readback. No writer, pending-delete schema or destructive dialog added.",
+    "sd_format": "Action131584 proven; terminal131330 semantics and operation correlation unproven. FORMAT_STATUS_VERIFIED remains false. No terminal evaluator or success behavior claimed."
+  },
+  "runtime": {
+    "instrumentation_compiled": true,
+    "instrumentation_run": false,
+    "visual_review_completed": false,
+    "new_verified_screenshots": 0,
+    "prepared_command": "runtime-command.sh",
+    "attempts": [
+      {
+        "avd": "Medium_Phone_API_37.0",
+        "mode": "KVM, swiftshader",
+        "exit_code": 139,
+        "boot_completed": false,
+        "log": "emulator-kvm.log"
+      },
+      {
+        "avd": "Medium_Phone_API_37.0",
+        "mode": "-accel off, swiftshader, 2 cores, 1536 MiB",
+        "exit_code": 139,
+        "boot_completed": false,
+        "log": "emulator-software.log"
+      }
+    ]
+  },
+  "connection_tests_run": false,
+  "physical_camera_tested": false,
+  "camera_destructive_commands_sent": false,
+  "not_verified": [
+    "Active format write path: lost ACK, storage callback cancellation and process recreation after write.",
+    "Polling timing and terminal-success/failure evaluation; no terminal contract fixture exists.",
+    "Native storage/UI tests and light/dark/large-font/landscape visual review.",
+    "Per-segment SD deletion, readback, shared-source safety and physical-firmware acceptance."
+  ]
+}

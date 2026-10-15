@@ -1,0 +1,39 @@
+DEX classes6.dex method Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->run()V code_item_offset=5506496 registers=5
+0000 dex@005405d0 iget-object              v0 v4 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->this$0:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0002 dex@005405d4 iget-object              v1 v0 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->mDeviceInfo:Lcom/macrovideo/sdk/objects/DeviceInfo;
+0004 dex@005405d8 invoke-static            v0 v1 Lcom/macrovideo/v380/utils/GlobalDefines;->loginForSetting(Landroid/content/Context;Lcom/macrovideo/sdk/objects/DeviceInfo;)Lcom/macrovideo/sdk/media/LoginHandle;
+0007 dex@005405de move-result-object       v0 
+0008 dex@005405e0 const/4                  v1 #1 
+0009 dex@005405e2 if-eqz                   v0  -> 0037
+000b dex@005405e6 invoke-virtual           v0 Lcom/macrovideo/sdk/media/LoginHandle;->getnResult()I
+000e dex@005405ec move-result              v2 
+000f dex@005405ee const/16                 v3 #256 
+0011 dex@005405f2 if-ne                    v2 v3  -> 0037
+0013 dex@005405f6 iget-object              v2 v4 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->this$0:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0015 dex@005405fa iget-object              v2 v2 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->mDeviceInfo:Lcom/macrovideo/sdk/objects/DeviceInfo;
+0017 dex@005405fe invoke-static            v2 v0 Lcom/macrovideo/sdk/setting/DeviceSDCardSetting;->setSDCardFormat(Lcom/macrovideo/sdk/objects/DeviceInfo;Lcom/macrovideo/sdk/media/LoginHandle;)I
+001a dex@00540604 move-result              v0 
+001b dex@00540606 iget                     v2 v4 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->nSDCareID:I
+001d dex@0054060a iget-object              v3 v4 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->this$0:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+001f dex@0054060e invoke-static            v3 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->access$800(Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;)I
+0022 dex@00540614 move-result              v3 
+0023 dex@00540616 if-ne                    v2 v3  -> 0036
+0025 dex@0054061a iget-object              v2 v4 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->mHandler:Landroid/os/Handler;
+0027 dex@0054061e if-eqz                   v2  -> 0036
+0029 dex@00540622 invoke-virtual           v2 Landroid/os/Handler;->obtainMessage()Landroid/os/Message;
+002c dex@00540628 move-result-object       v2 
+002d dex@0054062a iput                     v1 v2 Landroid/os/Message;->what:I
+002f dex@0054062e iput                     v0 v2 Landroid/os/Message;->arg1:I
+0031 dex@00540632 iget-object              v0 v4 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->mHandler:Landroid/os/Handler;
+0033 dex@00540636 invoke-virtual           v0 v2 Landroid/os/Handler;->sendMessage(Landroid/os/Message;)Z
+0036 dex@0054063c return-void              
+0037 dex@0054063e iget-object              v0 v4 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->mHandler:Landroid/os/Handler;
+0039 dex@00540642 if-eqz                   v0  -> 0049
+003b dex@00540646 invoke-virtual           v0 Landroid/os/Handler;->obtainMessage()Landroid/os/Message;
+003e dex@0054064c move-result-object       v0 
+003f dex@0054064e iput                     v1 v0 Landroid/os/Message;->arg1:I
+0041 dex@00540652 const/4                  v1 #-1 
+0042 dex@00540654 iput                     v1 v0 Landroid/os/Message;->arg2:I
+0044 dex@00540658 iget-object              v1 v4 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity$ThreadSDCard;->mHandler:Landroid/os/Handler;
+0046 dex@0054065c invoke-virtual           v1 v0 Landroid/os/Handler;->sendMessage(Landroid/os/Message;)Z
+0049 dex@00540662 return-void              

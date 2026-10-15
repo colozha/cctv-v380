@@ -59,13 +59,16 @@ class FeatureStorageAndExportTest {
         val profile = CameraProfile(name = "Synthetic SD", host = "192.0.2.10", deviceId = "synthetic-sd")
         try {
             val store = ProfileStore(context, file)
-            store.savePendingFormat(profile)
+            val pending = store.savePendingFormat(profile, "format-storage-op")
             val restored = ProfileStore(context, file).loadPendingFormat()!!
+            assertEquals(pending, restored)
             assertEquals(profile.id, restored.profileId); assertEquals(profile.deviceId, restored.deviceId)
             assertThrows(IllegalArgumentException::class.java) { store.savePendingFormat(profile) }
             val text = File(dir, "pending-sd-format.json").readText()
             for (forbidden in listOf("password", "secret", "sessionId", "handle", "key")) assertFalse(text.contains(forbidden))
-            store.clearPendingFormat(); assertNull(ProfileStore(context, file).loadPendingFormat())
+            assertThrows(IllegalArgumentException::class.java) { store.clearPendingFormat("stale-op") }
+            assertEquals(restored, store.loadPendingFormat())
+            store.clearPendingFormat(restored.operationId); assertNull(ProfileStore(context, file).loadPendingFormat())
         } finally { dir.deleteRecursively() }
     }
 
@@ -103,6 +106,23 @@ class FeatureStorageAndExportTest {
             assertFalse(store.loadPendingFormat()!!.operationId.startsWith("legacy:"))
             File(dir, "pending-camera-restart.json").writeText("broken")
             assertThrows(Exception::class.java) { store.savePendingRestart(pending) }
+        } finally { dir.deleteRecursively() }
+    }
+
+    @Test fun formatMarkerRejectsInvalidIdsAndStorageFailureBeforeSubmission() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val dir = File(context.cacheDir, "format-write-failure-${UUID.randomUUID()}").apply { mkdirs() }
+        val profile = CameraProfile(name = "Synthetic SD", host = "192.0.2.10", deviceId = "synthetic-sd")
+        try {
+            val store = ProfileStore(context, File(dir, "profiles.json"))
+            for (id in listOf("", " ", "x".repeat(257))) {
+                assertThrows(IllegalArgumentException::class.java) { store.savePendingFormat(profile, id) }
+                assertNull(store.loadPendingFormat())
+            }
+            val blockedParent = File(dir, "not-a-directory").apply { writeText("synthetic") }
+            val unavailable = ProfileStore(context, File(blockedParent, "profiles.json"))
+            assertThrows(java.io.IOException::class.java) { unavailable.savePendingFormat(profile, "not-sent") }
+            assertNull(unavailable.loadPendingFormat())
         } finally { dir.deleteRecursively() }
     }
 

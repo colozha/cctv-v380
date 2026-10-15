@@ -41,7 +41,7 @@ fun recordingDownloadMessage(error: Exception): String = when (val reason = Came
 }
 
 // No per-file TF deletion contract has been recovered from the reference APK.
-const val RECORDING_DELETE_UNAVAILABLE = "Hapus rekaman SD belum tersedia untuk kamera ini"
+const val RECORDING_DELETE_UNAVAILABLE = "Hapus rekaman SD satu per satu belum didukung aplikasi"
 
 fun recordingStorageWarning(storage: CameraSettings): String? {
     val status = storage.int(CameraSettingsProtocol.SD_STATUS)

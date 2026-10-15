@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.RecordingReplayTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-14T23:15:07.814Z" hostname="fedora" time="0.266">
+  <properties/>
+  <testcase name="exporterWrappingPreservesTheUnderlyingCauseAndUserMessageDoesNotBlameEveryFailureOnWifi" classname="dev.cctv.v380.RecordingReplayTest" time="0.008"/>
+  <testcase name="invalidTimestampIsDistinctFromNetworkFailureAndHasReplayCounters" classname="dev.cctv.v380.RecordingReplayTest" time="0.051"/>
+  <testcase name="eofTimeoutRejectionCorrelationAndTimeIdFailuresKeepTheirSpecificCauses" classname="dev.cctv.v380.RecordingReplayTest" time="0.041"/>
+  <testcase name="playbackAndDownloadCrossMultipleFrameWindowsAndFinishOnlyAfterEndNotification" classname="dev.cctv.v380.RecordingReplayTest" time="0.165"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

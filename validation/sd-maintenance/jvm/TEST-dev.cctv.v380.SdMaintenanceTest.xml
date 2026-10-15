@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.SdMaintenanceTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-14T23:15:08.083Z" hostname="fedora" time="0.045">
+  <properties/>
+  <testcase name="revokedSessionCannotCommitReadbackAndMissingPropertiesStayUnknown" classname="dev.cctv.v380.SdMaintenanceTest" time="0.02"/>
+  <testcase name="recoveryReadsExactlyThreePropertiesWhileWritesAreBlockedAndNeverSendsFormat" classname="dev.cctv.v380.SdMaintenanceTest" time="0.008"/>
+  <testcase name="timeoutAndDenialDoNotRetryOrAuthorizeAWrite" classname="dev.cctv.v380.SdMaintenanceTest" time="0.004"/>
+  <testcase name="everyResponseIncludingAuthenticationErrorsRequiresStrictCorrelation" classname="dev.cctv.v380.SdMaintenanceTest" time="0.01"/>
+  <testcase name="recoveryRejectsWrongProfileOrDeviceBeforeOpeningTransport" classname="dev.cctv.v380.SdMaintenanceTest" time="0.001"/>
+  <testcase name="onlyKnownSdStatusProvesProgressAndRawFormatValuesDoNotOpenTheWriter" classname="dev.cctv.v380.SdMaintenanceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

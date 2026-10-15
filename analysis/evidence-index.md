@@ -278,3 +278,7 @@ Implementasi hotspot menambah [konstanta network](evidence/ap-hotspot-network-co
 | [area-stage3-cam-type.sanitized.json](evidence/area-stage3-cam-type.sanitized.json) | `ev_f4662034bee1af20ce7ae49a55bc0baf3bca55319aa289078981bf8f0c68094a` | `1b6cd5776a63f3e4c294cf4bcca9ab443ef7b4eea2518f33c1c2eb3b72c32b1c` |
 | [area-stage3-lens-ordinal.dex.txt](evidence/area-stage3-lens-ordinal.dex.txt) | DEX statis / descriptor terpilih | `bd6f173717ff929f9b8d2279684d203ae2ce404cd3de82cc6e83c15b8b0147ee` |
 | [area-stage3-property-parser.dex.txt](evidence/area-stage3-property-parser.dex.txt) | DEX statis / descriptor terpilih | `88a6cc76bfaadec86f54d3a30d5c27a186d0cc828c1c07d47c49557288ac3d87` |
+
+## Hapus rekaman dan format SD — 15 Oktober 2026
+
+[Laporan dan batas](sd-maintenance-wire.md), [manifest SHA-256 input/alat/kolektor/hasil](evidence/sd-maintenance-static-summary.json). Bukti baru seluruhnya statis pelengkap, bukan canonical REA atau runtime kamera: scan5.429.555 instruksi DEX, excerpt parser format/ThreadSDCard, serta simbol ELF empat library arm64. String bebas/array DEX dikecualikan. Kontrak delete TF dan enum terminal format tetap belum terbukti; ketiadaan nama simbol bukan bukti semua firmware tidak mendukungnya. Source APK sama dengan investigasi sebelumnya, tidak dieksekusi atau dipaketkan ulang. Validasi aplikasi dicatat terpisah pada [hasil terbaru](../validation/sd-maintenance/results.json).

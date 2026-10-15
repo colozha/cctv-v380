@@ -27,7 +27,10 @@ class ManagementSessionGuardTest {
             rejected { session.presetAction(snapshot, 0, 1, "one") }
             rejected { session.calibrateCamera(snapshot, "two") { fail("No calibration marker before authentication") } }
             rejected { session.restartCamera("synthetic", "synthetic-device", "three") { fail("No pending marker for an unauthenticated request") } }
-            rejected { session.sendSdFormat() }
+            rejected { session.sendSdFormat("synthetic", "synthetic-device", "format-op",
+                beforeWrite = { fail("Gated format must not save a marker") },
+                onWriteStarted = { fail("Gated format must not submit a write") }) }
+            rejected { session.readSdFormatStatus("synthetic", "synthetic-device") }
             session.blockMaintenanceWrites(true)
             assertTrue(session.maintenancePending)
             rejected { session.saveSettings(mapOf(CameraSettingsProtocol.LIGHT_MODE to 1), CameraSettings(mapOf(CameraSettingsProtocol.LIGHT_MODE to 0), emptyMap())) }

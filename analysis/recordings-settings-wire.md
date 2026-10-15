@@ -1,5 +1,7 @@
 # Rekaman dan pengaturan IoT LAN — 0.3.0
 
+Addendum15Oktober2026: [investigasi hapus/format SD dan pemulihan operasi](sd-maintenance-wire.md). Kedua fitur tetap gated; pemeriksaan format tertunda, identitas sesi, persistensi dan cleanup operation ID diperkuat. [Validasi source terbaru](../validation/sd-maintenance/results.json).
+
 14 Oktober 2026. Implementasi independen, eksperimental pada debug; belum diuji dengan kamera. Rencana acuan: [recordings-settings-implementation-plan.md](recordings-settings-implementation-plan.md). Tidak ada library atau kode native vendor yang dipaketkan.
 
 ## Asal bukti

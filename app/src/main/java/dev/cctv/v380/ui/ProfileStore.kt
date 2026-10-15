@@ -165,13 +165,18 @@ class ProfileStore(
     fun clearPendingSetup() { pending.delete() }
 
     @Synchronized
-    fun savePendingFormat(profile: CameraProfile) {
+    fun savePendingFormat(profile: CameraProfile, operationId: String = java.util.UUID.randomUUID().toString()): PendingSdFormat {
         require(profile.validationError() == null && loadPendingFormat() == null)
-        val bytes = JSONObject().put("version", 2).put("operationId", java.util.UUID.randomUUID().toString()).put("profileId", profile.id)
-            .put("deviceId", profile.deviceId).put("createdAtMs", System.currentTimeMillis()).toString().toByteArray()
+        require(operationId.isNotBlank() && operationId.length <= 256)
+        val value = PendingSdFormat(profile.id, profile.deviceId, System.currentTimeMillis(), operationId)
+        val bytes = JSONObject().put("version", 2).put("operationId", value.operationId).put("profileId", value.profileId)
+            .put("deviceId", value.deviceId).put("createdAtMs", value.createdAtMs).toString().toByteArray()
         val output = pendingFormat.startWrite()
-        try { output.write(bytes); pendingFormat.finishWrite(output) }
+        try { output.write(bytes); output.fd.sync(); pendingFormat.finishWrite(output) }
         catch (error: Throwable) { pendingFormat.failWrite(output); throw error }
+        // AtomicFile.finishWrite can log a rename failure without throwing; verify before authorizing a write.
+        if (loadPendingFormat() != value) throw java.io.IOException("Pending format marker was not persisted")
+        return value
     }
 
     @Synchronized
@@ -181,15 +186,16 @@ class ProfileStore(
         require(json.getInt("version") in 1..2)
         val operationId = if (json.getInt("version") == 2) json.getString("operationId") else "legacy:${json.getString("profileId")}:${json.getLong("createdAtMs")}"
         return PendingSdFormat(json.getString("profileId"), json.getString("deviceId"), json.getLong("createdAtMs"), operationId).also {
-            require(it.operationId.length in 1..256)
+            require(it.operationId.isNotBlank() && it.operationId.length <= 256)
             require(it.profileId.length in 1..128 && it.deviceId.length in 1..128 && it.createdAtMs >= 0)
         }
     }
 
     @Synchronized
-    fun clearPendingFormat(operationId: String? = null) {
-        if (operationId != null) require(loadPendingFormat()?.operationId == operationId)
+    fun clearPendingFormat(operationId: String) {
+        require(loadPendingFormat()?.operationId == operationId)
         pendingFormat.delete()
+        if (loadPendingFormat() != null) throw java.io.IOException("Pending format marker was not removed")
     }
 
     @Synchronized

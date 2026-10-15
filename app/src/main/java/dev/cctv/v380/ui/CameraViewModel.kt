@@ -52,7 +52,7 @@ enum class AreaCapturePhase { IDLE, CAPTURING, EDITING, STAGED, ERROR }
 data class CameraAreaImage(val reference: AreaReference, val bitmap: Bitmap)
 
 enum class DownloadPhase { IDLE, CHOOSING_DESTINATION, AWAITING_ACCESS, DOWNLOADING, SAVING, COMPLETE, CANCELLED, FAILED }
-enum class SdFormatPhase { IDLE, SENDING, CHECKING, UNKNOWN, REJECTED }
+enum class SdFormatPhase { IDLE, SENDING, CHECKING, FORMATTING, UNKNOWN, NOT_SENT, REJECTED }
 enum class ApEditPhase { IDLE, CHECKING, SENDING, RECONNECTING, WAITING_WIFI, VERIFYING, VERIFIED, NOT_SENT, REJECTED, UNKNOWN }
 data class CameraFeatureState(
     val profileId: String? = null, val tab: CameraTab = CameraTab.LIVE,
@@ -889,40 +889,109 @@ class CameraViewModel @JvmOverloads constructor(application: Application,
         val state = features.value
         val settings = state.settings ?: return
         if (!CameraSettingsProtocol.FORMAT_STATUS_VERIFIED || state.busy || !state.pendingLoaded || state.pendingFormat != null || state.draft.isNotEmpty() ||
+            state.download in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS, DownloadPhase.DOWNLOADING, DownloadPhase.SAVING) ||
             settings.int(CameraSettingsProtocol.SD_STATUS) !in setOf(1, 2, 3, 8) ||
-            settings.int(CameraSettingsProtocol.SD_FORMAT_STATE) == null || session.connectedProfile?.id != profile.id) return
+            settings.int(CameraSettingsProtocol.SD_FORMAT_STATE) == null || state.profileId != profile.id ||
+            !session.isAuthenticated(profile.id) || session.connectedProfile?.deviceId != profile.deviceId) return
         launchFeature(DiagnosticStage.SD_FORMAT, mutating = true) {
-            val pending = withContext(NonCancellable + Dispatchers.IO) { store.savePendingFormat(profile); store.loadPendingFormat() }
-            mutableFeatures.update { it.copy(pendingFormat = pending, format = SdFormatPhase.SENDING, recordingsLoaded = false, recordings = emptyList()) }
-            currentCoroutineContext().ensureActive()
-            try { session.sendSdFormat() }
-            catch (error: Exception) {
-                if (error is IoTProtocolException && error.kind in setOf(IoTFailure.DeviceRejected, IoTFailure.PermissionDenied, IoTFailure.AuthenticationFailed)) {
-                    withContext(NonCancellable + Dispatchers.IO) { store.clearPendingFormat() }
-                    mutableFeatures.update { it.copy(pendingFormat = null, format = SdFormatPhase.REJECTED) }
-                } else mutableFeatures.update { it.copy(format = SdFormatPhase.UNKNOWN) }
-                throw error
+            val version = featureVersion
+            val operationId = java.util.UUID.randomUUID().toString()
+            var pending: PendingSdFormat? = null
+            var started = false
+            var rejected = false
+            try {
+                try {
+                    session.sendSdFormat(profile.id, profile.deviceId, operationId, beforeWrite = {
+                        withContext(NonCancellable + Dispatchers.IO) { pending = store.savePendingFormat(profile, operationId) }
+                        if (version == featureVersion && features.value.profileId == profile.id)
+                            mutableFeatures.update { it.copy(pendingFormat = pending, format = SdFormatPhase.SENDING) }
+                    }, onWriteStarted = {
+                        started = true
+                        if (version == featureVersion && features.value.profileId == profile.id) {
+                            clearRecordingStorage()
+                            mutableFeatures.update { it.copy(recordingsLoaded = false, recordings = emptyList(), selected = null, paused = true) }
+                        }
+                    })
+                } catch (error: Exception) {
+                    // Only a correlated response to the action can prove rejection, not a later GET error.
+                    rejected = started && error is IoTProtocolException && error.kind in setOf(IoTFailure.DeviceRejected,
+                        IoTFailure.PermissionDenied, IoTFailure.AuthenticationFailed, IoTFailure.SessionExpired)
+                    throw error
+                }
+                currentCoroutineContext().ensureActive()
+                if (version != featureVersion || features.value.profileId != profile.id) throw CancellationException()
+                mutableFeatures.update { it.copy(format = SdFormatPhase.CHECKING) }
+                withTimeoutOrNull(120_000) {
+                    while (true) {
+                        delay(2000)
+                        val marker = pending ?: throw CameraFailure(SessionError.StorageUnavailable)
+                        updateFormatReadback(marker, session.readSdFormatStatus(marker.profileId, marker.deviceId), version)
+                    }
+                }
+                mutableFeatures.update { it.copy(format = SdFormatPhase.UNKNOWN,
+                    notice = "Pemantauan format berakhir. Hasil akhir belum diketahui. Pilih Periksa status kartu; perintah tidak dikirim ulang.") }
+            } finally {
+                withContext(NonCancellable) {
+                    try {
+                        val restored = withContext(Dispatchers.IO) {
+                            if (pending != null && (!started || rejected)) store.clearPendingFormat(operationId)
+                            store.loadPendingFormat()
+                        }
+                        mutableFeatures.update {
+                            val current = version == featureVersion && it.profileId == profile.id
+                            it.copy(pendingFormat = restored, pendingLoaded = true, format = when {
+                                restored != null -> SdFormatPhase.UNKNOWN
+                                current && rejected -> SdFormatPhase.REJECTED
+                                current && !started -> SdFormatPhase.NOT_SENT
+                                else -> it.format
+                            }, notice = if (current && !started) "Perintah format tidak dikirim." else it.notice)
+                        }
+                    } catch (_: Exception) {
+                        mutableFeatures.update { it.copy(managementStorageFailed = true, pendingLoaded = false,
+                            notice = "Catatan format tidak dapat diperbarui. Perubahan kamera dinonaktifkan; periksa penyimpanan aplikasi.") }
+                    }
+                    refreshMaintenanceBlock()
+                }
             }
-            mutableFeatures.update { it.copy(format = SdFormatPhase.CHECKING) }
-            repeat(15) {
-                delay(2000)
-                val current = session.readSettings()
-                mutableFeatures.update { it.copy(settings = current) }
-            }
-            // APK's Java parser ignores DPID_SD_FORMAT_STATE. Its terminal values are not proven.
-            // An ACK or normal card alone must never be promoted to "format complete".
-            mutableFeatures.update { it.copy(format = SdFormatPhase.UNKNOWN,
-                notice = "Perintah format diterima. Status akhir belum dapat dipastikan; periksa kartu sebelum menutup status ini.") }
         }
     }
 
-    fun acknowledgeFormat() {
+    private fun updateFormatReadback(pending: PendingSdFormat, status: CameraSettings, version: Int) {
+        if (version != featureVersion || features.value.profileId != pending.profileId ||
+            features.value.pendingFormat?.operationId != pending.operationId) return
+        val ids = CameraSettingsProtocol.sdFormatProperties.toSet()
+        val formatting = CameraSettingsProtocol.formatInProgress(status)
+        mutableFeatures.update { it.copy(settings = CameraSettings(
+            (it.settings?.values.orEmpty() - ids) + status.values,
+            (it.settings?.rejected.orEmpty() - ids) + status.rejected),
+            format = if (formatting) SdFormatPhase.FORMATTING else SdFormatPhase.UNKNOWN,
+            notice = if (formatting) "Kamera melaporkan kartu sedang diformat. Hasil akhir belum terverifikasi." else
+                "Status kartu diperbarui. Hasil format sebelumnya belum dapat dipastikan; perintah tidak dikirim ulang.") }
+    }
+
+    fun checkPendingFormat() {
         val pending = features.value.pendingFormat ?: return
-        if (features.value.busy || pending.profileId != features.value.profileId) return
+        if (features.value.busy || pending.profileId != features.value.profileId ||
+            !session.isAuthenticated(pending.profileId) || session.connectedProfile?.deviceId != pending.deviceId) return
+        launchFeature(DiagnosticStage.SD_FORMAT) {
+            val version = featureVersion
+            mutableFeatures.update { it.copy(format = SdFormatPhase.CHECKING) }
+            updateFormatReadback(pending, session.readSdFormatStatus(pending.profileId, pending.deviceId), version)
+        }
+    }
+
+    fun acknowledgeFormat(operationId: String) {
+        val pending = features.value.pendingFormat ?: return
+        if (features.value.busy || pending.profileId != features.value.profileId || pending.operationId != operationId) return
         launchFeature(DiagnosticStage.SD_FORMAT, requiresCamera = false) {
-            withContext(Dispatchers.IO) { store.clearPendingFormat() }
-            mutableFeatures.update { it.copy(pendingFormat = null, format = SdFormatPhase.IDLE,
-                notice = "Status ditutup. Tidak ada perintah format baru yang dikirim.") }
+            val version = featureVersion
+            withContext(NonCancellable) {
+                withContext(Dispatchers.IO) { store.clearPendingFormat(pending.operationId) }
+                if (version == featureVersion && features.value.pendingFormat?.operationId == pending.operationId)
+                    mutableFeatures.update { it.copy(pendingFormat = null, format = SdFormatPhase.UNKNOWN,
+                        notice = "Catatan lokal ditutup. Hasil format tetap belum diketahui; proses di kamera tidak dibatalkan.") }
+                else loadRecovery()
+            }
         }
     }
 

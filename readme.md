@@ -16,7 +16,7 @@ python3 tools/collect-validation.py --without-connection-tests
 "$ANDROID_HOME/platform-tools/adb" install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada debug. Build0.4.3 dan83 tes JVM lulus, lint0 error. Sepuluh skenario native sintetis lulus pada perangkat AndroidAPI33 melalui konfirmasi dan satu retry readiness Compose;12 screenshot diperiksa untuk terang/gelap, font besar dan landscape. [Hasil terbaru dan batasnya](validation/recordings-redesign/results.json). Pengujian ini mencakup picker, lifecycle, Surface dan MP4/file sintetis; keberhasilan unduhan rekaman dari kamera pengguna tetap belum terverifikasi. Hasil versi sebelumnya di validation/ adalah historis. Tidak ada format atau penghapusan rekaman kamera dalam pengujian ini.
+APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada debug. Pemeriksaan15Oktober2026: build debug/instrumentation berhasil,73 tes JVM terpilih lulus, lint0 error. UI/storage baru belum dijalankan karena emulator API37 SIGSEGV saat boot dengan/tanpa KVM; tidak ada screenshot baru terverifikasi. [Hasil terbaru dan batasnya](validation/sd-maintenance/results.json). [Pengujian native dan screenshot Rekaman sebelumnya](validation/recordings-redesign/results.json) bersifat historis untuk source sekarang. Tidak ada pengujian koneksi, format atau penghapusan rekaman kamera.
 
 ## Kamera sudah terhubung Wi-Fi
 
@@ -35,7 +35,7 @@ Buka detail kamera → **Rekaman** atau **Pengaturan**, lalu sambungkan akses lo
 - **Simpan rekaman:** gunakan menu kartu atau tombol **Simpan rekaman** di player dan pilih lokasi file Android. Aplikasi menyalin satu segmen penuh ke MP4 **tanpa audio**, tanpa checkbox tambahan. Perpindahan ke pemilih file mempertahankan akses kamera; bila sesi sudah hilang, lokasi simpan menunggu autentikasi ulang. Status tersimpan baru tampil setelah MP4 tervalidasi, file selesai ditulis dan dibaca ulang identik; bila pembatalan gagal menghapus file parsial, hapus file tujuan sebelum mencoba lagi. Audio, batch dan resume unduhan belum tersedia.
 - **Kapasitas dan hapus:** tab Rekaman memperingatkan saat kartu SD kamera terpakai ≥90%. Aksi hapus berada di menu kartu dan tetap nonaktif dengan penjelasan karena kontrak penghapusan rekaman SD belum terbukti; kontrol hapus file generik yang ditemukan dipakai untuk suara pengingat, bukan bukti hapus rekaman SD.
 - **Pengaturan:** muat nilai kamera, ubah orientasi/lampu/perekaman yang tersedia, lalu simpan perubahan. Aplikasi membaca ulang sebelum menyatakan tersimpan. Pilihan unknown tidak diberi default buatan.
-- **Kartu SD:** status/ruang tersisa dapat dibaca. **Format SD card belum diaktifkan** karena bukti status akhir format belum cukup; format bukan reset kamera. Detail gerbang: [kontrak](analysis/recordings-settings-wire.md).
+- **Kartu SD:** status/ruang tersisa dapat dibaca. **Format SD card belum diaktifkan** karena bukti status akhir format belum cukup. Catatan format tertunda dapat diperiksa setelah login, atau ditutup dengan konfirmasi walaupun settings belum dimuat. Penutupan tidak membuktikan sukses atau membatalkan kamera. [Investigasi hapus/format dan batas aktivasi](analysis/sd-maintenance-wire.md).
 
 Fitur belum diuji pada kamera pengguna. Tidak ada fallback cloud jika firmware memerlukan MQ/signaling server.
 

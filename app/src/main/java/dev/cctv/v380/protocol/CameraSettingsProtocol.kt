@@ -32,6 +32,7 @@ object CameraSettingsProtocol {
     const val FLIP = 524800
     // REA: Java explicitly skips this property; no terminal format enum is verified yet.
     const val FORMAT_STATUS_VERIFIED = false
+    val sdFormatProperties = listOf(SD_STATUS, SD_CAPACITY, SD_FORMAT_STATE)
     val properties = listOf(SD_STATUS, SD_CAPACITY, SD_FORMAT_STATE, RECORD_MODE, RECORD_QUALITY,
         RECORD_AUDIO, RECORD_LOOP, LIGHT_MODE, LIGHT_SENSITIVITY, INDICATOR, FLIP_MODE)
     private val booleans = setOf(RECORD_AUDIO, RECORD_LOOP, INDICATOR)
@@ -104,6 +105,8 @@ object CameraSettingsProtocol {
     }
 
     fun formatParams(): JSONObject = IoTControlProtocol.actionParams(FORMAT)
+    // SD_STATUS=4 proves ongoing formatting only. Raw 131330, ACK and normal SD are not terminal proof.
+    fun formatInProgress(settings: CameraSettings): Boolean = settings.int(SD_STATUS) == 4
     fun capacity(settings: CameraSettings): SdCapacity? {
         val parts = (settings.values[SD_CAPACITY] as? String)?.split('|') ?: return null
         if (parts.size != 3) return null

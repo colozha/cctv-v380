@@ -698,13 +698,60 @@ class CameraSession(
         after
     }
 
-    /** Acknowledgement only. The caller owns the durable, single-send marker and status monitoring. */
-    suspend fun sendSdFormat() = operations.withLock {
-        if (!CameraSettingsProtocol.FORMAT_STATUS_VERIFIED) throw CameraFailure(SessionError.FeatureUnsupported)
-        requireIoT()
+    private suspend fun fetchSdFormatStatus(): CameraSettings {
+        val ids = CameraSettingsProtocol.sdFormatProperties
+        val data = exchangeIoT(CameraSettingsProtocol.GET, CameraSettingsProtocol.GET_RESPONSE,
+            CameraSettingsProtocol.getParams(ids), strictCorrelation = true)
+            ?: throw IoTProtocolException(IoTFailure.MalformedPacket)
+        return CameraSettingsProtocol.parseProperties(data, ids)
+    }
+
+    /** Recovery is read-only, including while maintenance writes are blocked. */
+    suspend fun readSdFormatStatus(profileId: String, deviceId: String): CameraSettings = operations.withLock {
+        requireManagement(profileId)
+        if (profile?.deviceId != deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        val revision = managementRevision
+        val owner = iot
+        val result = fetchSdFormatStatus()
+        requireManagement(profileId, revision)
+        if (owner !== iot || profile?.deviceId != deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        result
+    }
+
+    /** ACK only; the marker precedes the sole write. Still gated until a terminal contract is proven. */
+    suspend fun sendSdFormat(profileId: String, deviceId: String, operationId: String,
+        beforeWrite: suspend () -> Unit, onWriteStarted: () -> Unit = {}) = operations.withLock {
+        if (!BuildConfig.DEBUG || !CameraSettingsProtocol.FORMAT_STATUS_VERIFIED)
+            throw CameraFailure(SessionError.FeatureUnsupported)
+        requireManagement(profileId)
+        if (profile?.deviceId != deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+        if (maintenancePending) throw CameraFailure(SessionError.FeatureUnsupported)
+        require(operationId.isNotBlank() && operationId.length <= 256)
+        val revision = managementRevision
+        val owner = iot
+        fun checkOwner() {
+            requireManagement(profileId, revision)
+            if (owner !== iot || profile?.deviceId != deviceId) throw CameraFailure(SessionError.IdentityMismatch)
+            if (maintenancePending) throw CameraFailure(SessionError.FeatureUnsupported)
+        }
+        val current = fetchSdFormatStatus()
+        checkOwner()
+        if (current.int(CameraSettingsProtocol.SD_STATUS) !in setOf(1, 2, 3, 8) ||
+            current.int(CameraSettingsProtocol.SD_FORMAT_STATE) == null)
+            throw CameraFailure(SessionError.FeatureUnsupported)
         stopStream()
         mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
-        exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, CameraSettingsProtocol.formatParams())
+        exchangeIoT(IoTCommonProtocol.ACTION_REQUEST, IoTCommonProtocol.ACTION_RESPONSE, CameraSettingsProtocol.formatParams(),
+            beforeSend = {
+                checkOwner()
+                if (operationId in submittedManagementActions) throw CameraFailure(SessionError.InvalidInput)
+                beforeWrite()
+                currentCoroutineContext().ensureActive()
+                checkOwner()
+                if (!submittedManagementActions.add(operationId)) throw CameraFailure(SessionError.InvalidInput)
+                maintenancePending = true
+                onWriteStarted()
+            }, strictCorrelation = true)
         diagnostics.record(DiagnosticStage.SD_FORMAT)
         Unit
     }

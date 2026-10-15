@@ -1,8 +1,14 @@
 # Status implementasi V380 LAN
 
-Versi **0.4.2-experimental** memiliki adapter wire nyata untuk Legacy V2 dan common IoT LAN: autentikasi, negosiasi video, decoding MediaCodec, PTZ, serta konfigurasi Wi-Fi melalui AP yang telah terautentikasi. Adapter aktif pada **APK debug**. Belum ada kamera yang dinyatakan kompatibel; rilis pengguna tetap dibatasi sampai acceptance kamera fisik lulus.
+Versi **0.4.3-experimental** memiliki adapter wire nyata untuk Legacy V2 dan common IoT LAN: autentikasi, negosiasi video, decoding MediaCodec, PTZ, serta konfigurasi Wi-Fi melalui AP yang telah terautentikasi. Adapter aktif pada **APK debug**. Belum ada kamera yang dinyatakan kompatibel; rilis pengguna tetap dibatasi sampai acceptance kamera fisik lulus.
 
 Target pertama: firmware `Hw_EV2X_NA1_XHR_V1.0_WF_20250804`, software `V2.1.6.0(HSC_A2X17XHR_20250804)`, berdasarkan screenshot pengguna. Nama firmware tidak digunakan untuk memilih generasi protokol.
+
+## Hapus rekaman dan format SD — 15 Oktober 2026
+
+[Investigasi dan perubahan](analysis/sd-maintenance-wire.md) mencatat scan5.429.555 instruksi DEX dan simbol ELF tambahan. Kontrak delete TF per segmen serta enum terminal format131330 tetap belum terbukti; kedua fitur tetap nonaktif. Writer format yang masih gated kini membawa profil/device/operation ID, memeriksa ulang sesi dan kartu sebelum write, serta mewajibkan marker terverifikasi. Recovery membaca tiga properti SD dengan korelasi ketat; cleanup wajib ID operasi dan pemeriksaan file terhapus. Tutup catatan meminta konfirmasi dan tetap menyatakan hasil belum diketahui, termasuk ketika settings belum dimuat.
+
+[Validasi source terbaru](validation/sd-maintenance/results.json):73 tes JVM terpilih lulus, build debug/instrumentation berhasil, lint0 error. UI/storage baru belum dijalankan: emulator API37 SIGSEGV saat boot dengan KVM maupun tanpa akselerasi. Tidak ada screenshot baru terverifikasi, tes koneksi atau perintah kamera destruktif. Hasil di bagian lama berikut adalah historis.
 
 ## Manajemen kamera0.4.2 — implementasi sebagian
 

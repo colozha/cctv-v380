@@ -23,6 +23,7 @@ import dev.cctv.v380.session.*
 fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session: SessionState,
     feature: CameraFeatureState, onConnect: (CharArray?) -> Unit, modifier: Modifier = Modifier) {
     var confirmFormat by remember(profile.id) { mutableStateOf(false) }
+    var confirmCloseFormat by remember(profile.id, feature.pendingFormat?.operationId) { mutableStateOf(false) }
     val settings = feature.settings
     val authenticated = model.session.isAuthenticated(profile.id)
     val enabled = !model.managementBlocked() && !feature.busy && authenticated && feature.pendingFormat == null && feature.pendingAp == null
@@ -114,6 +115,7 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
                     if (feature.pendingFormat != null) SettingsNotice(when (feature.format) {
                         SdFormatPhase.SENDING -> "Mengirim perintah format…"
                         SdFormatPhase.CHECKING -> "Memeriksa status kartu. Proses format di kamera tetap berjalan jika Anda meninggalkan layar."
+                        SdFormatPhase.FORMATTING -> "Kamera melaporkan kartu sedang diformat. Hasil akhir belum terverifikasi."
                         else -> "Hasil format sebelumnya belum dapat dipastikan. Perintah tidak akan dikirim ulang secara otomatis."
                     }, error = !feature.busy)
                 }) {
@@ -125,21 +127,23 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
                         LinearProgressIndicator(progress = { remaining / 100f }, modifier = Modifier.fillMaxWidth().height(8.dp),
                             trackColor = scheme.outlineVariant, gapSize = 0.dp, drawStopIndicator = {})
                     }
-                    if (feature.pendingFormat != null) {
-                        if (feature.pendingFormat.profileId == profile.id) {
-                            OutlinedButton(onClick = model::loadSettings, enabled = !feature.busy && authenticated && feature.pendingAp == null,
-                                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Periksa status kartu") }
-                            TextButton(onClick = model::acknowledgeFormat, enabled = !feature.busy,
-                                modifier = Modifier.heightIn(min = 48.dp)) { Text("Tutup status setelah kartu diperiksa") }
-                        } else Text("Buka kamera yang memiliki pemeriksaan format tertunda terlebih dahulu.")
-                    }
-                    OutlinedButton(onClick = { confirmFormat = true }, enabled = P.FORMAT_STATUS_VERIFIED && enabled && feature.pendingLoaded && feature.draft.isEmpty() &&
-                        settings.int(P.SD_STATUS) in setOf(1, 2, 3, 8) && settings.int(P.SD_FORMAT_STATE) != null,
-                        modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = scheme.error)) { Text("Format SD card") }
-                    Text("Format menghapus rekaman pada kartu. Fitur belum diaktifkan karena status akhir format belum terverifikasi.",
-                        style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
                 }
+                if (feature.pendingFormat != null) {
+                    if (feature.pendingFormat.profileId == profile.id) {
+                        OutlinedButton(onClick = model::checkPendingFormat, enabled = !feature.busy && authenticated && feature.pendingAp == null &&
+                            model.session.connectedProfile?.deviceId == feature.pendingFormat.deviceId,
+                            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Periksa status kartu") }
+                        TextButton(onClick = { confirmCloseFormat = true }, enabled = !feature.busy && feature.pendingAp == null,
+                            modifier = Modifier.heightIn(min = 48.dp)) { Text("Tutup catatan format") }
+                    } else Text("Buka kamera yang memiliki pemeriksaan format tertunda terlebih dahulu.")
+                }
+                OutlinedButton(onClick = { confirmFormat = true }, enabled = P.FORMAT_STATUS_VERIFIED && enabled && feature.pendingLoaded && feature.draft.isEmpty() &&
+                    settings?.int(P.SD_STATUS) in setOf(1, 2, 3, 8) && settings?.int(P.SD_FORMAT_STATE) != null &&
+                    feature.download !in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS, DownloadPhase.DOWNLOADING, DownloadPhase.SAVING),
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = scheme.error)) { Text("Format SD card") }
+                Text("Format menghapus rekaman pada kartu. Fitur belum diaktifkan karena status akhir format belum terverifikasi.",
+                    style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
             }
             if (feature.draft.isNotEmpty()) {
                 Button(onClick = model::saveSettings, enabled = enabled, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
@@ -154,6 +158,11 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
         }
         if (confirmFormat) SdFormatConfirmation(profile.name,
             onConfirm = { confirmFormat = false; model.formatSdCard(profile) }, onDismiss = { confirmFormat = false })
+        if (confirmCloseFormat && feature.pendingFormat != null) AlertDialog(onDismissRequest = { confirmCloseFormat = false },
+            title = { Text("Tutup catatan format?") },
+            text = { Text("Catatan pemeriksaan pada aplikasi akan ditutup. Hasil format tetap belum diketahui; proses di kamera tidak dibatalkan. Periksa kartu sebelum mengirim tindakan baru.") },
+            confirmButton = { TextButton(onClick = { confirmCloseFormat = false; model.acknowledgeFormat(feature.pendingFormat.operationId) }) { Text("Tutup catatan") } },
+            dismissButton = { TextButton(onClick = { confirmCloseFormat = false }) { Text("Kembali") } })
     }
 }
 

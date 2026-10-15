@@ -1,0 +1,95 @@
+INFO         | Android emulator version 37.2.12.0 (build_id 16428233) (CL:N/A)
+INFO         | Graphics backend: gfxstream
+INFO         | Found systemPath /home/husain/Android/Sdk/system-images/android-37.0/google_apis_playstore/x86_64/
+INFO         | Guest usage of host flag 'VulkanVirtualQueue' will be ignored.
+INFO         | Increasing RAM size to 4096MB
+INFO         | Guest GLES Driver: Auto (ext controls)
+INFO         | emuglConfig_init: vulkan_mode_selected:swiftshader gles_mode_selected:swiftshader
+INFO         | Checking system compatibility:
+INFO         |   Checking: hasSufficientDiskSpace
+INFO         |      Ok: Disk space requirements to run avd: `Medium_Phone_API_37.0` are met
+INFO         |   Checking: hasSufficientHwGpu
+INFO         |      Ok: Hardware GPU compatibility checks are not required
+INFO         |   Checking: hasSufficientSystem
+INFO         |      Ok: System requirements to run avd: `Medium_Phone_API_37.0` are met
+WARNING      | Feature QuickbootFileBacked is disabled due to stability issues, if you really want that, the environment variable ANDROID_EMU_FORCE_QUICKBOOT_FILE_BACKED need to set to 1
+INFO         | Storing crashdata in: /tmp/android-husain/emu-crash-37.2.12.db, detection is enabled for process: 77348
+INFO         | Initializing gfxstream backend
+INFO         | startOpenglesRendererImpl: gpu info
+INFO         | 
+INFO         | Vulkan 1.4 is not supported for the guest and won't be enabled
+INFO         | initIcdPaths: ICD set to 'swiftshader', using Swiftshader ICD
+INFO         | Setting ICD filenames for the loader = /home/husain/Android/Sdk/emulator/lib64/vulkan/vk_swiftshader_icd.json
+INFO         | SharedLibrary::open for [/home/husain/Android/Sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so]
+INFO         | SharedLibrary::open for [/home/husain/Android/Sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so.1]
+INFO         | SharedLibrary::open for [/home/husain/Android/Sdk/emulator/lib64/vulkan/libvulkan.so]
+INFO         | Added library: /home/husain/Android/Sdk/emulator/lib64/vulkan/libvulkan.so
+INFO         | Selecting Vulkan device: SwiftShader Device (Subzero), Version: 1.3.0
+INFO         | Using Vulkan externalMemoryMode: OpaqueFd for VkEmulation
+INFO         | Format VK_FORMAT_G10X6_B10X6R10X6_2PLANE_422_UNORM_3PACK16 does not support YCbCr sampler conversion
+INFO         | SharedLibrary::open for [libX11]
+INFO         | SharedLibrary::open for [libX11-xcb]
+INFO         | Initializing VkEmulation features:
+INFO         |     glInteropSupported: false
+INFO         |     useDeferredCommands: true
+INFO         |     createResourceWithRequirements: true
+INFO         |     useVulkanComposition: false
+INFO         |     useVulkanNativeSwapchain: false
+INFO         |     enable guestRenderDoc: false
+INFO         |     ASTC LDR emulation mode: Gpu
+INFO         |     enable ETC2 emulation: true
+INFO         |     enable Ycbcr emulation: false
+INFO         |     guestVulkanOnly: false
+INFO         |     useDedicatedAllocations: false
+INFO         |     guestVulkanMaxApiVersion: 1.3.0
+INFO         |     enableProtectedMemoryEmulation: false
+INFO         | Graphics Adapter Vendor Google (Google Inc.)
+INFO         | Graphics Adapter Android Emulator OpenGL ES Translator (Google SwiftShader)
+INFO         | Graphics API Version OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+INFO         | Graphics API Extensions GL_OES_EGL_sync GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_depth24 GL_OES_depth32 GL_OES_element_index_uint GL_OES_texture_float GL_OES_texture_float_linear GL_OES_compressed_paletted_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth_texture GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_packed_depth_stencil GL_OES_vertex_half_float GL_OES_standard_derivatives GL_OES_texture_npot GL_OES_rgb8_rgba8 GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_texture_format_BGRA8888 GL_APPLE_texture_format_BGRA8888 
+INFO         | Graphics Device Extensions N/A
+INFO         | Disabling sparse binding feature support
+INFO         | Sending adb public key [QAAAAB+APOAhBG1HQIzB0HNsMwPXytHMp3IkhvIWX/jicm83bz9zq9TnThoQkTkxK0JaDVGTFMJ52nFxYbKrLA2pVKZ6vbA0GNsqVf/qmQAIfR+crBCUKCD4xpL27RFuOJU+C51KJ3fDt55K/xILPbQ5D5qdNAp3ZGRf1wdGIkv6t9Kk0HIX3FuuDp8Suaeb0BWwxTimzUSgkdyM81oF5a8o2ceY5uwN7OD7/6OIs/UaUch9IxV/DkMOT3HVbhTE5Q/VyUDuN1IseKnfkg+l+7Tay7NjtRjD+xzfKbc1V+8gazXXS44ow6ufhwQQwonQBbvp/XVkhd1xKrLW/1TpPYbtGDOl7GrEIgBtULKexFTxoTm2tM1F33GHrkOxDYUGaaFLvbhCat2LTLPZkeo7UidUft3P1n9LaKVRpbqSObh2S0c9rf4Gir4BeajJrQTUCHjNlkzNvyJfhHqyO1eDfvWSTSjDET8qhGNkrcwPnnqDRRLhy/FJ9SOp0sUTkFyEf4P4U1m8oNxEwy3urBtBsGiFW4Vw6esktHq2gOSVTyXwJu2ur3u/924+wEztBQgOZ7KQbU/An7rv75UbLvdfXWRPWWYmOSQzmr4Ehxl4EbRCHQ0rR+KwflfCFzfCPcRSCTqDp6t/oINUe4gyUQt885VL2jjt6MUncjQMZMJFYh9Flf75Vp/VawEAAQA= husain@fedora]
+INFO         | Userspace boot properties:
+INFO         |   androidboot.boot_devices=pci0000:00/0000:00:03.0 pci0000:00/0000:00:06.0
+INFO         |   androidboot.dalvik.vm.heapsize=576m
+INFO         |   androidboot.debug.hwui.renderer=skiagl
+INFO         |   androidboot.debug.sf.nobootanimation=1
+INFO         |   androidboot.hardware=ranchu
+INFO         |   androidboot.hardware.gltransport=pipe
+INFO         |   androidboot.hardware.vulkan=ranchu
+INFO         |   androidboot.logcat=*:V
+INFO         |   androidboot.opengles.version=196608
+INFO         |   androidboot.qemu=1
+INFO         |   androidboot.qemu.adb.pubkey=QAAAAB+APOAhBG1HQIzB0HNsMwPXytHMp3IkhvIWX/jicm83bz9zq9TnThoQkTkxK0JaDVGTFMJ52nFxYbKrLA2pVKZ6vbA0GNsqVf/qmQAIfR+crBCUKCD4xpL27RFuOJU+C51KJ3fDt55K/xILPbQ5D5qdNAp3ZGRf1wdGIkv6t9Kk0HIX3FuuDp8Suaeb0BWwxTimzUSgkdyM81oF5a8o2ceY5uwN7OD7/6OIs/UaUch9IxV/DkMOT3HVbhTE5Q/VyUDuN1IseKnfkg+l+7Tay7NjtRjD+xzfKbc1V+8gazXXS44ow6ufhwQQwonQBbvp/XVkhd1xKrLW/1TpPYbtGDOl7GrEIgBtULKexFTxoTm2tM1F33GHrkOxDYUGaaFLvbhCat2LTLPZkeo7UidUft3P1n9LaKVRpbqSObh2S0c9rf4Gir4BeajJrQTUCHjNlkzNvyJfhHqyO1eDfvWSTSjDET8qhGNkrcwPnnqDRRLhy/FJ9SOp0sUTkFyEf4P4U1m8oNxEwy3urBtBsGiFW4Vw6esktHq2gOSVTyXwJu2ur3u/924+wEztBQgOZ7KQbU/An7rv75UbLvdfXWRPWWYmOSQzmr4Ehxl4EbRCHQ0rR+KwflfCFzfCPcRSCTqDp6t/oINUe4gyUQt885VL2jjt6MUncjQMZMJFYh9Flf75Vp/VawEAAQA= husain@fedora
+INFO         |   androidboot.qemu.avd_name=Medium_Phone_API_37.0
+INFO         |   androidboot.qemu.camera_hq_edge_processing=0
+INFO         |   androidboot.qemu.camera_protocol_ver=1
+INFO         |   androidboot.qemu.cpuvulkan.version=4210688
+INFO         |   androidboot.qemu.gltransport.drawFlushInterval=800
+INFO         |   androidboot.qemu.gltransport.name=pipe
+INFO         |   androidboot.qemu.hwcodec.avcdec=2
+INFO         |   androidboot.qemu.hwcodec.hevcdec=2
+INFO         |   androidboot.qemu.hwcodec.vpxdec=2
+INFO         |   androidboot.qemu.settings.system.screen_off_timeout=2147483647
+INFO         |   androidboot.qemu.skin=1080x2400
+INFO         |   androidboot.qemu.virtiowifi=1
+INFO         |   androidboot.qemu.vsync=60
+INFO         |   androidboot.serialno=EMULATOR37X2X12X0
+INFO         |   androidboot.vbmeta.digest=bb50238116ebb95ca407415523d34be28a89696874f73533dd0f9f9168801771
+INFO         |   androidboot.vbmeta.hash_alg=sha256
+INFO         |   androidboot.vbmeta.size=6720
+INFO         |   androidboot.veritymode=enforcing
+WARNING: cannnot unmap ptr 0x7f3cf3401000 as it is in the protected range from 0x7f3bf3400000 to 0x7f3cf3600000
+pc_memory_init: above 4g size: 40000000
+INFO         | Monitoring duration of emulator setup.
+INFO         | Successfully initialized netsim WiFi
+INFO         | Activated packet streamer for uwb emulation
+INFO         | Activated packet streamer for bluetooth emulation
+INFO         | Setting display: 0 configuration to: 1080x2400, dpi: 420x420 
+INFO         | setDisplayActiveConfig: id:0, 1080x2400
+WARNING      | getEnvironmentConfig: No environment config is provided
+INFO         | getEnvironmentConfig: Using default virtual scene mode for the environment.
+INFO         | getEnvironmentConfig: Using default configuration for mode mesh3d for the environment.
+INFO         | Initializing a scene with mode: mesh3d, argument: Toren1BD.obj
+USER_INFO    | Emulator is performing a full startup. This may take upto two minutes, or more.
