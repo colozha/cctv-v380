@@ -1,5 +1,7 @@
 # Analisis V380 6.4.90 untuk Android client independen
 
+**Talkback15 Oktober2026:** [kontrak audio V3 dan batas](talkback-wire.md) menambah excerpt REA start/stop/recorder/capability serta instruksi JNI, ring queue, negosiasi `down.aattr`, socket live bersama dan cipher audio keluar. Implementasi debug dibatasi PCM100 mono16 pada8/16kHz; encoder ADPCM/AAC belum diimplementasikan. Native stop mikrofon adalah flag lokal, bukan action kamera. [Validasi software](../validation/talkback/results.json) tidak membuktikan suara terdengar atau kompatibilitas firmware pemilik.
+
 **Manajemen kamera0.4.2:** [kontrak dan status implementasi sebagian](camera-management-wire.md) menambah bukti REA/DEX untuk alarm, lampu, preset, rute patroli, kalibrasi, versi, dan restart. [Tahap2 alarm](alarm-stage2-wire.md) menambah perubahan jumlah interval dengan indeks asal dan batas konservatif. [Tahap3 area](area-stage3-wire.md) menambahkan editor PixelCopy dengan reference yang dimiliki session, hanya untuk pemetaan flat yang terkonfirmasi. Format SD dan start/stop patroli masih terkunci; acceptance kamera dan runtime UI baru belum tersedia.
 
 **Fitur0.3.0:** kontrak REA/DEX/ELF untuk rekaman/playback/download dan pengaturan diarsipkan dalam [spesifikasi fitur](recordings-settings-wire.md). Implementasi debug IoT tersedia, tanpa pengujian kamera. Format SD tetap dikunci karena enum terminal belum terbukti; native UI/MP4 belum diuji akibat emulator boot SIGSEGV. [Hasil validasi offline](../validation/recordings-settings/results.json).

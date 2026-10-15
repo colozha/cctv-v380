@@ -8,6 +8,9 @@ import dev.cctv.v380.discovery.LanDiscovery
 import dev.cctv.v380.media.VideoDecoder
 import dev.cctv.v380.media.RecordingTimestampException
 import dev.cctv.v380.media.RecordingExportException
+import dev.cctv.v380.media.TalkbackRecorder
+import dev.cctv.v380.media.TalkbackError
+import dev.cctv.v380.media.TalkbackFailure
 import dev.cctv.v380.protocol.*
 import dev.cctv.v380.transport.*
 import kotlinx.coroutines.*
@@ -30,6 +33,7 @@ class CameraSession(
     private val verifyApNetwork: suspend (CameraProfile, String) -> (() -> Boolean) = { _, _ ->
         throw CameraFailure(SessionError.FeatureUnsupported)
     },
+    private val talkbackRecorderFactory: (Int) -> TalkbackRecorder = TalkbackRecorder::android,
 ) {
     constructor(wifi: WifiNetwork, discovery: LanDiscovery = LanDiscovery(wifi), diagnostics: Diagnostics = Diagnostics()) :
         this({ wifi.resolve().let { link ->
@@ -82,6 +86,22 @@ class CameraSession(
     private var watchdog: PtzWatchdog? = null
     private var firstFrame = CompletableDeferred<Unit>()
     private var iotMediaInfo: IoTMediaInfo? = null
+    private val mutableTalkback = MutableStateFlow<TalkbackState>(TalkbackState.Idle)
+    val talkback = mutableTalkback.asStateFlow()
+    private val mutableTalkbackAudio = MutableStateFlow<IoTAudioInfo?>(null)
+    val talkbackAudio = mutableTalkbackAudio.asStateFlow()
+    private val talkbackLock = Any()
+    private class TalkbackAttempt(val epoch: Long, val authorized: () -> Boolean) {
+        var allowed = true
+        var starting = true
+        var touched = false
+        var writing = false
+        var failure: TalkbackError? = null
+        var recorder: TalkbackRecorder? = null
+        var channel: TcpChannel? = null
+        var job: Job? = null
+    }
+    private var talkbackAttempt: TalkbackAttempt? = null
     private var activeRecording: RecordingSegment? = null
     private val mutableRecordingPosition = MutableStateFlow(0L)
     val recordingPosition = mutableRecordingPosition.asStateFlow()
@@ -107,7 +127,159 @@ class CameraSession(
     private val submittedManagementActions = mutableSetOf<String>()
     @Volatile var maintenancePending: Boolean = false
         private set
-    fun blockMaintenanceWrites(blocked: Boolean) { maintenancePending = blocked }
+    fun blockMaintenanceWrites(blocked: Boolean) {
+        maintenancePending = blocked
+        if (blocked) requestStopTalkback()
+    }
+
+    fun talkbackBlock(profileId: String): TalkbackError? = when {
+        !BuildConfig.DEBUG || iot == null -> TalkbackError.UNSUPPORTED
+        !isAuthenticated(profileId) || state.value !is SessionState.Streaming -> TalkbackError.NOT_READY
+        maintenancePending -> TalkbackError.BUSY
+        capabilities.value?.talkback == null -> TalkbackError.CAPABILITY_UNKNOWN
+        capabilities.value?.talkback != true -> TalkbackError.UNSUPPORTED
+        talkbackAudio.value == null -> TalkbackError.METADATA_MISSING
+        talkbackAudio.value?.supported != true -> TalkbackError.UNSUPPORTED_AUDIO
+        else -> null
+    }
+
+    /** Default authorization is fail-closed. The foreground UI supplies a live permission/lifecycle check. */
+    fun startTalkback(profileId: String, authorized: () -> Boolean = { false }) = synchronized(talkbackLock) {
+        if (talkbackAttempt != null) return@synchronized
+        val blocked = talkbackBlock(profileId) ?: if (!authorized()) TalkbackError.NOT_READY else null
+        if (blocked != null) { mutableTalkback.value = TalkbackState.Error(blocked); return@synchronized }
+        val attempt = TalkbackAttempt(generation.get(), authorized)
+        talkbackAttempt = attempt
+        mutableTalkback.value = TalkbackState.Starting
+        diagnostics.record(DiagnosticStage.TALKBACK, DiagnosticStatus.STARTED, detail = DiagnosticDetail.TALKBACK_START)
+        attempt.job = scope.launch { runTalkback(attempt, profileId) }.also { job ->
+            job.invokeOnCompletion {
+                attempt.recorder?.close()
+                synchronized(talkbackLock) {
+                    if (talkbackAttempt === attempt) {
+                        talkbackAttempt = null
+                        mutableTalkback.value = attempt.failure?.let { TalkbackState.Error(it) } ?: TalkbackState.Idle
+                    }
+                }
+            }
+        }
+    }
+
+    private fun checkTalkback(attempt: TalkbackAttempt) = synchronized(talkbackLock) {
+        if (talkbackAttempt !== attempt || !attempt.allowed || attempt.epoch != generation.get() || accessRevoked ||
+            iot !== authenticatedIoT || maintenancePending || state.value !is SessionState.Streaming || !attempt.authorized())
+            throw CancellationException("Talkback ownership revoked")
+    }
+
+    private suspend fun runTalkback(attempt: TalkbackAttempt, profileId: String) {
+        var key: ByteArray? = null
+        try {
+            operations.withLock {
+                checkTalkback(attempt)
+                talkbackBlock(profileId)?.let { throw TalkbackFailure(it) }
+                val audio = talkbackAudio.value ?: throw TalkbackFailure(TalkbackError.METADATA_MISSING)
+                val session = iot ?: throw TalkbackFailure(TalkbackError.NOT_READY)
+                val channel = streamChannel ?: throw TalkbackFailure(TalkbackError.NOT_READY)
+                if (pendingReply != null) throw TalkbackFailure(TalkbackError.BUSY)
+                attempt.channel = channel
+                key = session.keyBytes()
+                val recorder = try { talkbackRecorderFactory(audio.sampleRate) }
+                catch (error: SecurityException) { throw error }
+                catch (error: TalkbackFailure) { throw error }
+                catch (_: Exception) { throw TalkbackFailure(TalkbackError.MICROPHONE_UNAVAILABLE) }
+                synchronized(talkbackLock) { attempt.recorder = recorder; checkTalkback(attempt) }
+                val id = requestIds.incrementAndGet()
+                val reply = Reply(id, IoTCommonProtocol.LIVE_CONTROL_RESPONSE, CompletableDeferred())
+                val packet = IoTCommonProtocol.encodeRequest(methodId = IoTCommonProtocol.LIVE_CONTROL_REQUEST,
+                    requestId = id, params = IoTTalkbackProtocol.startParams(audio), secureType = 2,
+                    sessionId = session.sessionId, key = key)
+                pendingReply = reply
+                try {
+                    withTimeout(5000) {
+                        synchronized(talkbackLock) { checkTalkback(attempt); attempt.touched = true; attempt.writing = true }
+                        try { channel.write(packet, deadlineAfterMillis(500)) }
+                        finally { synchronized(talkbackLock) { attempt.writing = false } }
+                        reply.result.await()
+                    }
+                    synchronized(talkbackLock) { checkTalkback(attempt); attempt.starting = false }
+                } finally { packet.fill(0); if (pendingReply === reply) pendingReply = null }
+            }
+            val session = iot ?: throw TalkbackFailure(TalkbackError.NOT_READY)
+            var sequence = 0L
+            checkTalkback(attempt)
+            attempt.recorder!!.sendFrames(onStarted = {
+                synchronized(talkbackLock) { checkTalkback(attempt); mutableTalkback.value = TalkbackState.Sending }
+                diagnostics.record(DiagnosticStage.TALKBACK, detail = DiagnosticDetail.TALKBACK_CAPTURE)
+            }) { pcm ->
+                checkTalkback(attempt)
+                if (++sequence > 0xffffffffL) throw TalkbackFailure(TalkbackError.CAPTURE_FAILED)
+                val packet = IoTTalkbackProtocol.audioPacket(pcm, sequence, System.currentTimeMillis(), session.sessionId, key!!)
+                try {
+                    synchronized(talkbackLock) { checkTalkback(attempt); attempt.writing = true }
+                    attempt.channel!!.write(packet, deadlineAfterMillis(500))
+                } finally { synchronized(talkbackLock) { attempt.writing = false }; packet.fill(0) }
+            }
+        } catch (error: Exception) {
+            val userStopped = synchronized(talkbackLock) { !attempt.allowed }
+            if (error !is CancellationException || error is TimeoutCancellationException) {
+                if (!userStopped) synchronized(talkbackLock) { attempt.failure = talkbackReason(error) }
+                diagnostics.record(DiagnosticStage.TALKBACK, DiagnosticStatus.FAILED,
+                    reason = if (error is TalkbackFailure || error is SecurityException) null else reason(error),
+                    detail = when ((error as? TalkbackFailure)?.reason) {
+                        TalkbackError.MICROPHONE_UNAVAILABLE -> DiagnosticDetail.MICROPHONE_UNAVAILABLE
+                        TalkbackError.CAPTURE_FAILED -> DiagnosticDetail.TALKBACK_CAPTURE_FAILED
+                        TalkbackError.BUFFER_FULL -> DiagnosticDetail.TALKBACK_BUFFER_FULL
+                        else -> if (error is SecurityException) DiagnosticDetail.MICROPHONE_PERMISSION
+                            else if (attempt.starting) DiagnosticDetail.TALKBACK_START else DiagnosticDetail.TALKBACK_SEND
+                    })
+            }
+            // An incomplete start or any uncertain shared-socket write invalidates that stream.
+            val transportFailure = error !is TalkbackFailure && error !is SecurityException &&
+                (error !is IoTProtocolException || error.kind !in setOf(IoTFailure.PermissionDenied, IoTFailure.DeviceRejected))
+            if (!userStopped && attempt.touched && transportFailure) {
+                attempt.channel?.close()
+                streamFailure(attempt.epoch, if (error is CancellationException) SocketTimeoutException() else error, DiagnosticStage.TALKBACK)
+            }
+        } finally {
+            attempt.recorder?.close()
+            key?.fill(0)
+            diagnostics.record(DiagnosticStage.TALKBACK, DiagnosticStatus.CANCELLED, detail = DiagnosticDetail.TALKBACK_STOP)
+        }
+    }
+
+    /** Revoke capture and future writes synchronously, even when a lifecycle callback cannot suspend. */
+    fun requestStopTalkback() { stopTalkbackRequest(recoverStream = true) }
+    private fun stopTalkbackRequest(recoverStream: Boolean): Job? {
+        val attempt: TalkbackAttempt
+        val uncertain: Boolean
+        synchronized(talkbackLock) {
+            attempt = talkbackAttempt ?: return null
+            uncertain = attempt.allowed && (attempt.writing || attempt.starting && attempt.touched)
+            attempt.allowed = false
+            mutableTalkback.value = TalkbackState.Stopping
+            attempt.recorder?.close()
+            attempt.job?.cancel()
+            if (uncertain) attempt.channel?.close()
+        }
+        if (uncertain && recoverStream) streamFailure(attempt.epoch, SocketTimeoutException(), DiagnosticStage.TALKBACK)
+        return attempt.job
+    }
+    suspend fun stopTalkback() {
+        val job = stopTalkbackRequest(recoverStream = false)
+        withContext(NonCancellable) { withTimeoutOrNull(1000) { job?.join() } }
+    }
+
+    private fun talkbackReason(error: Exception): TalkbackError = when (error) {
+        is TalkbackFailure -> error.reason
+        is SecurityException -> TalkbackError.MICROPHONE_PERMISSION
+        else -> when (reason(error)) {
+            SessionError.CameraPermissionDenied -> TalkbackError.CAMERA_PERMISSION
+            SessionError.DeviceRejected -> TalkbackError.DEVICE_REJECTED
+            SessionError.Timeout -> TalkbackError.TIMEOUT
+            SessionError.MalformedPacket -> TalkbackError.MALFORMED
+            else -> TalkbackError.NETWORK
+        }
+    }
 
     fun isAuthenticated(profileId: String): Boolean = !accessRevoked && profile?.id == profileId &&
         (legacy != null || iot != null && iot === authenticatedIoT) && when (state.value) {
@@ -207,6 +379,7 @@ class CameraSession(
 
     suspend fun connect(target: CameraProfile, password: CharArray): CameraCapabilities {
         accessRevoked = true; invalidateApAccess()
+        stopTalkbackRequest(recoverStream = false)
         var ownedEpoch: Long? = null
         return try {
             reconnectJob?.cancelAndJoin()
@@ -281,7 +454,8 @@ class CameraSession(
                     catch (_: IoTProtocolException) { ManagementAbilities() }
                 diagnostics.record(DiagnosticStage.CAPABILITIES)
                 caps.copy(ptz = ability.ptz, horizontalPtz = ability.horizontalPtz, verticalPtz = ability.verticalPtz,
-                    recordingQualities = IoTControlProtocol.recordingQualities(data), management = management)
+                    recordingQualities = IoTControlProtocol.recordingQualities(data), management = management,
+                    talkback = IoTTalkbackProtocol.capability(data))
             } catch (cancelled: CancellationException) { throw cancelled }
             catch (_: IoTProtocolException) { diagnostics.record(DiagnosticStage.CAPABILITIES, DiagnosticStatus.FAILED); caps }
         } else caps
@@ -427,14 +601,23 @@ class CameraSession(
                         } else if (method == IoTCommonProtocol.LIVE_INFORMATION) {
                             detail = DiagnosticDetail.MEDIA_INFO
                             iotMediaInfo = IoTMediaProtocol.parseMediaInfo(json)
+                            // Only authenticated V3 notifications can authorize microphone format.
+                            val audio = if (header.command == IoTCommonProtocol.COMMAND_NOTIFY && header.secureType == 2 &&
+                                header.sessionId == session.sessionId) try { IoTTalkbackProtocol.audioInfo(json) }
+                                catch (_: IoTProtocolException) { null } else null
+                            if (audio != mutableTalkbackAudio.value) requestStopTalkback()
+                            mutableTalkbackAudio.value = audio
                             diagnostics.record(DiagnosticStage.STREAM, bytes = body.size)
                         } else {
                             val reply = pendingReply
                             if (reply != null && json.optInt("id", -1) == reply.id) {
                                 val response = IoTCommonProtocol.validateResponse(json, reply.id, methodId = reply.method)
                                 if (response.code == 1000 && header.secureType != 2) throw IoTProtocolException(IoTFailure.MalformedPacket)
-                                response.requireSuccess()
-                                reply.result.complete(json)
+                                try { response.requireSuccess(); reply.result.complete(json) }
+                                catch (error: IoTProtocolException) {
+                                    reply.result.completeExceptionally(error)
+                                    if (error.kind !in setOf(IoTFailure.PermissionDenied, IoTFailure.DeviceRejected)) throw error
+                                }
                             } else if (json.optJSONObject("result")?.optInt("code") == 1104)
                                 throw IoTProtocolException(IoTFailure.SessionExpired, 1104)
                         }
@@ -487,6 +670,7 @@ class CameraSession(
     /** Claim one recovery per generation before a PTZ write error can replace Streaming with Error. */
     private fun streamFailure(epoch: Long, error: Exception, stage: DiagnosticStage) {
         if (generation.get() != epoch || failedStreamGeneration.getAndAccumulate(epoch) { old, next -> maxOf(old, next) } >= epoch) return
+        stopTalkbackRequest(recoverStream = false)
         pendingReply?.result?.completeExceptionally(error)
         firstFrame.completeExceptionally(error)
         if (!areaCapturing && state.value is SessionState.Streaming && retryable(error)) {
@@ -1127,10 +1311,13 @@ class CameraSession(
     }
     suspend fun close() {
         accessRevoked = true; invalidateApAccess(); invalidateAreaReference()
+        stopTalkbackRequest(recoverStream = false)
         reconnectJob?.cancelAndJoin(); reconnectJob = null
         operations.withLock { shutdown(); mutableState.value = SessionState.Idle; diagnostics.record(DiagnosticStage.CLOSE) }
     }
     private suspend fun stopStream() {
+        stopTalkback()
+        mutableTalkbackAudio.value = null
         invalidateAreaReference()
         mutableVideoGeometry.value = null
         withTimeoutOrNull(600) { stopPtz() }
@@ -1153,6 +1340,8 @@ class CameraSession(
     }
     /** Immediate process/lifecycle fallback; normal callers use close() for best-effort motor stop first. */
     fun abort() {
+        stopTalkbackRequest(recoverStream = false)
+        mutableTalkbackAudio.value = null
         invalidateAreaReference(); mutableVideoGeometry.value = null
         accessRevoked = true; authenticatedIoT = null; softApSupported = null; patrolActive = null; invalidateApAccess()
         generation.incrementAndGet()
@@ -1163,6 +1352,7 @@ class CameraSession(
     }
     fun dispose() { abort(); scope.cancel() }
     private fun fail(error: Exception, stage: DiagnosticStage = DiagnosticStage.AUTH, detail: DiagnosticDetail? = null) {
+        stopTalkbackRequest(recoverStream = false)
         invalidateAreaReference(); mutableVideoGeometry.value = null
         accessRevoked = true; authenticatedIoT = null; invalidateApAccess()
         mutableState.value = SessionState.Error(reason(error))

@@ -1,0 +1,52 @@
+{
+  "kind": "sanitized noncanonical REA projection",
+  "source_evidence_id": "ev_3cbb7f821626f6839cc300af78d03afd623e0eb8f2b918305ca57c84016fbec5",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.media.HSMediaPlayer",
+    "method_name": "stopSpeak"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.sdk.media.HSMediaPlayer",
+    "method": {
+      "name": "stopSpeak",
+      "reported_signature": "stopSpeak(): boolean",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "    public boolean stopSpeak() {\n        int i = this.m;\n        if (i < 0 || i > 3 || !this.f || !this.l) {\n            return false;\n        }\n        AudioManager audioManager = this.L;\n        if (audioManager != null && this.T) {\n            audioManager.setMode(this.W);\n            this.L.setSpeakerphoneOn(false);\n            clearAudioCache();\n        }\n        M0 = -1L;\n        this.l = false;\n        synchronized (I0) {\n            MicrophoneRecorder microphoneRecorder = this.k;\n            if (microphoneRecorder != null) {\n                microphoneRecorder.StopRecord();\n                if (this.T) {\n                    this.k.release();\n                    this.k = null;\n                }\n            }\n        }\n        if (this.k == null) {\n            MicrophoneRecorder microphoneRecorder2 = new MicrophoneRecorder(this.N);\n            this.k = microphoneRecorder2;\n            microphoneRecorder2.init();\n            this.k.start();\n        }\n        synchronized (H0) {\n            AudioPlayerThread audioPlayerThread = this.j;\n            if (audioPlayerThread != null && this.T) {\n                audioPlayerThread.setStat(-1);\n                this.j = null;\n            }\n        }\n        if (this.j == null) {\n            AudioPlayerThread audioPlayerThread2 = new AudioPlayerThread(!this.D, this.N);\n            this.j = audioPlayerThread2;\n            audioPlayerThread2.setStat(1);\n            this.j.setNeedSpeed(false);\n            this.j.start();\n        }\n        HSMediaLibrary.stopSpeak(this);\n        AudioManager audioManager2 = this.L;\n        if (audioManager2 != null) {\n            if (Build.VERSION.SDK_INT >= 26) {\n                this.L.abandonAudioFocusRequest(V380Application$$ExternalSyntheticApiModelOutline0.m(2).build());\n            } else {\n                audioManager2.abandonAudioFocus(null);\n            }\n        }\n        return true;\n    }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ]
+}

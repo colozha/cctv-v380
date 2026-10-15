@@ -282,3 +282,17 @@ Implementasi hotspot menambah [konstanta network](evidence/ap-hotspot-network-co
 ## Hapus rekaman dan format SD — 15 Oktober 2026
 
 [Laporan dan batas](sd-maintenance-wire.md), [manifest SHA-256 input/alat/kolektor/hasil](evidence/sd-maintenance-static-summary.json). Bukti baru seluruhnya statis pelengkap, bukan canonical REA atau runtime kamera: scan5.429.555 instruksi DEX, excerpt parser format/ThreadSDCard, serta simbol ELF empat library arm64. String bebas/array DEX dikecualikan. Kontrak delete TF dan enum terminal format tetap belum terbukti; ketiadaan nama simbol bukan bukti semua firmware tidak mendukungnya. Source APK sama dengan investigasi sebelumnya, tidak dieksekusi atau dipaketkan ulang. Validasi aplikasi dicatat terpisah pada [hasil terbaru](../validation/sd-maintenance/results.json).
+
+## Talkback PCM IoT — 15 Oktober 2026
+
+[Kontrak dan batas](talkback-wire.md), [manifest hash](evidence/talkback-static-summary.json). Tujuh excerpt Java REA mempertahankan Evidence ID sumber; bukan pengganti Evidence kanonis. Kolektor REA dan native diarsipkan. Instruksi DEX capability/codec dan bounded disassembly Capstone/ELF memakai APK yang sama, tanpa eksekusi target atau koneksi kamera/cloud. Gerbang implementasi hanya PCM100 mono16 pada8/16kHz; ADPCM/AAC tetap terkunci.
+
+| Excerpt REA | Evidence ID sumber |
+|---|---|
+| [talkback-HSMediaPlayer-jniCallOnRecvMediaInfo.sanitized.json](evidence/talkback-HSMediaPlayer-jniCallOnRecvMediaInfo.sanitized.json) | `ev_b9212e73ebfd1595dcfc39a17cedb1ed56213565e35c76caa3aec143d54db9f9` |
+| [talkback-HSMediaLibrary-sendSpeakAudioData.sanitized.json](evidence/talkback-HSMediaLibrary-sendSpeakAudioData.sanitized.json) | `ev_46f450393948b46b8c7514ffec41fc0e9e0fd85f292f6ca7e8e1f3f46eacc759` |
+| [talkback-HSMediaPlayer-stopSpeak.sanitized.json](evidence/talkback-HSMediaPlayer-stopSpeak.sanitized.json) | `ev_3cbb7f821626f6839cc300af78d03afd623e0eb8f2b918305ca57c84016fbec5` |
+| [talkback-HSMediaPlayer-startSpeak.sanitized.json](evidence/talkback-HSMediaPlayer-startSpeak.sanitized.json) | `ev_65980c3d6a3d47b3462be13a758c804ed79ade6ea356a8e60541f0ac7d106eaa` |
+| [talkback-IoTDevAbility-isSupportSpeak.sanitized.json](evidence/talkback-IoTDevAbility-isSupportSpeak.sanitized.json) | `ev_d7aa554dc3139f5805efc4878057cb0838c865ad84bc39ecb5b63707999bd10c` |
+| [talkback-MicrophoneRecorder-init.sanitized.json](evidence/talkback-MicrophoneRecorder-init.sanitized.json) | `ev_ec1fa2e8b959fe374850a3ddc81ffac8470dc79aaeda629644fdaddf86d923a9` |
+| [talkback-MicrophoneRecorder-a.sanitized.json](evidence/talkback-MicrophoneRecorder-a.sanitized.json) | `ev_745ab5ace7cbe65a9c8c526b0c8929ec0c38ae4613813ea22773a5b9fddff9fe` |

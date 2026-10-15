@@ -4,6 +4,8 @@ import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
@@ -34,6 +37,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.core.net.toUri
 import dev.cctv.v380.control.Direction
 import dev.cctv.v380.session.*
 import dev.cctv.v380.protocol.*
@@ -48,20 +52,37 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     var overrideSaved by remember(profile.id) { mutableStateOf(false) }
     var surface by remember { mutableStateOf<Surface?>(null) }
     val feature by model.features.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
     var presetsOpen by rememberSaveable(profile.id) { mutableStateOf(false) }
     var pendingLeave by remember { mutableStateOf<(() -> Unit)?>(null) }
-    LaunchedEffect(profile.id) { model.prepareFeatures(profile) }
+    LaunchedEffect(profile.id) {
+        model.prepareFeatures(profile)
+        if (model.features.value.tab != CameraTab.SETTINGS && profile.hasSavedPassword &&
+            !model.session.isAuthenticated(profile.id)) onConnect(null)
+    }
     fun leave(action: () -> Unit) {
         if (feature.busy || feature.download in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS) || feature.areaPhase == AreaCapturePhase.EDITING || feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty()) pendingLeave = action else action()
     }
     val capabilities by model.session.capabilities.collectAsStateWithLifecycle()
+    val talkback by model.session.talkback.collectAsStateWithLifecycle()
+    val talkbackAudio by model.session.talkbackAudio.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    var microphoneGranted by remember { mutableStateOf(model.microphoneGranted()) }
+    var microphoneDenied by remember { mutableStateOf(false) }
+    val microphonePermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        microphoneGranted = granted
+        microphoneDenied = !granted
+        // A permission result never starts capture; require a fresh explicit tap.
+    }
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { microphoneGranted = model.microphoneGranted() }
+    LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) { model.stopTalkback() }
     val busy = state is SessionState.Connecting || state is SessionState.Authenticating ||
         state is SessionState.Negotiating || state is SessionState.Reconnecting
     val streaming = state is SessionState.Streaming
     val backAction: () -> Unit = if (feature.tab == CameraTab.RECORDINGS && feature.selected != null)
         model::returnToRecordingList else onBack
     BackHandler { leave(backAction) }
-    DisposableEffect(profile.id) { onDispose { password = ""; model.surfaceLost(surface) } }
+    DisposableEffect(profile.id) { onDispose { password = ""; model.stopTalkback(); model.surfaceLost(surface) } }
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { password = "" }
     LaunchedEffect(surface, state) {
         if (surface?.isValid == true && state is SessionState.Ready) model.surfaceReady(surface!!, profile.id)
@@ -75,7 +96,14 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
         })
         PrimaryTabRow(selectedTabIndex = feature.tab.ordinal) {
             CameraTab.entries.forEach { tab -> Tab(selected = feature.tab == tab,
-                onClick = { leave { model.selectTab(tab) } }, text = { Text(tab.label) }) }
+                onClick = { leave {
+                    val transition = model.selectTab(tab)
+                    if (tab != CameraTab.SETTINGS && profile.hasSavedPassword && transition != null)
+                        scope.launch {
+                            transition.join()
+                            if (model.features.value.tab == tab && !model.session.isAuthenticated(profile.id)) onConnect(null)
+                        }
+                } }, text = { Text(tab.label) }) }
         }
     } }) { insets ->
         if (feature.tab == CameraTab.RECORDINGS) {
@@ -124,7 +152,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                         }
                         (state as? SessionState.Error)?.let { ErrorNotice(it.reason.userMessage()) }
                         error?.let { ErrorNotice(it, model::dismissError) }
-                        if (!streaming && !busy) {
+                        if (!streaming && !busy && (!profile.hasSavedPassword || state is SessionState.Error || error != null)) {
                             if (!profile.hasSavedPassword || overrideSaved) OutlinedTextField(password, { password = it.take(4096) },
                                 label = { Text("Password lokal kamera") }, supportingText = { Text("Gunakan akses perangkat kamera, terpisah dari akun V380 dan Wi-Fi rumah.") },
                                 visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -161,6 +189,20 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                             }
                         }
                     }
+                    TalkbackControls(talkback, when {
+                        !streaming -> dev.cctv.v380.media.TalkbackError.NOT_READY
+                        feature.busy || model.managementBlocked() -> dev.cctv.v380.media.TalkbackError.BUSY
+                        profile.protocolProfileId == "legacy-v2" || profile.platformType == 1 -> dev.cctv.v380.media.TalkbackError.UNSUPPORTED
+                        capabilities?.talkback == null -> dev.cctv.v380.media.TalkbackError.CAPABILITY_UNKNOWN
+                        capabilities?.talkback != true -> dev.cctv.v380.media.TalkbackError.UNSUPPORTED
+                        talkbackAudio == null -> dev.cctv.v380.media.TalkbackError.METADATA_MISSING
+                        talkbackAudio?.supported != true -> dev.cctv.v380.media.TalkbackError.UNSUPPORTED_AUDIO
+                        else -> model.session.talkbackBlock(profile.id)
+                    }, microphoneGranted, microphoneDenied,
+                        onStart = { model.startTalkback(profile.id) }, onStop = model::stopTalkback,
+                        onPermission = { microphonePermission.launch(android.Manifest.permission.RECORD_AUDIO) },
+                        onPermissionSettings = { context.startActivity(android.content.Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            "package:${context.packageName}".toUri())) })
                     CameraPanel {
                         PanelHeading(Icons.Default.Settings, "Kontrol kamera")
                         val ptz = streaming && model.session.manualPtzAllowed && !model.managementBlocked() && !feature.busy && capabilities?.ptz == true

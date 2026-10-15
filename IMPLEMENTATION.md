@@ -1,5 +1,15 @@
 # Status implementasi V380 LAN
 
+## Koneksi otomatis Live dan Rekaman — 15 Oktober 2026
+
+Masuk ke Live atau Rekaman otomatis memakai password kamera tersimpan; tab yang ditinggalkan menutup sesi, dan retry tersedia setelah gagal. Profil tanpa password tersimpan langsung meminta kredensial. Build debug/instrumentation APK, lint, dan106 tes JVM lulus dengan locale `id-ID`; instrumentation tidak dijalankan dan kompatibilitas kamera fisik belum diuji.
+
+## Talkback PCM IoT — 15 Oktober 2026
+
+[Rencana](analysis/talkback-implementation-plan.md) dan [kontrak REA/DEX/ELF](analysis/talkback-wire.md) mendasari panel Bicara ke kamera pada Live. Debug mendukung pengiriman mikrofon HP saja untuk metadata autentikasi PCM100 mono16 pada8/16kHz; ADPCM/AAC, Legacy dan metadata unknown tetap terkunci. Izin mikrofon memerlukan ketukan Mulai baru setelah diberikan. Capture dimulai setelah respons start berkorelasi; pause/rotasi/pergantian tab/kualitas/profil/reconnect/close selalu menghentikannya tanpa auto-resume. Buffer PCM aplikasi dibatasi≤200ms; write yang dibatalkan pada socket live membatalkan kesehatan transport dan memicu pemulihan video. Native stop mikrofon hanya lokal, sehingga tidak dibuat paket stop rekaan. Tidak ada suara yang disimpan atau diekspor. [Validasi dan batas](validation/talkback/results.json) membedakan tes sintetis dari acceptance kamera yang tetap belum dijalankan.
+
+Source akhir lulus106 tes JVM (17 talkback), build debug/instrumentation dan lint0 error/39 warning. Empat vector protokol juga lulus pada Android API33. UI native ditunda sesuai pilihan pengguna; fixture tetap dikompilasi, tanpa screenshot/UI runtime yang dinyatakan lulus. Mikrofon nyata dan speaker kamera belum diuji. Hasil bagian lain di bawah adalah record historis sesuai revisi masing-masing.
+
 Versi **0.4.3-experimental** memiliki adapter wire nyata untuk Legacy V2 dan common IoT LAN: autentikasi, negosiasi video, decoding MediaCodec, PTZ, serta konfigurasi Wi-Fi melalui AP yang telah terautentikasi. Adapter aktif pada **APK debug**. Belum ada kamera yang dinyatakan kompatibel; rilis pengguna tetap dibatasi sampai acceptance kamera fisik lulus.
 
 Target pertama: firmware `Hw_EV2X_NA1_XHR_V1.0_WF_20250804`, software `V2.1.6.0(HSC_A2X17XHR_20250804)`, berdasarkan screenshot pengguna. Nama firmware tidak digunakan untuk memilih generasi protokol.

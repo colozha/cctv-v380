@@ -22,7 +22,16 @@ enum class Quality { SD, HD }
 data class CameraCapabilities(val codecs: Set<VideoCodec>, val qualities: Set<Quality>, val ptz: Boolean,
     val wifiConfiguration: Boolean = false, val horizontalPtz: Boolean = ptz, val verticalPtz: Boolean = ptz,
     val recordingQualities: Set<Int> = emptySet(),
-    val management: dev.cctv.v380.protocol.ManagementAbilities = dev.cctv.v380.protocol.ManagementAbilities())
+    val management: dev.cctv.v380.protocol.ManagementAbilities = dev.cctv.v380.protocol.ManagementAbilities(),
+    val talkback: Boolean? = null)
+
+sealed interface TalkbackState {
+    data object Idle : TalkbackState
+    data object Starting : TalkbackState
+    data object Sending : TalkbackState
+    data object Stopping : TalkbackState
+    data class Error(val reason: dev.cctv.v380.media.TalkbackError) : TalkbackState
+}
 class EncodedFrame(val codec: VideoCodec, val channel: Int, val keyframe: Boolean, val ptsUs: Long, val bytes: ByteArray)
 
 enum class SessionError {

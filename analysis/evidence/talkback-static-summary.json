@@ -1,0 +1,24 @@
+{
+  "kind": "static talkback research provenance; no target execution",
+  "date": "2026-10-15",
+  "timezone": "Asia/Jakarta",
+  "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "files": {
+    "analysis/evidence/talkback-HSMediaLibrary-sendSpeakAudioData.sanitized.json": "5a4dfcc9858948669613e5df05850fb8a4a89385fbba5539c7ef97c67dd35151",
+    "analysis/evidence/talkback-HSMediaPlayer-jniCallOnRecvMediaInfo.sanitized.json": "55bd7b6b14686d55669e9156646f4e205d8f30e290711105eacd50387930271f",
+    "analysis/evidence/talkback-HSMediaPlayer-startSpeak.sanitized.json": "8f5d7afef7225ac61568e65383e44540db120ba4a87280ed5418aef68c987082",
+    "analysis/evidence/talkback-HSMediaPlayer-stopSpeak.sanitized.json": "90b9801d76e5d637871a9eb7b47fee07397109658413204a4af82d5f9baa6a99",
+    "analysis/evidence/talkback-IoTDevAbility-isSupportSpeak.sanitized.json": "35c3325eb8ced40b0f9f50fe214c66da8bb2b70e2105e6dcaa4dcfe40ec4d5f8",
+    "analysis/evidence/talkback-MicrophoneRecorder-a.sanitized.json": "bdbcbebdc787432f472ed3522ab3a28917af0678105da7e8d0d1934d567bd4e3",
+    "analysis/evidence/talkback-MicrophoneRecorder-init.sanitized.json": "db55cb53d0b1cbe785ea2800f2d7acb1188ebc1b28e1ef638d1055621e33c576",
+    "analysis/evidence/talkback-capability.dex.txt": "3de31865b30268ceec140accf828e66bc67147d8b102e0d23ffef6af967289de",
+    "analysis/evidence/talkback-collect-rea.py": "3b389fde134d14730a6e3ca34c6cacfcdef3a11c3e03144aaeeccd1b808bc6e1",
+    "analysis/evidence/talkback-native-scan.py": "27b379972b383349eecc8425f41b9fba27a4d07260e58415a288373430439f47",
+    "analysis/evidence/talkback-native.sanitized.json": "2c9d0f49eb572f5e54908b0bca36da2aeb24af98a8c5f6155ce6892ae071ad2d"
+  },
+  "limitations": [
+    "REA excerpts are noncanonical sanitized projections retaining source evidence IDs.",
+    "DEX and Capstone/ELF observations supplement REA; no native decompiler or runtime claim.",
+    "PCM-only subset; camera acceptance remains deferred."
+  ]
+}

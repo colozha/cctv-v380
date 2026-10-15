@@ -65,7 +65,9 @@ fun DiagnosticsScreen(model: CameraViewModel, onBack: () -> Unit) {
         }
     }
 }
+@Composable
 private fun stageLabel(stage: DiagnosticStage) = when (stage) {
+    DiagnosticStage.TALKBACK -> stringResource(dev.cctv.v380.R.string.talkback_title)
     DiagnosticStage.WIFI -> "Wi-Fi"; DiagnosticStage.DISCOVERY -> "Pencarian kamera"
     DiagnosticStage.AUTH -> "Autentikasi"; DiagnosticStage.CAPABILITIES -> "Kemampuan kamera"
     DiagnosticStage.STREAM -> "Negosiasi video"; DiagnosticStage.FRAME -> "Frame video"

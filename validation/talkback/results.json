@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-15",
+  "timezone": "Asia/Jakarta",
+  "base_revision": "cb7b3e67c8f82cb5335198c50d5e7474881b7d5b",
+  "source_state": "uncommitted working tree; exact Android source/build configuration hashes in source-files.sha256.json",
+  "source_digest_sha256": "6e980d967e3ddea0c2c1a426c38cb214f2816660b871a6e95b652e0b5bd45e2c",
+  "scope": "Experimental debug IoT/V3 phone-to-camera talkback; PCM100 mono16 at8000/16000Hz only",
+  "static_gate": {
+    "pcm_branch": "passed static reconstruction",
+    "other_codecs": "gated",
+    "real_camera_compatibility_verified": false
+  },
+  "build": {
+    "assembleDebug": "passed",
+    "assembleDebugAndroidTest": "passed",
+    "lintDebug": "passed",
+    "lint_errors": 0,
+    "lint_warnings": 39,
+    "lint_hints": 1,
+    "command_file": "build-command.txt",
+    "log": "build.log"
+  },
+  "jvm": {
+    "tests": 106,
+    "failed": 0,
+    "skipped": 0,
+    "talkback_tests": 17,
+    "results": "jvm-results.json"
+  },
+  "android_protocol": {
+    "api": 33,
+    "tests": 4,
+    "passed": 4,
+    "log": "native-protocol.log",
+    "installed_apk_hashes": "installed-apk-digests.json",
+    "scope": "Synthetic protocol vectors only; same final production/protocol source. Subsequent changes only to UI fixture and JVM test."
+  },
+  "android_ui": {
+    "passed": 0,
+    "status": "deferred by explicit user choice",
+    "reason": "Device Dozing; ADB wake input rejected with INJECT_EVENTS; both stalled attempts were force-stopped by agent. Generic process-crashed runner output is not an observed application defect. User then chose Lanjut tanpa tes UI native.",
+    "screenshots": 0,
+    "manual_talkback_accessibility_tested": false,
+    "review": "ui-review.md"
+  },
+  "microphone_runtime_tested": false,
+  "physical_camera_tested": false,
+  "camera_or_cloud_contacted": false,
+  "vendor_apk_or_library_executed": false,
+  "corrections": [
+    {
+      "check": "first full JVM run",
+      "finding": "Existing recording date test assumed Indonesian but host JVM defaulted to English. No product code changed; final run explicitly uses Indonesian locale."
+    },
+    {
+      "check": "first talkback JVM run",
+      "finding": "Synthetic reader swallowed malformed-response teardown instead of invoking the real session failure path; fixture corrected."
+    },
+    {
+      "check": "instrumentation compilation",
+      "finding": "UI fixture used collection assertion on a single node; corrected before final build."
+    }
+  ],
+  "limitations": [
+    "AudioRecord/microphone routing has not run; PCM fixtures use function seams.",
+    "No camera speaker output, latency, firmware compatibility or stable LAN acceptance is claimed.",
+    "ADPCM/AAC, Legacy, incoming camera audio and cloud remain unavailable.",
+    "UI fixture is compiled but no visual or UI runtime pass is claimed.",
+    "No real audio or footage was captured, persisted or exported."
+  ]
+}

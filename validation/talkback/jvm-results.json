@@ -1,0 +1,154 @@
+[
+  {
+    "name": "dev.cctv.v380.ApProtocolTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.093
+  },
+  {
+    "name": "dev.cctv.v380.CameraSessionTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.118
+  },
+  {
+    "name": "dev.cctv.v380.CoreTest",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.123
+  },
+  {
+    "name": "dev.cctv.v380.DiagnosticsTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.003
+  },
+  {
+    "name": "dev.cctv.v380.ManagementSessionGuardTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.006
+  },
+  {
+    "name": "dev.cctv.v380.RecordingExportCopyTest",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.009
+  },
+  {
+    "name": "dev.cctv.v380.RecordingReplayTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.161
+  },
+  {
+    "name": "dev.cctv.v380.SdMaintenanceTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.034
+  },
+  {
+    "name": "dev.cctv.v380.TalkbackRecorderTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.054
+  },
+  {
+    "name": "dev.cctv.v380.TalkbackSessionTest",
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 5.278
+  },
+  {
+    "name": "dev.cctv.v380.TransportDeadlineTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.589
+  },
+  {
+    "name": "dev.cctv.v380.protocol.ApHotspotTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.124
+  },
+  {
+    "name": "dev.cctv.v380.protocol.CameraAreaProtocolTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.006
+  },
+  {
+    "name": "dev.cctv.v380.protocol.CameraFeatureProtocolTest",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.019
+  },
+  {
+    "name": "dev.cctv.v380.protocol.CameraManagementProtocolTest",
+    "tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.013
+  },
+  {
+    "name": "dev.cctv.v380.protocol.IoTMediaProtocolTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.002
+  },
+  {
+    "name": "dev.cctv.v380.protocol.IoTProtocolTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.005
+  },
+  {
+    "name": "dev.cctv.v380.protocol.IoTTalkbackProtocolTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.003
+  },
+  {
+    "name": "dev.cctv.v380.protocol.LegacyProtocolTest",
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.019
+  }
+]

@@ -420,19 +420,26 @@ fun CameraAccess(model: CameraViewModel, profile: CameraProfile, state: SessionS
     } else {
         Text("Akses lokal kamera", style = MaterialTheme.typography.titleMedium)
         Text("Sambungkan kamera untuk membuka rekaman dan pengaturan.", style = MaterialTheme.typography.bodyMedium)
-        if (!profile.hasSavedPassword || overrideSaved) OutlinedTextField(value = password,
-            onValueChange = { password = it.take(4096) }, label = { Text("Password lokal kamera") },
-            visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            singleLine = true, enabled = !connecting,
-            modifier = Modifier.fillMaxWidth())
-        if (profile.hasSavedPassword) TextButton(onClick = { overrideSaved = !overrideSaved; password = "" }, enabled = !connecting) {
-            Text(if (overrideSaved) "Gunakan akses tersimpan" else "Masukkan password lain")
-        }
-        Button(onClick = {
-            val entered = if (profile.hasSavedPassword && !overrideSaved) null else password.toCharArray()
-            password = ""; onConnect(entered)
-        }, enabled = !connecting, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
-            Text(if (connecting) "Menyambungkan…" else "Sambungkan kamera")
+        if (!profile.hasSavedPassword || state is SessionState.Error || ui.error != null) {
+            if (!profile.hasSavedPassword || overrideSaved) OutlinedTextField(value = password,
+                onValueChange = { password = it.take(4096) }, label = { Text("Password lokal kamera") },
+                visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                singleLine = true, enabled = !connecting,
+                modifier = Modifier.fillMaxWidth())
+            if (profile.hasSavedPassword) TextButton(onClick = { overrideSaved = !overrideSaved; password = "" }, enabled = !connecting) {
+                Text(if (overrideSaved) "Gunakan akses tersimpan" else "Masukkan password lain")
+            }
+            Button(onClick = {
+                val entered = if (profile.hasSavedPassword && !overrideSaved) null else password.toCharArray()
+                password = ""; onConnect(entered)
+            }, enabled = !connecting, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
+                Text(if (connecting) "Menyambungkan…" else "Sambungkan kamera")
+            }
+        } else {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                CircularProgressIndicator(modifier = Modifier.size(20.dp))
+                Text(stringResource(R.string.copy_menghubungkan_kamera_f97aa297), style = MaterialTheme.typography.bodyMedium)
+            }
         }
     }
     if (state is SessionState.Error) ErrorNotice(state.reason.userMessage())

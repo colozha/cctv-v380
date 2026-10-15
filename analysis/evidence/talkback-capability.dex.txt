@@ -1,0 +1,114 @@
+Supplementary bounded DEX instructions; no target execution; string and array contents excluded.
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_audio_bmpc32;-><clinit>()V code_item_offset=7696376 registers=1
+0000 dex@00757008 const/4                  v0 #1 
+0001 dex@0075700a invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0004 dex@00757010 move-result              v0 
+0005 dex@00757012 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_audio_bmpc32;->ABL_AUDIO_CAPTURE:I
+0007 dex@00757016 const/4                  v0 #2 
+0008 dex@00757018 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+000b dex@0075701e move-result              v0 
+000c dex@00757020 sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_audio_bmpc32;->ABL_AUDIO_PLAY:I
+000e dex@00757024 const/4                  v0 #3 
+000f dex@00757026 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0012 dex@0075702c move-result              v0 
+0013 dex@0075702e sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_audio_bmpc32;->ABL_AUDIO_CAPTURE_VOLUME:I
+0015 dex@00757032 const/4                  v0 #4 
+0016 dex@00757034 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0019 dex@0075703a move-result              v0 
+001a dex@0075703c sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_audio_bmpc32;->ABL_AUDIO_PLAY_VOLUME:I
+001c dex@00757040 const/4                  v0 #5 
+001d dex@00757042 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I
+0020 dex@00757048 move-result              v0 
+0021 dex@0075704a sput                     v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_abl_audio_bmpc32;->ABL_AUDIO_ENCODER_CHANGE:I
+0023 dex@0075704e return-void              
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><clinit>()V code_item_offset=7703248 registers=3
+0000 dex@00758ae0 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0002 dex@00758ae4 const-string             v1 <string-content-excluded>
+0004 dex@00758ae8 const/4                  v2 #0 
+0005 dex@00758aea invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0008 dex@00758af0 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_VIDEO:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+000a dex@00758af4 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+000c dex@00758af8 const-string             v1 <string-content-excluded>
+000e dex@00758afc const/4                  v2 #1 
+000f dex@00758afe invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0012 dex@00758b04 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_VIDEO_ENCODER:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0014 dex@00758b08 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0016 dex@00758b0c const-string             v1 <string-content-excluded>
+0018 dex@00758b10 const/4                  v2 #2 
+0019 dex@00758b12 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+001c dex@00758b18 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_VIDEO_DECODER:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+001e dex@00758b1c new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0020 dex@00758b20 const-string             v1 <string-content-excluded>
+0022 dex@00758b24 const/4                  v2 #3 
+0023 dex@00758b26 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0026 dex@00758b2c sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_AUDIO:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0028 dex@00758b30 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+002a dex@00758b34 const-string             v1 <string-content-excluded>
+002c dex@00758b38 const/4                  v2 #4 
+002d dex@00758b3a invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0030 dex@00758b40 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_AUDIO_ENCODER:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0032 dex@00758b44 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0034 dex@00758b48 const-string             v1 <string-content-excluded>
+0036 dex@00758b4c const/4                  v2 #5 
+0037 dex@00758b4e invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+003a dex@00758b54 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_AUDIO_DECODER:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+003c dex@00758b58 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+003e dex@00758b5c const-string             v1 <string-content-excluded>
+0040 dex@00758b60 const/4                  v2 #6 
+0041 dex@00758b62 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0044 dex@00758b68 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_VIDEO_QUALITY:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0046 dex@00758b6c new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0048 dex@00758b70 const-string             v1 <string-content-excluded>
+004a dex@00758b74 const/4                  v2 #7 
+004b dex@00758b76 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+004e dex@00758b7c sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_VDEC_WMAX:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0050 dex@00758b80 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0052 dex@00758b84 const-string             v1 <string-content-excluded>
+0054 dex@00758b88 const/16                 v2 #8 
+0056 dex@00758b8c invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0059 dex@00758b92 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_VDEC_HMAX:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+005b dex@00758b96 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+005d dex@00758b9a const-string             v1 <string-content-excluded>
+005f dex@00758b9e const/16                 v2 #9 
+0061 dex@00758ba2 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0064 dex@00758ba8 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_VDEC_FPSMAX:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0066 dex@00758bac new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0068 dex@00758bb0 const-string             v1 <string-content-excluded>
+006a dex@00758bb4 const/16                 v2 #10 
+006c dex@00758bb8 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+006f dex@00758bbe sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_VDEC_BRMAX:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0071 dex@00758bc2 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0073 dex@00758bc6 const-string             v1 <string-content-excluded>
+0075 dex@00758bca const/16                 v2 #11 
+0077 dex@00758bce invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+007a dex@00758bd4 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_MSC_VSPOS:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+007c dex@00758bd8 new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+007e dex@00758bdc const-string             v1 <string-content-excluded>
+0080 dex@00758be0 const/16                 v2 #12 
+0082 dex@00758be4 invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0085 dex@00758bea sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_MSC_HDVSNUM:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0087 dex@00758bee new-instance             v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0089 dex@00758bf2 const-string             v1 <string-content-excluded>
+008b dex@00758bf6 const/16                 v2 #13 
+008d dex@00758bfa invoke-direct            v0 v1 v2 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;-><init>(Ljava/lang/String;I)V
+0090 dex@00758c00 sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->MVS_DSTREAM_ABLC_NUM:Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0092 dex@00758c04 invoke-static            Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->$values()[Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0095 dex@00758c0a move-result-object       v0 
+0096 dex@00758c0c sput-object              v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;->$VALUES:[Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines$_dev_stream_ability_code;
+0098 dex@00758c10 return-void              
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->access$000(I)I code_item_offset=7703720 registers=1
+0000 dex@00758cb8 invoke-static            v0 Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->BMPC(I)I
+0003 dex@00758cbe move-result              v0 
+0004 dex@00758cc0 return                   v0 
+
+DEX classes5.dex method Lcom/macrovideo/sdk/defines/IoTDevAbilityDefines;->BMPC(I)I code_item_offset=7703692 registers=2
+0000 dex@00758c9c const/4                  v0 #1 
+0001 dex@00758c9e sub-int/2addr            v1 v0 
+0002 dex@00758ca0 shl-int                  v1 v0 v1 
+0004 dex@00758ca4 return                   v1 
+
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;->MV_MEDIA_CODEC_AUDIO_ADPCM:I = 101
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;->MV_MEDIA_CODEC_AUDIO_ADTS_AAC:I = 102
+classes5.dex Lcom/macrovideo/sdk/defines/Protocol;->MV_MEDIA_CODEC_AUDIO_PCM:I = 100

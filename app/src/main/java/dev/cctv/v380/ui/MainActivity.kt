@@ -94,6 +94,7 @@ class MainActivity : ComponentActivity() {
         }
     }
     override fun onResume() { super.onResume(); model.onForeground() }
+    override fun onPause() { model.onPaused(); super.onPause() }
     override fun onStop() { if (!isChangingConfigurations) model.onBackground(); super.onStop() }
 }
 

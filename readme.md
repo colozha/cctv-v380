@@ -16,7 +16,7 @@ python3 tools/collect-validation.py --without-connection-tests
 "$ANDROID_HOME/platform-tools/adb" install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada debug. Pemeriksaan15Oktober2026: build debug/instrumentation berhasil,73 tes JVM terpilih lulus, lint0 error. UI/storage baru belum dijalankan karena emulator API37 SIGSEGV saat boot dengan/tanpa KVM; tidak ada screenshot baru terverifikasi. [Hasil terbaru dan batasnya](validation/sd-maintenance/results.json). [Pengujian native dan screenshot Rekaman sebelumnya](validation/recordings-redesign/results.json) bersifat historis untuk source sekarang. Tidak ada pengujian koneksi, format atau penghapusan rekaman kamera.
+APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada debug. Validasi talkback15Oktober2026 pada source akhir: build debug/instrumentation berhasil,106 tes JVM lulus (17 talkback), lint0 error/39 warning, serta4 vector protokol sintetis lulus pada Android API33. UI native ditunda sesuai pilihan pengguna; mikrofon nyata dan speaker kamera belum diuji. [Hasil terbaru dan batas](validation/talkback/results.json). [Hasil SD maintenance](validation/sd-maintenance/results.json) dan [screenshot Rekaman sebelumnya](validation/recordings-redesign/results.json) merupakan record historis sesuai source masing-masing. Tidak ada pengujian koneksi, format atau penghapusan rekaman kamera.
 
 ## Kamera sudah terhubung Wi-Fi
 
@@ -26,6 +26,12 @@ APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter e
 4. SD/HD dan PTZ aktif setelah stream/capability valid. Tahan arah untuk bergerak, lepaskan untuk stop. Saat aplikasi masuk background, stream ditutup.
 
 Opsi **ingat password** default nonaktif. Bila diaktifkan, akses disimpan terenkripsi dengan Keystore dan dikecualikan dari backup. Menghapus profil menghapus ciphertext-nya. Akses vendor tidak dipindahkan otomatis. Bila tidak mengetahui password lokal dan kamera tidak menawarkan pairing offline, jangan mengisi password akun sebagai penggantinya.
+
+## Bicara melalui mikrofon HP
+
+Pada APK debug, buka tab **Live**, tunggu video berjalan, lalu gunakan **Bicara ke kamera → Mulai bicara**. Jika Android meminta izin mikrofon, berikan izin lalu ketuk **Mulai bicara** kembali. **Berhenti bicara** mematikan mikrofon; meninggalkan aplikasi/Live, rotasi, perubahan kualitas, kehilangan koneksi dan reconnect juga menghentikannya. Mikrofon tidak menyala kembali otomatis. Suara hanya dikirim, tidak disimpan.
+
+Fitur eksperimental ini memerlukan kemampuan menerima suara dan format **PCM mono16-bit,8/16kHz** yang dikonfirmasi sesi IoT lokal. ADPCM/AAC, Legacy, format belum diketahui dan jalur cloud tetap nonaktif dengan penjelasan. Audio kamera → HP belum tersedia. Status Mikrofon aktif menyatakan capture/pengiriman lokal, bukan bukti suara terdengar pada speaker kamera. [Kontrak dan batas](analysis/talkback-wire.md), [hasil validasi sintetis](validation/talkback/results.json); kompatibilitas kamera fisik belum terverifikasi.
 
 ## Rekaman dan pengaturan
 

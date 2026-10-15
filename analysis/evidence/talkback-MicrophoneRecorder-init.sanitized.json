@@ -1,0 +1,52 @@
+{
+  "kind": "sanitized noncanonical REA projection",
+  "source_evidence_id": "ev_ec1fa2e8b959fe374850a3ddc81ffac8470dc79aaeda629644fdaddf86d923a9",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.media.HSMediaPlayer.MicrophoneRecorder",
+    "method_name": "init"
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "class_name": "com.macrovideo.sdk.media.HSMediaPlayer.MicrophoneRecorder",
+    "method": {
+      "name": "init",
+      "reported_signature": "init(): void",
+      "overload_index": 0,
+      "is_constructor": false,
+      "dex_descriptor": null
+    },
+    "overload_count": 1,
+    "representation": "java",
+    "body_status": "available",
+    "fell_back": false,
+    "markers": [],
+    "source": {
+      "status": "complete",
+      "text": "        public void init() {\n            if (this.h) {\n                return;\n            }\n            this.f = new byte[1010];\n            int i = this.c;\n            int i2 = ((i / 100) * 16) / 8;\n            this.e = new byte[i2];\n            int i3 = i2 / 2;\n            this.j = new short[i3];\n            this.k = new short[i3];\n            this.l = new short[i3];\n            this.m = new byte[i2];\n            int i4 = HSMediaPlayer.N0;\n            if (i4 == 2 || i4 == 4) {\n                this.p = Defines.NV_IP_ALARM_DEVICE_DELETE_RESPONSE;\n            } else if (i4 == 3 || i4 == 5) {\n                this.p = 4;\n            }\n            EchoCanceller echoCanceller = HSMediaPlayer.J0;\n            if (echoCanceller != null && (echoCanceller.b != i || echoCanceller.c != this.p)) {\n                HSMediaPlayer.J0 = null;\n            }\n            if (HSMediaPlayer.J0 == null && this.p > 0) {\n                HSMediaPlayer.J0 = new EchoCanceller(this.p, this.c, 100);\n            }\n            EchoCanceller echoCanceller2 = HSMediaPlayer.L0;\n            if (echoCanceller2 != null && echoCanceller2.b != this.c) {\n                HSMediaPlayer.L0 = null;\n            }\n            if (HSMediaPlayer.L0 == null) {\n                HSMediaPlayer.L0 = new EchoCanceller(24, this.c, 0);\n            }\n            this.o = HSMediaPlayer.J0 != null || this.n == 3;\n            if (!HSMediaPlayer.this.D) {\n                int minBufferSize = AudioRecord.getMinBufferSize(this.c, 16, 2);\n                int i5 = this.n == 3 ? 7 : 1;\n                LogUtils.d(\"HSMediaPlayer\", j.a(i5, \"MicrophoneRecorder: init, audioSource=\"));\n                this.d = new AudioRecord(i5, this.c, 16, 2, minBufferSize * 3);\n            }\n            this.g = true;\n            this.h = true;\n        }",
+      "reported_total_bytes": null
+    }
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; exact DEX descriptors and instruction offsets are unavailable. Overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ]
+}

@@ -1,0 +1,1 @@
+adb -s <selected-device> shell am instrument -w -r -e class dev.cctv.v380.protocol.IoTTalkbackProtocolTest dev.cctv.v380.test/androidx.test.runner.AndroidJUnitRunner

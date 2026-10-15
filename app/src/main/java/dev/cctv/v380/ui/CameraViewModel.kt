@@ -89,6 +89,17 @@ class CameraViewModel @JvmOverloads constructor(application: Application,
     private val discovery = LanDiscovery(wifi)
     val diagnostics = Diagnostics()
     val session = sessionOverride ?: CameraSession(wifi, discovery, diagnostics)
+    @Volatile private var resumed = false
+    fun microphoneGranted(): Boolean = getApplication<Application>().checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) ==
+        android.content.pm.PackageManager.PERMISSION_GRANTED
+    fun startTalkback(profileId: String) {
+        session.startTalkback(profileId) {
+            resumed && microphoneGranted() && features.value.tab == CameraTab.LIVE && features.value.profileId == profileId &&
+                !features.value.busy && !managementBlocked()
+        }
+    }
+    fun stopTalkback() { session.requestStopTalkback() }
+    fun onPaused() { resumed = false; stopTalkback() }
     val provisioning = ProvisioningManager(wifi, discovery, session, store, viewModelScope)
     private val mutableUi = MutableStateFlow(CameraUiState())
     val ui = mutableUi.asStateFlow()
@@ -265,6 +276,7 @@ class CameraViewModel @JvmOverloads constructor(application: Application,
     }
     fun surfaceLost(value: Surface?) {
         if (value != null && renderSurface === value) {
+            stopTalkback()
             renderSurface = null
             if (features.value.tab == CameraTab.LIVE) {
                 connectionJob?.cancel()
@@ -273,10 +285,12 @@ class CameraViewModel @JvmOverloads constructor(application: Application,
         }
     }
     fun changeQuality(quality: Quality) {
+        stopTalkback()
         val previous = connectionJob
         connectionJob = viewModelScope.launch { previous?.cancelAndJoin(); session.changeQuality(quality) }
     }
     fun disconnect() {
+        stopTalkback()
         connectionJob?.cancel()
         cancelFeature()
         viewModelScope.launch { session.close() }
@@ -290,8 +304,9 @@ class CameraViewModel @JvmOverloads constructor(application: Application,
         cancelScan(); expectWifiHandoff(); provisioning.connectAp(ssid, password)
     }
     fun expectWifiHandoff() { expectedHandoff = true }
-    fun onForeground() { if (!managementWorkRunning && !apWorkRunning) loadRecovery(); expectedHandoff = false; if (apHandoffUntil == 0L) { handoffExpiry?.cancel(); handoffExpiry = null } }
+    fun onForeground() { resumed = true; if (!managementWorkRunning && !apWorkRunning) loadRecovery(); expectedHandoff = false; if (apHandoffUntil == 0L) { handoffExpiry?.cancel(); handoffExpiry = null } }
     fun onBackground() {
+        onPaused()
         if (features.value.areaPhase == AreaCapturePhase.CAPTURING) featureJob?.cancel()
         clearAreaReference()
         // The document picker owns the foreground until its result callback, including recreation.
@@ -339,25 +354,29 @@ class CameraViewModel @JvmOverloads constructor(application: Application,
 
     fun prepareFeatures(profile: CameraProfile) {
         if (features.value.profileId == profile.id) return
+        stopTalkback()
         cancelFeature(); clearRecordingStorage()
         mutableFeatures.value = CameraFeatureState(profileId = profile.id)
         loadRecovery()
     }
 
-    fun selectTab(tab: CameraTab) {
-        if (tab == features.value.tab) return
+    fun selectTab(tab: CameraTab): Job? {
+        if (tab == features.value.tab) return null
+        val previousTab = features.value.tab
+        stopTalkback()
         cancelFeature()
         clearRecordingStorage()
         mutableFeatures.update { it.copy(tab = tab, error = null, notice = null, draft = emptyMap(), paused = true) }
         val profileId = features.value.profileId
         connectionJob?.cancel()
-        connectionJob = viewModelScope.launch {
-            session.stopMedia()
+        return viewModelScope.launch {
+            if (previousTab == CameraTab.LIVE || previousTab == CameraTab.RECORDINGS) session.close()
+            else session.stopMedia()
             if (tab == CameraTab.LIVE && session.connectedProfile != null)
                 renderSurface?.takeIf { it.isValid }?.let { session.play(it, Quality.HD) }
             else if (tab == CameraTab.SETTINGS && features.value.tab == tab && profileId != null &&
                 features.value.profileId == profileId && session.isAuthenticated(profileId)) loadSettings()
-        }
+        }.also { connectionJob = it }
     }
 
     private fun launchFeature(stage: DiagnosticStage, requiresCamera: Boolean = true, mutating: Boolean = false, block: suspend () -> Unit) {

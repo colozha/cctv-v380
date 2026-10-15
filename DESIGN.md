@@ -51,7 +51,11 @@ Authentication, send-once Wi-Fi writes, same-device rediscovery/login verificati
 
 ## Live and presets
 
+Insert a Bicara ke kamera panel after video quality and before directional camera controls, using the existing card, type and button system. Expose microphone off/starting/active/stopping, readable errors and capability/format gates. Mulai bicara requests microphone permission if necessary; a fresh tap after permission is required. Starting offers cancellation and active capture always exposes Berhenti bicara even while other controls are busy. Native pause and rotation stop capture; do not restore microphone state. Status uses a polite live region and controls retain48dp targets, Indonesian/English resources, large type and both themes. Mikrofon aktif describes local capture/transmission, never a verified camera speaker outcome. No waveform or audio visualization is derived from real microphone content. Synthetic panel captures and behavior evidence belong in validation/talkback/.
+
 Keep Live/Rekaman/Pengaturan navigation. A rounded native 16:9 SurfaceView stays attached outside the scrolling control column and underneath the modal sheet. Its height is bounded in landscape. Live uses connection, quality and camera-control cards, followed by a compact Preset & patroli entry. The D-pad has circular arrow targets and a central Stop action. Connection/authentication/video-wait/reconnect/error states remain explicit; black video without a rendered frame is not Streaming. No sample scene, invented timestamp, static 1080P label or Rec badge substitutes for telemetry.
+
+Entering Live or Rekaman automatically connects with the saved local camera password. Leaving either tab closes the camera session, including a switch between the two; returning from a recording player to its list stays in Rekaman. If no password is saved, show the credential form immediately; otherwise show Sambungkan only after connection failure.
 
 Preset & patroli opens a scrollable Material bottom sheet with a close action, slot count/selection, read/save/recall/delete, and the existing inactive-route editor. Overwrite/delete confirmations and draft-discard protection remain. Closing the sheet does not detach video. Start/stop patrol remains unavailable until the motor-status contract is verified.
 
