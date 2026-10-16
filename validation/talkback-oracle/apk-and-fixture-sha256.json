@@ -1,5 +1,5 @@
 {
-  "app/build/outputs/apk/debug/app-debug.apk": "7ce935afc54bdff14c59ad9b58d4aeaf54f8e5274f50712efa2ae7f9398b2ca4",
+  "app/build/outputs/apk/debug/app-debug.apk": "68e019bf3ce4cbea63c77fc8c1ba8c9416363afd562e829d2314149bb6010b46",
   "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "67b35a2173c208d4f06e540b9051e54213922c74ec6c1aa375c9152971b89682",
   "tools/talkback-oracle/build/outputs/apk/debug/TalkbackOracle-debug.apk": "8e748e0f83c97d5a0298e6eeb45e4f4a8716991408f36eb2eafeed77a94dad54",
   "app/src/test/resources/talkback-vendor-vectors.json": "bb15b7800f6df0b7960017478672812a676bdc60694212404cd7efc1b6e06802"

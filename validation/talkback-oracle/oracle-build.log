@@ -39,7 +39,7 @@ Build file '/home/husain/Documents/Works/Github/cctv-v380/tools/talkback-oracle/
 * What went wrong:
 Error : You cannot add Provider instances to the Android SourceSet API.
 It is not possible for Android Studio to determine if the Provider points
-to a directory that contains generated (read-only) or static (read-write) files. 
+to a directory that contains generated (read-only) or static (read-write) files.
 
 Instead you should use the Sources interface in the Variant API, in particular
 SourceDirectories.addGeneratedDirectory and SourceDirectories.addStaticDirectories.

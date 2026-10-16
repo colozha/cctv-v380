@@ -1,7 +1,7 @@
 {
   "date": "2026-10-16",
   "timezone": "Asia/Jakarta",
-  "generated_utc": "2026-10-16T02:38:43.195850+00:00",
+  "generated_utc": "2026-10-16T02:42:43.959583+00:00",
   "base_revision": "33fbd07383f92d54e220e19e3108662faf8a2b97",
   "source_state": "uncommitted working tree; exact source digests in source-files.sha256.json",
   "completion": "Offline vendor-component comparison and codec102 quarantine implemented. Physical talkback repair/acceptance remains incomplete.",
@@ -125,6 +125,10 @@
     "Synthetic native-component equality does not establish real firmware/session compatibility or a physical fix.",
     "Native state ownership difference is recorded, not treated as a proven cause of squealing.",
     "No controlled physical test build was activated because the selected official session route remains unverified.",
-    "Emulator SwiftShader boot attempts crashed; host graphics with Vulkan disabled allowed successful API35 execution. Raw host crash logs are ignored build artifacts."
-  ]
+    "Emulator SwiftShader boot attempts crashed; host graphics with Vulkan disabled allowed successful API35 execution. Raw host crash logs are ignored build artifacts.",
+    "The local reference APK/library hashes are pinned; the owner installed official app version was observed, but its installed binary hash was not obtained."
+  ],
+  "source_digest_sha256": "36f934c3e2b00168799ac6f4df2c6552a55730800a8225c918494ced2e2fc0b5",
+  "diff_whitespace_check": "passed",
+  "source_files": 28
 }

@@ -24,4 +24,3 @@ compiler = sdk / "ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/aa
 subprocess.run([str(compiler), "-std=c++17", "-shared", "-fPIC", "-O1", "-Wall", "-Wextra", "-Werror",
                 "-static-libstdc++", str(root / "src/main/cpp/oracle.cpp"), "-ldl", "-o", str(out / "libtalkback_oracle.so")], check=True)
 (root / "build/vendor-hashes.json").write_text(json.dumps(hashes, indent=2) + "\n")
-
