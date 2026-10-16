@@ -3,6 +3,7 @@ package dev.cctv.v380.protocol
 import dev.cctv.v380.session.CameraSettings
 import dev.cctv.v380.session.RecordingSegment
 import dev.cctv.v380.ui.RecordingOrder
+import dev.cctv.v380.ui.adjacentRecording
 import dev.cctv.v380.ui.recordingRange
 import dev.cctv.v380.ui.recordingStorageWarning
 import java.time.LocalDateTime
@@ -87,6 +88,28 @@ class CameraFeatureProtocolTest {
         assertSame(selected, rows[2])
         assertEquals(9000, rows[0].startMs)
         assertTrue(RecordingOrder.NEWEST_FIRST.sort(emptyList()).isEmpty())
+    }
+
+    @Test fun recordingNavigationFollowsDisplayedOrderAndStopsAtListBoundaries() {
+        val rows = listOf(RecordingSegment(9000, 12000, 1), RecordingSegment(1000, 3000, 2),
+            RecordingSegment(5000, 7000, 1))
+        for (order in RecordingOrder.entries) {
+            val sorted = order.sort(rows)
+            assertNull(adjacentRecording(sorted, sorted.first(), -1))
+            assertEquals(sorted[1], adjacentRecording(sorted, sorted.first(), 1))
+            assertEquals(sorted[0], adjacentRecording(sorted, sorted[1], -1))
+            assertEquals(sorted[2], adjacentRecording(sorted, sorted[1], 1))
+            assertEquals(sorted[1], adjacentRecording(sorted, sorted.last(), -1))
+            assertNull(adjacentRecording(sorted, sorted.last(), 1))
+            // Identity remains the segment ID, even if source pre-roll differs.
+            assertEquals(sorted[2], adjacentRecording(sorted, sorted[1].copy(sourceStartMs = 0), 1))
+        }
+        for (offset in listOf(-1, 1)) {
+            assertNull(adjacentRecording(emptyList(), rows[0], offset))
+            assertNull(adjacentRecording(listOf(rows[0]), rows[0], offset))
+            assertNull(adjacentRecording(rows, RecordingSegment(20000, 21000, 1), offset))
+            assertNull(adjacentRecording(rows.filter { it.kind == 2 }, rows[1], offset))
+        }
     }
 
     @Test fun recordingLabelsIncludeDatesAndBothDatesAcrossMidnightInTheQueryTimeZone() {

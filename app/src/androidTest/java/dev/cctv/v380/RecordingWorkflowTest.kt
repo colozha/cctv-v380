@@ -31,6 +31,26 @@ class RecordingWorkflowTest {
     private val start = LocalDate.of(2026, 10, 14).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli() + 8 * 3600000
     private val segment = RecordingSegment(start, start + 240000, 1)
 
+    @Test fun neighboringRecordingRequestsPlayFromTheStartAndClearPause() {
+        compose.activityRule.scenario.onActivity { activity ->
+            val model = ViewModelProvider(activity)[CameraViewModel::class.java]
+            model.prepareFeatures(profile); model.selectTab(CameraTab.RECORDINGS)
+            val rows = listOf(segment, segment.copy(startMs = start + 240000, endMs = start + 480000))
+            for (paused in listOf(false, true)) for (offset in listOf(-1, 1)) {
+                val current = if (offset == 1) rows.first() else rows.last()
+                model.requestPlayback(current, current.startMs + 1000)
+                if (paused) model.pausePlayback()
+                val request = model.features.value.playRequest
+                val target = adjacentRecording(rows, current, offset)!!
+                model.requestPlayback(target)
+                assertEquals(target, model.features.value.selected)
+                assertEquals(target.startMs, model.features.value.requestedPositionMs)
+                assertFalse(model.features.value.paused)
+                assertEquals(request + 1, model.features.value.playRequest)
+            }
+        }
+    }
+
     @Test fun exportSelectionSurvivesPickerHandoffRecreationAndReconnectWaitAndRejectsASecondPicker() {
         val store = ViewModelStore()
         val saved = SavedStateHandle()
@@ -121,7 +141,7 @@ class RecordingWorkflowTest {
         }
         compose.onNodeWithText("Simpan video tanpa audio").assertDoesNotExist()
         compose.onNodeWithText(recordingTimes(segment)).performScrollTo().assertExists()
-        compose.onNodeWithText("Simpan rekaman").performScrollTo().assertIsEnabled()
+        compose.onNodeWithContentDescription("Simpan rekaman").performScrollTo().assertIsEnabled()
         compose.activityRule.scenario.onActivity { activity ->
             fun surface(view: android.view.View): android.view.SurfaceView? {
                 if (view is android.view.SurfaceView) return view
@@ -131,13 +151,13 @@ class RecordingWorkflowTest {
             val video = surface(activity.window.decorView) ?: error("Native player Surface was disposed while scrolling")
             assertTrue(video.isAttachedToWindow); assertTrue(video.holder.surface.isValid)
         }
-        compose.onNodeWithText("Simpan rekaman").performClick()
+        compose.onNodeWithContentDescription("Simpan rekaman").performClick()
         val automation = InstrumentationRegistry.getInstrumentation().uiAutomation
         compose.waitUntil(15000) { automation.rootInActiveWindow?.packageName?.toString()?.contains("documentsui") == true }
         compose.activityRule.scenario.onActivity { assertEquals(DownloadPhase.CHOOSING_DESTINATION, model.features.value.download) }
         automation.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
         compose.waitUntil(15000) { model.features.value.download == DownloadPhase.IDLE }
-        compose.onNodeWithText("Simpan rekaman").performScrollTo().assertIsEnabled()
+        compose.onNodeWithContentDescription("Simpan rekaman").performScrollTo().assertIsEnabled()
         compose.activityRule.scenario.recreate()
         compose.activityRule.scenario.onActivity { activity ->
             val retained = ViewModelProvider(activity)[CameraViewModel::class.java]

@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.cctv.v380.protocol.CameraSettingsProtocol as P
@@ -20,6 +21,7 @@ import dev.cctv.v380.session.*
 import dev.cctv.v380.ui.*
 import org.junit.Rule
 import org.junit.Test
+import org.junit.Assert.assertTrue
 import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
@@ -38,7 +40,7 @@ class RecordingsVisualTest {
         try {
             for ((name, dark, scale, landscape) in listOf(
                 Variant("light-portrait", false, 1f, false), Variant("dark-large-portrait", true, 1.3f, false),
-                Variant("dark-landscape", true, 1f, true))) {
+                Variant("dark-landscape", true, 1f, true), Variant("light-compact-portrait", false, 1f, false))) {
                 compose.activityRule.scenario.onActivity { it.requestedOrientation = if (landscape)
                     ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT }
                 compose.waitUntil(15000) { instrumentation.targetContext.resources.configuration.orientation ==
@@ -65,7 +67,8 @@ class RecordingsVisualTest {
                                             recordingsLoaded = true, recordings = rows,
                                             recordingStorage = CameraSettings(mapOf(P.SD_STATUS to 1, P.SD_CAPACITY to "1000|560|0"), emptyMap()),
                                             error = if (player) "Koneksi kamera terputus sebelum rekaman selesai diterima. Coba unduh kembali." else null),
-                                            {}, Modifier.padding(padding))
+                                            {}, Modifier.widthIn(max = if (name == "light-compact-portrait") 320.dp else androidx.compose.ui.unit.Dp.Infinity)
+                                                .padding(padding))
                                     }
                                 }
                             }
@@ -76,7 +79,20 @@ class RecordingsVisualTest {
                     compose.onNodeWithText("Kartu SD terpasang").assertIsDisplayed()
                     capture("${if (player) "player" else "list"}-$name-top")
                     if (player) {
-                        compose.onNodeWithText("Simpan rekaman").performScrollTo().assertIsDisplayed()
+                        compose.onNodeWithContentDescription("Simpan rekaman").performScrollTo().assertIsDisplayed()
+                        val actions = listOf("Rekaman sebelumnya", "Putar", "Hentikan", "Rekaman berikutnya", "Simpan rekaman")
+                        val bounds = actions.map { label ->
+                            compose.onNodeWithText(label).assertDoesNotExist()
+                            compose.onNodeWithContentDescription(label).assertIsDisplayed()
+                                .assertWidthIsAtLeast(48.dp).assertHeightIsAtLeast(48.dp).getUnclippedBoundsInRoot()
+                        }
+                        bounds.zipWithNext().forEach { (left, right) ->
+                            assertTrue("Controls must stay in order with 8dp gaps", right.left - left.right >= 7.9.dp)
+                            assertTrue("Controls must share one row", left.top == right.top)
+                        }
+                        // These fixtures have no authenticated camera; playback and navigation stay gated.
+                        for (label in listOf("Rekaman sebelumnya", "Putar", "Rekaman berikutnya"))
+                            compose.onNodeWithContentDescription(label).assertIsNotEnabled()
                         capture("player-$name-controls")
                     } else {
                         compose.onNode(hasScrollToIndexAction()).performScrollToNode(hasText(recordingTimes(rows.first())))

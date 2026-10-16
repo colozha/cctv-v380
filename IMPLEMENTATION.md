@@ -1,5 +1,11 @@
 # Status implementasi V380 LAN
 
+## Kontrol player rekaman — 16 Oktober 2026
+
+Player rekaman memakai satu baris ikon: sebelumnya, putar/jeda, hentikan, berikutnya, unduh. Navigasi mengikuti urutan daftar Terbaru/Terlama pada tanggal/filter aktif dan langsung meminta pemutaran segmen tujuan dari awal, termasuk setelah jeda atau segmen selesai. Tetangga yang tidak tersedia nonaktif; tidak ada wrap, pergantian tanggal atau pemutaran segmen berikutnya secara otomatis. Alur playback/stop/seek/ekspor dan gerbang autentikasi/busy/hotspot/ekspor tetap memakai implementasi sebelumnya. Tombol memakai target sentuh48dp, ikon24dp, padding panel adaptif untuk layar320dp, serta deskripsi aksesibilitas Indonesia/Inggris.
+
+[Validasi source perubahan ini](validation/recording-controls/results.json): build debug/instrumentation dan lint berhasil;16 tes JVM terpilih lulus, termasuk navigasi berdasarkan urutan/ID, batas daftar, daftar kosong/satu item dan filter. Tes workflow diperbarui untuk pemilihan tetangga dari awal, dan fixture visual memeriksa urutan/ukuran/jarak kontrol termasuk layar320dp. Tes Android tersebut baru dikompilasi, belum dijalankan karena tidak ada perangkat Android terhubung; tidak ada screenshot baru atau acceptance kamera fisik yang diklaim. Screenshot kontrol berlabel sebelumnya adalah bukti historis.
+
 ## Checkpoint format SD — 16 Oktober 2026
 
 [Penelusuran handler hasil V380](analysis/sd-maintenance-wire.md#penelusuran-penyelesaian-format--16-oktober-2026) menemukan bahwa jalur UI vendor yang diperiksa menampilkan sukses dari return `1001`, yang pada platform baru berasal dari hasil action SDK `256`. Handler tidak membuktikan terminal format; assignment status normal pada salah satu layar adalah perubahan model lokal. Properti `131330` tetap belum memiliki enum terminal/korelasi yang terbukti. Rencana mensyaratkan bukti lengkap sebelum aktivasi, sehingga `FORMAT_STATUS_VERIFIED=false`, writer/UI dan marker tetap seperti sebelumnya; fitur belum diperbaiki sampai tahap dapat dipakai. Tidak ada API/state sukses atau migrasi spekulatif yang ditambahkan. [Manifest bukti](analysis/evidence/sd-format-completion-summary.json) dan [validasi offline revisi ini](validation/sd-format-completion/results.json) menggantikan hasil historis hanya untuk lingkup yang dicatat; tidak ada pengujian kamera nyata atau UI runtime baru.

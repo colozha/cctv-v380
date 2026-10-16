@@ -92,7 +92,7 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
         BoxWithConstraints(modifier.fillMaxSize().background(scheme.surface)) {
             val videoHeight = minOf((maxWidth - 32.dp) * 9f / 16f, maxHeight * .5f)
             if (selected != null) {
-                RecordingPlayer(model, profile, session, feature, position, videoHeight, onConnect,
+                RecordingPlayer(model, profile, session, feature, rows, position, videoHeight, onConnect,
                     ::export, { onLeave { model.setRecordingDate(it) } }, { dateDialog = true })
             } else {
                 LazyColumn(state = listState, modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp),
@@ -147,13 +147,16 @@ fun RecordingsScreen(model: CameraViewModel, profile: CameraProfile, session: Se
 
 @Composable
 private fun RecordingPlayer(model: CameraViewModel, profile: CameraProfile, session: SessionState,
-    feature: CameraFeatureState, position: Long, videoHeight: androidx.compose.ui.unit.Dp,
+    feature: CameraFeatureState, rows: List<RecordingSegment>, position: Long, videoHeight: androidx.compose.ui.unit.Dp,
     onConnect: (CharArray?) -> Unit, onExport: (RecordingSegment) -> Unit,
     onDateChange: (LocalDate) -> Unit, onPicker: () -> Unit) {
     val selected = feature.selected ?: return
     val positionDescription = stringResource(R.string.recording_position)
     val authenticated = model.session.isAuthenticated(profile.id)
     val exportPending = feature.download in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS)
+    val playbackEnabled = authenticated && !feature.busy && !exportPending && feature.pendingAp == null
+    val previous = adjacentRecording(rows, selected, -1)
+    val next = adjacentRecording(rows, selected, 1)
     val scheme = MaterialTheme.colorScheme
     var renderSurface by remember { mutableStateOf<Surface?>(null) }
     LaunchedEffect(renderSurface, feature.playRequest) {
@@ -190,7 +193,9 @@ private fun RecordingPlayer(model: CameraViewModel, profile: CameraProfile, sess
             RecordingFeedback(feature, model::cancelFeature)
         RecordingDateControl(feature.date, onDateChange, onPicker, feature.pendingAp == null)
 
-                    RecordingPanel {
+                    BoxWithConstraints(Modifier.fillMaxWidth()) {
+                    // Five 48dp targets and four 8dp gaps also fit a 320dp phone.
+                    RecordingPanel(horizontalPadding = if (maxWidth < 312.dp) 8.dp else 20.dp) {
                         Text(recordingTimes(selected), style = MaterialTheme.typography.titleLarge)
                         Text(recordingDates(selected), style = MaterialTheme.typography.bodyMedium, color = scheme.onSurfaceVariant)
                         Text(when {
@@ -211,28 +216,38 @@ private fun RecordingPlayer(model: CameraViewModel, profile: CameraProfile, sess
                         }
                         Slider(seek, { dragging = true; seek = it }, onValueChangeFinished = {
                             dragging = false; model.requestPlayback(selected, selected.startMs + (seek * (selected.durationMs - 1)).toLong())
-                        }, enabled = authenticated && !feature.busy && !exportPending && feature.pendingAp == null,
+                        }, enabled = playbackEnabled,
                             modifier = Modifier.semantics { contentDescription = positionDescription })
-                        Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                            Button(onClick = {
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            OutlinedIconButton(onClick = { previous?.let { model.requestPlayback(it) } },
+                                enabled = playbackEnabled && previous != null, modifier = Modifier.size(48.dp)) {
+                                Icon(RecordingPreviousIcon, stringResource(R.string.recording_previous), Modifier.size(24.dp))
+                            }
+                            FilledIconButton(onClick = {
                                 if (session is SessionState.PlayingRecording) model.pausePlayback()
                                 else model.requestPlayback(selected, if (session is SessionState.RecordingEnded) selected.startMs
                                     else position.takeIf { it in selected.startMs until selected.endMs } ?: selected.startMs)
-                            }, enabled = authenticated && !feature.busy && !exportPending && feature.pendingAp == null,
-                                modifier = Modifier.weight(1f).fillMaxHeight().heightIn(min = 52.dp)) {
-                                Icon(if (session is SessionState.PlayingRecording) RecordingPauseIcon else Icons.Default.PlayArrow, null)
-                                Spacer(Modifier.width(8.dp)); Text(if (session is SessionState.PlayingRecording) "Jeda" else "Putar")
+                            }, enabled = playbackEnabled, modifier = Modifier.size(48.dp)) {
+                                Icon(if (session is SessionState.PlayingRecording) RecordingPauseIcon else Icons.Default.PlayArrow,
+                                    stringResource(if (session is SessionState.PlayingRecording) R.string.recording_pause else R.string.copy_putar_049e4760),
+                                    Modifier.size(24.dp))
                             }
-                            OutlinedButton(onClick = model::pausePlayback, enabled = !feature.busy && !exportPending && feature.pendingAp == null,
-                                modifier = Modifier.weight(1f).fillMaxHeight().heightIn(min = 52.dp)) {
-                                Icon(RecordingStopIcon, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text("Hentikan")
+                            OutlinedIconButton(onClick = model::pausePlayback, enabled = !feature.busy && !exportPending && feature.pendingAp == null,
+                                modifier = Modifier.size(48.dp)) {
+                                Icon(RecordingStopIcon, stringResource(R.string.copy_hentikan_d87312f2), Modifier.size(24.dp))
                             }
-                        }
-                        OutlinedButton(onClick = { onExport(selected) }, enabled = !feature.busy && !exportPending && feature.pendingAp == null && feature.pendingFormat == null,
-                            modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
-                            Icon(RecordingDownloadIcon, null, Modifier.size(20.dp)); Spacer(Modifier.width(8.dp)); Text("Simpan rekaman")
+                            OutlinedIconButton(onClick = { next?.let { model.requestPlayback(it) } },
+                                enabled = playbackEnabled && next != null, modifier = Modifier.size(48.dp)) {
+                                Icon(RecordingNextIcon, stringResource(R.string.recording_next), Modifier.size(24.dp))
+                            }
+                            OutlinedIconButton(onClick = { onExport(selected) },
+                                enabled = !feature.busy && !exportPending && feature.pendingAp == null && feature.pendingFormat == null,
+                                modifier = Modifier.size(48.dp)) {
+                                Icon(RecordingDownloadIcon, stringResource(R.string.copy_simpan_rekaman_fbaa3c57), Modifier.size(24.dp))
+                            }
                         }
                         Text("Menyimpan satu rekaman penuh tanpa audio.", style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
+                    }
                     }
 
     }
@@ -256,9 +271,9 @@ private fun RecordingFeedback(feature: CameraFeatureState, onCancel: () -> Unit)
 }
 
 @Composable
-private fun RecordingPanel(content: @Composable ColumnScope.() -> Unit) {
+private fun RecordingPanel(horizontalPadding: androidx.compose.ui.unit.Dp = 20.dp, content: @Composable ColumnScope.() -> Unit) {
     Surface(color = MaterialTheme.colorScheme.surfaceContainer, shape = RoundedCornerShape(20.dp), modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp), content = content)
+        Column(Modifier.padding(horizontal = horizontalPadding, vertical = 20.dp), verticalArrangement = Arrangement.spacedBy(12.dp), content = content)
     }
 }
 
@@ -359,6 +374,18 @@ fun RecordingStorageStatus(storage: CameraSettings?, loading: Boolean, error: St
     }
 }
 
+private val RecordingPreviousIcon = ImageVector.Builder("SkipPrevious", 24.dp, 24.dp, 24f, 24f).apply {
+    path(fill = SolidColor(Color.Black)) {
+        moveTo(6f, 5f); horizontalLineTo(9f); verticalLineTo(19f); horizontalLineTo(6f); close()
+        moveTo(18f, 5f); verticalLineTo(19f); lineTo(9f, 12f); close()
+    }
+}.build()
+private val RecordingNextIcon = ImageVector.Builder("SkipNext", 24.dp, 24.dp, 24f, 24f).apply {
+    path(fill = SolidColor(Color.Black)) {
+        moveTo(15f, 5f); horizontalLineTo(18f); verticalLineTo(19f); horizontalLineTo(15f); close()
+        moveTo(6f, 5f); lineTo(15f, 12f); lineTo(6f, 19f); close()
+    }
+}.build()
 private val RecordingStopIcon = ImageVector.Builder("Hentikan", 24.dp, 24.dp, 24f, 24f).apply {
     path(fill = SolidColor(Color.Black)) { moveTo(5f, 5f); horizontalLineTo(19f); verticalLineTo(19f); horizontalLineTo(5f); close() }
 }.build()

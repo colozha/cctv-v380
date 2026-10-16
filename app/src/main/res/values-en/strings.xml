@@ -1,4 +1,7 @@
 <resources>
+    <string name="recording_previous">Previous recording</string>
+    <string name="recording_next">Next recording</string>
+    <string name="recording_pause">Pause</string>
     <string name="talkback_title">Talk to camera</string>
     <string name="talkback_start">Start talking</string>
     <string name="talkback_stop">Stop talking</string>

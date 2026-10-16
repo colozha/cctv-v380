@@ -73,6 +73,12 @@ Use pill outlined secondary actions, mint filled primary actions, wrapping radio
 
 Diagnostics displays events in reverse insertion order, newest first, while its bounded storage and JSON export remain chronological. No timestamp sorting is used, so events with the same elapsed time retain the intended reverse insertion order.
 
+## Recording player controls
+
+The focused recording player uses one icon-only row in this order: previous, play/pause, stop, next, download. Play/pause is a filled Material icon button; the other four are outlined. Icons are 24dp with 48dp touch targets and at least 8dp spacing at phone widths of 320dp and above. Only the player's information panel reduces horizontal padding from 20dp to 8dp when its available width is below 312dp. Preserve the existing Recordings palette and light/dark themes. Each icon has an Indonesian/English action description; play/pause updates its description with the playback state.
+
+Previous/next follow the displayed list order and active date/filter, request playback from the target segment's start even after pause, and retain authentication/busy/export/hotspot gates. Disable missing neighbors, including both when the selected segment is absent from the loaded list. Do not wrap, cross dates, or advance automatically at segment completion. Stop, seek, export and the attached video Surface retain their existing flows. Current offline evidence and runtime limits are in validation/recording-controls/results.json; earlier screenshots show the previous labelled controls.
+
 ## Verification and evidence
 
 SD maintenance recovery keeps its status notice visible when the Kartu SD section is collapsed. When expanded, a pending note exposes Periksa status kartu and Tutup catatan format even before settings are loaded; reading requires the matching authenticated camera. Closing asks for confirmation and states that the outcome is still unknown and the camera operation is not cancelled. Format remains disabled, including during export; per-recording delete explains that the app does not yet support it. New UI fixtures cover light/dark, large type, landscape and confirmation, but are not visually verified because the API37 emulator failed boot. Current evidence is in validation/sd-maintenance/results.json.

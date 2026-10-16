@@ -1,0 +1,7 @@
+cddcbb337e718a83ca5badcc617186d8c712e14c82ed79602a6f79205e7f3cef  app/src/androidTest/java/dev/cctv/v380/RecordingWorkflowTest.kt
+ce768d44d81b13f4d12f36548e4e311a232ef8f26c93d63726428646503ed43a  app/src/androidTest/java/dev/cctv/v380/RecordingsVisualTest.kt
+0e30594d4652b1ea4e6399301a6ae3cf7cd614debf9b488fb6876597c78f635c  app/src/main/java/dev/cctv/v380/ui/RecordingPresentation.kt
+4fc1223157f2b6de70256094240344a8b4453443b3459be6bec1ee6999a5718b  app/src/main/java/dev/cctv/v380/ui/RecordingsScreen.kt
+10576814fc7bbb06c6b1bf1e1b2f268ef1a9f0764e35c20023c0c58861fae787  app/src/main/res/values-en/strings.xml
+9e0bb8b8adb153d24d3bcdd1d0233ebadd32bdc87c60c698fa4077ccb349f763  app/src/main/res/values/strings.xml
+f03540692e7eea2d4c6a240f51b42b4a7c69539fe658eba5376c48c0bb6ff3a7  app/src/test/java/dev/cctv/v380/protocol/CameraFeatureProtocolTest.kt

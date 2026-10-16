@@ -1,4 +1,7 @@
 <resources>
+    <string name="recording_previous">Rekaman sebelumnya</string>
+    <string name="recording_next">Rekaman berikutnya</string>
+    <string name="recording_pause">Jeda</string>
     <string name="talkback_title">Bicara ke kamera</string>
     <string name="talkback_start">Mulai bicara</string>
     <string name="talkback_stop">Berhenti bicara</string>

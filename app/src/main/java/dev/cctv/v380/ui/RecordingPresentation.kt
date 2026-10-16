@@ -21,6 +21,11 @@ enum class RecordingOrder(val label: String) {
     }
 }
 
+internal fun adjacentRecording(rows: List<RecordingSegment>, selected: RecordingSegment, offset: Int): RecordingSegment? {
+    val index = rows.indexOfFirst { it.id == selected.id }
+    return if (index < 0) null else rows.getOrNull(index + offset)
+}
+
 fun recordingRange(recording: RecordingSegment, zone: ZoneId = ZoneId.systemDefault()): String {
     val start = Instant.ofEpochMilli(recording.startMs).atZone(zone)
     val end = Instant.ofEpochMilli(recording.endMs).atZone(zone)

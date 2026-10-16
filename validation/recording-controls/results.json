@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-16T08:40:15.354279+07:00",
+  "base_revision": "29b5c392093395effa564dc48e406377dfbe35d7",
+  "source_manifest": "source-sha256.txt",
+  "source_scope": "Changed app source, resource and test files on the base revision; manifest recorded after successful validation. Documentation updated afterward does not change the tested app.",
+  "build": {
+    "status": "passed",
+    "command": "command.txt",
+    "log": "build.log",
+    "debug_apk": true,
+    "android_test_apk": true
+  },
+  "jvm_tests": {
+    "status": "passed",
+    "total": 16,
+    "suites": [
+      {
+        "name": "dev.cctv.v380.RecordingExportCopyTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.RecordingReplayTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.CameraFeatureProtocolTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "lint": {
+    "status": "passed",
+    "errors": 0,
+    "warnings": 35,
+    "hints": 1
+  },
+  "resource_check": {
+    "status": "passed",
+    "scope": "All five icon action descriptions plus the dynamic Pause description exist in Indonesian and English resources."
+  },
+  "native": {
+    "status": "not_run",
+    "reason": "adb devices -l returned no attached devices. No emulator was launched after the repository documented repeated boot crashes.",
+    "compiled_scenarios": [
+      "neighbor requests start from the target beginning and clear pause",
+      "existing export picker cancellation and selected-recording preservation via icon description",
+      "light/dark, 1.3x type, landscape and 320dp fixtures assert ordered icon-only controls, 48dp targets, 8dp gaps and disconnected navigation gates"
+    ],
+    "screenshots_created": false
+  },
+  "camera_acceptance": {
+    "status": "not_run",
+    "physical_camera_contacted": false
+  },
+  "artifacts": [
+    {
+      "path": "app/build/outputs/apk/debug/app-debug.apk",
+      "sha256": "ce0c7398aa3ca0ae02a7002382ea26a87f5af8373ee5a197b1a29ea162a3ba7f",
+      "bytes": 16772553
+    },
+    {
+      "path": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+      "sha256": "d34a7804291627b6684785cc86810d8f379bd141f9012f99bc50290fa63f27e8",
+      "bytes": 1406676
+    }
+  ]
+}
