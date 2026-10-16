@@ -1,0 +1,38 @@
+{
+  "kind": "sanitized noncanonical REA projection; static analysis only",
+  "source_evidence_id": "ev_594d8970d584f4b5ebd4f370913587223235087dfab5a871b2b5bdf465ef050c",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.DeviceConfigSettingDeviceRecordFragment2.FormatSDCardThread",
+    "method_name": "run"
+  },
+  "engine": {
+    "name": "jadx-headless-mcp",
+    "version": "0.7.1",
+    "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+    "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+    "worker_count": 1,
+    "heap_limit_mib": 2048
+  },
+  "method": {
+    "name": "run",
+    "reported_signature": "run(): void",
+    "overload_index": 0,
+    "is_constructor": false,
+    "dex_descriptor": null
+  },
+  "source_excerpt": "        @Override // java.lang.Thread, java.lang.Runnable\n        public void run() {\n            LoginHandle loginHandleLoginForSetting;\n            final int sDCardFormat;\n            String string;\n            String str = \"<redacted>\";\n            if (DeviceConfigSettingDeviceRecordFragment2.this.mActivity == null || DeviceConfigSettingDeviceRecordFragment2.this.mActivity.mLoginHandle == null || DeviceConfigSettingDeviceRecordFragment2.this.mActivity.mLoginHandle.getPlatformType() < Defines.DEVICE_PLATFORM_TYPE_NEW) {\n                loginHandleLoginForSetting = GlobalDefines.loginForSetting(DeviceConfigSettingDeviceRecordFragment2.this.mAttachActivity, DeviceConfigSettingDeviceRecordFragment2.this.mActivity.mDeviceInfo);\n                LogUtil.FeedbackLog feedbackLogFeedback = LogUtil.feedback();\n                StringBuilder sb = new StringBuilder(\"<redacted>\");\n                Object objValueOf = str;\n                if (loginHandleLoginForSetting != null) {\n                    objValueOf = Integer.valueOf(loginHandleLoginForSetting.getnResult());\n                }\n                sb.append(objValueOf);\n                feedbackLogFeedback.i(DeviceConfigSettingDeviceRecordFragment2.TAG, sb.toString());\n            } else {\n                loginHandleLoginForSetting = DeviceConfigSettingDeviceRecordFragment2.this.mActivity.mLoginHandle;\n                LogUtil.FeedbackLog feedbackLogFeedback2 = LogUtil.feedback();\n                StringBuilder sb2 = new StringBuilder(\"<redacted>\");\n                if (loginHandleLoginForSetting != null) {\n                    string = str;\n                    string = loginHandleLoginForSetting.toString();\n                }\n                string = str;\n                sb2.append(string);\n                feedbackLogFeedback2.i(DeviceConfigSettingDeviceRecordFragment2.TAG, sb2.toString());\n            }\n            if (loginHandleLoginForSetting != null && loginHandleLoginForSetting.getnResult() == 256) {\n                if (this.nSDCareID == DeviceConfigSettingDeviceRecordFragment2.this.mFormatSDCardThreadID) {\n                    sDCardFormat = DeviceSDCardSetting.setSDCardFormat(DeviceConfigSettingDeviceRecordFragment2.this.mActivity.mDeviceInfo, loginHandleLoginForSetting);\n                    LogUtil.feedback().i(DeviceConfigSettingDeviceRecordFragment2.TAG, \"<redacted>\" + sDCardFormat);\n                } else {\n                    sDCardFormat = 0;\n                }\n                LogUtil.d(DeviceConfigSettingDeviceRecordFragment2.TAG, \"<redacted>\" + sDCardFormat);\n                if (DeviceConfigSettingDeviceRecordFragment2.this.mBaseFragmentHandler != null) {\n                    DeviceConfigSettingDeviceRecordFragment2.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.DeviceConfigSettingDeviceRecordFragment2.FormatSDCardThread.2\n                        @Override // java.lang.Runnable\n                        public void run() {\n                            if (FormatSDCardThread.this.nSDCareID == DeviceConfigSettingDeviceRecordFragment2.this.mFormatSDCardThreadID) {\n                                DeviceConfigSettingDeviceRecordFragment2.this.mActivity.dismissLoadingDialog();\n                                int i = sDCardFormat;\n                                if (i == -1) {\n                                    DeviceConfigSettingDeviceRecordFragment2.this.mActivity.showToast(DeviceConfigSettingDeviceRecordFragment2.this.getString(R.string.str_sdcard_network_fail), 0);\n                                    return;\n                                }\n                                if (i == 0) {\n                                    DeviceConfigSettingDeviceRecordFragment2.this.mActivity.showToast(DeviceConfigSettingDeviceRecordFragment2.this.getString(R.string.str_sdcard_device_return_fail), 0);\n                                    return;\n                                }\n                                if (i != 1001) {\n                                    if (i != 2001) {\n                                        return;\n                                    }\n                                    DeviceConfigSettingDeviceRecordFragment2.this.mActivity.showToast(DeviceConfigSettingDeviceRecordFragment2.this.getString(R.string.str_format_sdcard_failed), 0);\n                                } else {\n                                    GlobalDefines.sIsNeedRefreshCardReplayDataAfterFormatCard = true;\n                                    DeviceConfigSettingDeviceRecordFragment2.this.mActivity.showToast(DeviceConfigSettingDeviceRecordFragment2.this.getString(R.string.str_format_sdcard_succeefully), 1);\n                                    DeviceConfigSettingDeviceRecordFragment2.this.mAttachActivity.finish();\n                                }\n                            }\n                        }\n                    });\n                    return;\n                }\n                return;\n            }\n            if (DeviceConfigSettingDeviceRecordFragment2.this.mBaseFragmentHandler != null) {\n                DeviceConfigSettingDeviceRecordFragment2.this.mBaseFragmentHandler.post(new Runnable() { // from class: com.macrovideo.v380.fragments.DeviceConfigSettingDeviceRecordFragment2.FormatSDCardThread.1\n                    @Override // java.lang.Runnable\n                    public void run() {\n                        if (FormatSDCardThread.this.nSDCareID == DeviceConfigSettingDeviceRecordFragment2.this.mFormatSDCardThreadID) {\n                            DeviceConfigSettingDeviceRecordFragment2.this.mActivity.dismissLoadingDialog();\n                            DeviceConfigSettingDeviceRecordFragment2.this.mActivity.showToast(DeviceConfigSettingDeviceRecordFragment2.this.getResources().getString(R.string.str_notice_result_neterror), 0);\n                        }\n                    }\n                });\n            }\n        }",
+  "limitations": [
+    "All Java string literals redacted; handler excerpts contain only the format-result branch.",
+    "Decompiler output requires DEX cross-check; UI success does not prove physical completion."
+  ]
+}

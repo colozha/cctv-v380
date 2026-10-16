@@ -1,0 +1,38 @@
+{
+  "kind": "sanitized noncanonical REA projection; static analysis only",
+  "source_evidence_id": "ev_a99801410ddef7099ce081ead2bfc538e6fd95ac2b0b32e59fb71c0d59ca6849",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.v380.fragments.DeviceConfigSettingDeviceRecordFragment",
+    "method_name": "handleMessage"
+  },
+  "engine": {
+    "name": "jadx-headless-mcp",
+    "version": "0.7.1",
+    "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+    "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+    "worker_count": 1,
+    "heap_limit_mib": 2048
+  },
+  "method": {
+    "name": "handleMessage",
+    "reported_signature": "handleMessage(android.os.Message): void",
+    "overload_index": 0,
+    "is_constructor": false,
+    "dex_descriptor": null
+  },
+  "source_excerpt": "    @Override // com.macrovideo.v380.fragments.BaseFragment\n    protected void handleMessage(Message message) {\n        RecordConfigInfo recordConfigInfo;\n        super.handleMessage(message);\n        int i = message.what;\n        if (i == 1) {\n            this.mActivity.dismissLoadingDialog();\n            int i2 = message.arg1;\n            if (i2 == -1) {\n                this.mActivity.showToast(getString(R.string.str_sdcard_network_fail), 0);\n            }\n            if (i2 == 0) {\n                this.mActivity.showToast(getString(R.string.str_sdcard_device_return_fail), 0);\n                return;\n            }\n            if (i2 == 1001) {\n                this.mActivity.showToast(getString(R.string.str_format_sdcard_succeefully), 1);\n                this.mAttachActivity.finish();\n                return;\n            } else {\n                if (i2 != 2001) {\n                    return;\n                }\n                this.mActivity.showToast(getString(R.string.str_format_sdcard_failed), 0);\n                return;\n            }\n        }\n",
+  "limitations": [
+    "All Java string literals redacted; handler excerpts contain only the format-result branch.",
+    "Decompiler output requires DEX cross-check; UI success does not prove physical completion."
+  ]
+}

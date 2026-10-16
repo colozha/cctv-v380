@@ -1,0 +1,173 @@
+{
+  "recorded_at": "2026-10-16T08:20:45.339773+07:00",
+  "status": "investigation_complete_activation_protocol_blocked",
+  "source_revision": "dfe88d79bdd689323b932628d51a597e5ed9c177",
+  "app_tree_git_object": "872e9cc9b57384555e4d8b91af3fd0ef4ee3e605",
+  "application_source_changed": false,
+  "source_scope": "Application and Gradle sources match HEAD; only research, documentation and validation artifacts changed.",
+  "static_analysis": {
+    "status": "collected",
+    "manifest": "../../analysis/evidence/sd-format-completion-summary.json",
+    "rea_projections": 3,
+    "dex_dumps_or_excerpts": 4,
+    "input_apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+    "manifest_hashes_verified": true
+  },
+  "implementation": {
+    "format_enabled": false,
+    "terminal_evaluator_added": false,
+    "marker_migration_added": false,
+    "public_api_changed": false,
+    "reason": "Approved activation requires proven terminal semantics and operation correlation; the inspected vendor UI branches use the action result and provide neither."
+  },
+  "initial_attempt": {
+    "tests": 79,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "status": "failed",
+    "log": "initial-build.log",
+    "jvm": "initial-jvm",
+    "reason": "Existing recording-date test expects Indonesian Oktober but inherited English JVM locale produced October. SD recovery and writer guards passed.",
+    "command": "offline-build-command.sh without JAVA_TOOL_OPTIONS export"
+  },
+  "final_attempt": {
+    "status": "passed",
+    "command": "offline-build-command.sh",
+    "log": "offline-build.log",
+    "jvm": {
+      "tests": 79,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "scope": "Selected existing JVM protocol/session/recovery/diagnostics/export fixtures; no real sockets.",
+      "suites": [
+        {
+          "name": "dev.cctv.v380.ApProtocolTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.DiagnosticsTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.ManagementSessionGuardTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.RecordingExportCopyTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.RecordingReplayTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.SdMaintenanceTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.protocol.ApHotspotTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.protocol.CameraAreaProtocolTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.protocol.CameraFeatureProtocolTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.protocol.CameraManagementProtocolTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.protocol.IoTMediaProtocolTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.protocol.IoTProtocolTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.protocol.IoTTalkbackProtocolTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "dev.cctv.v380.protocol.LegacyProtocolTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "build": {
+      "debug": "up-to-date",
+      "debug_android_test": "up-to-date",
+      "note": "Gradle validated matching cached build artifacts; application source was not changed."
+    },
+    "lint": {
+      "status": "passed",
+      "analysis": "up-to-date",
+      "errors": 0,
+      "warnings": 35,
+      "information": 0,
+      "report_sha256": "1143ba0e8773b8d031852971c0c0d33027303f395f36c4b0b3687ba0e2b51480"
+    },
+    "locale": "JAVA_TOOL_OPTIONS=-Duser.language=id -Duser.country=ID"
+  },
+  "runtime": {
+    "instrumentation_run": false,
+    "reason": "No emulator/Android device attached; application UI unchanged, no boot attempted.",
+    "camera_connections": 0,
+    "camera_destructive_commands_sent": 0,
+    "vendor_code_executed": false
+  },
+  "not_verified": [
+    "Terminal SD format success/failure enum and association with a new operation.",
+    "An alternate terminal signal that permits making SD_FORMAT_STATE optional.",
+    "Active format write, lost-ACK/process-recreation polling and terminal cleanup paths.",
+    "Owner-camera compatibility, physical format completion, and UI instrumentation runtime."
+  ]
+}

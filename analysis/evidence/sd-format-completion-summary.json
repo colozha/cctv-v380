@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-16",
+  "kind": "offline static format-result tracing",
+  "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "jadx_jar_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+  "collector_sha256": "b975d7b4cafd7f656c3dfd0456130a41f7a9950cea7e40f4c9f861eb6b7db7a0",
+  "dex_dumper_sha256": "7db057bd6cfbe5ac7ce7a6c7773d3e1a4a0665f8455dab04c269e49049f8f841",
+  "reproduction": [
+    "python3",
+    "analysis/evidence/sd-format-completion-collect.py",
+    "/home/husain/Downloads/v380-6-4-90.apk",
+    "/home/husain/.local/share/rea/jadx/jadx-headless-mcp-0.7.1-all.jar"
+  ],
+  "queries": [
+    {
+      "command": [
+        "rea",
+        "inspect-android-method",
+        "/home/husain/Downloads/v380-6-4-90.apk",
+        "com.macrovideo.v380.fragments.DeviceConfigSettingDeviceRecordFragment2.FormatSDCardThread",
+        "run",
+        "--format",
+        "json"
+      ],
+      "source_evidence_id": "ev_594d8970d584f4b5ebd4f370913587223235087dfab5a871b2b5bdf465ef050c",
+      "file": "sd-format-completion-thread2.sanitized.json"
+    },
+    {
+      "command": [
+        "rea",
+        "inspect-android-method",
+        "/home/husain/Downloads/v380-6-4-90.apk",
+        "com.macrovideo.v380.fragments.DeviceConfigSettingDeviceRecordFragment",
+        "handleMessage",
+        "--format",
+        "json"
+      ],
+      "source_evidence_id": "ev_a99801410ddef7099ce081ead2bfc538e6fd95ac2b0b32e59fb71c0d59ca6849",
+      "file": "sd-format-completion-record-handler.sanitized.json"
+    },
+    {
+      "command": [
+        "rea",
+        "inspect-android-method",
+        "/home/husain/Downloads/v380-6-4-90.apk",
+        "com.macrovideo.v380.fragments.DeviceConfigSettingHomePageFragment",
+        "handleMessage",
+        "--format",
+        "json"
+      ],
+      "source_evidence_id": "ev_0a0349a8610b7a20241f0df6560d22ebf43f461d37758db18027f7bee23c63e8",
+      "file": "sd-format-completion-home-handler.sanitized.json"
+    },
+    {
+      "descriptor": "Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;",
+      "method": "run",
+      "code_unit_range": null,
+      "file": "sd-format-completion-thread2.dex.txt"
+    },
+    {
+      "descriptor": "Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread$2;",
+      "method": "run",
+      "code_unit_range": null,
+      "file": "sd-format-completion-thread2-result.dex.txt"
+    },
+    {
+      "descriptor": "Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;",
+      "method": "handleMessage",
+      "code_unit_range": [
+        1039,
+        1116
+      ],
+      "file": "sd-format-completion-record-handler.dex.txt"
+    },
+    {
+      "descriptor": "Lcom/macrovideo/v380/fragments/DeviceConfigSettingHomePageFragment;",
+      "method": "handleMessage",
+      "code_unit_range": [
+        1231,
+        1287
+      ],
+      "file": "sd-format-completion-home-handler.dex.txt"
+    }
+  ],
+  "files": {
+    "sd-format-completion-thread2.sanitized.json": "a8b34119ddf749eec562d6066e1fc51820395a09f179b355921dc07f8f62342c",
+    "sd-format-completion-record-handler.sanitized.json": "2b7c42f9a7e3bf7dbac99166c47432f7eb26e9dab28830e68c792cb923a7cab9",
+    "sd-format-completion-home-handler.sanitized.json": "c7d7ff8f17c85c1d3f25d0c27cd5150f9b6e990e8b4b7240f66fd764c4f3b566",
+    "sd-format-completion-thread2.dex.txt": "0c389c1c46c9ccd97f66872bf8b000f8d8d841c0c200cbff932356dc8c46c558",
+    "sd-format-completion-thread2-result.dex.txt": "4244974c3de7472b747e7d86c466b38eedbb3f623d34116de405ebf65be4725b",
+    "sd-format-completion-record-handler.dex.txt": "95f585a4899263af75e673535b59288290c3be4852d556817dde948f9b995c4e",
+    "sd-format-completion-home-handler.dex.txt": "b12cb3f5c119c11be01a25e42ebec384d67d4e6af3fac4fc2fbd7b241b0a4649"
+  },
+  "finding": "Vendor UI success follows setSDCardFormat result 1001; the existing IoT action maps result 256 to 1001. These branches provide no terminal readback or operation correlation.",
+  "activation": "blocked: terminal contract still unproven; FORMAT_STATUS_VERIFIED remains false",
+  "limitations": [
+    "No APK/native library execution, camera connection or format operation.",
+    "Bounded paths, not a complete native call graph or proof of absence across firmware.",
+    "No new terminal enum is inferred from UI labels, ACK or the local record-state assignment."
+  ]
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.ApProtocolTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-16T01:17:55.783Z" hostname="fedora" time="0.262">
+  <properties/>
+  <testcase name="wifiSerializersKeepTheLegacyAndIotEncodingsDistinct" classname="dev.cctv.v380.ApProtocolTest" time="0.07"/>
+  <testcase name="discoveryMetadataDistinguishesConfigAndAlarmFromPlatform" classname="dev.cctv.v380.ApProtocolTest" time="0.013"/>
+  <testcase name="bindingTransactionRequiresAnActualCorrelatedReply" classname="dev.cctv.v380.ApProtocolTest" time="0.089"/>
+  <testcase name="binaryDiscoveryValidatesDatagramBoundariesIdentityAndSource" classname="dev.cctv.v380.ApProtocolTest" time="0.006"/>
+  <testcase name="encryptedWifiTransactionUsesTheProvedActionAndRejectsPlaintextSuccess" classname="dev.cctv.v380.ApProtocolTest" time="0.073"/>
+  <testcase name="bindingFieldsAndPasswordProofUseTheRecoveredSchema" classname="dev.cctv.v380.ApProtocolTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.protocol.IoTMediaProtocolTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-16T01:19:09.508Z" hostname="fedora" time="0.008">
+  <properties/>
+  <testcase name="shortVideoTailsAndLargePlaintextGapsAreValidSparsePatterns" classname="dev.cctv.v380.protocol.IoTMediaProtocolTest" time="0.002"/>
+  <testcase name="readsNegotiatedCodecAndPtzCapabilitiesAndBuildsFiniteSteps" classname="dev.cctv.v380.protocol.IoTMediaProtocolTest" time="0.002"/>
+  <testcase name="decryptsSparseCbcAndEcbWithoutChainingAcrossPlaintextGaps" classname="dev.cctv.v380.protocol.IoTMediaProtocolTest" time="0.001"/>
+  <testcase name="parsesPlainFramesAndRejectsUnsafeChunkMetadata" classname="dev.cctv.v380.protocol.IoTMediaProtocolTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

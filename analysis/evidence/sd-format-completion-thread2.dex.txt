@@ -1,0 +1,113 @@
+DEX classes6.dex method Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->run()V code_item_offset=7670328 registers=7
+0000 dex@00750a48 iget-object              v0 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+0002 dex@00750a4c invoke-static            v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->access$500(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;)Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0005 dex@00750a52 move-result-object       v0 
+0006 dex@00750a54 const-string             v1 <string-content-excluded>
+0008 dex@00750a58 const-string             v2 <string-content-excluded>
+000a dex@00750a5c if-eqz                   v0  -> 004a
+000c dex@00750a60 iget-object              v0 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+000e dex@00750a64 invoke-static            v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->access$500(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;)Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0011 dex@00750a6a move-result-object       v0 
+0012 dex@00750a6c iget-object              v0 v0 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->mLoginHandle:Lcom/macrovideo/sdk/media/LoginHandle;
+0014 dex@00750a70 if-eqz                   v0  -> 004a
+0016 dex@00750a74 iget-object              v0 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+0018 dex@00750a78 invoke-static            v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->access$500(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;)Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+001b dex@00750a7e move-result-object       v0 
+001c dex@00750a80 iget-object              v0 v0 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->mLoginHandle:Lcom/macrovideo/sdk/media/LoginHandle;
+001e dex@00750a84 invoke-virtual           v0 Lcom/macrovideo/sdk/media/LoginHandle;->getPlatformType()I
+0021 dex@00750a8a move-result              v0 
+0022 dex@00750a8c sget                     v3 Lcom/macrovideo/sdk/defines/Defines;->DEVICE_PLATFORM_TYPE_NEW:I
+0024 dex@00750a90 if-lt                    v0 v3  -> 004a
+0026 dex@00750a94 iget-object              v0 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+0028 dex@00750a98 invoke-static            v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->access$500(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;)Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+002b dex@00750a9e move-result-object       v0 
+002c dex@00750aa0 iget-object              v0 v0 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->mLoginHandle:Lcom/macrovideo/sdk/media/LoginHandle;
+002e dex@00750aa4 invoke-static            Lcom/macrovideo/v380/utils/LogUtil;->feedback()Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;
+0031 dex@00750aaa move-result-object       v3 
+0032 dex@00750aac new-instance             v4 Ljava/lang/StringBuilder;
+0034 dex@00750ab0 const-string             v5 <string-content-excluded>
+0036 dex@00750ab4 invoke-direct            v4 v5 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0039 dex@00750aba if-eqz                   v0  -> 003f
+003b dex@00750abe invoke-virtual           v0 Lcom/macrovideo/sdk/media/LoginHandle;->toString()Ljava/lang/String;
+003e dex@00750ac4 move-result-object       v1 
+003f dex@00750ac6 invoke-virtual           v4 v1 Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+0042 dex@00750acc invoke-virtual           v4 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0045 dex@00750ad2 move-result-object       v1 
+0046 dex@00750ad4 invoke-virtual           v3 v2 v1 Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;->i(Ljava/lang/String;Ljava/lang/String;)V
+0049 dex@00750ada goto                      -> 0079
+004a dex@00750adc iget-object              v0 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+004c dex@00750ae0 iget-object              v0 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->mAttachActivity:Landroid/app/Activity;
+004e dex@00750ae4 iget-object              v3 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+0050 dex@00750ae8 invoke-static            v3 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->access$500(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;)Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0053 dex@00750aee move-result-object       v3 
+0054 dex@00750af0 iget-object              v3 v3 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->mDeviceInfo:Lcom/macrovideo/sdk/objects/DeviceInfo;
+0056 dex@00750af4 invoke-static            v0 v3 Lcom/macrovideo/v380/utils/GlobalDefines;->loginForSetting(Landroid/content/Context;Lcom/macrovideo/sdk/objects/DeviceInfo;)Lcom/macrovideo/sdk/media/LoginHandle;
+0059 dex@00750afa move-result-object       v0 
+005a dex@00750afc invoke-static            Lcom/macrovideo/v380/utils/LogUtil;->feedback()Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;
+005d dex@00750b02 move-result-object       v3 
+005e dex@00750b04 new-instance             v4 Ljava/lang/StringBuilder;
+0060 dex@00750b08 const-string             v5 <string-content-excluded>
+0062 dex@00750b0c invoke-direct            v4 v5 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+0065 dex@00750b12 if-eqz                   v0  -> 006f
+0067 dex@00750b16 invoke-virtual           v0 Lcom/macrovideo/sdk/media/LoginHandle;->getnResult()I
+006a dex@00750b1c move-result              v1 
+006b dex@00750b1e invoke-static            v1 Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+006e dex@00750b24 move-result-object       v1 
+006f dex@00750b26 invoke-virtual           v4 v1 Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+0072 dex@00750b2c invoke-virtual           v4 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+0075 dex@00750b32 move-result-object       v1 
+0076 dex@00750b34 invoke-virtual           v3 v2 v1 Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;->i(Ljava/lang/String;Ljava/lang/String;)V
+0079 dex@00750b3a if-eqz                   v0  -> 00d8
+007b dex@00750b3e invoke-virtual           v0 Lcom/macrovideo/sdk/media/LoginHandle;->getnResult()I
+007e dex@00750b44 move-result              v1 
+007f dex@00750b46 const/16                 v3 #256 
+0081 dex@00750b4a if-ne                    v1 v3  -> 00d8
+0083 dex@00750b4e iget                     v1 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->nSDCareID:I
+0085 dex@00750b52 iget-object              v3 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+0087 dex@00750b56 invoke-static            v3 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->access$2200(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;)I
+008a dex@00750b5c move-result              v3 
+008b dex@00750b5e if-ne                    v1 v3  -> 00af
+008d dex@00750b62 iget-object              v1 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+008f dex@00750b66 invoke-static            v1 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->access$500(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;)Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0092 dex@00750b6c move-result-object       v1 
+0093 dex@00750b6e iget-object              v1 v1 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->mDeviceInfo:Lcom/macrovideo/sdk/objects/DeviceInfo;
+0095 dex@00750b72 invoke-static            v1 v0 Lcom/macrovideo/sdk/setting/DeviceSDCardSetting;->setSDCardFormat(Lcom/macrovideo/sdk/objects/DeviceInfo;Lcom/macrovideo/sdk/media/LoginHandle;)I
+0098 dex@00750b78 move-result              v0 
+0099 dex@00750b7a invoke-static            Lcom/macrovideo/v380/utils/LogUtil;->feedback()Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;
+009c dex@00750b80 move-result-object       v1 
+009d dex@00750b82 new-instance             v3 Ljava/lang/StringBuilder;
+009f dex@00750b86 const-string             v4 <string-content-excluded>
+00a1 dex@00750b8a invoke-direct            v3 v4 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+00a4 dex@00750b90 invoke-virtual           v3 v0 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+00a7 dex@00750b96 invoke-virtual           v3 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00aa dex@00750b9c move-result-object       v3 
+00ab dex@00750b9e invoke-virtual           v1 v2 v3 Lcom/macrovideo/v380/utils/LogUtil$FeedbackLog;->i(Ljava/lang/String;Ljava/lang/String;)V
+00ae dex@00750ba4 goto                      -> 00b0
+00af dex@00750ba6 const/4                  v0 #0 
+00b0 dex@00750ba8 new-instance             v1 Ljava/lang/StringBuilder;
+00b2 dex@00750bac const-string             v3 <string-content-excluded>
+00b4 dex@00750bb0 invoke-direct            v1 v3 Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+00b7 dex@00750bb6 invoke-virtual           v1 v0 Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+00ba dex@00750bbc invoke-virtual           v1 Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+00bd dex@00750bc2 move-result-object       v1 
+00be dex@00750bc4 filled-new-array         v1 [Ljava/lang/Object;
+00c1 dex@00750bca move-result-object       v1 
+00c2 dex@00750bcc invoke-static            v2 v1 Lcom/macrovideo/v380/utils/LogUtil;->d(Ljava/lang/String;[Ljava/lang/Object;)V
+00c5 dex@00750bd2 iget-object              v1 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+00c7 dex@00750bd6 iget-object              v1 v1 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->mBaseFragmentHandler:Landroid/os/Handler;
+00c9 dex@00750bda if-eqz                   v1  -> 00d7
+00cb dex@00750bde iget-object              v1 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+00cd dex@00750be2 iget-object              v1 v1 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->mBaseFragmentHandler:Landroid/os/Handler;
+00cf dex@00750be6 new-instance             v2 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread$2;
+00d1 dex@00750bea invoke-direct            v2 v6 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread$2;-><init>(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;I)V
+00d4 dex@00750bf0 invoke-virtual           v1 v2 Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+00d7 dex@00750bf6 return-void              
+00d8 dex@00750bf8 iget-object              v0 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+00da dex@00750bfc iget-object              v0 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->mBaseFragmentHandler:Landroid/os/Handler;
+00dc dex@00750c00 if-eqz                   v0  -> 00ea
+00de dex@00750c04 iget-object              v0 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;->this$0:Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;
+00e0 dex@00750c08 iget-object              v0 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2;->mBaseFragmentHandler:Landroid/os/Handler;
+00e2 dex@00750c0c new-instance             v1 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread$1;
+00e4 dex@00750c10 invoke-direct            v1 v6 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread$1;-><init>(Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment2$FormatSDCardThread;)V
+00e7 dex@00750c16 invoke-virtual           v0 v1 Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+00ea dex@00750c1c return-void              

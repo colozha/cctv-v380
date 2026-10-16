@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.ManagementSessionGuardTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-16T01:19:08.913Z" hostname="fedora" time="0.062">
+  <properties/>
+  <testcase name="unauthenticatedAndGatedOperationsNeverReachTransport" classname="dev.cctv.v380.ManagementSessionGuardTest" time="0.062"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

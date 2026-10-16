@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.cctv.v380.protocol.ApHotspotTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-16T01:17:56.616Z" hostname="fedora" time="0.276">
+  <properties/>
+  <testcase name="authenticatedReadyWithoutVideoCanWriteOnceAndInvalidatesTheOldSession" classname="dev.cctv.v380.protocol.ApHotspotTest" time="0.186"/>
+  <testcase name="codecKeepsRouterModeSeparateAndUsesRecoveredSoftApCapabilityAndInputRules" classname="dev.cctv.v380.protocol.ApHotspotTest" time="0.002"/>
+  <testcase name="explicitCapabilityAndLiveNetworkProofAreRequiredEvenAfterSuccessfulLogin" classname="dev.cctv.v380.protocol.ApHotspotTest" time="0.015"/>
+  <testcase name="unconnectedCameraAndPreAuthProfileCannotAuthorizeAnAction" classname="dev.cctv.v380.protocol.ApHotspotTest" time="0.002"/>
+  <testcase name="abortAfterDurableMarkerBlocksWriteAndResponseLossNeverReplaysAction" classname="dev.cctv.v380.protocol.ApHotspotTest" time="0.07"/>
+  <testcase name="verificationRequiresBothRequestedValuesAndNeverConfusesEncodedNames" classname="dev.cctv.v380.protocol.ApHotspotTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

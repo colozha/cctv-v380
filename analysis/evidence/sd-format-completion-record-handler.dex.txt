@@ -1,0 +1,41 @@
+DEX classes6.dex method Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->handleMessage(Landroid/os/Message;)V code_item_offset=7690516 registers=20
+0410 dex@00756144 invoke-virtual           v2 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->dismissLoadingDialog()V
+0413 dex@0075614a iget                     v1 v1 Landroid/os/Message;->arg1:I
+0415 dex@0075614e const/4                  v2 #-1 
+0416 dex@00756150 if-eq                    v1 v2  -> 044f
+0418 dex@00756154 if-eqz                   v1  -> 0442
+041a dex@00756158 const/16                 v2 #1001 
+041c dex@0075615c if-eq                    v1 v2  -> 0430
+041e dex@00756160 const/16                 v2 #2001 
+0420 dex@00756164 if-eq                    v1 v2  -> 0423
+0422 dex@00756168 goto                      -> 045b
+0423 dex@0075616a iget-object              v1 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->mActivity:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0425 dex@0075616e sget                     v2 Lcom/macrovideo/v380/R$string;->str_format_sdcard_failed:I
+0427 dex@00756172 invoke-virtual           v0 v2 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->getString(I)Ljava/lang/String;
+042a dex@00756178 move-result-object       v2 
+042b dex@0075617a const/4                  v3 #0 
+042c dex@0075617c invoke-virtual           v1 v2 v3 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->showToast(Ljava/lang/String;I)V
+042f dex@00756182 goto                      -> 045b
+0430 dex@00756184 iget-object              v1 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->mActivity:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0432 dex@00756188 sget                     v2 Lcom/macrovideo/v380/R$string;->str_format_sdcard_succeefully:I
+0434 dex@0075618c invoke-virtual           v0 v2 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->getString(I)Ljava/lang/String;
+0437 dex@00756192 move-result-object       v2 
+0438 dex@00756194 const/4                  v3 #1 
+0439 dex@00756196 invoke-virtual           v1 v2 v3 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->showToast(Ljava/lang/String;I)V
+043c dex@0075619c iget-object              v1 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->mAttachActivity:Landroid/app/Activity;
+043e dex@007561a0 invoke-virtual           v1 Landroid/app/Activity;->finish()V
+0441 dex@007561a6 goto                      -> 045b
+0442 dex@007561a8 iget-object              v1 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->mActivity:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0444 dex@007561ac sget                     v2 Lcom/macrovideo/v380/R$string;->str_sdcard_device_return_fail:I
+0446 dex@007561b0 invoke-virtual           v0 v2 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->getString(I)Ljava/lang/String;
+0449 dex@007561b6 move-result-object       v2 
+044a dex@007561b8 const/4                  v3 #0 
+044b dex@007561ba invoke-virtual           v1 v2 v3 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->showToast(Ljava/lang/String;I)V
+044e dex@007561c0 goto                      -> 045b
+044f dex@007561c2 const/4                  v3 #0 
+0450 dex@007561c4 iget-object              v1 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->mActivity:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+0452 dex@007561c8 sget                     v2 Lcom/macrovideo/v380/R$string;->str_sdcard_network_fail:I
+0454 dex@007561cc invoke-virtual           v0 v2 Lcom/macrovideo/v380/fragments/DeviceConfigSettingDeviceRecordFragment;->getString(I)Ljava/lang/String;
+0457 dex@007561d2 move-result-object       v2 
+0458 dex@007561d4 invoke-virtual           v1 v2 v3 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->showToast(Ljava/lang/String;I)V
+045b dex@007561da return-void              

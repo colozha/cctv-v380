@@ -1,0 +1,28 @@
+DEX classes6.dex method Lcom/macrovideo/v380/fragments/DeviceConfigSettingHomePageFragment;->handleMessage(Landroid/os/Message;)V code_item_offset=7752676 registers=13
+04cf dex@00765592 iget-object              v0 v11 Lcom/macrovideo/v380/fragments/DeviceConfigSettingHomePageFragment;->mActivity:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+04d1 dex@00765596 invoke-virtual           v0 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->dismissLoadingDialog()V
+04d4 dex@0076559c iget                     v12 v12 Landroid/os/Message;->arg1:I
+04d6 dex@007655a0 const/16                 v0 #1001 
+04d8 dex@007655a4 if-eq                    v12 v0  -> 04e6
+04da dex@007655a8 iget-object              v12 v11 Lcom/macrovideo/v380/fragments/DeviceConfigSettingHomePageFragment;->mActivity:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+04dc dex@007655ac sget                     v0 Lcom/macrovideo/v380/R$string;->str_format_sdcard_failed:I
+04de dex@007655b0 invoke-virtual           v11 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingHomePageFragment;->getString(I)Ljava/lang/String;
+04e1 dex@007655b6 move-result-object       v0 
+04e2 dex@007655b8 invoke-virtual           v12 v0 v2 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->showToast(Ljava/lang/String;I)V
+04e5 dex@007655be goto                      -> 0506
+04e6 dex@007655c0 iget-object              v12 v11 Lcom/macrovideo/v380/fragments/DeviceConfigSettingHomePageFragment;->mActivity:Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;
+04e8 dex@007655c4 sget                     v0 Lcom/macrovideo/v380/R$string;->str_format_sdcard_succeefully:I
+04ea dex@007655c8 invoke-virtual           v11 v0 Lcom/macrovideo/v380/fragments/DeviceConfigSettingHomePageFragment;->getString(I)Ljava/lang/String;
+04ed dex@007655ce move-result-object       v0 
+04ee dex@007655d0 invoke-virtual           v12 v0 v1 Lcom/macrovideo/v380/activities/DeviceConfigSettingActivity;->showToast(Ljava/lang/String;I)V
+04f1 dex@007655d6 sget-object              v12 Lcom/macrovideo/v380/utils/GlobalDefines;->sDeviceConfigure:Lcom/macrovideo/sdk/setting/DeviceConfigInfo;
+04f3 dex@007655da if-eqz                   v12  -> 0506
+04f5 dex@007655de sget-object              v12 Lcom/macrovideo/v380/utils/GlobalDefines;->sDeviceConfigure:Lcom/macrovideo/sdk/setting/DeviceConfigInfo;
+04f7 dex@007655e2 invoke-virtual           v12 Lcom/macrovideo/sdk/setting/DeviceConfigInfo;->getmRecordInfo()Lcom/macrovideo/sdk/setting/RecordConfigInfo;
+04fa dex@007655e8 move-result-object       v12 
+04fb dex@007655ea if-eqz                   v12  -> 0506
+04fd dex@007655ee sget-object              v12 Lcom/macrovideo/v380/utils/GlobalDefines;->sDeviceConfigure:Lcom/macrovideo/sdk/setting/DeviceConfigInfo;
+04ff dex@007655f2 invoke-virtual           v12 Lcom/macrovideo/sdk/setting/DeviceConfigInfo;->getmRecordInfo()Lcom/macrovideo/sdk/setting/RecordConfigInfo;
+0502 dex@007655f8 move-result-object       v12 
+0503 dex@007655fa invoke-virtual           v12 v1 Lcom/macrovideo/sdk/setting/RecordConfigInfo;->setnRecordStat(I)V
+0506 dex@00765600 return-void              
