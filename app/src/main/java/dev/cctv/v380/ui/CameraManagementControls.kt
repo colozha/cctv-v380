@@ -5,6 +5,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +19,8 @@ import dev.cctv.v380.R
 
 @Composable
 fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, feature: CameraFeatureState,
-    group: ManagementGroup, live: Boolean = false) {
+    group: ManagementGroup, live: Boolean = false, embedded: Boolean = false,
+    expanded: Boolean = true, unfinished: Boolean = false) {
     var confirmation by remember(profile.id, group) { mutableStateOf<Pair<String, () -> Unit>?>(null) }
     val authenticated = model.session.isAuthenticated(profile.id)
     val caps by model.session.capabilities.collectAsState()
@@ -229,8 +231,26 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
         }
         if (live && feature.managementLoading == group && feature.busy) Text("Sedang memeriksa kamera…", style = MaterialTheme.typography.bodySmall)
     }
+    val status: @Composable () -> Unit = {
+        feature.managementErrors[group]?.let { SettingsNotice(it, error = true) }
+        if (feature.managementLoading == group && feature.busy) {
+            LinearProgressIndicator(Modifier.fillMaxWidth())
+            Text("Sedang memeriksa kamera…", style = MaterialTheme.typography.bodySmall)
+        }
+        if (CameraManagementProtocol.ids(group).any { it in feature.managementDraft }) SettingsNotice("Perubahan belum disimpan")
+        if (group == ManagementGroup.DEVICE && feature.pendingRestart != null)
+            SettingsNotice("Hasil restart belum diketahui. Buka kartu untuk memeriksa kamera; perintah tidak dikirim ulang.", error = true)
+        if (group == ManagementGroup.MOTOR && feature.calibrationNeedsCheck)
+            SettingsNotice("Status kalibrasi belum terverifikasi. Periksa bahwa gerak kamera telah berhenti.", error = true)
+    }
     if (live) Column(verticalArrangement = Arrangement.spacedBy(12.dp), content = body)
-    else {
+    else if (embedded) {
+        status()
+        if (expanded) {
+            Text(localizedCopy(group.label), style = MaterialTheme.typography.titleSmall)
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp), content = body)
+        }
+    } else {
         val patrol = values[CameraManagementProtocol.PATROL] as? CameraPatrol
         val summary = when (group) {
             ManagementGroup.DEVICE -> listOfNotNull(
@@ -243,24 +263,16 @@ fun CameraManagementGroup(model: CameraViewModel, profile: CameraProfile, featur
             }
             else -> if (snapshot == null) "Belum diperiksa" else "Nilai kamera telah dibaca"
         }
-        SettingsCard(profile.id, group.label, when (group) {
+        SettingsCard(profile.id, localizedCopy(group.label), if (unfinished) Icons.Default.Build else when (group) {
             ManagementGroup.LIGHT -> LightIcon
             ManagementGroup.ALARM -> MotionIcon
             ManagementGroup.MOTOR -> PatrolIcon
             ManagementGroup.DEVICE -> Icons.Default.Settings
-        }, summary, canCollapse = group != ManagementGroup.ALARM ||
-            feature.areaPhase !in setOf(AreaCapturePhase.CAPTURING, AreaCapturePhase.EDITING), status = {
-            feature.managementErrors[group]?.let { SettingsNotice(it, error = true) }
-            if (feature.managementLoading == group && feature.busy) {
-                LinearProgressIndicator(Modifier.fillMaxWidth())
-                Text("Sedang memeriksa kamera…", style = MaterialTheme.typography.bodySmall)
-            }
-            if (CameraManagementProtocol.ids(group).any { it in feature.managementDraft }) SettingsNotice("Perubahan belum disimpan")
-            if (group == ManagementGroup.DEVICE && feature.pendingRestart != null)
-                SettingsNotice("Hasil restart belum diketahui. Buka kartu untuk memeriksa kamera; perintah tidak dikirim ulang.", error = true)
-            if (group == ManagementGroup.MOTOR && feature.calibrationNeedsCheck)
-                SettingsNotice("Status kalibrasi belum terverifikasi. Periksa bahwa gerak kamera telah berhenti.", error = true)
-        }, content = body)
+        }, if (unfinished && snapshot == null) null else localizedCopy(summary),
+            flat = unfinished, badge = if (unfinished) stringResource(R.string.settings_not_working) else null,
+            canCollapse = group != ManagementGroup.ALARM ||
+                feature.areaPhase !in setOf(AreaCapturePhase.CAPTURING, AreaCapturePhase.EDITING),
+            status = { status() }, content = body)
     }
     confirmation?.let { (text, action) ->
         AlertDialog(onDismissRequest = { confirmation = null }, title = { Text("Konfirmasi tindakan") }, text = { Text(text) },

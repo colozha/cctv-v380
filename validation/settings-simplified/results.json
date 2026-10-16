@@ -1,0 +1,73 @@
+{
+  "date_utc": "2026-10-16T03:44:13.300987+00:00",
+  "base_revision": "f103dc811e70ab8d7e77f06659ddd01d8ab53942",
+  "source": "source-sha256.json identifies the changed app/test sources and build configuration; working tree was not committed.",
+  "build": {
+    "status": "passed",
+    "tasks": [
+      ":app:assembleDebug",
+      ":app:assembleDebugAndroidTest",
+      ":app:lintDebug"
+    ],
+    "log": "build-confirm.log",
+    "lint_issues": {
+      "Error": 0,
+      "Warning": 40,
+      "Information": 0
+    }
+  },
+  "native": {
+    "status": "passed",
+    "tests": 15,
+    "log": "native-confirm.log",
+    "device": "Task-owned Android API35 x86_64 emulator;320x640 at160dpi portrait,640x320 landscape.",
+    "classes": [
+      "SettingsUiTest",
+      "FeatureUiTest",
+      "SdMaintenanceUiTest",
+      "CameraManagementUiTest"
+    ],
+    "coverage": [
+      "three main groups before the three marked features",
+      "opening disclosures does not open camera transport",
+      "independent disclosures and saveable expansion",
+      "draft preservation and authentication locks",
+      "hotspot SSID preservation, validation and password disposal",
+      "closed error/progress/restart recovery",
+      "SD recovery without loaded settings and destructive confirmation",
+      "existing management/alarm controls"
+    ]
+  },
+  "visual": {
+    "status": "reviewed",
+    "matrix_captures": 69,
+    "auxiliary_captures": 5,
+    "directory": "review-final",
+    "variants": [
+      "Indonesian light",
+      "Indonesian dark",
+      "Indonesian dark at1.3x type",
+      "English light",
+      "English dark",
+      "English dark landscape at1.3x type"
+    ],
+    "review": "ui-review.md",
+    "scope": "Synthetic UI only. Profile title remains the fixture name in either locale."
+  },
+  "iterations": {
+    "initial": "7 of15 failed: language fixture lost ActivityResultRegistryOwner, and old Indonesian format-label assertions used untranslated text; fixture corrections only.",
+    "layout_pass": "15 native tests passed in native-final.log; initial visual review found six existing untranslated short labels.",
+    "confirmation": "Added both resource translations and English control assertions; final build/lint and all15 native tests passed. One visual confirmation round."
+  },
+  "apk": {
+    "path": "app/build/outputs/apk/debug/app-debug.apk",
+    "sha256": "a3a40957352f85c28d5d5b02827adfce6947ab1a5cb285b535ed9a4343b9f679",
+    "installed": "Task emulator only; no physical device attached."
+  },
+  "limits": [
+    "No physical camera or owner firmware acceptance.",
+    "No physical camera discovery, credentials, microphone, video or camera write operations.",
+    "SD format and patrol activation remain gated; three feature labels follow the owner report.",
+    "JVM suite not rerun: protocol/session behavior was not changed."
+  ]
+}

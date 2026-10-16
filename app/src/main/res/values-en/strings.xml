@@ -704,4 +704,19 @@
     <string name="setup_set_password">Change local password</string>
     <string name="talkback_metadata_command">The camera audio information packet type is not supported. Talking is disabled; check diagnostics.</string>
     <string name="talkback_metadata_cipher">The camera audio information encryption mode is not supported. Talking is disabled; check diagnostics.</string>
+    <string name="settings_image_lights">Image &amp; lights</string>
+    <string name="settings_recording_storage">Recording &amp; SD card</string>
+    <string name="settings_connection_device">Connection &amp; device</string>
+    <string name="settings_not_working">Not working yet</string>
+    <string name="settings_image">Image</string>
+    <string name="settings_lights">Lights</string>
+    <string name="settings_recording">Recording</string>
+    <string name="settings_sd_card">SD card</string>
+    <string name="settings_hotspot">Camera hotspot</string>
+    <string name="copy_hidup_0427dd3e">On</string>
+    <string name="copy_mati_00247b29">Off</string>
+    <string name="copy_rendah_91b02d30">Low</string>
+    <string name="copy_tinggi_95524870">High</string>
+    <string name="copy_tampilkan_4de6c6e5">Show</string>
+    <string name="copy_sembunyikan_7c3ea468">Hide</string>
 </resources>

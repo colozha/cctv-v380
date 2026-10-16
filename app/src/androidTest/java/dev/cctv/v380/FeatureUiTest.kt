@@ -45,7 +45,7 @@ class FeatureUiTest {
         compose.onNodeWithContentDescription("Muat ulang rekaman").assertIsNotEnabled()
         capture("recordings-disconnected")
         compose.onNodeWithText("Pengaturan").performClick()
-        compose.onNodeWithText("Muat pengaturan kamera").performScrollTo().assertIsDisplayed().assertIsNotEnabled()
+        compose.onNodeWithText("Muat ulang").performScrollTo().assertIsDisplayed().assertIsNotEnabled()
         capture("settings-disconnected")
         compose.onNodeWithText("Live").performClick()
         compose.onAllNodesWithText("Belum terhubung")[0].assertIsDisplayed()
@@ -79,17 +79,17 @@ class FeatureUiTest {
                 }
             }
         }
-        compose.onNodeWithText("Gambar").performScrollTo().performClick()
+        compose.onNodeWithText("Gambar & lampu").performScrollTo().performClick()
         capture("settings-synthetic")
-        compose.onNodeWithText("Kartu SD").performScrollTo().performClick()
+        compose.onNodeWithText("Rekaman & kartu SD").performScrollTo().performClick()
         compose.onNodeWithText("50% ruang kartu tersedia").assertExists()
-        compose.onNodeWithText("Format SD card").assertIsNotEnabled()
+        compose.onNodeWithText("Format kartu SD").assertIsNotEnabled()
         capture("storage-synthetic")
         compose.runOnIdle { panel = 1 }
         compose.onNodeWithText("Rekaman di kartu SD").assertExists()
         capture("recordings-synthetic")
         compose.runOnIdle { panel = 2 }
-        compose.onNodeWithText("Format SD card?").assertIsDisplayed()
+        compose.onNodeWithText("Format kartu SD?").assertIsDisplayed()
         capture("format-confirmation-synthetic")
         compose.onNodeWithText("Batal").performClick()
         compose.runOnIdle { assertEquals(0, confirmations); assertEquals(1, dismissals) }

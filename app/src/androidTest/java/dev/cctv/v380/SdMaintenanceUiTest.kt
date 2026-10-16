@@ -74,9 +74,9 @@ class SdMaintenanceUiTest {
                         }
                     }
                 }
-                if (compose.onAllNodesWithText("Format SD card").fetchSemanticsNodes().isEmpty())
-                    compose.onNodeWithText("Kartu SD").performScrollTo().performClick()
-                compose.onNodeWithText("Format SD card").performScrollTo().assertIsNotEnabled()
+                if (compose.onAllNodesWithText("Format kartu SD").fetchSemanticsNodes().isEmpty())
+                    compose.onNodeWithText("Rekaman & kartu SD").performScrollTo().performClick()
+                compose.onNodeWithText("Format kartu SD").performScrollTo().assertIsNotEnabled()
                 compose.onNodeWithText("Periksa status kartu").assertIsNotEnabled()
                 capture("recovery-$name")
                 if (phase == SdFormatPhase.CHECKING) compose.onNodeWithText("Tutup catatan format").assertIsNotEnabled()

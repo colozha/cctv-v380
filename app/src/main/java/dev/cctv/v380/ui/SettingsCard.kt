@@ -25,29 +25,40 @@ import dev.cctv.v380.R
 
 @Composable
 internal fun SettingsCard(profileId: String, title: String, icon: ImageVector, summary: String? = null,
-    canCollapse: Boolean = true, status: @Composable ColumnScope.() -> Unit = {},
+    canCollapse: Boolean = true, flat: Boolean = false, badge: String? = null,
+    status: @Composable ColumnScope.() -> Unit = {},
     content: @Composable ColumnScope.() -> Unit) {
     var open by rememberSaveable(profileId, title) { mutableStateOf(false) }
     val expanded = open || !canCollapse
-    val stateDescription = stringResource(if (expanded) R.string.section_expanded else R.string.section_collapsed)
-    val clickLabel = stringResource(if (expanded) R.string.close_section else R.string.open_section, localizedCopy(title))
-    CameraPanel {
-        Row(Modifier.fillMaxWidth().heightIn(min = 48.dp)
-            .semantics { this.stateDescription = stateDescription }
-            .clickable(enabled = canCollapse, role = Role.Button,
-                onClickLabel = clickLabel) { open = !open },
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            SectionIcon(icon)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                if (!expanded && summary != null) Text(summary, style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            Icon(if (expanded) Icons.Default.KeyboardArrowUp else Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                null, Modifier.size(24.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
+    val section: @Composable ColumnScope.() -> Unit = {
+        SettingsHeader(title, icon, expanded, { open = it }, summary, canCollapse, badge)
         status()
         if (expanded) content()
+    }
+    if (flat) Column(verticalArrangement = Arrangement.spacedBy(12.dp), content = section)
+    else CameraPanel(content = section)
+}
+
+@Composable
+internal fun SettingsHeader(title: String, icon: ImageVector, expanded: Boolean, onExpandedChange: (Boolean) -> Unit,
+    summary: String? = null, canCollapse: Boolean = true, badge: String? = null) {
+    val stateDescription = stringResource(if (expanded) R.string.section_expanded else R.string.section_collapsed)
+    val clickLabel = stringResource(if (expanded) R.string.close_section else R.string.open_section, localizedCopy(title))
+    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp)
+        .semantics { this.stateDescription = stateDescription }
+        .clickable(enabled = canCollapse, role = Role.Button,
+            onClickLabel = clickLabel) { onExpandedChange(!expanded) },
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        SectionIcon(icon)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            if (badge != null) Text(badge, style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (!expanded && summary != null) Text(summary, style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        Icon(if (expanded) Icons.Default.KeyboardArrowUp else Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            null, Modifier.size(24.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 

@@ -1,0 +1,13 @@
+# Repository root; Java 21 and Android SDK from the existing local validation environment.
+export JAVA_HOME=/home/husain/.local/share/java/temurin-21
+export ANDROID_HOME=/home/husain/Android/Sdk
+./gradlew --offline :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug --console=plain
+
+# Existing task AVD, API35, x86_64, 320x640 at160dpi, not a physical camera/phone.
+/home/husain/Android/Sdk/emulator/emulator -avd TalkbackOracleAPI35 -port 5560 -gpu host -feature -Vulkan -no-snapshot -no-window -no-audio
+adb -s emulator-5560 install -r app/build/outputs/apk/debug/app-debug.apk
+adb -s emulator-5560 install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+adb -s emulator-5560 shell am instrument -w -e class dev.cctv.v380.SettingsUiTest,dev.cctv.v380.FeatureUiTest,dev.cctv.v380.SdMaintenanceUiTest,dev.cctv.v380.CameraManagementUiTest dev.cctv.v380.test/androidx.test.runner.AndroidJUnitRunner
+# Fixture captures: /sdcard/Android/data/dev.cctv.v380/files/settings-simplified
+# Stop only the task emulator after retaining evidence:
+adb -s emulator-5560 emu kill

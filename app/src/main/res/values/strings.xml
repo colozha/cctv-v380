@@ -704,4 +704,19 @@
     <string name="setup_set_password">Ubah password lokal</string>
     <string name="talkback_metadata_command">Jenis paket informasi suara kamera belum didukung. Bicara dinonaktifkan; periksa diagnostik.</string>
     <string name="talkback_metadata_cipher">Mode enkripsi informasi suara kamera belum didukung. Bicara dinonaktifkan; periksa diagnostik.</string>
+    <string name="settings_image_lights">Gambar &amp; lampu</string>
+    <string name="settings_recording_storage">Rekaman &amp; kartu SD</string>
+    <string name="settings_connection_device">Koneksi &amp; perangkat</string>
+    <string name="settings_not_working">Belum berfungsi</string>
+    <string name="settings_image">Gambar</string>
+    <string name="settings_lights">Lampu</string>
+    <string name="settings_recording">Perekaman</string>
+    <string name="settings_sd_card">Kartu SD</string>
+    <string name="settings_hotspot">Hotspot kamera</string>
+    <string name="copy_hidup_0427dd3e">Hidup</string>
+    <string name="copy_mati_00247b29">Mati</string>
+    <string name="copy_rendah_91b02d30">Rendah</string>
+    <string name="copy_tinggi_95524870">Tinggi</string>
+    <string name="copy_tampilkan_4de6c6e5">Tampilkan</string>
+    <string name="copy_sembunyikan_7c3ea468">Sembunyikan</string>
 </resources>

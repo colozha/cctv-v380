@@ -1,0 +1,17 @@
+{
+  "base_revision": "f103dc811e70ab8d7e77f06659ddd01d8ab53942",
+  "files": {
+    "app/src/androidTest/java/dev/cctv/v380/FeatureUiTest.kt": "c4026e36a4e12d0d3f15d89b0f7ffe3b9f9646d600e599583401f687a9c22cb2",
+    "app/src/androidTest/java/dev/cctv/v380/SdMaintenanceUiTest.kt": "9cccb893eb7f72d9dcb3a34c5229b4e561a0a28f8045bdc818ca965999ffb048",
+    "app/src/androidTest/java/dev/cctv/v380/SettingsUiTest.kt": "05252dbb2de61ef5f59dffd23922ea64a65019375ee71a101638535cf493b021",
+    "app/src/main/java/dev/cctv/v380/ui/ApHotspotSettings.kt": "3f64354e3698510970da5691312b87ba328c921d6a9478af565785bbdfb29fb2",
+    "app/src/main/java/dev/cctv/v380/ui/CameraManagementControls.kt": "50c7cb8dcc0691f6fbfe4da4557bcb955c057d76f01032f5e3c1a1429f1d5ebf",
+    "app/src/main/java/dev/cctv/v380/ui/CameraSettingsScreen.kt": "bbd0c5d09a2bfae7e74951599eb9219bb62ac5968f0edb2d7ff590a5c7a30634",
+    "app/src/main/java/dev/cctv/v380/ui/SettingsCard.kt": "5aca63f247477cb890ba25b38611f2c82b9f651d5eb3733c0f8a774d6fd2bbc3",
+    "app/src/main/res/values-en/strings.xml": "c4839003b98c51477c31a8a74ead72f31748a6daae3df6b8212e4ee857c81c56",
+    "app/src/main/res/values/strings.xml": "2df6355fff4f972071254eca7fb012babffb54c271399c812c97c0141c95944c",
+    "app/build.gradle.kts": "8715b337dcb4c7a165c5cf690f329eac60ada4a7f1983140b0c714782d6f35dc",
+    "build.gradle.kts": "da71d0eac72987c2d01a1f157d32a259661e11c327cde75b71e6248d8ea602ba",
+    "settings.gradle.kts": "b2720e61898799e32c31a04e662b80f31566a52ac6f2c97fc5a40a2ec08e0a9a"
+  }
+}

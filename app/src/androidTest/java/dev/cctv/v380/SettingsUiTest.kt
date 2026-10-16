@@ -3,6 +3,7 @@ package dev.cctv.v380
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.view.ContextThemeWrapper
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -11,6 +12,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalContext
+import java.util.Locale
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.StateRestorationTester
@@ -57,26 +60,25 @@ class SettingsUiTest {
         compose.onNodeWithText("Balik orientasi").assertDoesNotExist()
         compose.onNodeWithText("Respons kamera tidak sesuai profil protokol.").performScrollTo().assertIsDisplayed()
         compose.onNodeWithText("Muat jadwal lampu").assertDoesNotExist()
-        compose.onNodeWithText("Gambar").performScrollTo().performClick()
-        compose.onNodeWithText("Lampu").performScrollTo().performClick()
+        compose.onNodeWithText("Gambar & lampu").performScrollTo().performClick()
         compose.onNodeWithText("Hidup").performScrollTo().performClick().assertIsSelected()
-        compose.onNodeWithText("Lampu").performScrollTo().performClick()
+        compose.onNodeWithText("Gambar & lampu").performScrollTo().performClick()
         compose.onNodeWithText("Hidup").assertDoesNotExist()
         compose.onNodeWithText("Perubahan belum disimpan").performScrollTo().assertIsDisplayed()
         capture("closed-draft")
-        compose.onNodeWithText("Balik orientasi").assertExists()
-        compose.onNodeWithText("Lampu").performScrollTo().performClick()
+        compose.onNodeWithText("Balik orientasi").assertDoesNotExist()
+        compose.onNodeWithText("Gambar & lampu").performScrollTo().performClick()
         compose.onNodeWithText("Hidup").performScrollTo().assertIsSelected()
         compose.runOnIdle { assertEquals(1, model.features.value.draft[P.LIGHT_MODE]) }
-        compose.onNodeWithText("Perekaman").performScrollTo().performClick()
+        compose.onNodeWithText("Rekaman & kartu SD").performScrollTo().performClick()
         compose.onNodeWithText("Rekam peristiwa").performScrollTo().performClick().assertIsOn()
         compose.runOnIdle { assertEquals(3, model.features.value.draft[P.RECORD_MODE]) }
-        compose.onNodeWithText("Perekaman").performScrollTo().performClick()
-        compose.onNodeWithText("Perekaman").performClick()
+        compose.onNodeWithText("Rekaman & kartu SD").performScrollTo().performClick()
+        compose.onNodeWithText("Rekaman & kartu SD").performClick()
         compose.onNodeWithText("Rekam peristiwa").assertIsOn()
         compose.runOnIdle { flow<SessionState>(model.session, "mutableState").value = SessionState.Idle }
         compose.onNodeWithText("Rekam peristiwa").assertDoesNotExist()
-        compose.onNodeWithText("Muat pengaturan kamera").performScrollTo().assertIsNotEnabled()
+        compose.onNodeWithText("Muat ulang").performScrollTo().assertIsNotEnabled()
         compose.onNodeWithText("Simpan pengaturan").assertDoesNotExist()
         compose.runOnIdle {
             val state = flow<CameraFeatureState>(model, "mutableFeatures")
@@ -88,6 +90,34 @@ class SettingsUiTest {
         compose.onNodeWithText("Hasil restart belum diketahui. Buka kartu untuk memeriksa kamera; perintah tidak dikirim ulang.")
             .performScrollTo().assertIsDisplayed()
         capture("closed-restart-recovery")
+    }
+
+    @Test fun threeMainGroupsPrecedeMarkedFeaturesAndOpeningNeverRequestsCamera() {
+        compose.runOnIdle {
+            val state = flow<CameraFeatureState>(model, "mutableFeatures")
+            state.value = state.value.copy(settings = null, management = emptyMap(), managementErrors = emptyMap())
+        }
+        showSettings()
+        val titles = listOf("Gambar & lampu", "Rekaman & kartu SD", "Koneksi & perangkat",
+            "Jadwal lampu", "Alarm dan deteksi gerakan", "Preset dan patroli")
+        val positions = titles.map { compose.onNodeWithText(it).fetchSemanticsNode().positionInRoot.y }
+        assertTrue(positions.zipWithNext().all { (a, b) -> a < b })
+        compose.onAllNodesWithText("Belum berfungsi", useUnmergedTree = true).assertCountEquals(4)
+        compose.onNodeWithText("Periksa hotspot kamera").assertDoesNotExist()
+        for (title in titles) compose.onNodeWithText(title).performScrollTo().performClick()
+        compose.onNodeWithText("Balik orientasi").assertDoesNotExist()
+        compose.onNodeWithText("Muat jadwal lampu").assertExists()
+        compose.onNodeWithText("Muat alarm dan deteksi gerakan").assertExists()
+        compose.onNodeWithText("Muat preset dan patroli").assertExists()
+        compose.runOnIdle {
+            assertNull(model.features.value.settings)
+            assertTrue(model.features.value.management.isEmpty())
+            assertFalse(model.features.value.busy)
+        }
+        // Each main group remains expanded while another is opened.
+        compose.onNodeWithText("Lampu").assertExists()
+        compose.onNodeWithText("Kartu SD").assertExists()
+        compose.onNodeWithText("Hotspot kamera").assertExists()
     }
 
     @Test fun independentCardsRestoreExpansionAndDraftAfterSavedStateRestoration() {
@@ -125,16 +155,16 @@ class SettingsUiTest {
             flow<ApHotspotAccess?>(model.session, "mutableApAccess").value = ApHotspotAccess("CameraOld", profile.deviceId)
         }
         showSettings()
-        compose.onNodeWithText("Hotspot kamera").performScrollTo().performClick()
+        compose.onNodeWithText("Koneksi & perangkat").performScrollTo().performClick()
         compose.onNodeWithText("Nama hotspot kamera").performScrollTo().performTextReplacement("CameraNew")
         compose.onNodeWithText("Password hotspot kamera").performScrollTo().performTextReplacement("bad password")
         compose.onNodeWithText("Simpan hotspot").performScrollTo().assertIsNotEnabled()
         compose.onNodeWithText("Password hotspot kamera").assert(SemanticsMatcher.keyIsDefined(androidx.compose.ui.semantics.SemanticsProperties.Error))
         compose.onNodeWithText("Password hotspot kamera").performScrollTo().performTextReplacement("Secret123")
         compose.onNodeWithText("Simpan hotspot").performScrollTo().assertIsEnabled()
-        compose.onNodeWithText("Hotspot kamera").performScrollTo().performClick()
+        compose.onNodeWithText("Koneksi & perangkat").performScrollTo().performClick()
         compose.onNodeWithText("Password hotspot kamera").assertDoesNotExist()
-        compose.onNodeWithText("Hotspot kamera").performClick()
+        compose.onNodeWithText("Koneksi & perangkat").performClick()
         compose.onNodeWithText("Nama hotspot kamera").assertTextContains("CameraNew")
         compose.onNodeWithText("Password hotspot kamera").assert(SemanticsMatcher.expectValue(
             androidx.compose.ui.semantics.SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString("")))
@@ -161,28 +191,53 @@ class SettingsUiTest {
     @Test fun captureSettingsAcrossThemesLargeTypeAndLandscape() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         try {
-            for ((name, dark, scale, landscape) in listOf(
-                Variant("light", false, 1f, false), Variant("dark", true, 1f, false),
-                Variant("dark-large", true, 1.3f, false), Variant("dark-landscape", true, 1f, true))) {
+            for (variant in listOf(
+                Variant("id-light", false, 1f, false), Variant("id-dark", true, 1f, false),
+                Variant("id-dark-large", true, 1.3f, false), Variant("en-light", false, 1f, false, "en"),
+                Variant("en-dark", true, 1f, false, "en"), Variant("en-dark-landscape", true, 1.3f, true, "en"))) {
+                val name = variant.name
+                val dark = variant.dark
+                val scale = variant.scale
+                val landscape = variant.landscape
                 compose.activityRule.scenario.onActivity { it.requestedOrientation = if (landscape)
                     ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT }
                 compose.waitUntil(15000) { instrumentation.targetContext.resources.configuration.orientation ==
                     if (landscape) Configuration.ORIENTATION_LANDSCAPE else Configuration.ORIENTATION_PORTRAIT }
-                compose.runOnIdle { resetFixture() }
-                showSettings(dark, scale)
-                compose.onNodeWithText("Pengaturan kamera").performScrollTo()
+                compose.runOnIdle {
+                    resetFixture()
+                    val state = flow<CameraFeatureState>(model, "mutableFeatures")
+                    state.value = state.value.copy(apPhase = ApEditPhase.IDLE, managementErrors = emptyMap())
+                }
+                showSettings(dark, scale, variant.locale)
+                val en = variant.locale == "en"
+                compose.onNodeWithText(if (en) "Camera settings" else "Pengaturan kamera").performScrollTo()
                 capture("$name-top")
-                for ((title, control) in listOf("Hotspot kamera" to "Simpan hotspot", "Jadwal lampu" to "Tambah interval jadwal",
-                    "Alarm dan deteksi gerakan" to "Sensitivitas gerakan belum tersedia melalui kontrak pengaturan lokal yang terverifikasi.",
-                    "Preset dan patroli" to "Kalibrasi PTZ", "Perangkat" to "Restart kamera", "Gambar" to "Balik orientasi",
-                    "Lampu" to "Lampu indikator", "Perekaman" to "Timpa rekaman terlama saat kartu penuh", "Kartu SD" to "Format SD card")) {
+                compose.onNodeWithText(if (en) "Presets and patrol" else "Preset dan patroli").performScrollTo()
+                capture("$name-unfinished")
+                val sections = if (en) listOf(
+                    "Image & lights" to "Indicator light", "Recording & SD card" to "Format SD card",
+                    "Connection & device" to "Restart camera", "Light schedule" to "Add schedule interval",
+                    "Alarm and motion detection" to "Main alarm", "Presets and patrol" to "Calibrate PTZ")
+                else listOf("Gambar & lampu" to "Lampu indikator", "Rekaman & kartu SD" to "Format kartu SD",
+                    "Koneksi & perangkat" to "Restart kamera", "Jadwal lampu" to "Tambah interval jadwal",
+                    "Alarm dan deteksi gerakan" to "Alarm utama", "Preset dan patroli" to "Kalibrasi PTZ")
+                for ((title, control) in sections) {
                     // Capture settled layout without transient pointer/ripple feedback; behavior tests use real taps.
                     compose.onNodeWithText(title).performScrollTo()
                         .performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick) { it() }
                     compose.onNodeWithText(control).performScrollTo().assertIsDisplayed()
-                    if (title == "Perangkat") compose.onNodeWithText("MODEL-SYNTHETIC").assertExists()
-                    if (title == "Kartu SD") {
-                        compose.onNodeWithText("91% ruang kartu tersedia").assertExists()
+                    if (en && title == "Image & lights") {
+                        compose.onNodeWithText("On").assertExists()
+                        compose.onNodeWithText("Off").assertExists()
+                    }
+                    if (en && title == "Light schedule") {
+                        compose.onNodeWithText("Low").assertExists()
+                        compose.onNodeWithText("High").assertExists()
+                    }
+                    if (en && title == "Connection & device") compose.onNodeWithText("Show").assertExists()
+                    if (title == "Koneksi & perangkat" || title == "Connection & device") compose.onNodeWithText("MODEL-SYNTHETIC").assertExists()
+                    if (title == "Rekaman & kartu SD" || title == "Recording & SD card") {
+                        compose.onNodeWithText(if (en) "91% card space available" else "91% ruang kartu tersedia").assertExists()
                         compose.onNodeWithText(control).assertIsNotEnabled()
                     }
                     compose.onNodeWithText(title).performScrollTo()
@@ -215,19 +270,22 @@ class SettingsUiTest {
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
-    private fun showSettings(dark: Boolean = false, scale: Float = 1f) {
+    private fun showSettings(dark: Boolean = false, scale: Float = 1f, locale: String = "id") {
         compose.activityRule.scenario.onActivity { activity ->
             androidx.core.view.WindowCompat.getInsetsController(activity.window, activity.window.decorView).apply {
                 isAppearanceLightStatusBars = !dark; isAppearanceLightNavigationBars = !dark
             }
             activity.setContent {
                 val configuration = Configuration(LocalConfiguration.current).apply {
+                    setLocale(Locale.forLanguageTag(locale))
                     uiMode = (uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or
                         if (dark) Configuration.UI_MODE_NIGHT_YES else Configuration.UI_MODE_NIGHT_NO
                 }
-                CompositionLocalProvider(LocalConfiguration provides configuration,
+                val localizedContext = ContextThemeWrapper(activity, 0).apply { applyOverrideConfiguration(configuration) }
+                CompositionLocalProvider(LocalContext provides localizedContext,
+                    LocalConfiguration provides configuration,
                     LocalDensity provides Density(LocalDensity.current.density, scale)) {
-                    V380Theme {
+                    V380Theme(darkTheme = dark) {
                         val feature by model.features.collectAsState()
                         val state by model.session.state.collectAsState()
                         Scaffold(topBar = { TopAppBar(title = { Text(profile.name) }) }) { padding ->
@@ -271,7 +329,7 @@ class SettingsUiTest {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         instrumentation.waitForIdleSync()
         Thread.sleep(150)
-        val directory = File(instrumentation.targetContext.getExternalFilesDir(null), "settings-design").apply { mkdirs() }
+        val directory = File(instrumentation.targetContext.getExternalFilesDir(null), "settings-simplified").apply { mkdirs() }
         val bitmap = instrumentation.uiAutomation.takeScreenshot()
         try { File(directory, "$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) } }
         finally { bitmap.recycle() }
@@ -279,5 +337,5 @@ class SettingsUiTest {
     @Suppress("UNCHECKED_CAST")
     private fun <T> flow(owner: Any, name: String) = owner.javaClass.getDeclaredField(name).apply { isAccessible = true }.get(owner) as MutableStateFlow<T>
     private fun set(owner: Any, name: String, value: Any?) = owner.javaClass.getDeclaredField(name).apply { isAccessible = true }.set(owner, value)
-    private data class Variant(val name: String, val dark: Boolean, val scale: Float, val landscape: Boolean)
+    private data class Variant(val name: String, val dark: Boolean, val scale: Float, val landscape: Boolean, val locale: String = "id")
 }

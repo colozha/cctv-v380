@@ -33,7 +33,7 @@ import dev.cctv.v380.R
 import dev.cctv.v380.session.*
 
 @Composable
-fun ApHotspotSettings(model: CameraViewModel, profile: CameraProfile, session: SessionState, feature: CameraFeatureState) {
+fun ApHotspotSettings(model: CameraViewModel, profile: CameraProfile, session: SessionState, feature: CameraFeatureState, expanded: Boolean) {
     val access by model.session.apAccess.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var ssid by rememberSaveable(profile.id) { mutableStateOf("") }
@@ -76,12 +76,21 @@ fun ApHotspotSettings(model: CameraViewModel, profile: CameraProfile, session: S
         access == null -> "Periksa hotspot saat tersambung langsung ke AP kamera. Dukungan harus dikonfirmasi sebelum mengubah isian."
         else -> "Hotspot aktif telah diperiksa. Masukkan password yang ingin digunakan, termasuk jika hanya mengganti nama."
     }
-    SettingsCard(profile.id, "Hotspot kamera", WifiIcon, access?.ssid ?: "Koneksi langsung ke AP kamera", status = {
-        val failed = feature.apStorageFailed || feature.apPhase in setOf(ApEditPhase.NOT_SENT, ApEditPhase.REJECTED, ApEditPhase.UNKNOWN)
-        if (failed || pending != null) SettingsNotice(status, error = failed)
-        else Text(status, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
+    val failed = feature.apStorageFailed || feature.apPhase in setOf(ApEditPhase.NOT_SENT, ApEditPhase.REJECTED, ApEditPhase.UNKNOWN)
+    if (failed || pending != null) SettingsNotice(status, error = failed)
+    if (feature.apBusy) LinearProgressIndicator(Modifier.fillMaxWidth())
+    if (feature.apPhase == ApEditPhase.VERIFIED || feature.apNotice != null || permissionNotice != null) {
+        Text(feature.apNotice ?: permissionNotice ?: "Hotspot terverifikasi.", style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
-        if (feature.apBusy) LinearProgressIndicator(Modifier.fillMaxWidth())
+    }
+    if (feature.apBusy) TextButton(onClick = model::cancelFeature, modifier = Modifier.heightIn(min = 48.dp)) {
+        Text(if (pending != null) "Hentikan pemeriksaan" else "Batalkan")
+    }
+    if (expanded) {
+        DisposableEffect(profile.id) { onDispose { clearSecrets() } }
+        Text(stringResource(R.string.settings_hotspot), style = MaterialTheme.typography.titleSmall)
+        if (!failed && pending == null) Text(status, style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant)
         if (pending == null) {
             if (!permitted()) OutlinedButton(onClick = { permissionRequest.launch(permissions.toTypedArray()) },
                 enabled = !feature.busy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Izinkan akses Wi-Fi") }
@@ -90,15 +99,6 @@ fun ApHotspotSettings(model: CameraViewModel, profile: CameraProfile, session: S
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
                 modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Periksa hotspot kamera") }
         }
-        if (feature.apPhase == ApEditPhase.VERIFIED || feature.apNotice != null || permissionNotice != null) {
-            Text(feature.apNotice ?: permissionNotice ?: "Hotspot terverifikasi.", style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
-        }
-        if (feature.apBusy) TextButton(onClick = model::cancelFeature, modifier = Modifier.heightIn(min = 48.dp)) {
-            Text(if (pending != null) "Hentikan pemeriksaan" else "Batalkan")
-        }
-    }) {
-        DisposableEffect(profile.id) { onDispose { clearSecrets() } }
         ApHotspotForm(ssid, { ssid = it }, password, { password = it }, visible, { visible = !visible },
             editable = editable, busy = false, status = "",
             validation = if (editable && password.isNotEmpty()) validation else null,

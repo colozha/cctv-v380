@@ -1,0 +1,9 @@
+# Settings simplification review
+
+Mode: Operate; refinement of the existing native mint/charcoal and light theme. Disposition: ready for the approved UI scope; physical-camera compatibility is not established.
+
+Reviewed the69 synthetic matrix captures across Indonesian/English, light/dark,1.3x type and landscape. Three task cards lead; one bottom panel contains three independently expandable rows with a Build icon and persistent Not working yet label. Simple subheadings/dividers replace nested cards. The320dp portrait captures show the complete primary grouping before the unfinished rows; long forms scroll normally. Labels wrap at large type, radio choices wrap, device values stack and no horizontal overlap was observed. Existing Material color roles,48dp touch targets, native switches, confirmations and semantics remain.
+
+The initial batched review found six pre-existing short labels falling back to Indonesian in English: on/off, low/high and show/hide. Added both language resources through the existing localization lookup and assertions for the visible English controls. The single confirmation round checked the corrected controls in English light/dark and landscape, plus the Indonesian top/bottom layout at normal/large type. No further layout edits were required. Fifteen final native synthetic tests pass; this is not physical-camera acceptance or a comprehensive TalkBack audit.
+
+The74 retained PNGs are69 matrix views and five auxiliary captures (dark top, diagnostics order, closed draft, closed management progress, closed restart recovery). Auxiliary captures can retain readable tap feedback. Profile names, model and firmware text are intentionally synthetic, and the profile title remains Indonesian even when app controls are English. Captures are native emulator screenshots; no generated imagery or video footage is present. Source hashes, commands and exact final logs are adjacent to this report.

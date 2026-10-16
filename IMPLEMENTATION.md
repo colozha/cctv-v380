@@ -1,5 +1,11 @@
 # Status implementasi V380 LAN
 
+## Penyederhanaan tab Pengaturan — 16 Oktober 2026
+
+Tab Pengaturan kini memiliki tiga kartu: Gambar & lampu, Rekaman & kartu SD, dan Koneksi & perangkat. Jadwal lampu, alarm/deteksi gerakan serta preset/patroli dipindah ke satu panel paling bawah dengan ikon Build dan label Belum berfungsi sesuai laporan pengguna; detailnya tetap dapat dibuka. Ini penandaan UI, bukan perubahan dukungan protokol. Subjudul dan divider menggantikan kartu bersarang; aksi hotspot hanya tampil saat grup koneksi dibuka. Draft, status/error/pemulihan ketika tertutup, penghapusan password saat ditutup, tema/bahasa serta gerbang format/patroli tetap dipertahankan. Tab Live tidak diubah.
+
+Build debug/instrumentation dan lint berhasil (0 error);15 tes UI sintetis lulus pada emulator API35. Pemeriksaan visual mencakup69 capture matriks Indonesia/Inggris, terang/gelap, teks1,3× dan landscape, ditambah5 capture status/diagnostik. Hasil serta hash source dicatat di [validation/settings-simplified/results.json](validation/settings-simplified/results.json). Bukti sembilan kartu sebelumnya di validation/settings-redesign bersifat historis. Tidak ada acceptance kamera fisik yang diklaim.
+
 ## Checkpoint decitan talkback dan pembanding vendor — 16 Oktober 2026
 
 Revisi IMA juga gagal menurut pengguna, termasuk dari ruangan lain; aplikasi resmi dilaporkan jelas. **Bicara codec102 kini dibatasi dengan `FORMAT_UNVERIFIED` sebelum recorder/start write**, dengan pesan Indonesia/Inggris dan enum diagnostik. Metadata tetap dipertahankan untuk diagnosis; codec negosiasi dipisahkan dari enum payload internal. Tidak ada pembukaan codec atau perubahan cipher baru berdasarkan tebakan.
