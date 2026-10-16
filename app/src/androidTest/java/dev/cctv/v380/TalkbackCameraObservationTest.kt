@@ -41,6 +41,7 @@ class TalkbackCameraObservationTest {
                     .put("capability", session.capabilities.value?.talkback ?: JSONObject.NULL)
                     .put("renderingTested", false)
                     .put("metadataAccepted", session.talkbackAudio.value != null)
+                    .put("talkbackBlock", session.talkbackBlock(target.id)?.name ?: JSONObject.NULL)
                     .put("metadataBlock", session.talkbackMetadataIssue.value?.name
                         ?: if (session.talkbackAudio.value?.supported != true) "UNSUPPORTED_AUDIO" else JSONObject.NULL)
                     .put("observations", org.json.JSONArray().apply { observations.forEach { put(it.toJson()) } })

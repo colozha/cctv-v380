@@ -146,6 +146,8 @@ class CameraSession(
         capabilities.value?.talkback != true -> TalkbackError.UNSUPPORTED
         talkbackAudio.value == null -> talkbackMetadataIssue.value ?: TalkbackError.METADATA_MISSING
         talkbackAudio.value?.supported != true -> TalkbackError.UNSUPPORTED_AUDIO
+        // Both AAC and PCM21/IMA attempts failed on the owner's codec102 camera.
+        talkbackAudio.value?.codec == 102 -> TalkbackError.FORMAT_UNVERIFIED
         else -> null
     }
 
@@ -183,9 +185,12 @@ class CameraSession(
         var codec = 100
         try {
             operations.withLock {
-                checkTalkback(attempt)
-                talkbackBlock(profileId)?.let { throw TalkbackFailure(it) }
-                val audio = talkbackAudio.value ?: throw TalkbackFailure(TalkbackError.METADATA_MISSING)
+                // Validate and snapshot the same metadata; the reader updates it under this lock.
+                val audio = synchronized(talkbackLock) {
+                    checkTalkback(attempt)
+                    talkbackBlock(profileId)?.let { throw TalkbackFailure(it) }
+                    talkbackAudio.value ?: throw TalkbackFailure(TalkbackError.METADATA_MISSING)
+                }
                 val session = iot ?: throw TalkbackFailure(TalkbackError.NOT_READY)
                 val channel = streamChannel ?: throw TalkbackFailure(TalkbackError.NOT_READY)
                 if (pendingReply != null) throw TalkbackFailure(TalkbackError.BUSY)
@@ -220,7 +225,8 @@ class CameraSession(
             suspend fun sendAudio(payload: ByteArray, timestampMs: Long) {
                 checkTalkback(attempt)
                 if (++sequence > 0xffffffffL) throw TalkbackFailure(TalkbackError.CAPTURE_FAILED)
-                val packet = IoTTalkbackProtocol.audioPacket(payload, sequence, timestampMs, session.sessionId, key!!, codec)
+                val packet = IoTTalkbackProtocol.audioPacket(payload, sequence, timestampMs, session.sessionId, key!!,
+                    if (encoder == null) TalkbackPayloadEncoding.PCM16 else TalkbackPayloadEncoding.IMA_ADPCM)
                 try {
                     synchronized(talkbackLock) { checkTalkback(attempt); attempt.writing = true }
                     attempt.channel!!.write(packet, deadlineAfterMillis(500))
@@ -694,7 +700,7 @@ class CameraSession(
         val error = (mutableTalkback.value as? TalkbackState.Error)?.reason
         if (audio != null && error in setOf(TalkbackError.METADATA_MISSING, TalkbackError.METADATA_ABSENT,
                 TalkbackError.METADATA_INVALID, TalkbackError.METADATA_UNTRUSTED, TalkbackError.METADATA_COMMAND,
-                TalkbackError.METADATA_CIPHER, TalkbackError.UNSUPPORTED_AUDIO))
+                TalkbackError.METADATA_CIPHER, TalkbackError.UNSUPPORTED_AUDIO, TalkbackError.FORMAT_UNVERIFIED))
             mutableTalkback.value = TalkbackState.Idle
         diagnostics.record(DiagnosticStage.TALKBACK, detail = when (issue) {
             TalkbackError.METADATA_MISSING -> DiagnosticDetail.TALKBACK_METADATA_WAITING
@@ -703,7 +709,8 @@ class CameraSession(
             TalkbackError.METADATA_UNTRUSTED -> DiagnosticDetail.TALKBACK_METADATA_UNTRUSTED
             TalkbackError.METADATA_COMMAND -> DiagnosticDetail.TALKBACK_METADATA_COMMAND
             TalkbackError.METADATA_CIPHER -> DiagnosticDetail.TALKBACK_METADATA_CIPHER
-            else -> if (audio?.supported == true) DiagnosticDetail.TALKBACK_METADATA_READY
+            else -> if (audio?.codec == 102 && audio.supported) DiagnosticDetail.TALKBACK_FORMAT_UNVERIFIED
+                else if (audio?.supported == true) DiagnosticDetail.TALKBACK_METADATA_READY
                 else DiagnosticDetail.TALKBACK_METADATA_UNSUPPORTED
         })
     }

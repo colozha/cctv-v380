@@ -11,7 +11,10 @@ data class IoTAudioInfo(val codec: Int, val sampleRate: Int, val bits: Int, val 
     val supported: Boolean get() = (codec == 100 && sampleRate in setOf(8000, 16000) || codec == 102 && sampleRate == 16000) && bits == 16 && channels == 1
 }
 
-/** V380 V3 PCM21 microphone branch. Reported codec is negotiation metadata, not the payload codec. */
+/** Payload encoding is distinct from the camera's aattr codec negotiation number. */
+enum class TalkbackPayloadEncoding { PCM16, IMA_ADPCM }
+
+/** V380 V3 PCM21 reconstruction. Codec102 remains blocked at the session boundary. */
 object IoTTalkbackProtocol {
     const val PCM_FRAME_BYTES = 1010 // Vendor MicrophoneRecorder's PCM aggregation buffer.
 
@@ -42,14 +45,17 @@ object IoTTalkbackProtocol {
         frame[2].toInt() and 255 in 0..88 && frame[3] == 0.toByte()
 
     /** Native audio encryption: CBC header followed by full payload blocks; final partial block stays plain. */
-    fun audioPacket(pcm: ByteArray, sequence: Long, timestampMs: Long, sessionId: Int, key: ByteArray,
-        codec: Int = 100): ByteArray {
-        require((codec == 100 && pcm.size == PCM_FRAME_BYTES || codec == 102 && validAdpcm(pcm)) && sequence in 1..0xffffffffL && timestampMs >= 0 &&
+    fun audioPacket(payload: ByteArray, sequence: Long, timestampMs: Long, sessionId: Int, key: ByteArray,
+        encoding: TalkbackPayloadEncoding = TalkbackPayloadEncoding.PCM16): ByteArray {
+        require((when (encoding) {
+            TalkbackPayloadEncoding.PCM16 -> payload.size == PCM_FRAME_BYTES
+            TalkbackPayloadEncoding.IMA_ADPCM -> validAdpcm(payload)
+        }) && sequence in 1..0xffffffffL && timestampMs >= 0 &&
             sessionId in 0..255 && key.size == 32)
-        val chunk = pcm.size / 16 * 16
-        val body = ByteBuffer.allocate(32 + pcm.size).order(ByteOrder.LITTLE_ENDIAN)
-            .put(0).put(4).putInt(sequence.toInt()).putInt(pcm.size).putLong(timestampMs)
-            .putInt(0).putInt(chunk).putInt(0).put(0).put(0).put(pcm).array()
+        val chunk = payload.size / 16 * 16
+        val body = ByteBuffer.allocate(32 + payload.size).order(ByteOrder.LITTLE_ENDIAN)
+            .put(0).put(4).putInt(sequence.toInt()).putInt(payload.size).putLong(timestampMs)
+            .putInt(0).putInt(chunk).putInt(0).put(0).put(0).put(payload).array()
         val aes = key.copyOfRange(0, 16)
         val iv = key.copyOfRange(16, 32)
         var encrypted: ByteArray? = null

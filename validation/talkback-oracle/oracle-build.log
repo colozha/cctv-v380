@@ -1,0 +1,166 @@
+Starting a Gradle Daemon, 2 incompatible Daemons could not be reused, use --status for details
+
+> Configure project :
+w: file:///home/husain/Documents/Works/Github/cctv-v380/tools/talkback-oracle/build.gradle.kts:13:42: 'fun srcDir(srcDir: Any): Any' is deprecated. Use `directories` mutable set instead.
+e: file:///home/husain/Documents/Works/Github/cctv-v380/tools/talkback-oracle/build.gradle.kts:27:65: Unresolved reference 'sdkDirectory'.
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/home/husain/Documents/Works/Github/cctv-v380/tools/talkback-oracle/build.gradle.kts' line: 13
+
+* What went wrong:
+Script compilation errors:
+
+  Line 13:     sourceSets.getByName("main").jniLibs.srcDir(layout.buildDirectory.dir("oracle-libs"))
+                                                    ^ 'fun srcDir(srcDir: Any): Any' is deprecated. Use `directories` mutable set instead.
+
+  Line 27:         commandLine("python3", "prepare.py", apk.get(), android.sdkDirectory.absolutePath)
+                                                                           ^ Unresolved reference 'sdkDirectory'.
+
+2 errors
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 13s
+
+> Configure project :
+w: file:///home/husain/Documents/Works/Github/cctv-v380/tools/talkback-oracle/build.gradle.kts:13:42: 'fun srcDir(srcDir: Any): Any' is deprecated. Use `directories` mutable set instead.
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/home/husain/Documents/Works/Github/cctv-v380/tools/talkback-oracle/build.gradle.kts' line: 13
+
+* What went wrong:
+Error : You cannot add Provider instances to the Android SourceSet API.
+It is not possible for Android Studio to determine if the Provider points
+to a directory that contains generated (read-only) or static (read-write) files. 
+
+Instead you should use the Sources interface in the Variant API, in particular
+SourceDirectories.addGeneratedDirectory and SourceDirectories.addStaticDirectories.
+
+You can re-enable the behavior by setting the `android.sourceset.disallowProvider=false` to gradle.properties.
+However, be aware that any Gradle Task dependency will not be automatically carried.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1s
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+> Task :prepareOracle
+> Task :preBuild
+> Task :preDebugBuild
+> Task :mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :generateDebugResources
+> Task :packageDebugResources
+> Task :processDebugNavigationResources
+> Task :generateDebugAssets UP-TO-DATE
+> Task :javaPreCompileDebug
+> Task :mergeDebugAssets
+> Task :compressDebugAssets
+> Task :desugarDebugFileDependencies
+> Task :mapDebugSourceSetPaths
+> Task :checkDebugAarMetadata
+> Task :parseDebugLocalResources
+> Task :compileDebugNavigationResources
+> Task :mergeDebugResources
+> Task :generateDebugRFile
+> Task :createDebugCompatibleScreenManifests
+> Task :compileDebugKotlin NO-SOURCE
+> Task :compileDebugJavaWithJavac
+> Task :extractDeepLinksDebug
+
+> Task :processDebugMainManifest
+/home/husain/Documents/Works/Github/cctv-v380/tools/talkback-oracle/src/main/AndroidManifest.xml:3:46-78 Warning:
+	android:extractNativeLibs should not be specified in this source AndroidManifest.xml file. See https://d.android.com/guide/topics/manifest/application-element#extractNativeLibs for more information.
+The AGP Upgrade Assistant can remove the attribute from the AndroidManifest.xml file and update the build file accordingly. See https://d.android.com/studio/build/agp-upgrade-assistant for more information.
+
+> Task :processDebugManifest
+> Task :processDebugJavaRes NO-SOURCE
+> Task :processDebugManifestForPackage
+> Task :checkDebugDuplicateClasses
+> Task :processDebugResources
+> Task :mergeDebugJavaResource
+> Task :dexBuilderDebug
+> Task :mergeLibDexDebug
+> Task :mergeDebugGlobalSynthetics
+> Task :mergeDebugJniLibFolders
+> Task :mergeProjectDexDebug
+> Task :mergeDebugNativeLibs
+> Task :mergeExtDexDebug
+> Task :validateSigningDebug
+> Task :writeDebugAppMetadata
+> Task :writeDebugSigningConfigVersions
+> Task :stripDebugDebugSymbols
+> Task :packageDebug FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':packageDebug'.
+> A failure occurred while executing com.android.build.gradle.tasks.PackageAndroidArtifact$IncrementalSplitterRunnable
+   > android:extractNativeLibs is set to "true" in AndroidManifest.xml.Avoid setting android:extractNativeLibs="true" explicitly in AndroidManifest.xml, and instead set android.packagingOptions.jniLibs.useLegacyPackaging to true in the build script.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 24s
+35 actionable tasks: 35 executed
+> Task :prepareOracle
+> Task :preBuild
+> Task :preDebugBuild
+> Task :mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :generateDebugResources UP-TO-DATE
+> Task :packageDebugResources UP-TO-DATE
+> Task :processDebugNavigationResources UP-TO-DATE
+> Task :parseDebugLocalResources UP-TO-DATE
+> Task :generateDebugRFile UP-TO-DATE
+> Task :compileDebugKotlin NO-SOURCE
+> Task :javaPreCompileDebug UP-TO-DATE
+> Task :compileDebugJavaWithJavac UP-TO-DATE
+> Task :generateDebugAssets UP-TO-DATE
+> Task :mergeDebugAssets UP-TO-DATE
+> Task :compressDebugAssets UP-TO-DATE
+> Task :desugarDebugFileDependencies UP-TO-DATE
+> Task :checkDebugAarMetadata UP-TO-DATE
+> Task :mapDebugSourceSetPaths UP-TO-DATE
+> Task :compileDebugNavigationResources UP-TO-DATE
+> Task :mergeDebugResources UP-TO-DATE
+> Task :createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :extractDeepLinksDebug UP-TO-DATE
+> Task :processDebugMainManifest
+> Task :processDebugManifest UP-TO-DATE
+> Task :processDebugManifestForPackage UP-TO-DATE
+> Task :processDebugResources UP-TO-DATE
+> Task :dexBuilderDebug UP-TO-DATE
+> Task :mergeDebugGlobalSynthetics UP-TO-DATE
+> Task :processDebugJavaRes NO-SOURCE
+> Task :mergeDebugJavaResource UP-TO-DATE
+> Task :checkDebugDuplicateClasses UP-TO-DATE
+> Task :mergeExtDexDebug UP-TO-DATE
+> Task :mergeLibDexDebug UP-TO-DATE
+> Task :mergeProjectDexDebug UP-TO-DATE
+> Task :mergeDebugJniLibFolders UP-TO-DATE
+> Task :mergeDebugNativeLibs UP-TO-DATE
+> Task :stripDebugDebugSymbols UP-TO-DATE
+> Task :validateSigningDebug UP-TO-DATE
+> Task :writeDebugAppMetadata UP-TO-DATE
+> Task :writeDebugSigningConfigVersions UP-TO-DATE
+> Task :packageDebug
+> Task :createDebugApkListingFileRedirect
+> Task :assembleDebug
+
+BUILD SUCCESSFUL in 3s
+36 actionable tasks: 4 executed, 32 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.3.1/userguide/configuration_cache_enabling.html

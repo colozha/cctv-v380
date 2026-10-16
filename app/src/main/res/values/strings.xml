@@ -21,6 +21,7 @@
     <string name="talkback_metadata_ready">Format suara siap untuk bicara.</string>
     <string name="talkback_metadata_unsupported">Format suara kamera belum didukung untuk bicara.</string>
     <string name="talkback_unsupported_audio">Format audio kamera ini belum didukung untuk bicara.</string>
+    <string name="talkback_format_unverified">Bicara dibatasi sementara karena format kirim suara belum terverifikasi dan dapat menimbulkan decitan.</string>
     <string name="talkback_permission_needed">Izinkan mikrofon, lalu ketuk Mulai bicara kembali. Suara tidak disimpan.</string>
     <string name="talkback_permission_denied">Izin mikrofon belum diberikan. Izinkan saat diminta atau buka pengaturan izin aplikasi.</string>
     <string name="talkback_permission_ready">Ketuk Mulai bicara untuk mengaktifkan mikrofon. Suara tidak disimpan.</string>

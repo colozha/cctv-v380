@@ -1,0 +1,12 @@
+# From repository root. No camera/microphone commands.
+./gradlew -p tools/talkback-oracle assembleDebug -PvendorApk=/home/husain/Downloads/v380-6-4-90.apk
+# API35 emulator, task-owned AVD: -gpu host -feature -Vulkan -no-snapshot -no-window -no-audio
+adb -s emulator-5560 install -r tools/talkback-oracle/build/outputs/apk/debug/TalkbackOracle-debug.apk
+adb -s emulator-5560 shell am instrument -w dev.cctv.v380.oracle/.OracleRunner
+adb -s emulator-5560 exec-out run-as dev.cctv.v380.oracle cat files/vectors.json
+# Repeat after force-stop of this oracle package; JSON results compared equal.
+JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' ./gradlew :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug :app:testDebugUnitTest
+adb -s emulator-5560 install -r app/build/outputs/apk/debug/app-debug.apk
+adb -s emulator-5560 install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+adb -s emulator-5560 shell am instrument -w -e class dev.cctv.v380.protocol.IoTTalkbackProtocolTest,dev.cctv.v380.TalkbackUiTest dev.cctv.v380.test/androidx.test.runner.AndroidJUnitRunner
+# Task-owned emulator stopped after testing.

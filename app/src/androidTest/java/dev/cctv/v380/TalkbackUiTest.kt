@@ -88,7 +88,8 @@ class TalkbackUiTest {
             TalkbackError.METADATA_INVALID to R.string.talkback_metadata_invalid,
             TalkbackError.METADATA_UNTRUSTED to R.string.talkback_metadata_untrusted,
             TalkbackError.METADATA_COMMAND to R.string.talkback_metadata_command,
-            TalkbackError.METADATA_CIPHER to R.string.talkback_metadata_cipher)
+            TalkbackError.METADATA_CIPHER to R.string.talkback_metadata_cipher,
+            TalkbackError.FORMAT_UNVERIFIED to R.string.talkback_format_unverified)
         for (lang in listOf("id", "en")) {
             val localized = compose.activity.createConfigurationContext(Configuration(compose.activity.resources.configuration).apply {
                 setLocale(Locale.forLanguageTag(lang))
@@ -115,7 +116,7 @@ class TalkbackUiTest {
         for (lang in listOf("id", "en")) for (isDark in listOf(false, true)) {
             compose.runOnIdle {
                 language.value = lang; dark.value = isDark; large.value = true
-                phase.value = TalkbackState.Idle; blocked.value = TalkbackError.UNSUPPORTED_AUDIO
+                phase.value = TalkbackState.Idle; blocked.value = TalkbackError.FORMAT_UNVERIFIED
             }
             compose.onNodeWithText(if (lang == "id") "Mulai bicara" else "Start talking").performScrollTo().assertIsNotEnabled()
             capture("$lang-${if (isDark) "dark" else "light"}-gated-large")

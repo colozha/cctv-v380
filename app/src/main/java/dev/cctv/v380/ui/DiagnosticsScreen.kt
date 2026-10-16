@@ -65,6 +65,7 @@ fun DiagnosticsScreen(model: CameraViewModel, onBack: () -> Unit) {
                             DiagnosticDetail.TALKBACK_METADATA_CIPHER -> R.string.talkback_metadata_cipher
                             DiagnosticDetail.TALKBACK_METADATA_READY -> R.string.talkback_metadata_ready
                             DiagnosticDetail.TALKBACK_METADATA_UNSUPPORTED -> R.string.talkback_metadata_unsupported
+                            DiagnosticDetail.TALKBACK_FORMAT_UNVERIFIED -> R.string.talkback_format_unverified
                             else -> null
                         }?.let { stringResource(it) },
                     )

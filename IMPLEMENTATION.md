@@ -1,5 +1,13 @@
 # Status implementasi V380 LAN
 
+## Checkpoint decitan talkback dan pembanding vendor — 16 Oktober 2026
+
+Revisi IMA juga gagal menurut pengguna, termasuk dari ruangan lain; aplikasi resmi dilaporkan jelas. **Bicara codec102 kini dibatasi dengan `FORMAT_UNVERIFIED` sebelum recorder/start write**, dengan pesan Indonesia/Inggris dan enum diagnostik. Metadata tetap dipertahankan untuk diagnosis; codec negosiasi dipisahkan dari enum payload internal. Tidak ada pembukaan codec atau perubahan cipher baru berdasarkan tebakan.
+
+[Oracle terpisah](tools/talkback-oracle/README.md) tanpa permission berhasil menjalankan fungsi encoder/framing vendor pada Android API35 melalui ARM64 native bridge. Tujuh blok berurutan dan14 paket utuh cocok byte demi byte; pengulangan proses baru identik. Factory native mempertahankan index global saat restart; client tetap memakai state per attempt, dengan regresi yang mencatat perbedaannya. Penelusuran dua caller Java juga sama-sama menemukan input21. Jalur transport aplikasi resmi pada kamera pengguna belum diamati, sehingga hasil ini bukan perbaikan speaker yang sudah selesai.
+
+Validasi source ini:126 tes JVM lulus (28 talkback); build debug/instrumentation dan lint berhasil;8 tes Android sintetis lulus, termasuk UI pembatasan dua bahasa dan state/lifecycle kontrol. Screenshot sintetis font besar Indonesia gelap dan Inggris terang diperiksa. Tidak ada kamera/cloud/mikrofon nyata yang diakses; uji hening/ucapan belum diaktifkan dan codec102 tetap dibatasi. APK client terpasang di emulator saja, bukan HP pengguna yang terputus. [Kontrak](analysis/talkback-wire.md), [hasil lengkap dan hash](validation/talkback-oracle/results.json). Hasil historis di bawah bukan acceptance revisi terbaru.
+
 ## Kontrol player rekaman — 16 Oktober 2026
 
 Player rekaman memakai satu baris ikon: sebelumnya, putar/jeda, hentikan, berikutnya, unduh. Navigasi mengikuti urutan daftar Terbaru/Terlama pada tanggal/filter aktif dan langsung meminta pemutaran segmen tujuan dari awal, termasuk setelah jeda atau segmen selesai. Tetangga yang tidak tersedia nonaktif; tidak ada wrap, pergantian tanggal atau pemutaran segmen berikutnya secara otomatis. Alur playback/stop/seek/ekspor dan gerbang autentikasi/busy/hotspot/ekspor tetap memakai implementasi sebelumnya. Tombol memakai target sentuh48dp, ikon24dp, padding panel adaptif untuk layar320dp, serta deskripsi aksesibilitas Indonesia/Inggris.

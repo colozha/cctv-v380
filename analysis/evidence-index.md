@@ -326,3 +326,10 @@ Tindak lanjut 16 Oktober: [manifest penelusuran penyelesaian format](evidence/sd
 ## Laporan decitan dan koreksi PCM21 — 15 Oktober 2026
 
 Laporan pemilik membuktikan kegagalan AAC uplink sebelumnya pada speaker. [Native ADPCM](../validation/talkback-noise/native-adpcm.json) memulihkan encoder2001→GM_ima_adpcm_encode, blok256B untuk505 sampel PCM16. [Tabel](../validation/talkback-noise/adpcm-tables.json) dan [decoder independen](../validation/talkback-noise/independent-decode.json) memvalidasi format blok sintetis. [Hasil revisi](../validation/talkback-noise/results.json) membedakan123 tes JVM/host decoder dari acceptance hardware yang belum dilakukan. Tidak ada library vendor dijalankan dan tidak ada capture mikrofon/kontak kamera dalam koreksi ini.
+
+
+## Talkback oracle dan kegagalan IMA — 16 Oktober 2026
+
+[Status/kontrak terbaru](talkback-wire.md#pembanding-native-terisolasi-dan-pembatasan-codec102--16-oktober-2026), [tool tanpa permission](../tools/talkback-oracle/README.md), [hasil/source hashes](../validation/talkback-oracle/results.json), dan [golden vector sintetis](../app/src/test/resources/talkback-vendor-vectors.json). Library vendor dieksekusi atas persetujuan pengguna dalam package terpisah pada emulator API35/ARM64 native bridge; APK vendor tidak diluncurkan. Tidak ada jaringan, kamera, mikrofon atau credential/session nyata.14 paket cocok dengan client; state global factory dibedakan dari state per attempt. Ini belum membuktikan kontrak sesi resmi atau speaker unit pengguna.
+
+Proyeksi statis tambahan: [semua caller sendSpeakAudioData](evidence/talkback-oracle-callers.sanitized.json), [MicrophoneRecorder2.run](evidence/talkback-MicrophoneRecorder2-run.sanitized.json), [seleksi transport](evidence/talkback-transport-selection.sanitized.json). Kedua caller Java memakai input21. Field pemilihan transport dari kode statis tidak dianggap sebagai observasi sesi pengguna. Codec102 tetap `FORMAT_UNVERIFIED`.

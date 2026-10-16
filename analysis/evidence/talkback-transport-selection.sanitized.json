@@ -1,0 +1,41 @@
+{
+  "kind": "bounded static transport selection projection; not a runtime route observation",
+  "source_evidence_id": "ev_56091466952dd36f6902dd989ad04ae57203ed3968ffd7c875f863bcbd54fe2c",
+  "subject": {
+    "name": "v380-6-4-90.apk",
+    "digest": {
+      "sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/home/husain/Downloads/v380-6-4-90.apk"
+  },
+  "parameters": {
+    "path": "/home/husain/Downloads/v380-6-4-90.apk",
+    "class_name": "com.macrovideo.sdk.media.HSMediaPlayer",
+    "method_name": "startPlayEX2",
+    "overload_index": 0
+  },
+  "engine": {
+    "name": "jadx-headless-mcp",
+    "version": "0.7.1",
+    "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+    "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+    "worker_count": 1,
+    "heap_limit_mib": 7952
+  },
+  "selected_source_lines": [
+    "if (loginHandle.getPlatformType() >= Defines.DEVICE_PLATFORM_TYPE_NEW) {",
+    "this.protocolType = 2;",
+    "if (loginHandle.isMRMode()) {",
+    "if (loginHandle.getPver() >= 5 && !z6) {",
+    "} else if (loginHandle.getPver() >= 5 && !z6) {",
+    "zCallSignalFromHttpsAsyncWithDispatch = HSMediaLibrary.startPlay(this) == 1;",
+    "this.protocolType = 0;",
+    "this.protocolType = 0;"
+  ],
+  "limitations": [
+    "Selected lines omit intervening branches; use the source method Evidence for full control flow.",
+    "Actual owner official-app LAN/P2P/MQ path was not observed. No credentials, runtime keys or session values were read."
+  ]
+}

@@ -21,6 +21,7 @@
     <string name="talkback_metadata_ready">Audio format ready for talking.</string>
     <string name="talkback_metadata_unsupported">The camera audio format is not supported for talking.</string>
     <string name="talkback_unsupported_audio">This camera audio format is not supported for talking.</string>
+    <string name="talkback_format_unverified">Talking is temporarily restricted because the outgoing audio format is unverified and may cause squealing.</string>
     <string name="talkback_permission_needed">Allow microphone access, then tap Start talking again. Audio is not saved.</string>
     <string name="talkback_permission_denied">Microphone permission has not been granted. Allow it when prompted or open app permission settings.</string>
     <string name="talkback_permission_ready">Tap Start talking to turn on the microphone. Audio is not saved.</string>

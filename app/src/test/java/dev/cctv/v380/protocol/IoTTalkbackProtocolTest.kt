@@ -76,7 +76,7 @@ class IoTTalkbackProtocolTest {
         val block = ByteArray(256) { it.toByte() }.apply { this[2] = 0; this[3] = 0 }
         assertTrue(IoTTalkbackProtocol.validAdpcm(block))
         val key = ByteArray(32) { it.toByte() }
-        val wire = IoTTalkbackProtocol.audioPacket(block, 1, 1000, 17, key, 102)
+        val wire = IoTTalkbackProtocol.audioPacket(block, 1, 1000, 17, key, TalkbackPayloadEncoding.IMA_ADPCM)
         val header = IoTCommonProtocol.parseHeader(wire.copyOfRange(0, 16))
         val frame = IoTMediaProtocol.parseFrame(header, wire.copyOfRange(16, wire.size), key)
         assertTrue(frame.audio); assertArrayEquals(block, frame.bytes)
@@ -86,7 +86,7 @@ class IoTTalkbackProtocolTest {
             block.copyOf().apply { this[3] = 1 })
         for (bytes in invalid) {
             assertFalse(IoTTalkbackProtocol.validAdpcm(bytes))
-            assertThrows(IllegalArgumentException::class.java) { IoTTalkbackProtocol.audioPacket(bytes, 1, 1000, 17, key, 102) }
+            assertThrows(IllegalArgumentException::class.java) { IoTTalkbackProtocol.audioPacket(bytes, 1, 1000, 17, key, TalkbackPayloadEncoding.IMA_ADPCM) }
         }
         for (other in listOf(IoTAudioInfo(102, 8000, 16, 1), IoTAudioInfo(102, 16000, 16, 2), IoTAudioInfo(103, 16000, 16, 1)))
             assertFalse(other.supported)

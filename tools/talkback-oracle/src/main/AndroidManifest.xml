@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Deliberately no permissions, components, account access or shared UID. -->
+    <application android:allowBackup="false" />
+    <instrumentation android:name=".OracleRunner" android:targetPackage="dev.cctv.v380.oracle" />
+</manifest>

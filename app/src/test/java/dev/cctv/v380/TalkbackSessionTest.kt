@@ -42,21 +42,16 @@ class TalkbackSessionTest {
         }
     }
 
-    @Test fun microphoneWithCodec102WaitsForAckAndSendsAdpcmInsteadOfAac() = runBlocking {
+    @Test fun codec102NeverConstructsCaptureOrWritesEvenWhenAuthorized() = runBlocking {
         Fixture().use { f ->
             f.audio.value = IoTAudioInfo(102, 16000, 16, 1)
-            f.peer.expectedCodec = 102
+            assertEquals(TalkbackError.FORMAT_UNVERIFIED, f.session.talkbackBlock("fixture"))
             f.session.startTalkback("fixture") { true }
-            waitFor { f.peer.writes.get() == 1 }
-            assertEquals(0, f.started.get()); assertEquals(0, f.peer.media.get())
-            f.peer.reply()
-            waitFor { f.session.talkback.value is TalkbackState.Sending }
-            f.frames.set(1)
-            waitFor { f.peer.media.get() == 1 }
             delay(30)
-            f.session.stopTalkback()
-            assertEquals(1, f.released.get()); assertFalse(f.peer.isClosed)
-            assertEquals(TalkbackState.Idle, f.session.talkback.value)
+            assertEquals(TalkbackState.Error(TalkbackError.FORMAT_UNVERIFIED), f.session.talkback.value)
+            assertEquals(0, f.created.get()); assertEquals(0, f.started.get())
+            assertEquals(0, f.peer.writes.get()); assertEquals(0, f.peer.media.get())
+            assertFalse(f.peer.isClosed)
         }
     }
 
@@ -263,7 +258,7 @@ class TalkbackSessionTest {
         }
     }
 
-    @Test fun cameraEnvelopeWithDifferentSidAcceptsCodec102AndUnknownCodecStaysGated() = runBlocking {
+    @Test fun cameraEnvelopeWithDifferentSidKeepsCodec102MetadataButBlocksSending() = runBlocking {
         Fixture().use { f ->
             f.audio.value = null
             // Observed shape: NOTIFY/CBC, different header SID, codec102 mono16 at16kHz.
@@ -271,7 +266,9 @@ class TalkbackSessionTest {
             f.information(JSONObject().put("aattr", audioAttr().put("codec", 102).put("samplerate", 16000)), sid = 18)
             assertEquals(IoTAudioInfo(102, 16000, 16, 1), f.audio.value)
             assertNull(f.session.talkbackMetadataIssue.value)
-            assertNull(f.session.talkbackBlock("fixture"))
+            assertEquals(TalkbackError.FORMAT_UNVERIFIED, f.session.talkbackBlock("fixture"))
+            assertTrue(f.diagnostics.exportJson().contains("TALKBACK_FORMAT_UNVERIFIED"))
+            assertFalse(f.diagnostics.exportJson().contains("sessionId"))
             f.information(JSONObject().put("aattr", audioAttr().put("codec", 103).put("samplerate", 16000)), sid = 18)
             assertEquals(TalkbackError.UNSUPPORTED_AUDIO, f.session.talkbackBlock("fixture"))
             f.session.startTalkback("fixture") { true }
@@ -292,6 +289,11 @@ class TalkbackSessionTest {
             f.session.startTalkback("fixture") { true }
             waitFor { f.peer.writes.get() == 1 }; f.peer.reply()
             waitFor { f.session.talkback.value is TalkbackState.Sending }
+            f.information(JSONObject().put("aattr", audioAttr().put("codec", 102).put("samplerate", 16000)))
+            waitFor { f.released.get() == 1 }
+            assertEquals(TalkbackError.FORMAT_UNVERIFIED, f.session.talkbackBlock("fixture"))
+            f.session.startTalkback("fixture") { true }
+            assertEquals(1, f.created.get()); assertEquals(1, f.peer.writes.get())
             f.information(JSONObject().put("aattr", audioAttr().put("codec", 101)))
             waitFor { f.released.get() == 1 }
             assertEquals(TalkbackError.UNSUPPORTED_AUDIO, f.session.talkbackBlock("fixture"))

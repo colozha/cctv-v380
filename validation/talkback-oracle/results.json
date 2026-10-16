@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-16",
+  "timezone": "Asia/Jakarta",
+  "generated_utc": "2026-10-16T02:38:43.195850+00:00",
+  "base_revision": "33fbd07383f92d54e220e19e3108662faf8a2b97",
+  "source_state": "uncommitted working tree; exact source digests in source-files.sha256.json",
+  "completion": "Offline vendor-component comparison and codec102 quarantine implemented. Physical talkback repair/acceptance remains incomplete.",
+  "owner_report": {
+    "ima_revision": "Loud squealing persists, sounds different, including with the phone in another room.",
+    "official_app": "Owner reports clear talkback. Installed official version was observed as6.4.90 in the planning pass.",
+    "official_app_active_transport": "Not observed; same-Wi-Fi versus remote comparison question unanswered at report time.",
+    "report_only": true,
+    "recording_saved": false
+  },
+  "gate": {
+    "codec102": "FORMAT_UNVERIFIED before recorder construction and start/media writes, even with permission/foreground authorization.",
+    "metadata": "Retained for diagnostics; current socket/session/generation/CBC checks remain.",
+    "normal_codec102_enabled": false,
+    "pcm100": "Existing experimental subset unchanged; no additional hardware claim.",
+    "translations": [
+      "id",
+      "en"
+    ],
+    "diagnostics": "Additive enum only; no raw payload, keys or SID."
+  },
+  "oracle": {
+    "kind": "Exported encoder2001 and media cipher/envelope component functions, not the complete live transmitter or a captured official session.",
+    "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+    "package": "dev.cctv.v380.oracle",
+    "manifest_permission_count": 0,
+    "runtime_permission_assertion": "Passed before loading the shim/vendor code.",
+    "android_api": 35,
+    "device": "Task-owned x86_64 emulator with ARM64 native bridge; not physical ARM64.",
+    "abi": "arm64-v8a",
+    "vendor_java_or_jni_entry_started": false,
+    "player_created": false,
+    "vectors": 7,
+    "whole_packets": 14,
+    "whole_packet_comparison": "Exact byte equality for the chosen synthetic fields, PCM payloads and native/continuous-state IMA payloads.",
+    "fresh_process_repeat": "All outputs identical.",
+    "state_difference": "Native release/init retains process-global IMA index36 before restart_tone; a fresh client attempt resets index0. Explicit separate regression proves fresh output equals native index0 tone. No cross-session global client state introduced.",
+    "first_comparison": "Initial combined test failed at restart_tone header index36 versus0; final tests explicitly separate equivalent-state comparison from this known lifetime difference.",
+    "frame_fields": "Shim uses fields recovered statically. Does not independently establish which fields/codec/transport the official owner session selects.",
+    "runtime_log": "oracle-run.log",
+    "repeat_log": "oracle-repeat.log",
+    "comparison_log": "vendor-comparison-final.log",
+    "vendor_binaries_committed": false,
+    "vendor_binaries_in_client_apk": false,
+    "shipping_dependency_added": false
+  },
+  "static_followup": {
+    "sendSpeakAudioData_callers": 2,
+    "callers": [
+      "MicrophoneRecorder.a: input21, wall-clock milliseconds",
+      "MicrophoneRecorder2.run: input21, timestamp0"
+    ],
+    "transport_selection": "Static platform/MR/pver/P2P branches reviewed; actual successful owner session route remains unknown.",
+    "projections": [
+      "analysis/evidence/talkback-oracle-callers.sanitized.json",
+      "analysis/evidence/talkback-MicrophoneRecorder2-run.sanitized.json",
+      "analysis/evidence/talkback-transport-selection.sanitized.json"
+    ]
+  },
+  "build": {
+    "assembleDebug": "passed",
+    "assembleDebugAndroidTest": "passed",
+    "lintDebug": "passed",
+    "lint_errors": 0,
+    "lint_warnings": 40,
+    "lint_hints": 1,
+    "log": "final-build.log"
+  },
+  "jvm": {
+    "tests": 126,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "talkback_tests": 28,
+    "locale": "id-ID via JAVA_TOOL_OPTIONS",
+    "initial_default_locale_run": "82 selected tests:1 failure in CameraFeatureProtocolTest month-name expectation; rerun and full suite passed with Indonesian locale. No production change for this historical locale assumption.",
+    "results": "jvm-results.json"
+  },
+  "android_synthetic": {
+    "passed": 8,
+    "failed": 0,
+    "scope": "5 protocol vectors and3 synthetic TalkbackUiTest tests; fake permissions/capture; no camera writes or microphone.",
+    "api": 35,
+    "log": "android-final.log",
+    "screenshots_reviewed": [
+      "screenshots/id-dark-gated-large.png",
+      "screenshots/en-light-gated-large.png"
+    ],
+    "visual_scope": "Synthetic panel at large font, Indonesian dark and English light, new unverified-format message and disabled button readable. Not live camera UI acceptance."
+  },
+  "installation": {
+    "oracle": "Task-owned emulator only; repeat succeeded.",
+    "client": "Task-owned emulator only. No physical phone attached at installation time.",
+    "owner_profiles_cleared": false
+  },
+  "pending": [
+    "Observe/establish the official app successful session transport and negotiation for the owner unit without exporting credentials/session/audio.",
+    "Only after the protocol gate passes: prepare user-started silence validation capped15 frames/500ms with independent cancellation, then a separate2s speech action.",
+    "Microphone PCM statistics/routing check and physical speaker/lifecycle acceptance.",
+    "Keep ordinary codec102 disabled until acceptance passes; no automatic audio sweep/retry."
+  ],
+  "camera_contacted": false,
+  "cloud_contacted": false,
+  "vendor_code_executed": true,
+  "vendor_execution_scope": "Synthetic offline oracle only",
+  "microphone_started": false,
+  "speaker_acceptance_tested": false,
+  "audio_sent_to_camera": false,
+  "real_audio_or_footage_saved": false,
+  "credentials_or_real_session_material_exported": false,
+  "camera_compatibility_verified": false,
+  "resource_parity": {
+    "talkback_keys": 34,
+    "languages": [
+      "id",
+      "en"
+    ],
+    "passed": true
+  },
+  "limitations": [
+    "Synthetic native-component equality does not establish real firmware/session compatibility or a physical fix.",
+    "Native state ownership difference is recorded, not treated as a proven cause of squealing.",
+    "No controlled physical test build was activated because the selected official session route remains unverified.",
+    "Emulator SwiftShader boot attempts crashed; host graphics with Vulkan disabled allowed successful API35 execution. Raw host crash logs are ignored build artifacts."
+  ]
+}

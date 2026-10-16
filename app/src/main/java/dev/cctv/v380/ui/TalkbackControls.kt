@@ -67,6 +67,7 @@ internal fun talkbackMessage(error: TalkbackError): Int = when (error) {
     TalkbackError.METADATA_COMMAND -> R.string.talkback_metadata_command
     TalkbackError.METADATA_CIPHER -> R.string.talkback_metadata_cipher
     TalkbackError.UNSUPPORTED_AUDIO -> R.string.talkback_unsupported_audio
+    TalkbackError.FORMAT_UNVERIFIED -> R.string.talkback_format_unverified
     TalkbackError.MICROPHONE_PERMISSION -> R.string.talkback_permission_denied
     TalkbackError.MICROPHONE_UNAVAILABLE -> R.string.talkback_microphone_unavailable
     TalkbackError.CAPTURE_FAILED -> R.string.talkback_capture_failed
