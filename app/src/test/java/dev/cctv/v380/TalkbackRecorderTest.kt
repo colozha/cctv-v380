@@ -63,4 +63,27 @@ class TalkbackRecorderTest {
         assertTrue(runCatching { recorder.sendFrames({}) {} }.exceptionOrNull() is CancellationException)
         assertEquals(1, starts.get())
     }
+
+    @Test fun audioFrontendIsAcquiredBeforeCaptureAndClosedOnlyOnce() = runBlocking {
+        val events = java.util.Collections.synchronizedList(mutableListOf<String>())
+        val audio = object : TalkbackAudioSession {
+            override fun acquire(): Boolean { events.add("acquire"); return true }
+            override fun recordSource() = TalkbackAudioSession.SOURCE_MIC
+            override fun attachEchoCanceller(audioSessionId: Int) { events.add("attach") }
+            override fun close() { events.add("close") }
+        }
+        var filled = 0
+        val recorder = TalkbackRecorder(8000, { events.add("start") }, { bytes, offset, count ->
+            if (filled >= 1010) 0 else minOf(1010 - filled, count).also { n ->
+                java.util.Arrays.fill(bytes, offset, offset + n, 3); filled += n
+            }
+        }, { events.add("stop") }, { events.add("release") }, audio)
+        val sent = CompletableDeferred<Unit>()
+        val job = launch { recorder.sendFrames({}) { sent.complete(Unit) } }
+        withTimeout(2000) { sent.await() }
+        recorder.close()
+        job.cancelAndJoin()
+        recorder.close()
+        assertEquals(listOf("acquire", "start", "stop", "release", "close"), events.toList())
+    }
 }

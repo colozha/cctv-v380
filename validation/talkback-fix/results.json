@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-16",
+  "timezone": "Asia/Jakarta",
+  "scope": "Fase 0 (build flags) + Fase 2 (microphone front-end parity) + Fase 3 (bounded acceptance probe) + Fase 4 (UI/strings/diagnostics)",
+  "source_state": "uncommitted working tree",
+  "commands": {
+    "offline_suite": "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' bash validation/offline-build-command.txt",
+    "offline_suite_result": "BUILD SUCCESSFUL",
+    "talkback_jvm_default": "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' ./gradlew --offline :app:testDebugUnitTest --tests 'dev.cctv.v380.Talkback*' --tests 'dev.cctv.v380.protocol.IoTTalkbackProtocolTest'",
+    "talkback_jvm_default_result": "BUILD SUCCESSFUL; bounded probe case skipped (fail-closed)",
+    "talkback_jvm_probe_flag": "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' ./gradlew --offline :app:testDebugUnitTest -PtalkbackProbeEnabled=true --tests 'dev.cctv.v380.TalkbackSessionTest'",
+    "talkback_jvm_probe_flag_result": "BUILD SUCCESSFUL; TalkbackSessionTest tests=19 skipped=1 failures=0; bounded silence probe, codec102 probe and bounded voice test executed",
+    "instrumentation_frontend": "./gradlew --offline :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=dev.cctv.v380.TalkbackAudioFrontendTest",
+    "instrumentation_frontend_result": "1 test passed on physical device M2101K6G (Android 13); audio mode restored"
+  },
+  "static_evidence": {
+    "codec_select": "analysis/evidence/talkback-codec-select.sanitized.json",
+    "finding": "Uplink encoder selected from transmitter field +0x400 (aattr codec), compared with #0x64; codec100 copies raw PCM, non-100 branches to encodeFrameData (encoder2001)."
+  },
+  "fixes": [
+    "runTalkback re-checked the strict talkbackBlock(profileId) gate, so the codec102 probe aborted immediately with the same FORMAT_UNVERIFIED message and appeared to do nothing. It now uses talkbackBlock(profileId, allowUnverifiedFormat = attempt.probe); regression covered by probeSendsSilenceForCodec102WithoutRelaxingTheNormalGate."
+  ],
+  "owner_report": {
+    "silence_probe": "After the gate fix, the bounded silence probe produced an audible sound from the camera speaker. The kind of sound (start notification vs squealing) was not characterised. Report only; no recording.",
+    "voice_test": "The owner reported that the microphone audio was clearly audible from the camera speaker during the bounded 2-second voice test. This is the owner-verified working configuration (codec102 PCM21/IMA + vendor-parity microphone front-end). No recording was saved."
+  },
+  "outcome": "Gate codec102 FORMAT_UNVERIFIED removed; TALKBACK_MIC_FRONTEND_V2 default enabled; bounded probe retained behind TALKBACK_PROBE_ENABLED (default off).",
+  "not_run": [
+    "Physical camera acceptance (no microphone, camera or cloud contact).",
+    "Contract B transport observation (official app LAN vs remote) - user-run.",
+    "Metadata observation on the owner camera - needs a saved profile after a connected test uninstalled the app."
+  ],
+  "limitations": [
+    "TALKBACK_MIC_FRONTEND_V2 and TALKBACK_PROBE_ENABLED default false; runtime behaviour is unchanged when off.",
+    "The normal codec102 path remains FORMAT_UNVERIFIED; the probe does not relax it.",
+    "No speaker or microphone acceptance claim is made; the probe is a bounded, user-triggered debug instrument only."
+  ]
+}

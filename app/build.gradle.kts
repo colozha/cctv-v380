@@ -3,6 +3,13 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+// Experimental talkback microphone front-end (audio focus/route + platform echo cancellation).
+// Enabled by default because it is required for the owner-verified codec102 configuration; pass
+// -PtalkbackMicFrontendV2=false to fall back to the plain microphone capture.
+val talkbackMicFrontendV2 = (findProperty("talkbackMicFrontendV2") as String?)?.toBoolean() ?: true
+// Reserved for the bounded acceptance probe (see analysis/talkback-fix-plan.md Fase 3).
+val talkbackProbeEnabled = (findProperty("talkbackProbeEnabled") as String?)?.toBoolean() ?: false
+
 android {
     namespace = "dev.cctv.v380"
     compileSdk = 37
@@ -13,6 +20,8 @@ android {
         versionCode = 8
         versionName = "0.4.3-experimental"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("boolean", "TALKBACK_MIC_FRONTEND_V2", talkbackMicFrontendV2.toString())
+        buildConfigField("boolean", "TALKBACK_PROBE_ENABLED", talkbackProbeEnabled.toString())
     }
     buildFeatures { compose = true; buildConfig = true }
     // Run the same wire/curve vectors on Android, including API26's actual crypto/runtime APIs.

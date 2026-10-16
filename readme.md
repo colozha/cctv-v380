@@ -16,7 +16,9 @@ python3 tools/collect-validation.py --without-connection-tests
 "$ANDROID_HOME/platform-tools/adb" install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada debug. **Talkback codec102 sementara diblokir** setelah pengguna melaporkan bahwa versi AAC maupun PCM21/IMA masih menghasilkan decitan, termasuk saat HP berada di ruangan lain. Aplikasi resmi dilaporkan menghasilkan suara jelas. Hasil sintetis sebelumnya bukan bukti kompatibilitas speaker. Pembanding SDK terisolasi dan status investigasi terkini dicatat di [kontrak talkback](analysis/talkback-wire.md) dan [validasi pembanding](validation/talkback-oracle/results.json).
+Front-end mikrofon talkback (audio focus, mode komunikasi, AEC platform) aktif secara default dan dapat dinonaktifkan dengan `-PtalkbackMicFrontendV2=false`. Probe acceptance terbatas diaktifkan dengan `-PtalkbackProbeEnabled=true` (default nonaktif).
+
+APK lokal: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk). Adapter eksperimental aktif hanya pada debug. **Talkback codec102 kini aktif**: pemilik melaporkan suara mikrofon terdengar jelas di speaker kamera melalui uji ucapan terbatas, dan konfigurasi yang diverifikasi memakai front-end mikrofon vendor. Ini laporan pemilik terbatas, bukan klaim latensi/ketahanan atau firmware lain. [Kontrak talkback](analysis/talkback-wire.md), [bukti dan batas](validation/talkback-fix/results.json).
 
 ## Kamera sudah terhubung Wi-Fi
 
@@ -31,7 +33,9 @@ Opsi **ingat password** default nonaktif. Bila diaktifkan, akses disimpan terenk
 
 Pada APK debug, buka tab **Live**, tunggu video berjalan, lalu gunakan **Bicara ke kamera → Mulai bicara**. Jika Android meminta izin mikrofon, berikan izin lalu ketuk **Mulai bicara** kembali. **Berhenti bicara** mematikan mikrofon; meninggalkan aplikasi/Live, rotasi, perubahan kualitas, kehilangan koneksi dan reconnect juga menghentikannya. Mikrofon tidak menyala kembali otomatis. Suara hanya dikirim, tidak disimpan.
 
-Fitur ini memerlukan capability speaker dan metadata sesi IoT lokal. PCM100 mono16-bit pada8/16kHz tetap eksperimental; metadata102 mono16kHz disimpan untuk diagnosis tetapi pengiriman diblokir sebelum mikrofon dibuat atau negosiasi dikirim. Panel menjelaskan bahwa format kirim belum terverifikasi dan dapat menimbulkan decitan. Tidak ada fallback codec atau pemutaran uji otomatis. [Kontrak dan batas](analysis/talkback-wire.md).
+Fitur ini memerlukan capability speaker dan metadata sesi IoT lokal. PCM100 mono16-bit pada8/16kHz serta PCM21/IMA codec102 mono16kHz (terverifikasi pemilik) didukung; tidak ada fallback codec atau pemutaran uji otomatis. [Kontrak dan batas](analysis/talkback-wire.md).
+
+Capture memakai paritas front-end vendor (audio focus, mode komunikasi, AEC platform) secara default. Bila dibangun dengan `-PtalkbackProbeEnabled=true`, panel menampilkan alat uji terbatas: 15 frame hening (sekitar0,5 detik) dan uji ucapan2 detik, keduanya berhenti sendiri.
 
 Panel membedakan format yang masih ditunggu, belum dikirim kamera, invalid, atau tidak cocok dengan sesi/proteksi. Pembaruan informasi video saja tidak lagi menghapus format audio valid dalam sesi yang sama. Jika kamera belum mengirim format, tombol tetap nonaktif; menyambungkan ulang belum terbukti menyelesaikannya. [Perbaikan dan hasil validasi](validation/talkback-metadata/results.json).
 

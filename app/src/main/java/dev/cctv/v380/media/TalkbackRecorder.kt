@@ -2,7 +2,6 @@ package dev.cctv.v380.media
 
 import android.media.AudioFormat
 import android.media.AudioRecord
-import android.media.MediaRecorder
 import dev.cctv.v380.protocol.IoTTalkbackProtocol
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -17,6 +16,7 @@ class TalkbackFailure(val reason: TalkbackError) : java.io.IOException(reason.na
 class TalkbackRecorder internal constructor(val sampleRate: Int,
     private val startCapture: () -> Unit, private val read: (ByteArray, Int, Int) -> Int,
     private val stopCapture: () -> Unit, private val releaseCapture: () -> Unit,
+    private val audioSession: TalkbackAudioSession = TalkbackAudioSession.NO_OP,
 ) : AutoCloseable {
     private val running = AtomicBoolean(false)
     private val closed = AtomicBoolean(false)
@@ -31,6 +31,8 @@ class TalkbackRecorder internal constructor(val sampleRate: Int,
         try {
             synchronized(captureLock) {
                 if (closed.get()) throw CancellationException("Recorder already closed")
+                // Best effort: a denied focus/route request must not block capture (vendor proceeds likewise).
+                runCatching { audioSession.acquire() }
                 try { startCapture() }
                 catch (error: SecurityException) { throw error }
                 catch (_: Exception) { throw TalkbackFailure(TalkbackError.MICROPHONE_UNAVAILABLE) }
@@ -69,27 +71,33 @@ class TalkbackRecorder internal constructor(val sampleRate: Int,
     }
     override fun close() {
         stop()
-        synchronized(captureLock) { if (closed.compareAndSet(false, true)) runCatching(releaseCapture) }
+        synchronized(captureLock) {
+            if (closed.compareAndSet(false, true)) {
+                runCatching(releaseCapture)
+                runCatching { audioSession.close() }
+            }
+        }
     }
 
     companion object {
         @Suppress("MissingPermission") // Owner rechecks permission before construction and every send.
-        fun android(sampleRate: Int): TalkbackRecorder {
+        fun android(sampleRate: Int, audioSession: TalkbackAudioSession = TalkbackAudioSession.NO_OP): TalkbackRecorder {
             require(sampleRate in setOf(8000, 16000))
             val minimum = AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
             if (minimum <= 0 || minimum > sampleRate * 2 / 5) throw TalkbackFailure(TalkbackError.MICROPHONE_UNAVAILABLE)
-            val record = AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, AudioFormat.CHANNEL_IN_MONO,
+            val record = AudioRecord(audioSession.recordSource(), sampleRate, AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, maxOf(minimum, sampleRate * 2 / 5))
             if (record.state != AudioRecord.STATE_INITIALIZED) {
                 record.release()
                 throw TalkbackFailure(TalkbackError.MICROPHONE_UNAVAILABLE)
             }
+            audioSession.attachEchoCanceller(record.audioSessionId)
             return TalkbackRecorder(sampleRate, {
                 record.startRecording()
                 if (record.recordingState != AudioRecord.RECORDSTATE_RECORDING)
                     throw TalkbackFailure(TalkbackError.MICROPHONE_UNAVAILABLE)
             }, { bytes, offset, count -> record.read(bytes, offset, count, AudioRecord.READ_NON_BLOCKING) },
-                { record.stop() }, { record.release() })
+                { record.stop() }, { record.release() }, audioSession)
         }
     }
 }

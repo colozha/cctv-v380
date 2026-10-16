@@ -203,7 +203,10 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                         onStart = { model.startTalkback(profile.id) }, onStop = model::stopTalkback,
                         onPermission = { microphonePermission.launch(android.Manifest.permission.RECORD_AUDIO) },
                         onPermissionSettings = { context.startActivity(android.content.Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                            "package:${context.packageName}".toUri())) })
+                            "package:${context.packageName}".toUri())) },
+                        probeEnabled = dev.cctv.v380.BuildConfig.TALKBACK_PROBE_ENABLED,
+                        onProbe = { model.startTalkbackProbe(profile.id) },
+                        onVoiceTest = { model.startTalkbackVoiceTest(profile.id) })
                     CameraPanel {
                         PanelHeading(Icons.Default.Settings, "Kontrol kamera")
                         val ptz = streaming && model.session.manualPtzAllowed && !model.managementBlocked() && !feature.busy && capabilities?.ptz == true

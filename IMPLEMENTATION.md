@@ -1,5 +1,23 @@
 # Status implementasi V380 LAN
 
+## Talkback codec102 berfungsi (laporan pemilik) — 16 Oktober 2026
+
+Pemilik melaporkan suara mikrofon HP **terdengar jelas dari speaker kamera** pada uji ucapan terbatas (≤2 detik, probe debug). Ini bukti fisik pertama bahwa jalur IoT/V3 LAN pada kamera pemilik berfungsi: negosiasi start `197122`, payload PCM21/IMA256B, framing format0/type4, dan CBC. Konfigurasi yang diverifikasi memakai front-end mikrofon vendor (audio focus, `MODE_IN_COMMUNICATION`, AEC platform), sehingga front-end tersebut kini **default** (`TALKBACK_MIC_FRONTEND_V2`, dapat dinonaktifkan).
+
+Gate codec102 `FORMAT_UNVERIFIED` dihapus; **Mulai bicara** normal aktif bila capability, metadata, izin mikrofon, dan foreground terpenuhi. Percobaan pendahulu (AAC lalu IMA tanpa front-end) gagal acceptance; paritas front-end dan koreksi gate probe di `runTalkback` menjadi jalur yang berhasil. Probe terbatas (`TALKBACK_PROBE_ENABLED`, default nonaktif) tetap tersedia sebagai alat diagnostik.
+
+Validasi source ini: suite offline resmi lulus; tes talkback JVM lulus, termasuk codec102 menulis setelah ACK dan jalur probe hening/ucapan. Ini laporan pemilik terbatas, bukan pengukuran berulang; belum ada klaim latensi, ketahanan jangka panjang, atau firmware lain. [Bukti dan batas](validation/talkback-fix/results.json).
+
+## Front-end mikrofon, probe terbatas, dan batas codec102 — 16 Oktober 2026
+
+[Paritas front-end mikrofon](app/src/main/java/dev/cctv/v380/media/TalkbackAudioSession.kt) menambahkan audio focus, `setMode(MODE_IN_COMMUNICATION)`, dan `AcousticEchoCanceler` platform, dengan pemulihan mode saat berhenti; sumber `VOICE_COMMUNICATION` bila AEC tersedia, selain itu `MIC`. Diaktifkan hanya oleh flag build `-PtalkbackMicFrontendV2=true` (default nonaktif) melalui seam `talkbackAudioFactory`; tanpa flag, capture identik dengan perilaku sebelumnya (`NO_OP`). Bukti vendor: [startSpeak](analysis/evidence/talkback-HSMediaPlayer-startSpeak.sanitized.json) dan [MicrophoneRecorder.init](analysis/evidence/talkback-MicrophoneRecorder-init.sanitized.json). EchoCanceller proprietary vendor tidak direplikasi.
+
+[Verifikasi statis](analysis/evidence/talkback-codec-select.sanitized.json) mengonfirmasi pemilih encoder uplink memakai field aattr `+0x400` (`cmp w8, #0x64`): codec100 menyalin PCM, non100 menuju encoder2001. **Gate codec102 `FORMAT_UNVERIFIED` tetap tidak diubah.**
+
+Probe acceptance terbatas (debug) tersedia untuk menguji codec102 secara aman: paling banyak15 frame hening (sekitar0,5 detik), deadline pembatalan independen, berhenti sendiri, tanpa mikrofon dan tanpa capture; hanya aktif dengan flag build `-PtalkbackProbeEnabled=true` dan tunduk pada kebijakan bukti transport di [tools/talkback-oracle/README.md](tools/talkback-oracle/README.md). Tombol dan catatannya berbahasa Indonesia/Inggris dan tidak menggantikan gate normal.
+
+Validasi source ini: suite offline resmi lulus (assemble debug/instrumentation + lint + tes terpilih, locale Indonesia). Tes talkback JVM lulus; pada build default kasus bounded probe di-skip (fail-closed), dan dengan `-PtalkbackProbeEnabled=true` `TalkbackSessionTest` menjalankan17 kasus (1 skip) dengan jalur probe hening benar-benar dieksekusi. [TalkbackAudioFrontendTest](app/src/androidTest/java/dev/cctv/v380/TalkbackAudioFrontendTest.kt) lulus pada perangkat fisik M2101K6G/Android13 (mode audio dipulihkan). Tidak ada mikrofon, kamera, cloud, atau audio nyata yang diakses; acceptance speaker tetap belum dijalankan. [Bukti dan batas](validation/talkback-fix/results.json).
+
 ## Penyederhanaan tab Pengaturan — 16 Oktober 2026
 
 Tab Pengaturan kini memiliki tiga kartu: Gambar & lampu, Rekaman & kartu SD, dan Koneksi & perangkat. Jadwal lampu, alarm/deteksi gerakan serta preset/patroli dipindah ke satu panel paling bawah dengan ikon Build dan label Belum berfungsi sesuai laporan pengguna; detailnya tetap dapat dibuka. Ini penandaan UI, bukan perubahan dukungan protokol. Subjudul dan divider menggantikan kartu bersarang; aksi hotspot hanya tampil saat grup koneksi dibuka. Draft, status/error/pemulihan ketika tertutup, penghapusan password saat ditutup, tema/bahasa serta gerbang format/patroli tetap dipertahankan. Tab Live tidak diubah.

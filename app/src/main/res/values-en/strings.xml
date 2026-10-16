@@ -26,6 +26,11 @@
     <string name="talkback_permission_denied">Microphone permission has not been granted. Allow it when prompted or open app permission settings.</string>
     <string name="talkback_permission_ready">Tap Start talking to turn on the microphone. Audio is not saved.</string>
     <string name="talkback_permission_settings">Open microphone permission settings</string>
+    <string name="talkback_probe_start">Bounded talkback test (debug)</string>
+    <string name="talkback_probe_note">Test mode: sends at most 15 silence frames (about 0.5 seconds) then stops on its own. Does not use the microphone. Run only when you are ready to listen to the camera speaker.</string>
+    <string name="talkback_probe_voice_start">2-second voice test (debug)</string>
+    <string name="talkback_probe_voice_note">Speak briefly: sends at most 2 seconds with echo cancellation, then stops on its own. Stop if you hear squealing.</string>
+    <string name="talkback_probe_voice_permission">Allow the microphone for the voice test (no audio is saved).</string>
     <string name="talkback_microphone_unavailable">The microphone is unavailable. Close other apps using it, then try again.</string>
     <string name="talkback_capture_failed">Reading the microphone failed. The microphone was stopped; tap Start talking to retry.</string>
     <string name="talkback_buffer_full">Audio transmission fell behind. The microphone was stopped to prevent stale audio accumulating; retry when the network is stable.</string>

@@ -18,7 +18,8 @@ import dev.cctv.v380.session.TalkbackState
 @Composable
 internal fun TalkbackControls(state: TalkbackState, blocked: TalkbackError?, microphoneGranted: Boolean,
     permissionDenied: Boolean, onStart: () -> Unit, onStop: () -> Unit, onPermission: () -> Unit,
-    onPermissionSettings: () -> Unit) {
+    onPermissionSettings: () -> Unit, probeEnabled: Boolean = false, onProbe: () -> Unit = {},
+    onVoiceTest: () -> Unit = {}) {
     val active = state is TalkbackState.Starting || state is TalkbackState.Sending
     val stopping = state is TalkbackState.Stopping
     CameraPanel {
@@ -52,6 +53,24 @@ internal fun TalkbackControls(state: TalkbackState, blocked: TalkbackError?, mic
             TextButton(onClick = onPermissionSettings, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
                 Text(stringResource(R.string.talkback_permission_settings))
             }
+        if (probeEnabled && !active && !stopping) {
+            Text(stringResource(R.string.talkback_probe_note), style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
+            OutlinedButton(onClick = onProbe, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                Text(stringResource(R.string.talkback_probe_start))
+            }
+            if (microphoneGranted) {
+                Text(stringResource(R.string.talkback_probe_voice_note), style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                OutlinedButton(onClick = onVoiceTest, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                    Text(stringResource(R.string.talkback_probe_voice_start))
+                }
+            } else {
+                TextButton(onClick = onPermission, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                    Text(stringResource(R.string.talkback_probe_voice_permission))
+                }
+            }
+        }
     }
 }
 

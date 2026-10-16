@@ -25,6 +25,8 @@ import dev.cctv.v380.media.RecordingStorageFullException
 import dev.cctv.v380.media.copyRecording
 import dev.cctv.v380.media.verifyRecordingCopy
 import dev.cctv.v380.media.VideoFrameCapture
+import dev.cctv.v380.media.TalkbackAudioSession
+import dev.cctv.v380.BuildConfig
 import android.provider.DocumentsContract
 import java.time.LocalDate
 import java.time.ZoneId
@@ -88,12 +90,29 @@ class CameraViewModel @JvmOverloads constructor(application: Application,
     private val wifi = WifiNetwork(application)
     private val discovery = LanDiscovery(wifi)
     val diagnostics = Diagnostics()
-    val session = sessionOverride ?: CameraSession(wifi, discovery, diagnostics)
+    val session = sessionOverride ?: CameraSession(wifi, discovery, diagnostics, talkbackAudioFactory = {
+        if (BuildConfig.TALKBACK_MIC_FRONTEND_V2) TalkbackAudioSession.android(getApplication())
+        else TalkbackAudioSession.NO_OP
+    })
     @Volatile private var resumed = false
     fun microphoneGranted(): Boolean = getApplication<Application>().checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) ==
         android.content.pm.PackageManager.PERMISSION_GRANTED
     fun startTalkback(profileId: String) {
         session.startTalkback(profileId) {
+            resumed && microphoneGranted() && features.value.tab == CameraTab.LIVE && features.value.profileId == profileId &&
+                !features.value.busy && !managementBlocked()
+        }
+    }
+    /** Debug-only bounded probe: no microphone permission needed and no capture is opened. */
+    fun startTalkbackProbe(profileId: String) {
+        session.startTalkbackProbe(profileId) {
+            resumed && features.value.tab == CameraTab.LIVE && features.value.profileId == profileId &&
+                !features.value.busy && !managementBlocked()
+        }
+    }
+    /** Debug-only bounded voice test: captures the microphone for at most 2 seconds. */
+    fun startTalkbackVoiceTest(profileId: String) {
+        session.startTalkbackVoiceTest(profileId) {
             resumed && microphoneGranted() && features.value.tab == CameraTab.LIVE && features.value.profileId == profileId &&
                 !features.value.busy && !managementBlocked()
         }

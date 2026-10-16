@@ -106,3 +106,21 @@ Tujuh vector silence/ramp/tone/constant, blok berurutan, restart factory dan sil
 Penelusuran semua pemanggil Java `sendSpeakAudioData` menemukan dua caller: `MicrophoneRecorder.a` dan `MicrophoneRecorder2.run`. Keduanya memakai input21; caller kedua memakai timestamp0, sedangkan caller utama memakai waktu milidetik. Caller kedua bukan bukti jalur22/AAC. Proyeksi [caller](evidence/talkback-oracle-callers.sanitized.json), [recorder kedua](evidence/talkback-MicrophoneRecorder2-run.sanitized.json), dan [seleksi transport](evidence/talkback-transport-selection.sanitized.json) mempertahankan Evidence ID asal. Seleksi statis memakai platform, MR mode, pver dan pilihan P2P; berhasilnya aplikasi resmi belum membuktikan sesi LAN-password/V3 yang sama dipakai pada unit pengguna.
 
 **Checkpoint:** kecocokan komponen vendor membatasi dugaan kesalahan encoder/framing pada vector yang diuji. Ini tidak membuktikan jalur yang dipilih sesi resmi pada firmware pengguna, negosiasi aktual, routing mikrofon, pacing atau speaker. Alat uji hening15 frame/500ms dan ucapan2s belum diaktifkan karena bukti jalur aktual belum tersedia. Tidak ada kontak kamera, capture mikrofon atau audio kamera selama perubahan ini. Pekerjaan penerimaan fisik tetap tertunda dan normal codec102 tidak dibuka. [Hasil, hash source/APK dan batas verifikasi](../validation/talkback-oracle/results.json).
+
+## Verifikasi statis pemilih encoder uplink — 16 Oktober 2026
+
+Disassembly tersimpan [talkback-native.sanitized.json](evidence/talkback-native.sanitized.json) pada `_ZN23HSLiveDataV3Transmitter24speakAudioSendThreadFuncEv` menetapkan asal field pemilih payload. `0x4e2e8` memuat `w8` dari `[x20, #0x400]` — bidang aattr pada objek transmitter, yang menurut bagian penerima di atas diisi dari `params.aattr` notifikasi live — lalu menyimpannya ke slot stack `[sp, #0x6c]` pada `0x4e2f0`. Loop kirim memuat ulang slot itu di `0x4e90c`, membandingkan `cmp w8, #0x64` di `0x4e910`, dan `b.ne 0x4e9cc` di `0x4e914`. Jalur jatuh-lurus (codec100) menyalin PCM mentah (`memset`0x4e92c + `__memcpy_chk`0x4e944) lalu `b 0x4ea50`; jalur non-100 menuju `encodeFrameData` (`bl`0x4e8f8, encoder2001). Proyeksi tersanitasi: [talkback-codec-select.sanitized.json](evidence/talkback-codec-select.sanitized.json).
+
+**Kontrak A — dikonfirmasi (statis):** encoder uplink = f(`down.aattr.codec`) dengan ambang100. Ini selaras dengan implementasi client (codec102 → IMA/ADPCM) dan memperkuat, bukan menggantikan, kebutuhan observasi sesi resmi.
+
+**Kontrak B — masih terbuka:** jalur transport sesi resmi (LAN-V3 vs P2P/MQ) belum diamati. Gate codec102 tidak diubah sampai observasi terbatas dari sisi aplikasi resmi pengguna dijalankan. Prosedur dan status ada di [talkback-fix-plan.md](talkback-fix-plan.md).
+
+## Front-end mikrofon dan probe terbatas — 16 Oktober 2026
+
+Paritas capture vendor (audio focus, mode komunikasi, AEC platform) diimplementasikan di balik flag build `-PtalkbackMicFrontendV2=true` (default nonaktif); tanpa flag, sumber `MIC` polos seperti sebelumnya. EchoCanceller proprietary vendor tidak direplikasi. Probe acceptance terbatas (`-PtalkbackProbeEnabled=true`) mengirim paling banyak15 frame hening lalu berhenti sendiri tanpa mikrofon, dan **tidak** membuka gate codec102 normal. Keduanya tidak mengubah framing/enkripsi/envelope. [Bukti validasi](validation/talkback-fix/results.json).
+
+## Codec102 diverifikasi pemilik — 16 Oktober 2026
+
+Pemilik melaporkan suara mikrofon terdengar jelas di speaker kamera pada uji ucapan terbatas (≤2 detik, probe debug) melalui jalur IoT/V3 LAN: negosiasi start `197122`/ACK `197123`, payload PCM21 IMA256B pada codec102, framing format0/type4, dan CBC envelope `939722784`. Front-end mikrofon vendor (audio focus, `MODE_IN_COMMUNICATION`, AEC platform) menjadi bagian dari konfigurasi yang diverifikasi dan kini **default** (`TALKBACK_MIC_FRONTEND_V2=false` menonaktifkannya).
+
+Konsekuensi kontrak: gate codec102 `FORMAT_UNVERIFIED` dihapus; subset yang didukung menjadi PCM100 mono16 8/16kHz dan PCM21/IMA codec102 mono16 16kHz. Probe hening/ucapan tetap tersedia di balik `TALKBACK_PROBE_ENABLED`. Ini laporan pemilik terbatas (bukan pengukuran berulang); jalur cloud/P2P dan firmware lain tetap tidak diklaim. [Bukti dan batas](validation/talkback-fix/results.json).

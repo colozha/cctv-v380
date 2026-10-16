@@ -1,0 +1,28 @@
+{
+  "kind": "bounded static projection from the archived native disassembly; not a decompilation or runtime observation",
+  "derived_from": "analysis/evidence/talkback-native.sanitized.json",
+  "subject": {
+    "name": "lib/arm64-v8a/libhsMediaLibrary.so",
+    "sha256": "1375485cd32a15cba93f8f5b9d9991eefaa6f1dd0fabe00aefd955b6808763bc"
+  },
+  "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "function": "_ZN23HSLiveDataV3Transmitter24speakAudioSendThreadFuncEv",
+  "claim": "The uplink payload encoder is selected from the session audio attribute stored on the transmitter at +0x400 and compared against 100.",
+  "instructions": [
+    { "va": "0x4e2e8", "bytes": "880244b9", "mnemonic": "ldr", "operands": "w8, [x20, #0x400]", "note": "codec read from the transmitter aattr field" },
+    { "va": "0x4e2f0", "bytes": "e86f00b9", "mnemonic": "str", "operands": "w8, [sp, #0x6c]", "note": "cached for the send loop" },
+    { "va": "0x4e8f8", "bytes": "2e5e0194", "mnemonic": "bl", "operands": "#0xa61b0", "target": "encodeFrameData@plt", "note": "encoder2001 path (non-100)" },
+    { "va": "0x4e90c", "bytes": "e86f40b9", "mnemonic": "ldr", "operands": "w8, [sp, #0x6c]" },
+    { "va": "0x4e910", "bytes": "1f910171", "mnemonic": "cmp", "operands": "w8, #0x64" },
+    { "va": "0x4e914", "bytes": "c1050054", "mnemonic": "b.ne", "operands": "#0x4e9cc", "note": "non-100 branches to the encoder path" },
+    { "va": "0x4e918", "bytes": "f52740f9", "mnemonic": "ldr", "operands": "x21, [sp, #0x48]" },
+    { "va": "0x4e92c", "bytes": "015e0194", "mnemonic": "bl", "operands": "#0xa6130", "target": "memset@plt" },
+    { "va": "0x4e944", "bytes": "1f5e0194", "mnemonic": "bl", "operands": "#0xa61c0", "target": "__memcpy_chk@plt", "note": "codec100 copies raw PCM" },
+    { "va": "0x4e948", "bytes": "42000014", "mnemonic": "b", "operands": "#0x4ea50" }
+  ],
+  "limitations": [
+    "Static disassembly only; the vendor library is not executed by this projection.",
+    "Establishes which field selects the payload encoding, not which transport or codec the official owner session negotiates.",
+    "The +0x400 field is populated by the live media-info receiver documented separately in analysis/talkback-wire.md."
+  ]
+}

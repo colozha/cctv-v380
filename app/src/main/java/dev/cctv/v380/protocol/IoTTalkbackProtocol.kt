@@ -14,7 +14,7 @@ data class IoTAudioInfo(val codec: Int, val sampleRate: Int, val bits: Int, val 
 /** Payload encoding is distinct from the camera's aattr codec negotiation number. */
 enum class TalkbackPayloadEncoding { PCM16, IMA_ADPCM }
 
-/** V380 V3 PCM21 reconstruction. Codec102 remains blocked at the session boundary. */
+/** V380 V3 PCM21 reconstruction. Codec102 PCM21/IMA talkback was owner-verified on hardware. */
 object IoTTalkbackProtocol {
     const val PCM_FRAME_BYTES = 1010 // Vendor MicrophoneRecorder's PCM aggregation buffer.
 

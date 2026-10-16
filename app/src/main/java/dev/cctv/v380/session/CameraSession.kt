@@ -9,6 +9,7 @@ import dev.cctv.v380.media.VideoDecoder
 import dev.cctv.v380.media.RecordingTimestampException
 import dev.cctv.v380.media.RecordingExportException
 import dev.cctv.v380.media.TalkbackAdpcmEncoder
+import dev.cctv.v380.media.TalkbackAudioSession
 import dev.cctv.v380.media.TalkbackRecorder
 import dev.cctv.v380.media.TalkbackError
 import dev.cctv.v380.media.TalkbackFailure
@@ -26,6 +27,11 @@ import java.net.SocketTimeoutException
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
+private const val PROBE_FRAMES = 15
+private const val PROBE_INTERVAL_MS = 33L
+private const val PROBE_DEADLINE_MS = 3000L
+private const val PROBE_VOICE_MS = 2000L
+
 /** One foreground owner, one selected protocol. Experimental adapters are available only in debug. */
 class CameraSession(
     private val channelFactory: (CameraProfile) -> TcpChannel,
@@ -34,11 +40,13 @@ class CameraSession(
     private val verifyApNetwork: suspend (CameraProfile, String) -> (() -> Boolean) = { _, _ ->
         throw CameraFailure(SessionError.FeatureUnsupported)
     },
-    private val talkbackRecorderFactory: (IoTAudioInfo) -> TalkbackRecorder = { info ->
-        TalkbackRecorder.android(info.sampleRate)
+    private val talkbackRecorderFactory: (IoTAudioInfo, TalkbackAudioSession) -> TalkbackRecorder = { info, audio ->
+        TalkbackRecorder.android(info.sampleRate, audio)
     },
+    private val talkbackAudioFactory: () -> TalkbackAudioSession = { TalkbackAudioSession.NO_OP },
 ) {
-    constructor(wifi: WifiNetwork, discovery: LanDiscovery = LanDiscovery(wifi), diagnostics: Diagnostics = Diagnostics()) :
+    constructor(wifi: WifiNetwork, discovery: LanDiscovery = LanDiscovery(wifi), diagnostics: Diagnostics = Diagnostics(),
+        talkbackAudioFactory: () -> TalkbackAudioSession = { TalkbackAudioSession.NO_OP }) :
         this({ wifi.resolve().let { link ->
             diagnostics.selectNetwork(link.localAddress, link.gateway)
             TcpChannel(link.socket())
@@ -60,7 +68,7 @@ class CameraSession(
             val check = { wifi.isCurrent(link) && wifi.currentSsid(link) == ssid }
             if (!check()) throw CameraFailure(SessionError.NetworkUnavailable)
             check
-        })
+        }, talkbackAudioFactory = talkbackAudioFactory)
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val operations = Mutex()
@@ -97,7 +105,8 @@ class CameraSession(
     val talkbackMetadataIssue = mutableTalkbackMetadataIssue.asStateFlow()
     private var lastTalkbackMetadataObservation: TalkbackMetadataObservation? = null
     private val talkbackLock = Any()
-    private class TalkbackAttempt(val epoch: Long, val authorized: () -> Boolean) {
+    private class TalkbackAttempt(val epoch: Long, val authorized: () -> Boolean, val probe: Boolean = false,
+        val voice: Boolean = false) {
         var allowed = true
         var starting = true
         var touched = false
@@ -146,20 +155,36 @@ class CameraSession(
         capabilities.value?.talkback != true -> TalkbackError.UNSUPPORTED
         talkbackAudio.value == null -> talkbackMetadataIssue.value ?: TalkbackError.METADATA_MISSING
         talkbackAudio.value?.supported != true -> TalkbackError.UNSUPPORTED_AUDIO
-        // Both AAC and PCM21/IMA attempts failed on the owner's codec102 camera.
-        talkbackAudio.value?.codec == 102 -> TalkbackError.FORMAT_UNVERIFIED
         else -> null
     }
 
     /** Default authorization is fail-closed. The foreground UI supplies a live permission/lifecycle check. */
-    fun startTalkback(profileId: String, authorized: () -> Boolean = { false }) = synchronized(talkbackLock) {
+    fun startTalkback(profileId: String, authorized: () -> Boolean = { false }) =
+        launchTalkback(profileId, authorized, probe = false, voice = false)
+
+    /**
+     * Debug-only bounded acceptance probe: sends a fixed number of silence frames and never captures the
+     * microphone. Requires the TALKBACK_PROBE_ENABLED build flag; see tools/talkback-oracle/README.md.
+     */
+    fun startTalkbackProbe(profileId: String, authorized: () -> Boolean = { false }) =
+        launchTalkback(profileId, authorized, probe = true, voice = false)
+
+    /** Debug-only bounded voice test: captures the microphone for at most PROBE_VOICE_MS, then stops. */
+    fun startTalkbackVoiceTest(profileId: String, authorized: () -> Boolean = { false }) =
+        launchTalkback(profileId, authorized, probe = true, voice = true)
+
+    private fun launchTalkback(profileId: String, authorized: () -> Boolean, probe: Boolean, voice: Boolean) = synchronized(talkbackLock) {
         if (talkbackAttempt != null) return@synchronized
+        if (probe && !BuildConfig.TALKBACK_PROBE_ENABLED) {
+            mutableTalkback.value = TalkbackState.Error(TalkbackError.UNSUPPORTED); return@synchronized
+        }
         val blocked = talkbackBlock(profileId) ?: if (!authorized()) TalkbackError.NOT_READY else null
         if (blocked != null) { mutableTalkback.value = TalkbackState.Error(blocked); return@synchronized }
-        val attempt = TalkbackAttempt(generation.get(), authorized)
+        val attempt = TalkbackAttempt(generation.get(), authorized, probe, voice)
         talkbackAttempt = attempt
         mutableTalkback.value = TalkbackState.Starting
-        diagnostics.record(DiagnosticStage.TALKBACK, DiagnosticStatus.STARTED, detail = DiagnosticDetail.TALKBACK_START)
+        diagnostics.record(DiagnosticStage.TALKBACK, DiagnosticStatus.STARTED,
+            detail = if (probe) DiagnosticDetail.TALKBACK_PROBE_START else DiagnosticDetail.TALKBACK_START)
         attempt.job = scope.launch { runTalkback(attempt, profileId) }.also { job ->
             job.invokeOnCompletion {
                 attempt.recorder?.close()
@@ -198,11 +223,14 @@ class CameraSession(
                 key = session.keyBytes()
                 codec = audio.codec
                 if (codec == 102) encoder = TalkbackAdpcmEncoder()
-                val recorder = try { talkbackRecorderFactory(audio) }
-                catch (error: SecurityException) { throw error }
-                catch (error: TalkbackFailure) { throw error }
-                catch (_: Exception) { throw TalkbackFailure(TalkbackError.MICROPHONE_UNAVAILABLE) }
-                synchronized(talkbackLock) { attempt.recorder = recorder; checkTalkback(attempt) }
+                if (!attempt.probe || attempt.voice) {
+                    val audioSession = talkbackAudioFactory()
+                    val recorder = try { talkbackRecorderFactory(audio, audioSession) }
+                    catch (error: SecurityException) { audioSession.close(); throw error }
+                    catch (error: TalkbackFailure) { audioSession.close(); throw error }
+                    catch (_: Exception) { audioSession.close(); throw TalkbackFailure(TalkbackError.MICROPHONE_UNAVAILABLE) }
+                    synchronized(talkbackLock) { attempt.recorder = recorder; checkTalkback(attempt) }
+                }
                 val id = requestIds.incrementAndGet()
                 val reply = Reply(id, IoTCommonProtocol.LIVE_CONTROL_RESPONSE, CompletableDeferred())
                 val packet = IoTCommonProtocol.encodeRequest(methodId = IoTCommonProtocol.LIVE_CONTROL_REQUEST,
@@ -232,14 +260,47 @@ class CameraSession(
                     attempt.channel!!.write(packet, deadlineAfterMillis(500))
                 } finally { synchronized(talkbackLock) { attempt.writing = false }; packet.fill(0) }
             }
-            attempt.recorder!!.sendFrames(onStarted = {
+            if (attempt.probe && !attempt.voice) {
+                val silence = ByteArray(IoTTalkbackProtocol.PCM_FRAME_BYTES)
+                val deadline = System.currentTimeMillis() + PROBE_DEADLINE_MS
                 synchronized(talkbackLock) { checkTalkback(attempt); mutableTalkback.value = TalkbackState.Sending }
-                diagnostics.record(DiagnosticStage.TALKBACK, detail = DiagnosticDetail.TALKBACK_CAPTURE)
-            }) { pcm ->
-                checkTalkback(attempt)
-                val encoded = encoder?.encode(pcm)
-                try { sendAudio(encoded ?: pcm, System.currentTimeMillis()) }
-                finally { encoded?.fill(0) }
+                diagnostics.record(DiagnosticStage.TALKBACK, detail = DiagnosticDetail.TALKBACK_PROBE)
+                try {
+                    var frames = 0
+                    while (frames < PROBE_FRAMES && System.currentTimeMillis() < deadline) {
+                        checkTalkback(attempt)
+                        val encoded = encoder?.encode(silence)
+                        try { sendAudio(encoded ?: silence, System.currentTimeMillis()) }
+                        finally { encoded?.fill(0) }
+                        frames++
+                        delay(PROBE_INTERVAL_MS)
+                    }
+                } finally { silence.fill(0) }
+                synchronized(talkbackLock) { attempt.allowed = false }
+            } else if (attempt.probe) {
+                // Bounded voice test: capture until the independent deadline, then stop without auto-resume.
+                withTimeoutOrNull(PROBE_VOICE_MS) {
+                    attempt.recorder!!.sendFrames(onStarted = {
+                        synchronized(talkbackLock) { checkTalkback(attempt); mutableTalkback.value = TalkbackState.Sending }
+                        diagnostics.record(DiagnosticStage.TALKBACK, detail = DiagnosticDetail.TALKBACK_CAPTURE)
+                    }) { pcm ->
+                        checkTalkback(attempt)
+                        val encoded = encoder?.encode(pcm)
+                        try { sendAudio(encoded ?: pcm, System.currentTimeMillis()) }
+                        finally { encoded?.fill(0) }
+                    }
+                }
+                synchronized(talkbackLock) { attempt.allowed = false }
+            } else {
+                attempt.recorder!!.sendFrames(onStarted = {
+                    synchronized(talkbackLock) { checkTalkback(attempt); mutableTalkback.value = TalkbackState.Sending }
+                    diagnostics.record(DiagnosticStage.TALKBACK, detail = DiagnosticDetail.TALKBACK_CAPTURE)
+                }) { pcm ->
+                    checkTalkback(attempt)
+                    val encoded = encoder?.encode(pcm)
+                    try { sendAudio(encoded ?: pcm, System.currentTimeMillis()) }
+                    finally { encoded?.fill(0) }
+                }
             }
         } catch (error: Exception) {
             val userStopped = synchronized(talkbackLock) { !attempt.allowed }
@@ -709,8 +770,7 @@ class CameraSession(
             TalkbackError.METADATA_UNTRUSTED -> DiagnosticDetail.TALKBACK_METADATA_UNTRUSTED
             TalkbackError.METADATA_COMMAND -> DiagnosticDetail.TALKBACK_METADATA_COMMAND
             TalkbackError.METADATA_CIPHER -> DiagnosticDetail.TALKBACK_METADATA_CIPHER
-            else -> if (audio?.codec == 102 && audio.supported) DiagnosticDetail.TALKBACK_FORMAT_UNVERIFIED
-                else if (audio?.supported == true) DiagnosticDetail.TALKBACK_METADATA_READY
+            else -> if (audio?.supported == true) DiagnosticDetail.TALKBACK_METADATA_READY
                 else DiagnosticDetail.TALKBACK_METADATA_UNSUPPORTED
         })
     }

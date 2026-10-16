@@ -8,6 +8,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.json.JSONObject
 import org.junit.Assert.*
+import org.junit.Assume.assumeFalse
+import org.junit.Assume.assumeTrue
 import org.junit.Test
 import java.io.InputStream
 import java.io.OutputStream
@@ -42,16 +44,83 @@ class TalkbackSessionTest {
         }
     }
 
-    @Test fun codec102NeverConstructsCaptureOrWritesEvenWhenAuthorized() = runBlocking {
+    @Test fun codec102StartsCaptureAndWritesAfterAcknowledgement() = runBlocking {
         Fixture().use { f ->
             f.audio.value = IoTAudioInfo(102, 16000, 16, 1)
-            assertEquals(TalkbackError.FORMAT_UNVERIFIED, f.session.talkbackBlock("fixture"))
+            f.peer.expectedCodec = 102
+            assertNull(f.session.talkbackBlock("fixture"))
             f.session.startTalkback("fixture") { true }
-            delay(30)
-            assertEquals(TalkbackState.Error(TalkbackError.FORMAT_UNVERIFIED), f.session.talkback.value)
-            assertEquals(0, f.created.get()); assertEquals(0, f.started.get())
-            assertEquals(0, f.peer.writes.get()); assertEquals(0, f.peer.media.get())
+            waitFor { f.peer.writes.get() == 1 }
+            f.peer.reply()
+            waitFor { f.session.talkback.value is TalkbackState.Sending }
+            assertEquals(1, f.created.get()); assertEquals(1, f.started.get())
+            f.frames.set(1)
+            waitFor { f.peer.media.get() == 1 }
+            f.session.requestStopTalkback()
+            f.session.stopTalkback()
+            waitFor { f.session.talkback.value is TalkbackState.Idle }
+            assertEquals(1, f.released.get())
             assertFalse(f.peer.isClosed)
+        }
+    }
+
+    @Test fun probeIsFailClosedWhileBuildFlagIsDisabled() = runBlocking {
+        Fixture().use { f ->
+            assumeFalse(BuildConfig.TALKBACK_PROBE_ENABLED)
+            f.audio.value = IoTAudioInfo(102, 16000, 16, 1)
+            f.session.startTalkbackProbe("fixture") { true }
+            assertEquals(TalkbackState.Error(TalkbackError.UNSUPPORTED), f.session.talkback.value)
+            assertEquals(0, f.peer.writes.get()); assertEquals(0, f.peer.media.get())
+        }
+    }
+
+    @Test fun probeSendsBoundedSilenceFramesWithoutOpeningCapture() = runBlocking {
+        Fixture().use { f ->
+            assumeTrue(BuildConfig.TALKBACK_PROBE_ENABLED)
+            f.session.startTalkbackProbe("fixture") { true }
+            waitFor { f.peer.writes.get() == 1 }
+            assertEquals(0, f.created.get())
+            f.peer.reply()
+            waitFor { f.session.talkback.value is TalkbackState.Idle }
+            assertEquals(15, f.peer.media.get())
+            assertEquals(0, f.started.get()); assertEquals(0, f.released.get())
+            assertFalse(f.peer.isClosed)
+            assertEquals(SessionState.Streaming(Quality.HD), f.state.value)
+        }
+    }
+
+    @Test fun probeSendsSilenceForCodec102() = runBlocking {
+        Fixture().use { f ->
+            assumeTrue(BuildConfig.TALKBACK_PROBE_ENABLED)
+            f.audio.value = IoTAudioInfo(102, 16000, 16, 1)
+            f.peer.expectedCodec = 102
+            f.peer.expectedIma = ByteArray(256)
+            assertNull(f.session.talkbackBlock("fixture"))
+            f.session.startTalkbackProbe("fixture") { true }
+            waitFor { f.peer.writes.get() == 1 }
+            assertEquals(0, f.created.get())
+            f.peer.reply()
+            waitFor { f.session.talkback.value is TalkbackState.Idle }
+            assertEquals(15, f.peer.media.get())
+            assertEquals(0, f.started.get())
+            assertFalse(f.peer.isClosed)
+        }
+    }
+
+    @Test fun voiceTestProbeCapturesAndStopsOnRequest() = runBlocking {
+        Fixture().use { f ->
+            assumeTrue(BuildConfig.TALKBACK_PROBE_ENABLED)
+            f.session.startTalkbackVoiceTest("fixture") { true }
+            waitFor { f.peer.writes.get() == 1 }
+            f.peer.reply()
+            waitFor { f.started.get() == 1 }
+            assertEquals(1, f.created.get())
+            f.session.requestStopTalkback()
+            f.session.stopTalkback()
+            waitFor { f.session.talkback.value is TalkbackState.Idle }
+            assertEquals(1, f.released.get())
+            assertFalse(f.peer.isClosed)
+            assertEquals(SessionState.Streaming(Quality.HD), f.state.value)
         }
     }
 
@@ -258,7 +327,7 @@ class TalkbackSessionTest {
         }
     }
 
-    @Test fun cameraEnvelopeWithDifferentSidKeepsCodec102MetadataButBlocksSending() = runBlocking {
+    @Test fun cameraEnvelopeWithDifferentSidKeepsCodec102Metadata() = runBlocking {
         Fixture().use { f ->
             f.audio.value = null
             // Observed shape: NOTIFY/CBC, different header SID, codec102 mono16 at16kHz.
@@ -266,8 +335,8 @@ class TalkbackSessionTest {
             f.information(JSONObject().put("aattr", audioAttr().put("codec", 102).put("samplerate", 16000)), sid = 18)
             assertEquals(IoTAudioInfo(102, 16000, 16, 1), f.audio.value)
             assertNull(f.session.talkbackMetadataIssue.value)
-            assertEquals(TalkbackError.FORMAT_UNVERIFIED, f.session.talkbackBlock("fixture"))
-            assertTrue(f.diagnostics.exportJson().contains("TALKBACK_FORMAT_UNVERIFIED"))
+            assertNull(f.session.talkbackBlock("fixture"))
+            assertTrue(f.diagnostics.exportJson().contains("TALKBACK_METADATA_READY"))
             assertFalse(f.diagnostics.exportJson().contains("sessionId"))
             f.information(JSONObject().put("aattr", audioAttr().put("codec", 103).put("samplerate", 16000)), sid = 18)
             assertEquals(TalkbackError.UNSUPPORTED_AUDIO, f.session.talkbackBlock("fixture"))
@@ -291,9 +360,7 @@ class TalkbackSessionTest {
             waitFor { f.session.talkback.value is TalkbackState.Sending }
             f.information(JSONObject().put("aattr", audioAttr().put("codec", 102).put("samplerate", 16000)))
             waitFor { f.released.get() == 1 }
-            assertEquals(TalkbackError.FORMAT_UNVERIFIED, f.session.talkbackBlock("fixture"))
-            f.session.startTalkback("fixture") { true }
-            assertEquals(1, f.created.get()); assertEquals(1, f.peer.writes.get())
+            assertNull(f.session.talkbackBlock("fixture"))
             f.information(JSONObject().put("aattr", audioAttr().put("codec", 101)))
             waitFor { f.released.get() == 1 }
             assertEquals(TalkbackError.UNSUPPORTED_AUDIO, f.session.talkbackBlock("fixture"))
@@ -325,7 +392,7 @@ class TalkbackSessionTest {
         val peer = Peer()
         val channel = TcpChannel(peer)
         val owner = IoTSession(key.copyOf(), 17, 0, 0)
-        val session = CameraSession(channelFactory = { error("No external transport") }, talkbackRecorderFactory = { info ->
+        val session = CameraSession(channelFactory = { error("No external transport") }, talkbackRecorderFactory = { info, _ ->
             created.incrementAndGet()
             TalkbackRecorder(info.sampleRate, { started.incrementAndGet() }, { bytes, offset, count ->
                 if (frames.get() <= 0) 0 else {
@@ -377,6 +444,7 @@ class TalkbackSessionTest {
     private inner class Peer : Socket() {
         val writes = AtomicInteger(); val media = AtomicInteger()
         var expectedCodec = 100
+        var expectedIma: ByteArray? = null
         val blockMedia = AtomicBoolean(); val mediaWriting = AtomicBoolean()
         private val closedFlag = AtomicBoolean()
         private val incoming = LinkedBlockingQueue<Int>()
@@ -410,7 +478,7 @@ class TalkbackSessionTest {
                         val frame = IoTMediaProtocol.parseFrame(header, packet.copyOfRange(16, packet.size), key)
                         assertTrue(frame.audio)
                         if (expectedCodec == 102) {
-                            val expected = ByteArray(256).apply { this[0] = 5; this[1] = 5 }
+                            val expected = expectedIma ?: ByteArray(256).apply { this[0] = 5; this[1] = 5 }
                             assertArrayEquals("PCM21 path must send a native IMA block, never ADTS", expected, frame.bytes)
                         }
                         media.incrementAndGet(); mediaWriting.set(false)
