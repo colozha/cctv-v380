@@ -1,5 +1,9 @@
 # Status implementasi V380 LAN
 
+## Checkpoint format SD — 16 Oktober 2026
+
+[Penelusuran handler hasil V380](analysis/sd-maintenance-wire.md#penelusuran-penyelesaian-format--16-oktober-2026) menemukan bahwa jalur UI vendor yang diperiksa menampilkan sukses dari return `1001`, yang pada platform baru berasal dari hasil action SDK `256`. Handler tidak membuktikan terminal format; assignment status normal pada salah satu layar adalah perubahan model lokal. Properti `131330` tetap belum memiliki enum terminal/korelasi yang terbukti. Rencana mensyaratkan bukti lengkap sebelum aktivasi, sehingga `FORMAT_STATUS_VERIFIED=false`, writer/UI dan marker tetap seperti sebelumnya; fitur belum diperbaiki sampai tahap dapat dipakai. Tidak ada API/state sukses atau migrasi spekulatif yang ditambahkan. [Manifest bukti](analysis/evidence/sd-format-completion-summary.json) dan [validasi offline revisi ini](validation/sd-format-completion/results.json) menggantikan hasil historis hanya untuk lingkup yang dicatat; tidak ada pengujian kamera nyata atau UI runtime baru.
+
 ## Setup router offline, 15 Oktober 2026
 
 Alur AP→router yang sudah ada kini memvalidasi encoding sebelum pending/write, mengikat writer ke profil/device/revisi autentikasi dan jaringan AP, serta menyimpan marker atomik tepat sebelum satu pengiriman. Penolakan eksplisit dipisahkan dari hasil belum diketahui; respons IoT Wi-Fi yang tidak terenkripsi atau tidak berkorelasi tidak dapat menyatakan penolakan/sukses. Pemulihan proses, retry dan background tidak mengulang konfigurasi. Pemilihan router memakai Pengaturan Android. SSID terbaca yang berbeda ditolak; SSID tidak tersedia memerlukan konfirmasi pada Network saat itu, dilanjutkan discovery ID sama dan login ulang. Konfirmasi pengguna bukan bukti nama router. Password LAN opsional mengikuti pilihan ingat password pengguna.

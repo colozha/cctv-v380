@@ -1,5 +1,30 @@
 # Hapus rekaman SD dan pemulihan format — 15 Oktober 2026
 
+## Penelusuran penyelesaian format — 16 Oktober 2026
+
+Rencana lanjutan menetapkan **aktivasi setelah bukti terminal lengkap** dan **validasi offline saja**. Checkpoint bukti belum terpenuhi: `FORMAT_STATUS_VERIFIED` tetap `false`; tidak ada perubahan perilaku aplikasi, writer aktif, evaluator terminal, atau migrasi marker pada tindak lanjut ini. Ini bukan penyelesaian fitur format. Hasil dan batas investigasi 15 Oktober di bawah tetap berlaku.
+
+### Mengapa V380 asli menyediakan format
+
+Penelusuran baru mengikuti pemanggil sampai handler hasil, melampaui pencarian nama/literal sebelumnya. APK dan JAR JADX sama dengan investigasi sebelumnya; [manifest](evidence/sd-format-completion-summary.json) menyimpan hash, Evidence ID REA, descriptor/rentang DEX, serta perintah reproduksi. [Kolektor](evidence/sd-format-completion-collect.py) tidak menjalankan APK/library vendor dan menyamarkan seluruh literal string Java. Evidence kanonis disimpan lokal pada direktori references yang diabaikan Git.
+
+| Jalur yang diperiksa | Hasil yang terlihat | Batas kesimpulan |
+|---|---|---|
+| `DeviceSDCardSetting.setSDCardFormat`, cabang platform baru ([bukti sebelumnya](evidence/features-DeviceSDCardSetting-setSDCardFormat-0.sanitized.json)) | Mengirim `DAID_SD_FORMAT`; hasil action SDK `256` dipetakan menjadi return `1001` | `1001` merupakan kode hasil method SDK, bukan nilai property `131330` |
+| `DeviceConfigSettingDeviceRecordFragment2.FormatSDCardThread.run` dan runnable hasilnya ([REA](evidence/sd-format-completion-thread2.sanitized.json), [DEX thread](evidence/sd-format-completion-thread2.dex.txt), [DEX hasil](evidence/sd-format-completion-thread2-result.dex.txt)) | Return `1001` langsung menandai daftar replay perlu refresh, menampilkan resource sukses, lalu menutup Activity; return `2001` menampilkan gagal | Cabang ini tidak membaca status terminal sesudah action. ID thread hanya menolak callback UI lama |
+| `DeviceConfigSettingDeviceRecordFragment.handleMessage` ([REA](evidence/sd-format-completion-record-handler.sanitized.json), [DEX](evidence/sd-format-completion-record-handler.dex.txt)) | Return `1001` juga menampilkan sukses dan menutup Activity | Pembacaan konfigurasi rekaman merupakan cabang message lain, bukan bukti penyelesaian operasi format tersebut |
+| `DeviceConfigSettingHomePageFragment.handleMessage` ([REA](evidence/sd-format-completion-home-handler.sanitized.json), [DEX](evidence/sd-format-completion-home-handler.dex.txt)) | Return `1001` menampilkan sukses dan mengubah `RecordConfigInfo.nRecordStat` lokal menjadi `1` | Assignment lokal bukan readback kamera. DEX menunjukkan branch sukses menuju return; decompiler Java menghasilkan fall-through gagal yang menyesatkan |
+
+Temuan tersebut menjelaskan perbedaan tombol dengan aplikasi asli: UI vendor yang diperiksa menerima hasil action sebagai dasar pesan sukses. Tidak ada dasar untuk mengubahnya menjadi klaim format fisik selesai pada client ini. `2001` di handler juga tidak membuktikan enum kegagalan terminal `SD_FORMAT_STATE`. Jalur Legacy dan IoT tidak disamakan.
+
+[Parser DEX sebelumnya](evidence/sd-maintenance-format-parser.dex.txt) tetap menunjukkan property `131330` dilewati. Cabang SDK platform baru mengirim action tanpa membaca property tersebut sebagai prasyarat. Jadi kewajiban `SD_FORMAT_STATE != null` pada client adalah guard konservatif lokal, bukan prasyarat vendor yang terbukti. Guard tetap dipertahankan selama fitur terkunci; belum ada kontrak terminal alternatif untuk menggantikannya. Menjadikannya opsional sekarang belum membuka fitur secara benar.
+
+### Checkpoint implementasi dan validasi
+
+Aktivasi, state `SUCCEEDED`/`FAILED`, cleanup otomatis hasil terminal, serta perubahan marker tetap ditunda. Untuk melanjutkan dibutuhkan sumber tepercaya yang mengikat **indikator/nilai sukses dan gagal** pada **operasi format baru**; ACK, status normal, kapasitas berubah, dan daftar kosong sendiri tidak mencukupi. Bila penyelesaian menggunakan property lain atau notifikasi, wajib buktikan framing, identitas sesi, dan aturan freshness/korelasinya sebelum mengubah guard. Ini tidak membuktikan bahwa firmware pengguna tidak mendukung format atau bahwa semua jalur SDK telah diperiksa.
+
+[Validasi revisi ini](../validation/sd-format-completion/results.json): 79 tes JVM terpilih lulus dengan locale Indonesia, termasuk enam tes SD dan satu tes session guard; lint 0 error/35 warning. Build debug/instrumentation dan analisis lint dinyatakan up-to-date oleh Gradle pada source aplikasi yang tidak berubah. Percobaan awal mencatat satu kegagalan fixture tanggal (`October` versus `Oktober`) pada locale Inggris; log/XML awal tetap disimpan terpisah. Tidak ada koneksi kamera, pengiriman format, atau pengujian UI runtime baru. Tidak ada kompatibilitas firmware yang dinyatakan verified.
+
 ## Hasil dan batas aktivasi
 
 | Fitur | Hasil investigasi | Perilaku aplikasi |
