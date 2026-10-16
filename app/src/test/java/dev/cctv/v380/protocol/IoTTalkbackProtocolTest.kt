@@ -69,6 +69,29 @@ class IoTTalkbackProtocolTest {
         assertArrayEquals(ByteArray(32) { it.toByte() }, key)
     }
 
+    @Test fun codec102MicrophonePathUsesAnImaBlockAndRejectsAacBytes() {
+        val info = IoTAudioInfo(102, 16000, 16, 1)
+        assertTrue(info.supported)
+        assertEquals(102, IoTTalkbackProtocol.startParams(info).getJSONObject("down").getJSONObject("aattr").getInt("codec"))
+        val block = ByteArray(256) { it.toByte() }.apply { this[2] = 0; this[3] = 0 }
+        assertTrue(IoTTalkbackProtocol.validAdpcm(block))
+        val key = ByteArray(32) { it.toByte() }
+        val wire = IoTTalkbackProtocol.audioPacket(block, 1, 1000, 17, key, 102)
+        val header = IoTCommonProtocol.parseHeader(wire.copyOfRange(0, 16))
+        val frame = IoTMediaProtocol.parseFrame(header, wire.copyOfRange(16, wire.size), key)
+        assertTrue(frame.audio); assertArrayEquals(block, frame.bytes)
+        // No ADTS passthrough on the microphone branch, including a 256-byte AAC-shaped frame.
+        val adts = ByteArray(256).apply { this[0] = 0xff.toByte(); this[1] = 0xf1.toByte(); this[2] = 0x60; this[3] = 0x40 }
+        val invalid = listOf(adts, ByteArray(255), ByteArray(257), block.copyOf().apply { this[2] = 89 },
+            block.copyOf().apply { this[3] = 1 })
+        for (bytes in invalid) {
+            assertFalse(IoTTalkbackProtocol.validAdpcm(bytes))
+            assertThrows(IllegalArgumentException::class.java) { IoTTalkbackProtocol.audioPacket(bytes, 1, 1000, 17, key, 102) }
+        }
+        for (other in listOf(IoTAudioInfo(102, 8000, 16, 1), IoTAudioInfo(102, 16000, 16, 2), IoTAudioInfo(103, 16000, 16, 1)))
+            assertFalse(other.supported)
+    }
+
     @Test fun rejectsUnboundedFramesSequencesKeysAndTimestamps() {
         val key = ByteArray(32)
         for (size in listOf(0, 1, 1008, 1011, 100000)) assertThrows(IllegalArgumentException::class.java) {

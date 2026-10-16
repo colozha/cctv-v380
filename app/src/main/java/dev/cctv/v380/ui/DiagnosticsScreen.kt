@@ -56,6 +56,17 @@ fun DiagnosticsScreen(model: CameraViewModel, onBack: () -> Unit) {
                         event.code?.let { stringResource(R.string.diagnostic_code, it) },
                         event.bytes?.let { stringResource(R.string.diagnostic_length, it) },
                         event.protocolVersion?.let { stringResource(R.string.diagnostic_version, it) },
+                        when (event.detail) {
+                            DiagnosticDetail.TALKBACK_METADATA_WAITING -> R.string.talkback_metadata_missing
+                            DiagnosticDetail.TALKBACK_METADATA_ABSENT -> R.string.talkback_metadata_absent
+                            DiagnosticDetail.TALKBACK_METADATA_INVALID -> R.string.talkback_metadata_invalid
+                            DiagnosticDetail.TALKBACK_METADATA_UNTRUSTED -> R.string.talkback_metadata_untrusted
+                            DiagnosticDetail.TALKBACK_METADATA_COMMAND -> R.string.talkback_metadata_command
+                            DiagnosticDetail.TALKBACK_METADATA_CIPHER -> R.string.talkback_metadata_cipher
+                            DiagnosticDetail.TALKBACK_METADATA_READY -> R.string.talkback_metadata_ready
+                            DiagnosticDetail.TALKBACK_METADATA_UNSUPPORTED -> R.string.talkback_metadata_unsupported
+                            else -> null
+                        }?.let { stringResource(it) },
                     )
                     Text(details.joinToString(" · "), style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)

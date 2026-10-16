@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-15",
+  "timezone": "Asia/Jakarta",
+  "base_revision": "d4b3cd522adf274eeab6e9b4da32e81a83c18226",
+  "source_state": "uncommitted working tree; includes AAC encoder, opt-in observation and synthetic platform tests; exact Android hashes in source-files.sha256.json",
+  "source_digest_sha256": "f1d4d76c7a3c938f09572f575cfe0b71cf9ff0639b7b026171a0a7c399e6e69b",
+  "scope": "Experimental debug V3 AAC-LC ADTS codec102 mono16kHz talkback encoder, existing PCM100 retained",
+  "supported_formats": [
+    {
+      "codec": 100,
+      "sample_rates": [
+        8000,
+        16000
+      ],
+      "bits": 16,
+      "channels": 1
+    },
+    {
+      "codec": 102,
+      "sample_rates": [
+        16000
+      ],
+      "bits": 16,
+      "channels": 1,
+      "aac_profile": "LC",
+      "adts": "MPEG-4, no CRC, one raw-data block",
+      "target_bitrate": 32000
+    }
+  ],
+  "implementation": {
+    "encoder": "Android MediaCodec; no vendor code or new dependencies",
+    "pcm_input_samples_per_frame": 1024,
+    "pcm_input_bytes_per_frame": 2048,
+    "app_pcm_buffer_bytes_max": 6144,
+    "app_pcm_buffer_duration_ms_max": 192,
+    "platform_codec_backlog_frames_max": 3,
+    "stop": "Discard pending speech, no flush to camera; release encoder in attempt finally",
+    "start": "Permission/foreground checks and correlated CBC ACK still precede microphone capture",
+    "transport_failure": "IOException propagates through encoder callback to existing shared-socket recovery"
+  },
+  "build": {
+    "assembleDebug": "passed",
+    "assembleDebugAndroidTest": "passed",
+    "lintDebug": "passed",
+    "lint_errors": 0,
+    "lint_warnings": 35,
+    "lint_hints": 1,
+    "log": "build.log",
+    "command_file": "build-command.txt"
+  },
+  "jvm": {
+    "tests": 120,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "talkback_tests": 23,
+    "results": "jvm-results.json"
+  },
+  "android_synthetic": {
+    "api": 33,
+    "tests_passed": 8,
+    "encoder_tests": 3,
+    "wire_tests": 5,
+    "log": "native-codec.log",
+    "scope": "Synthetic tone -> actual MediaCodec encoder -> ADTS -> encrypted V3 envelope -> actual MediaCodec decoder; closed-state and transport failure checks. No microphone, AudioTrack or camera."
+  },
+  "camera_metadata": {
+    "api": 33,
+    "tests_passed": 1,
+    "log": "camera-metadata.log",
+    "result": "camera-metadata.json",
+    "metadata_block": null,
+    "metadata_accepted": true,
+    "capability": true,
+    "observed_codec": 102,
+    "observed_sample_rate": 16000,
+    "observed_bits": 16,
+    "observed_channels": 1,
+    "notification_sid_equals_login_sid": false,
+    "scope": "Explicitly authorized saved-profile LAN metadata read using production stream reader, no rendering/decoder or outgoing audio"
+  },
+  "static_evidence": {
+    "native-encoder.json": "d96e1559ea927262a22617c7a126a481e4cab2c33298f5f487245040d8360d81",
+    "native-factory.json": "8024f26d88bf37d0444106cd3033eed216616fbb80b470b518606c110153a761",
+    "native-encoded-audio.json": "95e03d39cdcf4405f8812dbb1ae549200806926ca111e95aab6cf10aec136814"
+  },
+  "native_finding": "DEX constant102 is ADTS AAC. Input audio22 takes the encoded payload copy branch. Factory2001 is ADPCM and2002 is AAC; the PCM21 fallback is not used as an AAC encoder.",
+  "reference_docs": [
+    "https://developer.android.com/reference/android/media/MediaCodec",
+    "https://developer.android.com/reference/android/media/MediaFormat#KEY_IS_ADTS"
+  ],
+  "installed_apk_hashes": "apk-sha256.json",
+  "resource_parity": {
+    "talkback_keys": 34,
+    "languages": [
+      "id",
+      "en"
+    ],
+    "passed": true
+  },
+  "diff_whitespace_check": "passed",
+  "camera_contacted": true,
+  "cloud_contacted": false,
+  "vendor_code_executed": false,
+  "new_dependencies": false,
+  "microphone_runtime_tested": false,
+  "camera_start_ack_tested": false,
+  "speaker_acceptance_tested": false,
+  "camera_compatibility_verified": false,
+  "audio_or_footage_saved": false,
+  "native_ui_runtime_pass": false,
+  "limitations": [
+    "The camera now passes the format gate, but live microphone, camera start ACK and physical speaker output require user acceptance.",
+    "Platform encoder/decoder tested on Android API33 only; no API26/OEM-wide runtime claim.",
+    "App PCM buffers are bounded to192ms; AudioRecord/MediaCodec native buffers are additional. No physical end-to-end latency claim.",
+    "AAC8kHz, stereo, HE-AAC, ADPCM, Legacy and incoming camera audio remain unavailable."
+  ]
+}

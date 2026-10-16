@@ -1,0 +1,6 @@
+# Explicitly authorized real-camera observation; cameraHost must select one existing saved IoT profile.
+# No password or SID is passed as an argument or exported. No broad connected-test suite is used.
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+adb shell am instrument -w -r -e class dev.cctv.v380.TalkbackCameraObservationTest -e observeCamera true -e expectMetadataAccepted true -e cameraHost "$CAMERA_HOST" dev.cctv.v380.test/androidx.test.runner.AndroidJUnitRunner
+adb exec-out run-as dev.cctv.v380 cat cache/talkback-envelope-observation.json

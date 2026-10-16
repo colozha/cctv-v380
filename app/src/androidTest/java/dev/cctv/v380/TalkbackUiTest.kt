@@ -80,6 +80,36 @@ class TalkbackUiTest {
         compose.onAllNodes(hasText("Menghentikan mikrofon…") and hasClickAction()).onFirst().assertIsNotEnabled()
     }
 
+    @Test fun metadataReasonsBlockCaptureAndCurrentBlockOverridesOldError() {
+        show()
+        val cases = listOf(
+            TalkbackError.METADATA_MISSING to R.string.talkback_metadata_missing,
+            TalkbackError.METADATA_ABSENT to R.string.talkback_metadata_absent,
+            TalkbackError.METADATA_INVALID to R.string.talkback_metadata_invalid,
+            TalkbackError.METADATA_UNTRUSTED to R.string.talkback_metadata_untrusted,
+            TalkbackError.METADATA_COMMAND to R.string.talkback_metadata_command,
+            TalkbackError.METADATA_CIPHER to R.string.talkback_metadata_cipher)
+        for (lang in listOf("id", "en")) {
+            val localized = compose.activity.createConfigurationContext(Configuration(compose.activity.resources.configuration).apply {
+                setLocale(Locale.forLanguageTag(lang))
+            })
+            for ((reason, message) in cases) {
+                compose.runOnIdle {
+                    language.value = lang; blocked.value = reason
+                    phase.value = TalkbackState.Error(TalkbackError.NETWORK)
+                }
+                compose.onNodeWithText(localized.getString(message)).assertExists()
+                compose.onNodeWithText(if (lang == "id") "Mulai bicara" else "Start talking")
+                    .performScrollTo().assertIsNotEnabled()
+            }
+        }
+        compose.runOnIdle {
+            blocked.value = null; phase.value = TalkbackState.Idle; granted.value = false
+        }
+        compose.onNodeWithText("Start talking").assertIsEnabled().performClick()
+        compose.runOnIdle { assertEquals(1, permissionRequests); assertEquals(0, starts) }
+    }
+
     @Test fun localizedStatesThemesLargeTypeAndLandscapeAreReadable() {
         show()
         for (lang in listOf("id", "en")) for (isDark in listOf(false, true)) {

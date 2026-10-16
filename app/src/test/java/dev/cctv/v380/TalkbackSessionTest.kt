@@ -42,6 +42,24 @@ class TalkbackSessionTest {
         }
     }
 
+    @Test fun microphoneWithCodec102WaitsForAckAndSendsAdpcmInsteadOfAac() = runBlocking {
+        Fixture().use { f ->
+            f.audio.value = IoTAudioInfo(102, 16000, 16, 1)
+            f.peer.expectedCodec = 102
+            f.session.startTalkback("fixture") { true }
+            waitFor { f.peer.writes.get() == 1 }
+            assertEquals(0, f.started.get()); assertEquals(0, f.peer.media.get())
+            f.peer.reply()
+            waitFor { f.session.talkback.value is TalkbackState.Sending }
+            f.frames.set(1)
+            waitFor { f.peer.media.get() == 1 }
+            delay(30)
+            f.session.stopTalkback()
+            assertEquals(1, f.released.get()); assertFalse(f.peer.isClosed)
+            assertEquals(TalkbackState.Idle, f.session.talkback.value)
+        }
+    }
+
     @Test fun ackPrecedesCaptureDoubleTapCannotDuplicateAndNormalStopKeepsVideoSocket() = runBlocking {
         Fixture().use { f ->
             f.session.startTalkback("fixture") { true }
@@ -190,6 +208,113 @@ class TalkbackSessionTest {
         } finally { channel.close(); packets.forEach { it.fill(0) } }
     }
 
+    @Test fun readerAcceptsAudioOnlyMetadataAndPreservesItAcrossVideoOnlyUpdates() = runBlocking {
+        Fixture().use { f ->
+            f.audio.value = null
+            assertEquals(TalkbackError.METADATA_MISSING, f.session.talkbackBlock("fixture"))
+            f.information(JSONObject().put("vattr", videoAttr()))
+            assertEquals(TalkbackError.METADATA_ABSENT, f.session.talkbackBlock("fixture"))
+            f.information(JSONObject().put("aattr", audioAttr()))
+            assertNull(f.session.talkbackBlock("fixture"))
+            val readyCount = f.diagnostics.events.value.count { it.detail == DiagnosticDetail.TALKBACK_METADATA_READY }
+            f.information(JSONObject().put("aattr", audioAttr()))
+            f.information(JSONObject().put("vattr", videoAttr()))
+            assertEquals(IoTAudioInfo(100, 8000, 16, 1), f.audio.value)
+            assertEquals(readyCount, f.diagnostics.events.value.count { it.detail == DiagnosticDetail.TALKBACK_METADATA_READY })
+            assertNull(f.session.talkbackBlock("fixture"))
+            f.session.startTalkback("fixture") { true }
+            waitFor { f.peer.writes.get() == 1 }
+            assertEquals(0, f.started.get())
+            f.peer.reply()
+            waitFor { f.session.talkback.value is TalkbackState.Sending }
+            f.information(JSONObject().put("vattr", videoAttr()))
+            assertTrue(f.session.talkback.value is TalkbackState.Sending)
+            assertFalse(f.peer.isClosed)
+        }
+    }
+
+    @Test fun readerRejectsInvalidAndUntrustedMetadataWithoutOpeningCapture() = runBlocking {
+        Fixture().use { f ->
+            for (attr in listOf<Any>(JSONObject.NULL, "invalid", audioAttr().put("samplerate", 8000.5),
+                    audioAttr().apply { remove("bits") })) {
+                f.information(JSONObject().put("aattr", attr))
+                assertEquals(TalkbackError.METADATA_INVALID, f.session.talkbackBlock("fixture"))
+                f.session.startTalkback("fixture") { true }
+                f.information(JSONObject().put("vattr", videoAttr()))
+                assertEquals(TalkbackError.METADATA_INVALID, f.session.talkbackBlock("fixture"))
+            }
+            for ((security, sid, command) in listOf(Triple(0, 17, IoTCommonProtocol.COMMAND_NOTIFY),
+                    Triple(1, 17, IoTCommonProtocol.COMMAND_NOTIFY),
+                    Triple(2, 17, IoTCommonProtocol.COMMAND_IOT))) {
+                f.information(JSONObject().put("aattr", audioAttr()), security, sid, command)
+                assertEquals(if (command != IoTCommonProtocol.COMMAND_NOTIFY) TalkbackError.METADATA_COMMAND
+                    else TalkbackError.METADATA_CIPHER, f.session.talkbackBlock("fixture"))
+                f.session.startTalkback("fixture") { true }
+            }
+            assertEquals(0, f.created.get()); assertEquals(0, f.peer.writes.get())
+            assertFalse(f.peer.isClosed)
+            f.information(JSONObject().put("aattr", audioAttr()))
+            assertNull(f.session.talkbackBlock("fixture"))
+            assertEquals(TalkbackState.Idle, f.session.talkback.value)
+            val exported = f.diagnostics.exportJson()
+            assertTrue(exported.contains("TALKBACK_METADATA_CIPHER"))
+            assertFalse(exported.contains("aattr")); assertFalse(exported.contains("sessionId"))
+            assertTrue(exported.contains("sessionMatches"))
+        }
+    }
+
+    @Test fun cameraEnvelopeWithDifferentSidAcceptsCodec102AndUnknownCodecStaysGated() = runBlocking {
+        Fixture().use { f ->
+            f.audio.value = null
+            // Observed shape: NOTIFY/CBC, different header SID, codec102 mono16 at16kHz.
+            // All packet/key/SID values here are synthetic.
+            f.information(JSONObject().put("aattr", audioAttr().put("codec", 102).put("samplerate", 16000)), sid = 18)
+            assertEquals(IoTAudioInfo(102, 16000, 16, 1), f.audio.value)
+            assertNull(f.session.talkbackMetadataIssue.value)
+            assertNull(f.session.talkbackBlock("fixture"))
+            f.information(JSONObject().put("aattr", audioAttr().put("codec", 103).put("samplerate", 16000)), sid = 18)
+            assertEquals(TalkbackError.UNSUPPORTED_AUDIO, f.session.talkbackBlock("fixture"))
+            f.session.startTalkback("fixture") { true }
+            assertEquals(0, f.created.get()); assertEquals(0, f.peer.writes.get())
+            assertEquals(false, f.diagnostics.events.value.mapNotNull { it.talkbackMetadata }.last().sessionMatches)
+            for (sid in listOf(0, 18, 255)) {
+                f.information(JSONObject().put("aattr", audioAttr()), sid = sid)
+                f.information(JSONObject().put("vattr", videoAttr()), sid = sid)
+                assertNull(f.session.talkbackBlock("fixture"))
+                assertEquals(IoTAudioInfo(100, 8000, 16, 1), f.audio.value)
+            }
+            assertEquals(0, f.created.get()); assertEquals(0, f.peer.writes.get())
+        }
+    }
+
+    @Test fun formatChangeStopsCaptureAndStreamTeardownClearsMetadata() = runBlocking {
+        Fixture().use { f ->
+            f.session.startTalkback("fixture") { true }
+            waitFor { f.peer.writes.get() == 1 }; f.peer.reply()
+            waitFor { f.session.talkback.value is TalkbackState.Sending }
+            f.information(JSONObject().put("aattr", audioAttr().put("codec", 101)))
+            waitFor { f.released.get() == 1 }
+            assertEquals(TalkbackError.UNSUPPORTED_AUDIO, f.session.talkbackBlock("fixture"))
+            f.session.startTalkback("fixture") { true }
+            assertEquals(1, f.created.get())
+            f.information(JSONObject().put("aattr", audioAttr().put("samplerate", 16000)))
+            assertNull(f.session.talkbackBlock("fixture"))
+            assertFalse(f.session.talkback.value is TalkbackState.Sending)
+            f.session.detachSurface()
+            assertNull(f.audio.value)
+            assertEquals(TalkbackError.METADATA_MISSING, f.session.talkbackMetadataIssue.value)
+            // A late callback from the previous reader cannot repopulate the cleared stream.
+            val update = f.session.javaClass.declaredMethods.single { it.name == "updateTalkbackMetadata" }
+            update.isAccessible = true
+            update.invoke(f.session, IoTHeader(IoTCommonProtocol.COMMAND_NOTIFY, 1, 2, 17, 0, 0),
+                JSONObject().put("params", JSONObject().put("aattr", audioAttr())), f.owner, f.channel, 0L)
+            assertNull(f.audio.value)
+        }
+    }
+
+    private fun audioAttr() = JSONObject().put("codec", 100).put("samplerate", 8000).put("bits", 16).put("chns", 1)
+    private fun videoAttr() = JSONObject().put("codec", 4).put("width", 640).put("height", 480)
+
     private suspend fun waitFor(check: () -> Boolean) { withTimeout(2500) { while (!check()) delay(5) } }
 
     private inner class Fixture : AutoCloseable {
@@ -198,9 +323,9 @@ class TalkbackSessionTest {
         val peer = Peer()
         val channel = TcpChannel(peer)
         val owner = IoTSession(key.copyOf(), 17, 0, 0)
-        val session = CameraSession(channelFactory = { error("No external transport") }, talkbackRecorderFactory = { rate ->
+        val session = CameraSession(channelFactory = { error("No external transport") }, talkbackRecorderFactory = { info ->
             created.incrementAndGet()
-            TalkbackRecorder(rate, { started.incrementAndGet() }, { bytes, offset, count ->
+            TalkbackRecorder(info.sampleRate, { started.incrementAndGet() }, { bytes, offset, count ->
                 if (frames.get() <= 0) 0 else {
                     bytes.fill(5, offset, offset + count)
                     if (offset + count == 1010) frames.decrementAndGet()
@@ -211,6 +336,14 @@ class TalkbackSessionTest {
         val state = field<MutableStateFlow<SessionState>>(session, "mutableState")
         val capabilities = field<MutableStateFlow<CameraCapabilities?>>(session, "mutableCapabilities")
         val audio = field<MutableStateFlow<IoTAudioInfo?>>(session, "mutableTalkbackAudio")
+        val diagnostics = field<Diagnostics>(session, "diagnostics")
+        suspend fun information(params: JSONObject, security: Int = 2, sid: Int = 17,
+            command: Int = IoTCommonProtocol.COMMAND_NOTIFY) {
+            val count = diagnostics.events.value.count { it.stage == DiagnosticStage.STREAM && it.bytes != null }
+            peer.sendJson(JSONObject().put("method_id", IoTCommonProtocol.LIVE_INFORMATION).put("chn", 1)
+                .put("params", params), security, sid, command)
+            waitFor { diagnostics.events.value.count { it.stage == DiagnosticStage.STREAM && it.bytes != null } > count }
+        }
         init {
             set(session, "profile", CameraProfile(id = "fixture", name = "Synthetic", deviceId = "synthetic", protocolProfileId = "iot-lan"))
             set(session, "iot", owner); set(session, "authenticatedIoT", owner); set(session, "accessRevoked", false)
@@ -241,6 +374,7 @@ class TalkbackSessionTest {
 
     private inner class Peer : Socket() {
         val writes = AtomicInteger(); val media = AtomicInteger()
+        var expectedCodec = 100
         val blockMedia = AtomicBoolean(); val mediaWriting = AtomicBoolean()
         private val closedFlag = AtomicBoolean()
         private val incoming = LinkedBlockingQueue<Int>()
@@ -271,27 +405,40 @@ class TalkbackSessionTest {
                         mediaWriting.set(true)
                         while (blockMedia.get() && !isClosed) Thread.sleep(2)
                         if (isClosed) throw java.io.IOException("Synthetic closed write")
-                        assertTrue(IoTMediaProtocol.parseFrame(header, packet.copyOfRange(16, packet.size), key).audio)
+                        val frame = IoTMediaProtocol.parseFrame(header, packet.copyOfRange(16, packet.size), key)
+                        assertTrue(frame.audio)
+                        if (expectedCodec == 102) {
+                            val expected = ByteArray(256).apply { this[0] = 5; this[1] = 5 }
+                            assertArrayEquals("PCM21 path must send a native IMA block, never ADTS", expected, frame.bytes)
+                        }
                         media.incrementAndGet(); mediaWriting.set(false)
                     } else {
                         val json = IoTCommonProtocol.decodeJson(header, packet.copyOfRange(16, packet.size), key)
                         requestId = json.getInt("id")
-                        assertEquals(100, json.getJSONObject("params").getJSONObject("down").getJSONObject("aattr").getInt("codec"))
+                        assertEquals(expectedCodec, json.getJSONObject("params").getJSONObject("down").getJSONObject("aattr").getInt("codec"))
                         writes.incrementAndGet()
                     }
                 } finally { packet.fill(0) }
             }
         }
         fun reply(code: Int = 1000, method: Int = IoTCommonProtocol.LIVE_CONTROL_RESPONSE) {
-            val json = JSONObject().put("id", requestId).put("method_id", method).put("chn", 1)
-                .put("result", JSONObject().put("code", code)).toString().toByteArray()
-            val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-            cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(key.copyOfRange(0, 16), "AES"), IvParameterSpec(key.copyOfRange(16, 32)))
-            val body = cipher.doFinal(json)
+            sendJson(JSONObject().put("id", requestId).put("method_id", method).put("chn", 1)
+                .put("result", JSONObject().put("code", code)))
+        }
+        fun sendJson(json: JSONObject, security: Int = 2, sid: Int = 17,
+            command: Int = IoTCommonProtocol.COMMAND_IOT) {
+            val plain = json.toString().toByteArray()
+            val body = if (security == 0) plain.copyOf() else {
+                val cipher = Cipher.getInstance(if (security == 1) "AES/ECB/PKCS5Padding" else "AES/CBC/PKCS5Padding")
+                val secret = SecretKeySpec(key.copyOfRange(0, 16), "AES")
+                if (security == 1) cipher.init(Cipher.ENCRYPT_MODE, secret)
+                else cipher.init(Cipher.ENCRYPT_MODE, secret, IvParameterSpec(key.copyOfRange(16, 32)))
+                cipher.doFinal(plain)
+            }
             val packet = ByteBuffer.allocate(16 + body.size).order(ByteOrder.LITTLE_ENDIAN)
-                .putInt(IoTCommonProtocol.COMMAND_IOT).put(1).put(2).put(17).put(0).putInt(0).putInt(body.size).put(body).array()
+                .putInt(command).put(1).put(security.toByte()).put(sid.toByte()).put(0).putInt(0).putInt(body.size).put(body).array()
             packet.forEach { incoming.offer(it.toInt() and 255) }
-            packet.fill(0); body.fill(0); json.fill(0)
+            packet.fill(0); body.fill(0); plain.fill(0)
         }
     }
     @Suppress("UNCHECKED_CAST")

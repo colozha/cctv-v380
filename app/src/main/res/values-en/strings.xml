@@ -11,8 +11,13 @@
     <string name="talkback_busy">Wait for the camera check or operation to finish.</string>
     <string name="talkback_capability_unknown">The camera has not confirmed that it can receive audio.</string>
     <string name="talkback_unsupported">Talking is unavailable for this camera profile or capability.</string>
-    <string name="talkback_metadata_missing">The camera audio format is unknown. Reconnect to check it.</string>
-    <string name="talkback_unsupported_audio">The camera audio format is unsupported. Currently supports 16-bit mono PCM at 8 or 16 kHz.</string>
+    <string name="talkback_metadata_missing">Waiting for audio format information from the Live session.</string>
+    <string name="talkback_metadata_absent">The camera has not supplied an audio format for this Live session. Talking is unavailable.</string>
+    <string name="talkback_metadata_invalid">The camera audio format information is invalid. Talking is disabled; check diagnostics.</string>
+    <string name="talkback_metadata_untrusted">Audio information does not match the required session or connection protection. Talking is disabled.</string>
+    <string name="talkback_metadata_ready">Audio format ready for talking.</string>
+    <string name="talkback_metadata_unsupported">The camera audio format is not supported for talking.</string>
+    <string name="talkback_unsupported_audio">This camera audio format is not supported for talking.</string>
     <string name="talkback_permission_needed">Allow microphone access, then tap Start talking again. Audio is not saved.</string>
     <string name="talkback_permission_denied">Microphone permission has not been granted. Allow it when prompted or open app permission settings.</string>
     <string name="talkback_permission_ready">Tap Start talking to turn on the microphone. Audio is not saved.</string>
@@ -693,4 +698,6 @@
     <string name="setup_endpoint">%1$s:%2$d</string>
     <string name="setup_synthetic">Synthetic setup fixture · no camera connection</string>
     <string name="setup_set_password">Change local password</string>
+    <string name="talkback_metadata_command">The camera audio information packet type is not supported. Talking is disabled; check diagnostics.</string>
+    <string name="talkback_metadata_cipher">The camera audio information encryption mode is not supported. Talking is disabled; check diagnostics.</string>
 </resources>

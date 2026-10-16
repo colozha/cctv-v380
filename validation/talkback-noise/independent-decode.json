@@ -1,0 +1,10 @@
+{
+  "decoder": "libsndfile-1.2.2",
+  "sample_rate": 16000,
+  "channels": 1,
+  "samples": 10100,
+  "normalized_rmse": 0.02250815100343661,
+  "correlation": 0.9997468625102793,
+  "fixture": "Synthetic440Hz tone only; no microphone or vendor code executed",
+  "fixture_sha256": "77fc6a6d80e488afa303dedf55a3ba00f40d3cbd57e37c7cd16c742c5e5d14ff"
+}

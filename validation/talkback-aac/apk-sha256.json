@@ -1,0 +1,10 @@
+{
+  "built": {
+    "app/build/outputs/apk/debug/app-debug.apk": "e87c3a3deb25fae238d821a531d65e842067029f15c78eafa68f26ed5681cd32",
+    "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "27667ca8f8e38693b725bd1759be313a16d29f6282ce8ae4f41acb52882e6a1d"
+  },
+  "installed": {
+    "dev.cctv.v380": "e87c3a3deb25fae238d821a531d65e842067029f15c78eafa68f26ed5681cd32",
+    "dev.cctv.v380.test": "27667ca8f8e38693b725bd1759be313a16d29f6282ce8ae4f41acb52882e6a1d"
+  }
+}

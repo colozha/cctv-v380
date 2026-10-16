@@ -8,10 +8,10 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 data class IoTAudioInfo(val codec: Int, val sampleRate: Int, val bits: Int, val channels: Int) {
-    val supported: Boolean get() = codec == 100 && sampleRate in setOf(8000, 16000) && bits == 16 && channels == 1
+    val supported: Boolean get() = (codec == 100 && sampleRate in setOf(8000, 16000) || codec == 102 && sampleRate == 16000) && bits == 16 && channels == 1
 }
 
-/** V380 6.4.90 V3 PCM branch only. See analysis/talkback-wire.md; no ADPCM codec guessing. */
+/** V380 V3 PCM21 microphone branch. Reported codec is negotiation metadata, not the payload codec. */
 object IoTTalkbackProtocol {
     const val PCM_FRAME_BYTES = 1010 // Vendor MicrophoneRecorder's PCM aggregation buffer.
 
@@ -37,9 +37,14 @@ object IoTTalkbackProtocol {
             .put("samplerate", info.sampleRate).put("bits", info.bits).put("chns", info.channels)))
     }
 
-    /** Native audio encryption: CBC header followed by full PCM blocks; final partial block stays plain. */
-    fun audioPacket(pcm: ByteArray, sequence: Long, timestampMs: Long, sessionId: Int, key: ByteArray): ByteArray {
-        require(pcm.size == PCM_FRAME_BYTES && sequence in 1..0xffffffffL && timestampMs >= 0 &&
+    /** Native PCM21/non100 branch emits an IMA block even when aattr advertises AAC102. */
+    fun validAdpcm(frame: ByteArray): Boolean = frame.size == 256 &&
+        frame[2].toInt() and 255 in 0..88 && frame[3] == 0.toByte()
+
+    /** Native audio encryption: CBC header followed by full payload blocks; final partial block stays plain. */
+    fun audioPacket(pcm: ByteArray, sequence: Long, timestampMs: Long, sessionId: Int, key: ByteArray,
+        codec: Int = 100): ByteArray {
+        require((codec == 100 && pcm.size == PCM_FRAME_BYTES || codec == 102 && validAdpcm(pcm)) && sequence in 1..0xffffffffL && timestampMs >= 0 &&
             sessionId in 0..255 && key.size == 32)
         val chunk = pcm.size / 16 * 16
         val body = ByteBuffer.allocate(32 + pcm.size).order(ByteOrder.LITTLE_ENDIAN)

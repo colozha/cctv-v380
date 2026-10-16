@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-15",
+  "timezone": "Asia/Jakarta",
+  "base_revision": "d4b3cd522adf274eeab6e9b4da32e81a83c18226",
+  "source_state": "uncommitted working tree; includes new opt-in observation test; exact Android source/build configuration hashes in source-files.sha256.json",
+  "source_digest_sha256": "08ea745e1b8878957fe6f6ec57c5b7389c5e82ac7328998bad0e1db83fb0f160",
+  "scope": "V3 talkback Live metadata envelope correction; explicitly user-authorized camera metadata observation, no microphone/speaker test",
+  "finding": {
+    "notification_sid_equals_login_sid": false,
+    "command": 939722786,
+    "security": 2,
+    "has_audio": true,
+    "codec": 102,
+    "sample_rate": 16000,
+    "bits": 16,
+    "channels": 1,
+    "capability": true
+  },
+  "fix": "Remove only notification header SID equality requirement; retain current object session/socket/generation, COMMAND_NOTIFY and CBC decode with the session key. Outgoing SID and start ACK correlation unchanged.",
+  "after": {
+    "metadata_accepted": true,
+    "metadata_block": "UNSUPPORTED_AUDIO",
+    "reason": "Observed codec102 is outside existing PCM100 sender; no new encoder or up.audio change."
+  },
+  "build": {
+    "assembleDebug": "passed",
+    "assembleDebugAndroidTest": "passed",
+    "lintDebug": "passed",
+    "lint_errors": 0,
+    "lint_warnings": 35,
+    "lint_hints": 1,
+    "log": "build.log",
+    "command_file": "build-command.txt"
+  },
+  "jvm": {
+    "tests": 118,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "talkback_tests": 21,
+    "results": "jvm-results.json"
+  },
+  "camera_observation": {
+    "api": 33,
+    "physical_device": true,
+    "before": "observation-before.json",
+    "before_log": "observation-before.log",
+    "before_apk_hashes": "before-apk-sha256.json",
+    "after": "observation-after.json",
+    "after_log": "observation-after.log",
+    "after_apk_hashes": "apk-sha256.json",
+    "before_tests_passed": 1,
+    "after_tests_passed": 1,
+    "before_limit": "Initial successful harness used volatile graphics output but reported streaming=false; not a video stability pass. The before block NOT_READY is session-level, while the captured envelope and validator code identify SID rejection.",
+    "after_limit": "Production startStream/reader invoked without Surface/decoder; validates metadata acceptance only. Whole-session streaming gate is intentionally not tested.",
+    "real_credentials_exported": false,
+    "raw_sid_exported": false,
+    "video_saved": false,
+    "microphone_started": false,
+    "ptz_started": false,
+    "settings_changed": false
+  },
+  "native_evidence": {
+    "file": "native-receiver.json",
+    "sha256": "b0d7c157a0a2f21958e893d22360e8311ca65f08e3631afdf21c02f6b8630970",
+    "scope": "Static instruction recovery only; vendor code not executed",
+    "finding": "Receive path reads header command/security/body length, decodes NOTIFY with packet security and session material, then parses197124 without comparing the header SID against login SID."
+  },
+  "ui": {
+    "new_reasons": "Packet command vs encryption mode, localized ID/EN",
+    "resource_parity_keys": 33,
+    "instrumentation_fixture": "compiled",
+    "runtime_pass_claimed": false,
+    "screenshots": 0
+  },
+  "preliminary_attempts": [
+    "First requested host did not match a saved profile; failed before network access; existing profile host was then selected.",
+    "Activity-based observation harness stalled before connection and was force-stopped; replaced with a harness that needs no Activity. No application crash defect inferred."
+  ],
+  "diff_whitespace_check": "passed",
+  "camera_contacted": true,
+  "cloud_contacted": false,
+  "microphone_runtime_tested": false,
+  "speaker_acceptance_tested": false,
+  "camera_compatibility_verified": false,
+  "limitations": [
+    "Codec102 transmission remains unsupported, so this camera is still not ready for talkback.",
+    "No codec-name mapping inferred from the numeric codec or historical vendor settings screenshot.",
+    "No ACK/start or microphone was sent for observed unsupported format.",
+    "No camera settings, PTZ, restart, SD format or delete operation performed."
+  ]
+}

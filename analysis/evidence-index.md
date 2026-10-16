@@ -312,3 +312,15 @@ Implementasi hotspot menambah [konstanta network](evidence/ap-hotspot-network-co
 | `com.macrovideo.sdk.media.LoginHelper.keyExchangeByLanSync` | `ev_2e4864dac1fa2f6138ea561a769478580b99dfdafa4c28174ad34f806a2f16ec` | [offline-pairing-LoginHelper-keyExchangeByLanSync.sanitized.json](evidence/offline-pairing-LoginHelper-keyExchangeByLanSync.sanitized.json) |
 | `com.macrovideo.v380.fragments.AddDeviceApFragment.AnonymousClass35.run` | `ev_ee02d17bb9f0f378b95cf2e2c02daf308d7340d124e63d3d3b33f922b82db686` | [offline-pairing-BindSender-run.sanitized.json](evidence/offline-pairing-BindSender-run.sanitized.json) |
 | `com.macrovideo.sdk.setting.DeviceConfigSetting.startActionNewPlatform` | `ev_ef28b3e53de8b9577999f59f6c094922a0ea512c85c7a0a3400fd47528bf49aa` | [offline-pairing-DeviceConfigSetting-startActionNewPlatform.sanitized.json](evidence/offline-pairing-DeviceConfigSetting-startActionNewPlatform.sanitized.json) |
+
+## Talkback envelope follow-up — 15 Oktober 2026
+
+[Receiver native tambahan](../validation/talkback-envelope/native-receiver.json) memperluas inspeksi statis ke0x506b8..0x515d8 untuk membedakan generasi thread dan SID header; input/library hash dan rentang instruksi ada pada artefak. [Observasi kamera dan hasil](../validation/talkback-envelope/results.json) adalah bukti runtime client independen yang diminta pengguna, terpisah dari evidence vendor statis: NOTIFY/CBC, SID mismatch (boolean saja), codec102/16000Hz/16-bit/mono. Tidak ada eksekusi APK/library vendor, mikrofon, PTZ atau write konfigurasi kamera.
+
+## AAC talkback — 15 Oktober 2026
+
+[Proyeksi jalur encoded-audio22](../validation/talkback-aac/native-encoded-audio.json), [factory codec](../validation/talkback-aac/native-factory.json) dan [encoder AAC](../validation/talkback-aac/native-encoder.json) merupakan instruksi statis tambahan dari APK yang sama. DEX konstanta102=ADTS AAC sudah ada di `evidence/talkback-capability.dex.txt`. Factory2001=ADPCM dan2002=AAC dibedakan melalui jump table, bukan disamakan. [Validasi](../validation/talkback-aac/results.json) memisahkan delapan tes encoder/wire Android sintetis dari satu observasi metadata kamera; tidak ada rekaman mikrofon atau pengujian speaker.
+
+## Laporan decitan dan koreksi PCM21 — 15 Oktober 2026
+
+Laporan pemilik membuktikan kegagalan AAC uplink sebelumnya pada speaker. [Native ADPCM](../validation/talkback-noise/native-adpcm.json) memulihkan encoder2001→GM_ima_adpcm_encode, blok256B untuk505 sampel PCM16. [Tabel](../validation/talkback-noise/adpcm-tables.json) dan [decoder independen](../validation/talkback-noise/independent-decode.json) memvalidasi format blok sintetis. [Hasil revisi](../validation/talkback-noise/results.json) membedakan123 tes JVM/host decoder dari acceptance hardware yang belum dilakukan. Tidak ada library vendor dijalankan dan tidak ada capture mikrofon/kontak kamera dalam koreksi ini.

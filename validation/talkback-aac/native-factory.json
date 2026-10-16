@@ -1,0 +1,372 @@
+{
+  "kind": "supplementary bounded static disassembly; not canonical REA/native decompilation",
+  "library": "lib/arm64-v8a/libmideaCodec.so",
+  "library_sha256": "43938dcd760acde7dd31b93ec1c132d2936137f3d9d38d6261e709b33c6717df",
+  "apk_sha256": "7364691ba08427fd95b391c2b398aae66cd80eeb19c5bfd7aeaaba405dd2cc0b",
+  "tool": "system Capstone 5 C API, Python ctypes and ELF64 metadata",
+  "functions": [
+    {
+      "symbol": "_Z13createEncoder16HSMEDIA_CODEC_ID",
+      "va": "0x23b88",
+      "symbol_size": 208,
+      "selected_ranges": [
+        [
+          "0x23b88",
+          "0x23c58"
+        ]
+      ],
+      "instructions": [
+        {
+          "va": "0x23b88",
+          "bytes": "fd7bbea9",
+          "mnemonic": "stp",
+          "operands": "x29, x30, [sp, #-0x20]!"
+        },
+        {
+          "va": "0x23b8c",
+          "bytes": "f44f01a9",
+          "mnemonic": "stp",
+          "operands": "x20, x19, [sp, #0x10]"
+        },
+        {
+          "va": "0x23b90",
+          "bytes": "fd030091",
+          "mnemonic": "mov",
+          "operands": "x29, sp"
+        },
+        {
+          "va": "0x23b94",
+          "bytes": "f3031faa",
+          "mnemonic": "mov",
+          "operands": "x19, xzr"
+        },
+        {
+          "va": "0x23b98",
+          "bytes": "08441f51",
+          "mnemonic": "sub",
+          "operands": "w8, w0, #0x7d1"
+        },
+        {
+          "va": "0x23b9c",
+          "bytes": "1f290071",
+          "mnemonic": "cmp",
+          "operands": "w8, #0xa"
+        },
+        {
+          "va": "0x23ba0",
+          "bytes": "88010054",
+          "mnemonic": "b.hi",
+          "operands": "#0x23bd0"
+        },
+        {
+          "va": "0x23ba4",
+          "bytes": "1f2003d5",
+          "mnemonic": "nop",
+          "operands": ""
+        },
+        {
+          "va": "0x23ba8",
+          "bytes": "0909f670",
+          "mnemonic": "adr",
+          "operands": "x9, #0xfccb"
+        },
+        {
+          "va": "0x23bac",
+          "bytes": "8a000010",
+          "mnemonic": "adr",
+          "operands": "x10, #0x23bbc"
+        },
+        {
+          "va": "0x23bb0",
+          "bytes": "2b696838",
+          "mnemonic": "ldrb",
+          "operands": "w11, [x9, x8]"
+        },
+        {
+          "va": "0x23bb4",
+          "bytes": "4a090b8b",
+          "mnemonic": "add",
+          "operands": "x10, x10, x11, lsl #2"
+        },
+        {
+          "va": "0x23bb8",
+          "bytes": "40011fd6",
+          "mnemonic": "br",
+          "operands": "x10"
+        },
+        {
+          "va": "0x23bbc",
+          "bytes": "00018052",
+          "mnemonic": "mov",
+          "operands": "w0, #8"
+        },
+        {
+          "va": "0x23bc0",
+          "bytes": "80cc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96dc0",
+          "target": "_Znwm@plt"
+        },
+        {
+          "va": "0x23bc4",
+          "bytes": "f30300aa",
+          "mnemonic": "mov",
+          "operands": "x19, x0"
+        },
+        {
+          "va": "0x23bc8",
+          "bytes": "aecc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96e80",
+          "target": "_ZN14HSADPCMEncoderC1Ev@plt"
+        },
+        {
+          "va": "0x23bcc",
+          "bytes": "16000014",
+          "mnemonic": "b",
+          "operands": "#0x23c24"
+        },
+        {
+          "va": "0x23bd0",
+          "bytes": "1fa40f71",
+          "mnemonic": "cmp",
+          "operands": "w0, #0x3e9"
+        },
+        {
+          "va": "0x23bd4",
+          "bytes": "81020054",
+          "mnemonic": "b.ne",
+          "operands": "#0x23c24"
+        },
+        {
+          "va": "0x23bd8",
+          "bytes": "00148052",
+          "mnemonic": "mov",
+          "operands": "w0, #0xa0"
+        },
+        {
+          "va": "0x23bdc",
+          "bytes": "79cc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96dc0",
+          "target": "_Znwm@plt"
+        },
+        {
+          "va": "0x23be0",
+          "bytes": "f30300aa",
+          "mnemonic": "mov",
+          "operands": "x19, x0"
+        },
+        {
+          "va": "0x23be4",
+          "bytes": "abcc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96e90",
+          "target": "_ZN19HSFFMPEGH264EncoderC1Ev@plt"
+        },
+        {
+          "va": "0x23be8",
+          "bytes": "0f000014",
+          "mnemonic": "b",
+          "operands": "#0x23c24"
+        },
+        {
+          "va": "0x23bec",
+          "bytes": "00238052",
+          "mnemonic": "mov",
+          "operands": "w0, #0x118"
+        },
+        {
+          "va": "0x23bf0",
+          "bytes": "74cc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96dc0",
+          "target": "_Znwm@plt"
+        },
+        {
+          "va": "0x23bf4",
+          "bytes": "f30300aa",
+          "mnemonic": "mov",
+          "operands": "x19, x0"
+        },
+        {
+          "va": "0x23bf8",
+          "bytes": "aacc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96ea0",
+          "target": "_ZN12HSAACEncoderC1Ev@plt"
+        },
+        {
+          "va": "0x23bfc",
+          "bytes": "0a000014",
+          "mnemonic": "b",
+          "operands": "#0x23c24"
+        },
+        {
+          "va": "0x23c00",
+          "bytes": "00018052",
+          "mnemonic": "mov",
+          "operands": "w0, #8"
+        },
+        {
+          "va": "0x23c04",
+          "bytes": "6fcc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96dc0",
+          "target": "_Znwm@plt"
+        },
+        {
+          "va": "0x23c08",
+          "bytes": "f30300aa",
+          "mnemonic": "mov",
+          "operands": "x19, x0"
+        },
+        {
+          "va": "0x23c0c",
+          "bytes": "a9cc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96eb0",
+          "target": "_ZN13HSG711EncoderC1Ev@plt"
+        },
+        {
+          "va": "0x23c10",
+          "bytes": "05000014",
+          "mnemonic": "b",
+          "operands": "#0x23c24"
+        },
+        {
+          "va": "0x23c14",
+          "bytes": "00028052",
+          "mnemonic": "mov",
+          "operands": "w0, #0x10"
+        },
+        {
+          "va": "0x23c18",
+          "bytes": "6acc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96dc0",
+          "target": "_Znwm@plt"
+        },
+        {
+          "va": "0x23c1c",
+          "bytes": "f30300aa",
+          "mnemonic": "mov",
+          "operands": "x19, x0"
+        },
+        {
+          "va": "0x23c20",
+          "bytes": "a8cc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96ec0",
+          "target": "_ZN16HSADPCMEXEncoderC1Ev@plt"
+        },
+        {
+          "va": "0x23c24",
+          "bytes": "e00313aa",
+          "mnemonic": "mov",
+          "operands": "x0, x19"
+        },
+        {
+          "va": "0x23c28",
+          "bytes": "f44f41a9",
+          "mnemonic": "ldp",
+          "operands": "x20, x19, [sp, #0x10]"
+        },
+        {
+          "va": "0x23c2c",
+          "bytes": "fd7bc2a8",
+          "mnemonic": "ldp",
+          "operands": "x29, x30, [sp], #0x20"
+        },
+        {
+          "va": "0x23c30",
+          "bytes": "c0035fd6",
+          "mnemonic": "ret",
+          "operands": ""
+        },
+        {
+          "va": "0x23c34",
+          "bytes": "04000014",
+          "mnemonic": "b",
+          "operands": "#0x23c44"
+        },
+        {
+          "va": "0x23c38",
+          "bytes": "03000014",
+          "mnemonic": "b",
+          "operands": "#0x23c44"
+        },
+        {
+          "va": "0x23c3c",
+          "bytes": "02000014",
+          "mnemonic": "b",
+          "operands": "#0x23c44"
+        },
+        {
+          "va": "0x23c40",
+          "bytes": "01000014",
+          "mnemonic": "b",
+          "operands": "#0x23c44"
+        },
+        {
+          "va": "0x23c44",
+          "bytes": "f40300aa",
+          "mnemonic": "mov",
+          "operands": "x20, x0"
+        },
+        {
+          "va": "0x23c48",
+          "bytes": "e00313aa",
+          "mnemonic": "mov",
+          "operands": "x0, x19"
+        },
+        {
+          "va": "0x23c4c",
+          "bytes": "65cc0194",
+          "mnemonic": "bl",
+          "operands": "#0x96de0",
+          "target": "_ZdlPv@plt"
+        },
+        {
+          "va": "0x23c50",
+          "bytes": "e00314aa",
+          "mnemonic": "mov",
+          "operands": "x0, x20"
+        },
+        {
+          "va": "0x23c54",
+          "bytes": "77bd0194",
+          "mnemonic": "bl",
+          "operands": "#0x93230"
+        }
+      ]
+    }
+  ],
+  "public_protocol_keys": {},
+  "limitations": [
+    "No target execution or camera/cloud connection.",
+    "Instruction bytes and symbols only; no credentials, keys, runtime sessions or free-form data exported.",
+    "Static instructions alone are not owner-camera acceptance."
+  ],
+  "public_factory_jump_table": {
+    "virtual_address": "0xfccb",
+    "base_id": 2001,
+    "relative_instruction_offsets_from_0x23bbc": [
+      0,
+      12,
+      17,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      22
+    ],
+    "mapping": {
+      "2001": "HSADPCMEncoder",
+      "2002": "HSAACEncoder"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+JAVA_HOME=/home/husain/.local/share/java/temurin-21 ANDROID_HOME=/home/husain/Android/Sdk JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' ./gradlew --offline :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug --console=plain
+python3 validation/talkback-noise/verify-synthetic.py

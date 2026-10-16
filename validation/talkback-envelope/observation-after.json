@@ -1,0 +1,20 @@
+{
+  "microphoneStarted": false,
+  "settingsChanged": false,
+  "capability": true,
+  "renderingTested": false,
+  "metadataAccepted": true,
+  "metadataBlock": "UNSUPPORTED_AUDIO",
+  "observations": [
+    {
+      "command": 939722786,
+      "security": 2,
+      "sessionMatches": false,
+      "hasAudio": true,
+      "codec": 102,
+      "sampleRate": 16000,
+      "bits": 16,
+      "channels": 1
+    }
+  ]
+}

@@ -65,6 +65,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
     val capabilities by model.session.capabilities.collectAsStateWithLifecycle()
     val talkback by model.session.talkback.collectAsStateWithLifecycle()
     val talkbackAudio by model.session.talkbackAudio.collectAsStateWithLifecycle()
+    val talkbackMetadataIssue by model.session.talkbackMetadataIssue.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var microphoneGranted by remember { mutableStateOf(model.microphoneGranted()) }
     var microphoneDenied by remember { mutableStateOf(false) }
@@ -195,7 +196,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
                         profile.protocolProfileId == "legacy-v2" || profile.platformType == 1 -> dev.cctv.v380.media.TalkbackError.UNSUPPORTED
                         capabilities?.talkback == null -> dev.cctv.v380.media.TalkbackError.CAPABILITY_UNKNOWN
                         capabilities?.talkback != true -> dev.cctv.v380.media.TalkbackError.UNSUPPORTED
-                        talkbackAudio == null -> dev.cctv.v380.media.TalkbackError.METADATA_MISSING
+                        talkbackAudio == null -> talkbackMetadataIssue ?: dev.cctv.v380.media.TalkbackError.METADATA_MISSING
                         talkbackAudio?.supported != true -> dev.cctv.v380.media.TalkbackError.UNSUPPORTED_AUDIO
                         else -> model.session.talkbackBlock(profile.id)
                     }, microphoneGranted, microphoneDenied,

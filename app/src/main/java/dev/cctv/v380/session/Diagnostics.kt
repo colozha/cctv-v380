@@ -14,11 +14,24 @@ enum class DiagnosticDetail { READ_HEADER, READ_BODY, MEDIA_PACKET, CONTROL_JSON
     REPLAY_START, REPLAY_CONTROL, REPLAY_METADATA, REPLAY_FRAME, REPLAY_REFILL, REPLAY_TIMESTAMP,
     REPLAY_END, MP4_SAMPLE, MP4_FINALIZE, DESTINATION_WRITE, DESTINATION_VERIFY,
     TALKBACK_START, TALKBACK_CAPTURE, TALKBACK_SEND, TALKBACK_STOP,
+    TALKBACK_METADATA_WAITING, TALKBACK_METADATA_ABSENT, TALKBACK_METADATA_INVALID, TALKBACK_METADATA_UNTRUSTED,
+    TALKBACK_METADATA_READY, TALKBACK_METADATA_UNSUPPORTED, TALKBACK_METADATA_ENVELOPE,
+    TALKBACK_METADATA_COMMAND, TALKBACK_METADATA_CIPHER,
     MICROPHONE_PERMISSION, MICROPHONE_UNAVAILABLE, TALKBACK_CAPTURE_FAILED, TALKBACK_BUFFER_FULL }
+/** Only public format numbers and equality flags; never the actual wire/login SID. */
+data class TalkbackMetadataObservation(val command: Int, val security: Int, val sessionMatches: Boolean,
+    val hasAudio: Boolean, val codec: Int? = null, val sampleRate: Int? = null,
+    val bits: Int? = null, val channels: Int? = null) {
+    fun toJson() = JSONObject().put("command", command).put("security", security)
+        .put("sessionMatches", sessionMatches).put("hasAudio", hasAudio).apply {
+            codec?.let { put("codec", it) }; sampleRate?.let { put("sampleRate", it) }
+            bits?.let { put("bits", it) }; channels?.let { put("channels", it) }
+        }
+}
 data class DiagnosticEvent(val stage: DiagnosticStage, val status: DiagnosticStatus, val elapsedMs: Long,
     val code: Int? = null, val bytes: Int? = null, val protocolVersion: Int? = null,
     val reason: SessionError? = null, val detail: DiagnosticDetail? = null, val command: Int? = null,
-    val framesReceived: Int? = null, val downloadBytes: Long? = null, val timeId: Int? = null)
+    val framesReceived: Int? = null, val downloadBytes: Long? = null, val timeId: Int? = null, val talkbackMetadata: TalkbackMetadataObservation? = null)
 data class DiagnosticNetwork(val localIpv4: String, val gateway: String?)
 
 /** Structured allowlist only. No free-form strings, request bodies or secret-bearing objects. */
@@ -39,10 +52,10 @@ class Diagnostics {
     fun record(stage: DiagnosticStage, status: DiagnosticStatus = DiagnosticStatus.OK,
         code: Int? = null, bytes: Int? = null, protocolVersion: Int? = null,
         reason: SessionError? = null, detail: DiagnosticDetail? = null, command: Int? = null,
-        framesReceived: Int? = null, downloadBytes: Long? = null, timeId: Int? = null) {
+        framesReceived: Int? = null, downloadBytes: Long? = null, timeId: Int? = null, talkbackMetadata: TalkbackMetadataObservation? = null) {
         mutableEvents.value = (mutableEvents.value + DiagnosticEvent(stage, status,
             (System.nanoTime() - started) / 1_000_000, code, bytes, protocolVersion, reason, detail, command,
-            framesReceived, downloadBytes, timeId)).takeLast(80)
+            framesReceived, downloadBytes, timeId, talkbackMetadata)).takeLast(80)
     }
 
     fun exportJson(): String {
@@ -59,6 +72,7 @@ class Diagnostics {
                     event.framesReceived?.let { put("framesReceived", it) }
                     event.downloadBytes?.let { put("downloadBytes", it) }
                     event.timeId?.let { put("timeId", it) }
+                    event.talkbackMetadata?.let { put("talkbackMetadata", it.toJson()) }
                 })
         }
         return JSONObject().put("schema", 4).put("experimental", true)

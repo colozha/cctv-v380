@@ -105,3 +105,19 @@ Acceptance kamera fisik tetap deferred sampai pengujian koneksi dibuka secara ek
 - Simpan hasil pemeriksaan di `validation/talkback/`, dengan revision sumber, perintah, hasil aktual, dan batas pengujian.
 - Implementasi selesai secara offline ketika kontrak terarsip, pengujian sintetis lulus, seluruh jalur cleanup terverifikasi, dan tidak ada mikrofon aktif tanpa aksi pengguna.
 - Status kompatibilitas kamera tetap **belum terverifikasi** sampai acceptance perangkat nyata berhasil.
+
+## Tindak lanjut metadata — 15 Oktober 2026
+
+Perbaikan pembaruan parsial/audio-only, alasan diagnostik/UI dan perlindungan reader lama dijelaskan di [kontrak](talkback-wire.md). Kebutuhan `up.audio:1` belum terbukti dan tidak diaktifkan. Hasil terbaru dipisahkan dari validasi awal: [talkback-metadata](../validation/talkback-metadata/results.json).
+
+## Tindak lanjut envelope — 15 Oktober 2026
+
+Observasi kamera yang diminta pengguna dan receiver native membuktikan syarat SID header identik terlalu ketat. Metadata kini terikat ke socket/generasi/sesi dan decode CBC. Format kamera yang diamati adalah codec102 mono16/16000Hz, tetap di luar pengirim PCM100. [Bukti dan batas](../validation/talkback-envelope/results.json).
+
+## Tindak lanjut AAC — 15 Oktober 2026
+
+Codec102 AAC-LC/ADTS mono16kHz kini diimplementasikan menggunakan MediaCodec Android dan jalur payload sudah dikodekan. Tidak memakai encoder2001 yang terbukti ADPCM. Observasi metadata kamera kini lolos gerbang format; speaker dan mikrofon nyata tetap belum diuji. [Kontrak terkini](talkback-wire.md), [hasil validasi](../validation/talkback-aac/results.json).
+
+## Koreksi setelah laporan decitan — 15 Oktober 2026
+
+AAC uplink diganti dengan jalur mikrofon PCM21 vendor, bukan cabang encoded-audio22. Payload metadata102 sekarang IMA ADPCM256B pada rate sesi16kHz; PCM100 tetap raw. Sesi sintetis memeriksa payload setelah ACK, decoder host independen memeriksa nada sintetis, dan validator menolak ADTS. APK sudah dibangun/dipasang setelah perangkat tersambung kembali, serta5 tes protokol sintetis Android API33 lulus. Acceptance mikrofon/speaker tetap belum dilakukan. [Bukti dan batas](../validation/talkback-noise/results.json).

@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-15",
+  "timezone": "Asia/Jakarta",
+  "base_revision": "d4b3cd522adf274eeab6e9b4da32e81a83c18226",
+  "source_state": "uncommitted working tree; Android source/build configuration hashes in source-files.sha256.json",
+  "source_digest_sha256": "f3a41f00bc00aaef54c36cc10c22554ddad7d6c1da5049d8bb233985c4a0be08",
+  "scope": "Talkback Live metadata partial/audio-only updates, gating reasons and sanitized diagnostics",
+  "reported_symptom": "METADATA_MISSING; actual firmware notification shape not captured",
+  "build": {
+    "assembleDebug": "passed",
+    "assembleDebugAndroidTest": "passed",
+    "lintDebug": "passed",
+    "lint_errors": 0,
+    "lint_warnings": 35,
+    "lint_hints": 1,
+    "command_file": "build-command.txt",
+    "log": "build.log"
+  },
+  "jvm": {
+    "tests": 116,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "talkback_tests": 20,
+    "results": "jvm-results.json",
+    "scope": "Synthetic sockets/capture, including real session reader"
+  },
+  "android_ui": {
+    "status": "not run",
+    "reason": "ADB power inspection reported Dozing. Previous UI attempts in this same device state stalled and wake injection was rejected (historical validation/talkback/ui-review.md). No repeat installation, UI run, screenshot or wake injection attempted.",
+    "fixture": "TalkbackUiTest compiled, including new bilingual metadata-reason/disabled-action case",
+    "passed": 0
+  },
+  "negotiation": {
+    "up_audio": 0,
+    "changed": false,
+    "evidence_review": [
+      "analysis/iot-lan-protocol.md",
+      "analysis/talkback-wire.md",
+      "analysis/evidence/talkback-native.sanitized.json"
+    ],
+    "finding": "Existing bounded static evidence establishes aattr parsing and sender consumption, not a firmware requirement for up.audio=1. No speculative negotiation enabled."
+  },
+  "diff_whitespace_check": "passed",
+  "microphone_runtime_tested": false,
+  "physical_camera_tested": false,
+  "camera_or_cloud_contacted": false,
+  "vendor_apk_or_library_executed": false,
+  "limitations": [
+    "A camera that omits aattr remains gated; this fix does not establish that the reported owner camera now supports talkback.",
+    "PCM100 mono16 8000/16000Hz only. No codec fallback or incoming audio playback.",
+    "Native UI runtime, real microphone routing and physical speaker acceptance remain unverified."
+  ]
+}

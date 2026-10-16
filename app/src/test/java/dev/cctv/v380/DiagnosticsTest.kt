@@ -7,6 +7,18 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class DiagnosticsTest {
+    @Test fun talkbackObservationExportsOnlyFormatAndEqualityFlags() {
+        val diagnostics = Diagnostics()
+        diagnostics.record(DiagnosticStage.TALKBACK, detail = DiagnosticDetail.TALKBACK_METADATA_ENVELOPE,
+            talkbackMetadata = TalkbackMetadataObservation(939722786, 2, false, true, 100, 8000, 16, 1))
+        val exported = JSONObject(diagnostics.exportJson()).getJSONArray("events").getJSONObject(0)
+            .getJSONObject("talkbackMetadata")
+        assertEquals(setOf("command", "security", "sessionMatches", "hasAudio", "codec", "sampleRate", "bits", "channels"),
+            exported.keys().asSequence().toSet())
+        assertFalse(exported.getBoolean("sessionMatches"))
+        assertEquals(100, exported.getInt("codec"))
+    }
+
     @Test fun streamFailureExportsTypedStageAndPacketMetadataWithoutInventingAnAuthFailure() {
         val diagnostics = Diagnostics()
         diagnostics.record(DiagnosticStage.AUTH)

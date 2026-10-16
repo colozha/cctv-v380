@@ -1,0 +1,93 @@
+{
+  "date": "2026-10-15",
+  "timezone": "Asia/Jakarta",
+  "base_revision": "d4b3cd522adf274eeab6e9b4da32e81a83c18226",
+  "source_state": "uncommitted working tree; removed unsafe AAC microphone path, added pure Kotlin IMA encoder; exact current hashes in source-files.sha256.json",
+  "source_digest_sha256": "bfeddbb70562589e0fd3c72e63ef421a89b11cbd7166250110d2282a670cfeae",
+  "owner_report": {
+    "prior_aac_attempt": "Loud squealing from camera speaker; microphone speech not intelligible.",
+    "hardware_acceptance": "failed on previously installed AAC source; not evidence of success",
+    "phone_distance": "not yet provided",
+    "stop_response": "not yet provided",
+    "report_only": true,
+    "recording_saved": false
+  },
+  "identified_code_error": "Independent client selected the encoded-audio22 AAC path instead of the vendor microphone PCM21 path. Normal vendor PCM21/non100 goes to encoder2001 (ADPCM). Actual physical cause of squeal versus acoustic feedback still requires controlled acceptance.",
+  "correction": {
+    "removed": "MediaCodec AAC microphone encoder, ADTS helpers and AAC encoder instrumentation test. Historical AAC results retained as earlier-source evidence.",
+    "current": "Per-attempt IMA encoder, 505 PCM16 samples/1010B ->256B; initial predictor LE16, step index, reserved0, low nibble first. Camera metadata102 retained in down.aattr per native PCM21 flow; no codec probing/fallback.",
+    "validation": "Reject ADTS, wrong256B length, invalid step index or reserved byte; permission, foreground, correlated start ACK, session/socket/generation and stop guards unchanged.",
+    "state": "Step index persists only within attempt and is included in each block header. Full-width arithmetic avoids short overflow for extreme transitions.",
+    "dependencies_added": false
+  },
+  "build": {
+    "assembleDebug": "passed",
+    "assembleDebugAndroidTest": "passed",
+    "lintDebug": "passed",
+    "lint_errors": 0,
+    "lint_warnings": 35,
+    "lint_hints": 1,
+    "log": "build.log",
+    "command_file": "build-command.txt"
+  },
+  "jvm": {
+    "tests": 123,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "talkback_tests": 26,
+    "results": "jvm-results.json",
+    "scope": "Golden IMA silence/constant/ramp, extreme bounds, and actual session synthetic ACK -> PCM capture -> IMA block -> encrypted socket write/stop, plus existing regression suite"
+  },
+  "independent_decoder": {
+    "decoder": "libsndfile-1.2.2",
+    "sample_rate": 16000,
+    "channels": 1,
+    "samples": 10100,
+    "normalized_rmse": 0.02250815100343661,
+    "correlation": 0.9997468625102793,
+    "fixture": "Synthetic440Hz tone only; no microphone or vendor code executed",
+    "fixture_sha256": "77fc6a6d80e488afa303dedf55a3ba00f40d3cbd57e37c7cd16c742c5e5d14ff",
+    "command": "python3 validation/talkback-noise/verify-synthetic.py",
+    "native_table_match": true
+  },
+  "android_protocol": {
+    "api": 33,
+    "passed": 5,
+    "log": "android-protocol.log",
+    "scope": "Synthetic protocol/crypto vectors only; no microphone, camera/network or speaker"
+  },
+  "static_evidence": {
+    "native-adpcm.json": "9107bd5aa4136701c348210f31b0ca1abb60d91fc4d4a8d79a85f98db99e9be3",
+    "adpcm-tables.json": "8f428a9675fee5c543a6aba6bd100828c6c4bf1a2b64c1abec0edd036e3d930e"
+  },
+  "installation": {
+    "status": "installed after device reconnected",
+    "cleared_profiles": false,
+    "apk_hashes": "apk-sha256.json",
+    "old_process_stopped_before_install": true
+  },
+  "resource_parity": {
+    "talkback_keys": 33,
+    "languages": [
+      "id",
+      "en"
+    ],
+    "passed": true
+  },
+  "diff_whitespace_check": "passed",
+  "camera_contacted": false,
+  "cloud_contacted": false,
+  "vendor_code_executed": false,
+  "microphone_runtime_tested": false,
+  "speaker_acceptance_tested": false,
+  "audio_sent_to_camera": false,
+  "native_ui_runtime_pass": false,
+  "real_audio_or_footage_saved": false,
+  "camera_compatibility_verified": false,
+  "limitations": [
+    "Corrected format is based on the normal vendor microphone branch and independent decoding, not a new physical speaker pass.",
+    "The phone distance and role of acoustic feedback in the reported squeal are unknown.",
+    "No microphone/speaker playback was started automatically; controlled manual acceptance is still needed."
+  ]
+}

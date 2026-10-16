@@ -30,7 +30,7 @@ internal fun TalkbackControls(state: TalkbackState, blocked: TalkbackError?, mic
             else -> R.string.talkback_idle
         }), Modifier.semantics { liveRegion = LiveRegionMode.Polite }, style = MaterialTheme.typography.bodyMedium)
         if (!active && !stopping) {
-            val error = (state as? TalkbackState.Error)?.reason ?: blocked
+            val error = blocked ?: (state as? TalkbackState.Error)?.reason
             if (error != null) Text(stringResource(talkbackMessage(error)), style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             else if (!microphoneGranted) Text(stringResource(if (permissionDenied) R.string.talkback_permission_denied else R.string.talkback_permission_needed),
@@ -61,6 +61,11 @@ internal fun talkbackMessage(error: TalkbackError): Int = when (error) {
     TalkbackError.CAPABILITY_UNKNOWN -> R.string.talkback_capability_unknown
     TalkbackError.UNSUPPORTED -> R.string.talkback_unsupported
     TalkbackError.METADATA_MISSING -> R.string.talkback_metadata_missing
+    TalkbackError.METADATA_ABSENT -> R.string.talkback_metadata_absent
+    TalkbackError.METADATA_INVALID -> R.string.talkback_metadata_invalid
+    TalkbackError.METADATA_UNTRUSTED -> R.string.talkback_metadata_untrusted
+    TalkbackError.METADATA_COMMAND -> R.string.talkback_metadata_command
+    TalkbackError.METADATA_CIPHER -> R.string.talkback_metadata_cipher
     TalkbackError.UNSUPPORTED_AUDIO -> R.string.talkback_unsupported_audio
     TalkbackError.MICROPHONE_PERMISSION -> R.string.talkback_permission_denied
     TalkbackError.MICROPHONE_UNAVAILABLE -> R.string.talkback_microphone_unavailable
