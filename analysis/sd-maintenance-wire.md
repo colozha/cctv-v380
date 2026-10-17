@@ -1,8 +1,20 @@
 # Hapus rekaman SD dan pemulihan format — 15 Oktober 2026
 
-## Penelusuran penyelesaian format — 16 Oktober 2026
+## Aktivasi paritas vendor — 17 Oktober 2026
 
-Rencana lanjutan menetapkan **aktivasi setelah bukti terminal lengkap** dan **validasi offline saja**. Checkpoint bukti belum terpenuhi: `FORMAT_STATUS_VERIFIED` tetap `false`; tidak ada perubahan perilaku aplikasi, writer aktif, evaluator terminal, atau migrasi marker pada tindak lanjut ini. Ini bukan penyelesaian fitur format. Hasil dan batas investigasi 15 Oktober di bawah tetap berlaku.
+Fitur format SD kini aktif dengan **kontrak penerimaan vendor**, bukan dengan klaim penyelesaian terminal. REA V380 6.4.90 membuktikan action `DAID 131584` dikirim lewat method `197384/197385` dengan params persis `{"daid":131584}`; respons berkorelasi `result.code == 1000` adalah jalur sukses vendor (SDK `256` → `setSDCardFormat` `1001`). Properti `131330` tetap dilewati parser vendor dan enum terminalnya **belum terbukti**.
+
+Keputusan produk yang disetujui pemilik: ACK berkorelasi `1000` berarti perintah diterima. Aplikasi lalu memantau `SD_STATUS` setiap 2 detik hingga 120 detik. `SD_STATUS=4` berarti kamera melaporkan sedang format; bila setelah pengamatan itu status kembali `1` (siap), aplikasi menampilkan selesai dan menghapus marker. Bila transisi 4→1 tidak teramati, hasil tetap `UNKNOWN`, marker dipertahankan, dan tidak ada pengiriman ulang. Proses mati selalu dipulihkan sebagai `UNKNOWN`. Aplikasi tidak pernah menafsirkan nilai mentah `131330` sebagai sukses/gagal dan tidak mengklaim format fisik selesai.
+
+Perubahan implementasi: `FORMAT_STATUS_VERIFIED` diganti `FORMAT_ACTION_VERIFIED=true` dan `FORMAT_TERMINAL_VERIFIED=false`; gate `BuildConfig.DEBUG` pada writer dihapus (koneksi build release tetap ditolak oleh gate aplikasi); prasyarat `131330 != null` dihapus, sedangkan `SD_STATUS ∈ {1,2,3,8}` dipertahankan; `sendSdFormat` mengembalikan `SdFormatAck.ACCEPTED` hanya setelah ACK berkorelasi; UI menampilkan fase `ACCEPTED`, `FORMATTING`, `COMPLETE`, `REJECTED`, dan `UNKNOWN`. Marker tetap ditulis sebelum satu-satunya write dan tidak pernah menjadi antrean retry.
+
+Validasi pada perubahan ini bersifat sintetis/offline: [hasil, source revision, build dan batas](../validation/sd-format-activation/results.json). Tidak ada koneksi kamera, format nyata, atau acceptance firmware pengguna.
+
+Checkpoint 16 Oktober di bawah adalah catatan historis. Syarat "bukti terminal penuh" tidak lagi menjadi blocker aktivasi, tetapi enum terminal `131330` tetap pekerjaan riset yang belum selesai dan tidak boleh ditafsirkan.
+
+## Penelusuran penyelesaian format — 16 Oktober 2026 (historis)
+
+**Catatan historis:** keputusan 17 Oktober mengaktifkan format dengan paritas ACK vendor; bagian ini mencatat mengapa bukti terminal belum tersedia dan tetap berlaku untuk pekerjaan riset tersebut. Rencana lanjutan saat itu menetapkan **aktivasi setelah bukti terminal lengkap** dan **validasi offline saja**. Checkpoint bukti belum terpenuhi: `FORMAT_STATUS_VERIFIED` tetap `false`; tidak ada perubahan perilaku aplikasi, writer aktif, evaluator terminal, atau migrasi marker pada tindak lanjut ini. Ini bukan penyelesaian fitur format. Hasil dan batas investigasi 15 Oktober di bawah tetap berlaku.
 
 ### Mengapa V380 asli menyediakan format
 
@@ -30,7 +42,7 @@ Aktivasi, state `SUCCEEDED`/`FAILED`, cleanup otomatis hasil terminal, serta per
 | Fitur | Hasil investigasi | Perilaku aplikasi |
 |---|---|---|
 | Hapus satu rekaman SD | Perintah, identitas file, cakupan source/pre-roll dan readback TF belum terbukti | Menu tetap nonaktif; label menjelaskan keterbatasan aplikasi tanpa menyatakan firmware pengguna tidak mendukungnya |
-| Format SD | Action131584 terbukti; enum terminal131330 dan korelasi terhadap operasi baru belum terbukti | Writer/UI tetap dikunci oleh `FORMAT_STATUS_VERIFIED=false` |
+| Format SD | Action131584 dan ACK berkorelasi1000 terbukti (paritas vendor); enum terminal131330 belum terbukti | Aktif 17 Oktober 2026: ACK = diterima, polling4→1 untuk selesai; nilai131330 tidak ditafsirkan |
 | Pemeriksaan format tertunda | GET tiga properti SD dan status SD4=sedang format sudah mempunyai dasar kontrak | Read-only dengan identitas sesi dan korelasi respons ketat, tanpa mengirim ulang format |
 
 Rencana diterapkan sampai batas bukti tersebut. API/marker delete dan dialog penghapusan **belum ditambahkan**, karena belum ada identitas target wire yang benar. Evaluator sukses/gagal format, invalidasi setelah sukses dan pengujian write aktif juga ditunda. Membalik konstanta saja tidak menyelesaikan fitur. Pengujian koneksi/kamera fisik tetap ditunda sesuai instruksi pengguna.
@@ -63,4 +75,4 @@ Marker tetap versi2; versi1 dipulihkan sebagai unknown tanpa retry. Persistensi 
 
 Tes instrumentation ditambah untuk ID stale, marker/recreation, kegagalan storage, recovery tanpa settings, konfirmasi/batal dan kontrol disabled pada light/dark/font besar/landscape. **Belum dijalankan dan tidak ada screenshot baru terverifikasi:** emulator API37 berhenti saat boot dengan SIGSEGV, baik KVM maupun `-accel off`. Jalur write aktif, ACK format hilang dan batas polling120detik belum diuji karena kontrak terminal masih mengunci writer. Tidak ada penghapusan/format kamera nyata.
 
-Pembukaan fitur memerlukan bukti delete TF dengan batas source yang aman, serta enum terminal format dan korelasi terhadap operasi baru. Setelah bukti tersedia, tambahkan writer/marker delete, verifikasi daftar lengkap tanpa filter pada rentang asli, evaluator format, dan tes write/cancellation/process recreation. Keberhasilan sintetis bukan acceptance firmware pengguna.
+Pembukaan fitur delete TF tetap memerlukan bukti batas source yang aman; writer/marker delete belum ditambahkan. Format SD kini aktif dengan kontrak ACK vendor, bukan enum terminal: hasil fisik tetap tidak diklaim dan `131330` tetap tidak ditafsirkan. Verifikasi daftar lengkap tanpa filter pada rentang asli serta tes write/cancellation/process recreation sintetis tetap menjadi syarat mutu. Keberhasilan sintetis bukan acceptance firmware pengguna.

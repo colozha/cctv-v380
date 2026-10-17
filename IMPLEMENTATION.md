@@ -1,5 +1,13 @@
 # Status implementasi V380 LAN
 
+## Format SD aktif dengan kontrak ACK vendor — 17 Oktober 2026
+
+Fitur format SD kini dapat dipakai pada build debug; koneksi build release tetap ditolak oleh gate aplikasi, jadi ini bukan klaim dukungan release. REA V380 6.4.90 membuktikan action `DAID 131584` pada `197384/197385` dengan params `{"daid":131584}`; respons berkorelasi `result.code=1000` adalah jalur sukses vendor (SDK `256` → return `1001`). Enum terminal properti `131330` tetap belum terbukti, sehingga aplikasi tidak menafsirkan nilai mentahnya dan tidak mengklaim format fisik selesai.
+
+Setelah ACK, aplikasi menampilkan **diterima**, memantau `SD_STATUS` tiap2detik hingga120detik, dan menampilkan **selesai** hanya bila transisi4 (sedang format)→1 (siap) teramati. Timeout, penolakan jaringan, atau proses mati menghasilkan status belum diketahui dengan marker dipertahankan; tidak ada pengiriman ulang. Penolakan berkorelasi menghapus marker. `131330` tidak lagi menjadi prasyarat, sehingga kamera yang tidak mengembalikan properti itu tetap dapat diformat; `SD_STATUS∈{1,2,3,8}` tetap diwajibkan. Konfirmasi destruktif, marker sebelum write, identitas sesi/perangkat, dan penguncian maintenance dipertahankan.
+
+[Validasi sintetis/offline](validation/sd-format-activation/results.json): hasil build, lint, dan tes JVM beserta batasnya. Tidak ada koneksi kamera, format nyata, atau acceptance firmware. Checkpoint format16Oktober di bawah adalah catatan historis.
+
 ## Talkback codec102 berfungsi (laporan pemilik) — 16 Oktober 2026
 
 Pemilik melaporkan suara mikrofon HP **terdengar jelas dari speaker kamera** pada uji ucapan terbatas (≤2 detik, probe debug). Ini bukti fisik pertama bahwa jalur IoT/V3 LAN pada kamera pemilik berfungsi: negosiasi start `197122`, payload PCM21/IMA256B, framing format0/type4, dan CBC. Konfigurasi yang diverifikasi memakai front-end mikrofon vendor (audio focus, `MODE_IN_COMMUNICATION`, AEC platform), sehingga front-end tersebut kini **default** (`TALKBACK_MIC_FRONTEND_V2`, dapat dinonaktifkan).
@@ -38,7 +46,7 @@ Player rekaman memakai satu baris ikon: sebelumnya, putar/jeda, hentikan, beriku
 
 [Validasi source perubahan ini](validation/recording-controls/results.json): build debug/instrumentation dan lint berhasil;16 tes JVM terpilih lulus, termasuk navigasi berdasarkan urutan/ID, batas daftar, daftar kosong/satu item dan filter. Tes workflow diperbarui untuk pemilihan tetangga dari awal, dan fixture visual memeriksa urutan/ukuran/jarak kontrol termasuk layar320dp. Tes Android tersebut baru dikompilasi, belum dijalankan karena tidak ada perangkat Android terhubung; tidak ada screenshot baru atau acceptance kamera fisik yang diklaim. Screenshot kontrol berlabel sebelumnya adalah bukti historis.
 
-## Checkpoint format SD — 16 Oktober 2026
+## Checkpoint format SD — 16 Oktober 2026 (historis)
 
 [Penelusuran handler hasil V380](analysis/sd-maintenance-wire.md#penelusuran-penyelesaian-format--16-oktober-2026) menemukan bahwa jalur UI vendor yang diperiksa menampilkan sukses dari return `1001`, yang pada platform baru berasal dari hasil action SDK `256`. Handler tidak membuktikan terminal format; assignment status normal pada salah satu layar adalah perubahan model lokal. Properti `131330` tetap belum memiliki enum terminal/korelasi yang terbukti. Rencana mensyaratkan bukti lengkap sebelum aktivasi, sehingga `FORMAT_STATUS_VERIFIED=false`, writer/UI dan marker tetap seperti sebelumnya; fitur belum diperbaiki sampai tahap dapat dipakai. Tidak ada API/state sukses atau migrasi spekulatif yang ditambahkan. [Manifest bukti](analysis/evidence/sd-format-completion-summary.json) dan [validasi offline revisi ini](validation/sd-format-completion/results.json) menggantikan hasil historis hanya untuk lingkup yang dicatat; tidak ada pengujian kamera nyata atau UI runtime baru.
 
@@ -89,7 +97,7 @@ Target pertama: firmware `Hw_EV2X_NA1_XHR_V1.0_WF_20250804`, software `V2.1.6.0(
 
 ## Hapus rekaman dan format SD — 15 Oktober 2026
 
-[Investigasi dan perubahan](analysis/sd-maintenance-wire.md) mencatat scan5.429.555 instruksi DEX dan simbol ELF tambahan. Kontrak delete TF per segmen serta enum terminal format131330 tetap belum terbukti; kedua fitur tetap nonaktif. Writer format yang masih gated kini membawa profil/device/operation ID, memeriksa ulang sesi dan kartu sebelum write, serta mewajibkan marker terverifikasi. Recovery membaca tiga properti SD dengan korelasi ketat; cleanup wajib ID operasi dan pemeriksaan file terhapus. Tutup catatan meminta konfirmasi dan tetap menyatakan hasil belum diketahui, termasuk ketika settings belum dimuat.
+[Investigasi dan perubahan](analysis/sd-maintenance-wire.md) mencatat scan5.429.555 instruksi DEX dan simbol ELF tambahan. Kontrak delete TF per segmen serta enum terminal format131330 tetap belum terbukti; hapus per-rekaman tetap nonaktif. Format SD aktif sejak17Oktober2026 dengan kontrak ACK vendor; writer membawa profil/device/operation ID, memeriksa ulang sesi dan kartu sebelum write, serta mewajibkan marker terverifikasi. Recovery membaca tiga properti SD dengan korelasi ketat; cleanup wajib ID operasi dan pemeriksaan file terhapus. Tutup catatan meminta konfirmasi dan tetap menyatakan hasil belum diketahui, termasuk ketika settings belum dimuat.
 
 [Validasi source terbaru](validation/sd-maintenance/results.json):73 tes JVM terpilih lulus, build debug/instrumentation berhasil, lint0 error. UI/storage baru belum dijalankan: emulator API37 SIGSEGV saat boot dengan KVM maupun tanpa akselerasi. Tidak ada screenshot baru terverifikasi, tes koneksi atau perintah kamera destruktif. Hasil di bagian lama berikut adalah historis.
 
@@ -97,7 +105,7 @@ Target pertama: firmware `Hw_EV2X_NA1_XHR_V1.0_WF_20250804`, software `V2.1.6.0(
 
 [Kontrak REA/DEX, perilaku, dan batas](analysis/camera-management-wire.md). Tidak ada dependensi baru atau pengujian koneksi kamera. Debug IoT menambah grup pengaturan alarm utama/gerakan/suara, tambah/hapus/edit jadwal alarm per hari dengan batas konservatif, sensitivitas/jadwal lampu, informasi versi, preset simpan/panggil/hapus, konfigurasi rute patroli tidak aktif, command kalibrasi, serta restart send-once dengan pending AtomicFile dan verifikasi identitas setelah reconnect. Mutasi tidak mengganti write yang sedang berjalan; snapshot memeriksa revisi auth/device ID dan SET memerlukan readback.
 
-**Belum selesai:** start/stop serta status motor patroli, status terminal kalibrasi, sensitivitas gerakan, varian editor area non-flat/ambigu, format SD terminal, dukungan Legacy/multi-view variants dan acceptance firmware. Writer format tetap dikunci; belum ada enum terminal yang dapat dipercaya. Kalibrasi hanya melaporkan ACK/hasil ambigu dan meminta pemeriksaan gerak oleh pengguna. Restart yang tersambung kembali tidak dinyatakan terverifikasi tanpa bukti reboot.
+**Belum selesai:** start/stop serta status motor patroli, status terminal kalibrasi, sensitivitas gerakan, varian editor area non-flat/ambigu, enum terminal format SD, dukungan Legacy/multi-view variants dan acceptance firmware. Format SD sudah aktif dengan kontrak ACK vendor; enum terminal `131330` tetap belum dapat dipercaya. Kalibrasi hanya melaporkan ACK/hasil ambigu dan meminta pemeriksaan gerak oleh pengguna. Restart yang tersambung kembali tidak dinyatakan terverifikasi tanpa bukti reboot.
 
 [Validasi terbaru](validation/area-stage3/results.json) mencatat build/lint/tes offline pada source akhir. UI/storage instrumentation baru dikompilasi; runtime tetap belum berjalan; boot tidak diulang pada lingkungan yang sama dengan API35/API26 KVM yang sebelumnya SIGSEGV. Tidak ada screenshot baru, pengujian socket, atau kamera yang diklaim lulus. Penanda format versi1 dibaca sebagai unknown tanpa replay; versi2 memakai operation ID untuk cleanup. Pending restart terpisah dari AP/provisioning dan tidak menyimpan credential.
 
@@ -112,12 +120,12 @@ Detail kamera sekarang memiliki tab Live, Rekaman dan Pengaturan, tanpa dependen
 | Rekaman SD | Daftar per hari/semua atau peristiwa, slice berkorelasi, playback AVC/HEVC berpacing timestamp, jeda dan seek melalui sesi baru. |
 | Salin ke Android | Satu segmen video-only, persetujuan audio tidak disertakan, SAF sebelum transfer, MediaMuxer tanpa antrean drop live, pemeriksaan MediaExtractor sebelum publikasi dan cleanup parsial. |
 | Pengaturan | Orientasi lewat action kamera; lampu otomatis/hidup/mati, indikator, mode/kualitas/audio/loop rekaman sesuai nilai dan ability yang dibaca. Write satu kali, ACK per properti dan readback. |
-| SD | Status dan persentase ruang tersisa. Format **belum diaktifkan**: kontrak enum terminal belum terbukti. Konfirmasi/pending send-once/status recovery tersedia dalam kode, entry point dikunci. Tidak ada klaim format selesai dari ACK. |
+| SD | Status dan persentase ruang tersisa. Format aktif sejak17Oktober2026 dengan kontrak ACK vendor: ACK berkorelasi1000 = diterima, transisi4→1 = selesai; enum terminal `131330` tidak ditafsirkan. Konfirmasi, pending send-once, dan status recovery tersedia. |
 | Lifecycle/diagnostik | Satu media aktif, cancel/join, cleanup background, draft/leave confirmation; diagnostik schema3 menambah tahap rekaman/playback/download/settings/format. |
 
 **Validasi0.3.0:** APK debug dan APK instrumentation terbangun, lint0 error, 40 tes JVM offline lulus. Tes Android baru untuk AtomicFile pending, MP4 sintetis dan UI native dikompilasi, tetapi belum dijalankan: emulator37.2.12 mengalami SIGSEGV saat boot pada API37 maupun API30 dengan beberapa renderer dan tanpa akselerasi. Tidak ada screenshot baru atau hasil native ekspor yang diklaim lulus. [Hasil/command/log](validation/recordings-settings/results.json). Tes koneksi, loopback session dan kamera tidak dijalankan sesuai instruksi pengguna. Paragraf validasi0.2.1 dan runtime historis di bawah bukan pengujian fitur baru.
 
-MQ/pver≥5, interoperabilitas firmware, video/ekspor nyata, ketahanan setting setelah reconnect, serta format fisik masih belum verified. Sensitivitas dan jadwal lampu tidak diberi kontrol tanpa label/kontrak yang terbukti. Rencana diimplementasikan dengan gerbang per fitur tersebut; format dan acceptance fisik belum selesai.
+MQ/pver≥5, interoperabilitas firmware, video/ekspor nyata, ketahanan setting setelah reconnect, serta hasil format fisik masih belum verified. Sensitivitas dan jadwal lampu tidak diberi kontrol tanpa label/kontrak yang terbukti. Rencana diimplementasikan dengan gerbang per fitur tersebut; format aktif dengan kontrak ACK vendor, tetapi acceptance fisik belum selesai.
 
 ## Perbaikan disconnect0.2.1
 

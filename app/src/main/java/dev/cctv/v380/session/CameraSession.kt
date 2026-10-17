@@ -1066,10 +1066,14 @@ class CameraSession(
         result
     }
 
-    /** ACK only; the marker precedes the sole write. Still gated until a terminal contract is proven. */
+    /**
+     * One write at most. A correlated result.code == 1000 is the vendor acceptance contract;
+     * it does not prove physical completion. Completion is evaluated by the caller from an
+     * observed SD_STATUS 4 -> 1 transition.
+     */
     suspend fun sendSdFormat(profileId: String, deviceId: String, operationId: String,
-        beforeWrite: suspend () -> Unit, onWriteStarted: () -> Unit = {}) = operations.withLock {
-        if (!BuildConfig.DEBUG || !CameraSettingsProtocol.FORMAT_STATUS_VERIFIED)
+        beforeWrite: suspend () -> Unit, onWriteStarted: () -> Unit = {}): SdFormatAck = operations.withLock {
+        if (!CameraSettingsProtocol.FORMAT_ACTION_VERIFIED)
             throw CameraFailure(SessionError.FeatureUnsupported)
         requireManagement(profileId)
         if (profile?.deviceId != deviceId) throw CameraFailure(SessionError.IdentityMismatch)
@@ -1084,8 +1088,7 @@ class CameraSession(
         }
         val current = fetchSdFormatStatus()
         checkOwner()
-        if (current.int(CameraSettingsProtocol.SD_STATUS) !in setOf(1, 2, 3, 8) ||
-            current.int(CameraSettingsProtocol.SD_FORMAT_STATE) == null)
+        if (!CameraSettingsProtocol.formatEligible(current))
             throw CameraFailure(SessionError.FeatureUnsupported)
         stopStream()
         mutableCapabilities.value?.let { mutableState.value = SessionState.Ready(it) }
@@ -1101,7 +1104,7 @@ class CameraSession(
                 onWriteStarted()
             }, strictCorrelation = true)
         diagnostics.record(DiagnosticStage.SD_FORMAT)
-        Unit
+        SdFormatAck.ACCEPTED
     }
 
     private fun requireManagement(profileId: String, revision: Long? = null) {

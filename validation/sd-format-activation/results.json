@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-17",
+  "recorded_at": "2026-10-17T11:11:44+07:00",
+  "timezone": "Asia/Jakarta",
+  "status": "implemented_offline_validated_vendor_ack_contract",
+  "app_version": "0.4.3-experimental",
+  "source_revision": "0573c277588199a66a8b50f08f3d422dddadbe30",
+  "app_tree_git_object": "6c9f1df4064ce432c349f6c6fbfb754d33987b7a",
+  "working_tree_modified": true,
+  "working_tree_diff_sha256": "0932457beddd5311408fb5e6e4e6110253028fc1886204549d68e9bccb567e32",
+  "source_scope": "Validation ran on uncommitted working-tree changes on top of 0573c27. app_tree_git_object is the HEAD tree, not the validated tree; the diff hash identifies the validated application source delta.",
+  "contract": {
+    "action": "DAID 131584 over ACTION 197384/197385",
+    "params": "{\"daid\":131584} without in, vsbmp or no_rsp",
+    "acceptance": "correlated ACTION_RESPONSE with result.code == 1000",
+    "completion": "observed SD_STATUS 4 (formatting) followed by 1 (ready)",
+    "action_verified": true,
+    "terminal_verified": false,
+    "terminal_property": "131330 SD_FORMAT_STATE remains uninterpreted",
+    "physical_completion_claimed": false,
+    "release_connection_open": false,
+    "notes": "Vendor-parity acceptance. Build release still cannot connect because CameraSession.connect rejects non-debug builds."
+  },
+  "implementation": {
+    "format_enabled": true,
+    "debug_only_writer_gate_removed": true,
+    "sd_format_state_non_null_precondition_removed": true,
+    "eligible_sd_statuses": [1, 2, 3, 8],
+    "phases": ["IDLE", "SENDING", "ACCEPTED", "CHECKING", "FORMATTING", "COMPLETE", "UNKNOWN", "NOT_SENT", "REJECTED"],
+    "marker_auto_cleared_on_observed_completion": true,
+    "marker_retained_on_timeout_or_recovery": true,
+    "resend_on_recovery": false,
+    "per_recording_delete_changed": false
+  },
+  "build": {
+    "debug": "passed",
+    "debug_android_test": "passed (compiled, not run)",
+    "release": "passed (assembleRelease, R8)",
+    "lint": "0 errors, 35 warnings, 1 hint",
+    "debug_apk_sha256": "447b8d6321c57935fbe61a7053658d52410570ae78f15ccf442c713c88641db5",
+    "release_apk_sha256": "d88671165c2b990fa96033b348a166d9623511dd43ba69d5b7f4483f7ec34595",
+    "logs": ["offline-build.log", "full-tests-release.log", "lint-results-debug.txt", "lint-results-debug.xml", "instrumentation.log", "instrumentation-sd.log", "instrumentation-sd-confirmation.log"],
+    "commands": [
+      "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' bash validation/offline-build-command.txt",
+      "JAVA_TOOL_OPTIONS='-Duser.language=id -Duser.country=ID' ./gradlew --offline :app:testDebugUnitTest :app:assembleRelease --console=plain"
+    ]
+  },
+  "jvm": {
+    "tests": 138,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3,
+    "scope": "Full JVM unit-test task with Indonesian locale; synthetic in-memory sockets and fixtures only.",
+    "format_suites": [
+      {
+        "name": "dev.cctv.v380.SdMaintenanceTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.CameraFeatureProtocolTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.protocol.CameraManagementProtocolTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "dev.cctv.v380.ManagementSessionGuardTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "instrumentation": {
+    "compiled": true,
+    "run": "partial",
+    "device": "M2101K6G, Android API 33, device locale en-US; debug app locale temporarily set to id during the run",
+    "reason_incomplete": "The device repeatedly entered Doze during Compose instrumentation, so the remaining UI tests did not complete. The Gradle connected run was stopped after four cases; a direct am-instrument rerun of SdMaintenanceUiTest was terminated by timeout after two cases.",
+    "results": {
+      "passed_explicit": [
+        "dev.cctv.v380.SdMaintenanceUiTest#formatConfirmationCanBeCancelledBeforeAnyAction",
+        "dev.cctv.v380.FeatureUiTest#hotspotFormIsLockedUntilAuthenticatedAndUsesNativePasswordAndSaveControls"
+      ],
+      "direct_rerun": "SdMaintenanceUiTest produced two passing dots before the 540s timeout. The first Gradle attempt for pendingFormatWithoutSettingsCanBeClosedWithConfirmationAndNeverEnablesFormat failed with an environmental 'No compose hierarchies' error; the dot output does not name which methods passed, so this rerun is consistent with that case passing but is not independently labelled.",
+      "failed_then_fixed": [
+        "dev.cctv.v380.SdMaintenanceUiTest#completedFormatNoticeStaysVisibleWithoutAPendingMarker failed first because the collapsed SD card section was not expanded. The test was fixed, but the corrected case did not complete in the rerun because the device entered Doze."
+      ],
+      "not_run": [
+        "dev.cctv.v380.SettingsUiTest#captureSettingsAcrossThemesLargeTypeAndLandscape",
+        "dev.cctv.v380.FeatureUiTest#syntheticPanelsAndDestructiveConfirmationHaveNativeReadableStates"
+      ]
+    },
+    "ui_assertions_updated": [
+      "SettingsUiTest expects the format control enabled for the authenticated eligible fixture (compiled, not executed).",
+      "FeatureUiTest keeps the control disabled because the fixture is unauthenticated (compiled, not executed).",
+      "SdMaintenanceUiTest adds a completed-format notice case without a pending marker (compiled; corrected case not executed to completion)."
+    ]
+  },
+  "camera_connections": 0,
+  "camera_destructive_commands_sent": 0,
+  "physical_camera_tested": false,
+  "format_commands_sent_to_camera": 0,
+  "not_verified": [
+    "Physical SD-card formatting, erase completeness, and owner-firmware acceptance.",
+    "Terminal semantics of property 131330 and any operation correlation beyond the correlated action ACK.",
+    "Lost-ACK, process-death, and long-running format behavior on a real camera.",
+    "Runtime UI/instrumentation execution and visual review on a device or emulator.",
+    "Legacy 341/441 or 141/241 format paths; only the IoT LAN path is implemented.",
+    "Per-recording SD deletion."
+  ]
+}

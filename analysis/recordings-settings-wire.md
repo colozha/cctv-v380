@@ -1,6 +1,6 @@
 # Rekaman dan pengaturan IoT LAN — 0.3.0
 
-Addendum15Oktober2026: [investigasi hapus/format SD dan pemulihan operasi](sd-maintenance-wire.md). Kedua fitur tetap gated; pemeriksaan format tertunda, identitas sesi, persistensi dan cleanup operation ID diperkuat. [Validasi source terbaru](../validation/sd-maintenance/results.json).
+Addendum15Oktober2026: [investigasi hapus/format SD dan pemulihan operasi](sd-maintenance-wire.md). Hapus per-rekaman tetap gated; format SD aktif sejak17Oktober2026 dengan kontrak ACK vendor. Pemeriksaan format tertunda, identitas sesi, persistensi dan cleanup operation ID diperkuat. [Validasi aktivasi format](../validation/sd-format-activation/results.json), [validasi investigasi historis](../validation/sd-maintenance/results.json).
 
 14 Oktober 2026. Implementasi independen, eksperimental pada debug; belum diuji dengan kamera. Rencana acuan: [recordings-settings-implementation-plan.md](recordings-settings-implementation-plan.md). Tidak ada library atau kode native vendor yang dipaketkan.
 
@@ -29,7 +29,7 @@ Java membentuk DPID `((group&255)<<16)|256|(index&255)` dan DAID dengan `512` me
 
 Write pengaturan dinyatakan sukses setelah ACK per properti dan pembacaan ulang sama dengan nilai yang diminta. Bila hasil ambigu, aplikasi membaca ulang tanpa mengirim write lagi. Flip tidak mengubah Surface lokal. Readback orientasi yang sama dilaporkan sebagai hasil yang belum berhasil, bukan dicoba ulang otomatis.
 
-Format DAID `131584` menghilangkan `in` dan meminta respons; tidak memakai `no_rsp:true` milik PTZ. DEX parser Java secara eksplisit melompati SD_FORMAT_STATE ([bukti](evidence/features-property-parser.dex.txt)). SD normal/ACK/daftar kosong tidak cukup untuk membuktikan format selesai. Karena rencana mensyaratkan kontrak terminal sebelum aktivasi, `FORMAT_STATUS_VERIFIED=false` mengunci UI dan entry point ViewModel. Penulis send-once, konfirmasi, pending AtomicFile dan pemeriksaan status disiapkan; operasi format **belum tersedia untuk pengguna**. Mengaktifkannya memerlukan bukti terminal dan penerapan evaluator status, bukan sekadar membalik konstanta. Pending tidak pernah dipakai sebagai antrean retry; penutupan status oleh pengguna bukan klaim format sukses.
+Format DAID `131584` menghilangkan `in` dan meminta respons; tidak memakai `no_rsp:true` milik PTZ. DEX parser Java secara eksplisit melompati SD_FORMAT_STATE ([bukti](evidence/features-property-parser.dex.txt)), dan UI vendor menampilkan sukses dari result action, bukan readback terminal. Sejak17Oktober2026 aplikasi memakai paritas tersebut: ACK berkorelasi `1000` berarti perintah diterima (`FORMAT_ACTION_VERIFIED=true`), sedangkan enum terminal tetap belum terbukti (`FORMAT_TERMINAL_VERIFIED=false`) dan tidak ditafsirkan. UI/ViewModel tersedia untuk pengguna; setelah ACK aplikasi memantau `SD_STATUS` dan hanya menampilkan selesai bila transisi4→1 teramati. Pending tidak pernah dipakai sebagai antrean retry; timeout, proses mati, atau penutupan status oleh pengguna bukan klaim format sukses.
 
 ## Daftar rekaman
 
@@ -53,7 +53,7 @@ Playback memakai antrean bounded dengan backpressure dan pacing timestamp kamera
 
 ## Batas implementasi dan validasi
 
-Fitur baru memilih sesi IoT lokal yang sudah ada; Legacy mengembalikan unsupported. Jalur Java pver≥5 dapat memilih MQ, sedangkan native memiliki jalur direct LAN bersyarat SID. Kontrak native tersebut mendasari implementasi eksperimental, bukan bukti kompatibilitas offline firmware pengguna. Tidak ada fallback cloud. Sensitivitas/schedule lampu, variasi dialect, dan enum terminal format tetap gated sampai bukti cukup.
+Fitur baru memilih sesi IoT lokal yang sudah ada; Legacy mengembalikan unsupported. Jalur Java pver≥5 dapat memilih MQ, sedangkan native memiliki jalur direct LAN bersyarat SID. Kontrak native tersebut mendasari implementasi eksperimental, bukan bukti kompatibilitas offline firmware pengguna. Tidak ada fallback cloud. Sensitivitas/schedule lampu dan variasi dialect tetap gated sampai bukti cukup; format SD aktif dengan kontrak ACK vendor, sedangkan enum terminal `131330` tetap belum terbukti.
 
 Build, parser, lint dan status runtime aktual: [validation/recordings-settings/results.json](../validation/recordings-settings/results.json). Instruksi menunda pengujian koneksi tetap berlaku; kamera, loopback session, download nyata, pengaturan nyata dan format kartu tidak diuji.
 

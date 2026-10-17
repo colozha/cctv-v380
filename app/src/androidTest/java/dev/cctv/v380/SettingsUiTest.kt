@@ -238,7 +238,7 @@ class SettingsUiTest {
                     if (title == "Koneksi & perangkat" || title == "Connection & device") compose.onNodeWithText("MODEL-SYNTHETIC").assertExists()
                     if (title == "Rekaman & kartu SD" || title == "Recording & SD card") {
                         compose.onNodeWithText(if (en) "91% card space available" else "91% ruang kartu tersedia").assertExists()
-                        compose.onNodeWithText(control).assertIsNotEnabled()
+                        compose.onNodeWithText(control).assertIsEnabled()
                     }
                     compose.onNodeWithText(title).performScrollTo()
                     val scroll = compose.onNode(hasScrollAction())

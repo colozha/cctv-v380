@@ -11,6 +11,9 @@ data class SdCapacity(val total: Long, val remaining: Long) {
     val almostFull: Boolean get() = remaining <= total / 10
 }
 
+/** Returned only after a correlated ACTION_RESPONSE with result.code == 1000. */
+enum class SdFormatAck { ACCEPTED }
+
 /** V380 6.4.90 Java property API. The native live controller uses a different PID dialect. */
 object CameraSettingsProtocol {
     const val GET = 197376
@@ -30,8 +33,13 @@ object CameraSettingsProtocol {
     const val FLIP_MODE = 524544
     const val FORMAT = 131584
     const val FLIP = 524800
-    // REA: Java explicitly skips this property; no terminal format enum is verified yet.
-    const val FORMAT_STATUS_VERIFIED = false
+    // REA V380 6.4.90: DAID 131584 is sent as ACTION 197384/197385 with params exactly
+    // {"daid":131584}; a correlated result.code == 1000 is the vendor success path
+    // (SDK 256 -> setSDCardFormat 1001). This proves acceptance, not physical completion.
+    const val FORMAT_ACTION_VERIFIED = true
+    // The vendor parser skips property 131330; no terminal enum is verified.
+    const val FORMAT_TERMINAL_VERIFIED = false
+    private val eligibleSdStatuses = setOf(1, 2, 3, 8)
     val sdFormatProperties = listOf(SD_STATUS, SD_CAPACITY, SD_FORMAT_STATE)
     val properties = listOf(SD_STATUS, SD_CAPACITY, SD_FORMAT_STATE, RECORD_MODE, RECORD_QUALITY,
         RECORD_AUDIO, RECORD_LOOP, LIGHT_MODE, LIGHT_SENSITIVITY, INDICATOR, FLIP_MODE)
@@ -107,6 +115,11 @@ object CameraSettingsProtocol {
     fun formatParams(): JSONObject = IoTControlProtocol.actionParams(FORMAT)
     // SD_STATUS=4 proves ongoing formatting only. Raw 131330, ACK and normal SD are not terminal proof.
     fun formatInProgress(settings: CameraSettings): Boolean = settings.int(SD_STATUS) == 4
+    /** Conservative local guard. The vendor does not require a readable 131330 property. */
+    fun formatEligible(settings: CameraSettings?): Boolean =
+        settings?.int(SD_STATUS)?.let { it in eligibleSdStatuses } == true
+    /** Only status 1 counts as ready after a formatting observation. */
+    fun sdCardReady(settings: CameraSettings): Boolean = settings.int(SD_STATUS) == 1
     fun capacity(settings: CameraSettings): SdCapacity? {
         val parts = (settings.values[SD_CAPACITY] as? String)?.split('|') ?: return null
         if (parts.size != 3) return null

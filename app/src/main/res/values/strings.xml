@@ -221,7 +221,10 @@
     <string name="copy_ekspor_7bd82ec6">Ekspor</string>
     <string name="copy_format_sd_card_578ca476">Format kartu SD</string>
     <string name="copy_format_sd_card_9a07ea89">Format kartu SD?</string>
-    <string name="copy_format_menghapus_rekaman_pada_kartu_fitur_belum_5b946975">Format menghapus rekaman pada kartu. Fitur belum diaktifkan karena status akhir format belum terverifikasi.</string>
+    <string name="copy_format_menghapus_semua_rekaman_pada_kartu_kamera_a92fd9f3">Format menghapus semua rekaman pada kartu. Kamera dapat menolak perintah; hasil akhir dipantau dari status kartu.</string>
+    <string name="copy_kamera_menerima_perintah_format_memantau_status_28e7e18a">Kamera menerima perintah format. Memantau status kartu…</string>
+    <string name="copy_kamera_melaporkan_format_selesai_dan_kartu_kemba_cc1067d8">Kamera melaporkan format selesai dan kartu kembali siap.</string>
+    <string name="copy_kamera_menolak_perintah_format_periksa_kartu_dan_69d311c3">Kamera menolak perintah format. Periksa kartu dan status kamera sebelum mencoba lagi.</string>
     <string name="copy_gerak_kamera_sudah_berhenti_aae4fc8f">Gerak kamera sudah berhenti</string>
     <string name="copy_gunakan_area_88474416">Gunakan area</string>
     <string name="copy_gunakan_koneksi_ap_langsung_5631a397">Gunakan koneksi AP langsung</string>
@@ -314,7 +317,7 @@
     <string name="download_progress">Mengunduh rekaman · %1$d KB diterima</string>
     <string name="current_quality_unverified">Kualitas saat ini: %1$s. Pilihan lainnya belum dikonfirmasi kamera.</string>
     <string name="remaining_card_space">%1$d%% ruang kartu tersedia</string>
-    <string name="format_camera_confirmation">Semua rekaman pada kartu SD kamera “%1$s” akan dihapus. Simpan rekaman yang diperlukan terlebih dahulu. Setelah dikirim, proses format tidak dapat dibatalkan dari aplikasi.</string>
+    <string name="format_camera_confirmation">Semua rekaman pada kartu SD kamera “%1$s” akan dihapus. Simpan rekaman yang diperlukan terlebih dahulu. Setelah kamera menerima perintah, proses format tidak dapat dibatalkan dari aplikasi ini.</string>
     <string name="load_group">Muat %1$s</string>
     <string name="preset_count">Preset tersimpan: %1$d/%2$d</string>
     <string name="slot_status">Slot %1$d · %2$s</string>
@@ -592,7 +595,7 @@
     <string name="copy_pemeriksaan_hotspot_akan_berhenti_perubahan_yang_add9b00d">Pemeriksaan hotspot akan berhenti. Perubahan yang mungkin sudah diterapkan tidak dibatalkan; perintah tidak akan dikirim ulang.</string>
     <string name="copy_pemeriksaan_kalibrasi_akan_berhenti_kamera_mungk_8766af44">Pemeriksaan kalibrasi akan berhenti. Kamera mungkin masih bergerak; perintah tidak dikirim ulang.</string>
     <string name="copy_pemeriksaan_restart_akan_berhenti_kamera_mungkin_4055413e">Pemeriksaan restart akan berhenti. Kamera mungkin sudah menerima perintah; tidak ada pengiriman ulang.</string>
-    <string name="copy_pemeriksaan_status_akan_berhenti_format_yang_sud_526a3160">Pemeriksaan status akan berhenti. Format yang sudah dikirim tetap berjalan di kamera dan tidak akan dikirim ulang.</string>
+    <string name="copy_pemeriksaan_status_akan_berhenti_perintah_format_5f979de2">Pemeriksaan status akan berhenti. Perintah format yang sudah diterima kamera tetap berjalan dan tidak akan dikirim ulang.</string>
     <string name="copy_periksa_ssid_dan_password_wi_fi_tujuan_06a057cf">Periksa SSID dan password Wi-Fi tujuan.</string>
     <string name="copy_periksa_ssid_dan_password_hotspot_password_hotsp_87332421">Periksa SSID dan password hotspot. Password hotspot WPA2 memerlukan 8–63 karakter.</string>
     <string name="copy_periksa_hotspot_saat_tersambung_langsung_ke_ap_k_ac631ff2">Periksa hotspot saat tersambung langsung ke AP kamera. Dukungan harus dikonfirmasi sebelum mengubah isian.</string>

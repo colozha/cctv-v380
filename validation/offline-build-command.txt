@@ -7,6 +7,7 @@ export ANDROID_HOME=/home/husain/Android/Sdk
   --tests 'dev.cctv.v380.protocol.*' \
   --tests 'dev.cctv.v380.ApProtocolTest' \
   --tests 'dev.cctv.v380.DiagnosticsTest' \
+  --tests 'dev.cctv.v380.SdMaintenanceTest' \
   --tests 'dev.cctv.v380.CoreTest.discoveryChecksLengthSourceIdentityAndPort' \
   --tests 'dev.cctv.v380.CoreTest.exactReaderHandlesPartialCoalescedAndZeroReads' \
   --tests 'dev.cctv.v380.CoreTest.sparseCipherMatchesIndependentBlockEncryptionAndPreservesTails' \

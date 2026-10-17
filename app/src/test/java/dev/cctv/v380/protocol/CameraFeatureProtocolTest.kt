@@ -47,11 +47,25 @@ class CameraFeatureProtocolTest {
 
     @Test fun destructiveActionOmitsInputAndRequestsAReplyWhileFlipUsesTheRecoveredAction() {
         val format = CameraSettingsProtocol.formatParams()
-        assertEquals(131584, format.getInt("daid")); assertFalse(format.has("in")); assertFalse(format.has("no_rsp"))
+        assertEquals(131584, format.getInt("daid")); assertFalse(format.has("in")); assertFalse(format.has("vsbmp"))
+        assertFalse(format.has("no_rsp")); assertEquals(1, format.length())
         val flip = CameraSettingsProtocol.flipParams()
         assertEquals(524800, flip.getInt("daid")); assertEquals(1, flip.getJSONObject("in").getInt("action"))
         assertFalse(flip.has("no_rsp"))
-        assertFalse(CameraSettingsProtocol.FORMAT_STATUS_VERIFIED)
+        assertTrue(CameraSettingsProtocol.FORMAT_ACTION_VERIFIED)
+        assertFalse(CameraSettingsProtocol.FORMAT_TERMINAL_VERIFIED)
+    }
+
+    @Test fun formatEligibilityRequiresAUsableCardAndCompletionRequiresReadyStatus() {
+        fun settings(status: Int?) = CameraSettings(
+            if (status == null) emptyMap() else mapOf(CameraSettingsProtocol.SD_STATUS to status), emptyMap())
+        for (status in listOf(1, 2, 3, 8)) assertTrue("status=$status", CameraSettingsProtocol.formatEligible(settings(status)))
+        for (status in listOf(0, 4, 5, 6, 7, 9)) assertFalse("status=$status", CameraSettingsProtocol.formatEligible(settings(status)))
+        assertFalse(CameraSettingsProtocol.formatEligible(settings(null)))
+        assertFalse(CameraSettingsProtocol.formatEligible(null))
+        for (status in listOf(1, 2, 3, 4, 5, 6, 7, 8)) {
+            assertEquals("status=$status", status == 1, CameraSettingsProtocol.sdCardReady(settings(status)))
+        }
     }
 
     @Test fun capacityUsesVerifiedPipeFieldsWithoutInventingUnits() {

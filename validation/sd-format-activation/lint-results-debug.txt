@@ -1,0 +1,306 @@
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/transport/WifiNetwork.kt:72: Warning: Field requires API level 30 (current min is 26): android.net.wifi.WifiManager#UNKNOWN_SSID [InlinedApi]
+        val raw = info?.ssid?.takeUnless { it == WifiManager.UNKNOWN_SSID }
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/transport/WifiNetwork.kt:74: Warning: Field requires API level 30 (current min is 26): android.net.wifi.WifiManager#UNKNOWN_SSID [InlinedApi]
+        raw?.takeUnless { it == WifiManager.UNKNOWN_SSID }?.removeSurrounding("\"")
+                                ~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "InlinedApi":
+   This check scans through all the Android API field references in the
+   application and flags certain constants, such as static final integers and
+   Strings, which were introduced in later versions. These will actually be
+   copied into the class files rather than being referenced, which means that
+   the value is available even when running on older devices. In some cases
+   that's fine, and in other cases it can result in a runtime crash or
+   incorrect behavior. It depends on the context, so consider the code
+   carefully and decide whether it's safe and can be suppressed or whether the
+   code needs to be guarded.
+
+   If you really want to use this API and don't need to support older devices
+   just set the minSdkVersion in your build.gradle or AndroidManifest.xml
+   files.
+
+   If your code is deliberately accessing newer APIs, and you have ensured
+   (e.g. with conditional execution) that this code will only ever be called
+   on a supported platform, then you can annotate your class or method with
+   the @TargetApi annotation specifying the local minimum SDK to apply, such
+   as @TargetApi(11), such that this check considers 11 rather than your
+   manifest file's minimum SDK as the required API level.
+
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/AndroidManifest.xml:10: Warning: Attribute usesPermissionFlags is only used in API level 31 and higher (current min is 26) [UnusedAttribute]
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" android:usesPermissionFlags="neverForLocation" />
+                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedAttribute":
+   This check finds attributes set in XML files that were introduced in a
+   version newer than the oldest version targeted by your application (with
+   the minSdkVersion attribute).
+
+   This is not an error; the application will simply ignore the attribute.
+   However, if the attribute is important to the appearance or functionality
+   of your application, you should consider finding an alternative way to
+   achieve the same result with only available attributes, and then you can
+   optionally create a copy of the layout in a layout-vNN folder which will be
+   used on API NN or higher where you can take advantage of the newer
+   attribute.
+
+   Note: This check does not only apply to attributes. For example, some tags
+   can be unused too, such as the new <tag> element in layouts introduced in
+   API 21.
+
+/home/husain/Documents/Works/Github/cctv-v380/gradle/wrapper/gradle-wrapper.properties:3: Warning: A newer version of Gradle than 9.3.1 is available: 9.8.1 [AndroidGradlePluginVersion]
+distributionUrl=https\://services.gradle.org/distributions/gradle-9.3.1-bin.zip
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "AndroidGradlePluginVersion":
+   This detector looks for usage of the Android Gradle Plugin where the
+   version you are using is not the current stable release. Using older
+   versions is fine, and there are cases where you deliberately want to stick
+   with an older version. However, you may simply not be aware that a more
+   recent version is available, and that is what this lint check helps find.
+
+/home/husain/Documents/Works/Github/cctv-v380/app/build.gradle.kts:46: Warning: A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-android than 1.10.2 is available: 1.11.0 [NewerVersionAvailable]
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/build.gradle.kts:50: Warning: A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-test than 1.10.2 is available: 1.11.0 [NewerVersionAvailable]
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/build.gradle.kts:51: Warning: A newer version of org.json:json than 20250517 is available: 20260814 [NewerVersionAvailable]
+    testImplementation("org.json:json:20250517")
+                       ~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "NewerVersionAvailable":
+   This detector checks with a central repository to see if there are newer
+   versions available for the dependencies used by this project. This is
+   similar to the GradleDependency check, which checks for newer versions
+   available in the Android SDK tools and libraries, but this works with any
+   MavenCentral dependency, and connects to the library every time, which
+   makes it more flexible but also much slower.
+
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/ui/LivePlayerScreen.kt:283: Warning: Using Configuration.screenHeightDp instead of LocalWindowInfo.current.containerSize [ConfigurationScreenWidthHeight from androidx.compose.ui]
+            Column(Modifier.fillMaxWidth().heightIn(max = (LocalConfiguration.current.screenHeightDp * .7f).dp)
+                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "ConfigurationScreenWidthHeight":
+   Configuration.screenWidthDp and Configuration.screenHeightDp have different
+   insets behaviour depending on target SDK version, and are rounded to the
+   nearest Dp. This means that using these values in composition to size a
+   layout can result in issues, as these values do not accurately represent
+   the actual available window size. Instead it is recommended to use
+   WindowInfo.containerSize which accurately represents the window size.
+
+   Vendor: Jetpack Compose
+   Identifier: androidx.compose.ui
+   Feedback: https://issuetracker.google.com/issues/new?component=612128
+
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/ui/LocalizedWidgets.kt:52: Warning: Use of this function is discouraged because resource reflection makes it harder to perform build optimizations and compile-time verification of code. It is much more efficient to retrieve resources by identifier (e.g. R.foo.bar) than by name (e.g. getIdentifier("bar", "foo", null)). [DiscouragedApi]
+        context.resources.getIdentifier(
+                          ~~~~~~~~~~~~~
+
+   Explanation for issues of type "DiscouragedApi":
+   Discouraged APIs are allowed and are not deprecated, but they may be unfit
+   for common use (e.g. due to slow performance or subtle behavior).
+
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:314: Warning: Formatting %d followed by words ("detik"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="recording_duration_type">%1$d detik · %2$s</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values-en/strings.xml:314: Warning: Formatting %d followed by words ("sec"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="recording_duration_type">%1$d sec · %2$s</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:328: Warning: Formatting %d followed by words ("menit"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="route_position_order">Urutan %1$d · Slot %2$d · %3$d menit</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:329: Warning: Formatting %d followed by words ("menit"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="stop_duration_minutes">Waktu berhenti: %1$d menit</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:330: Warning: Formatting %d followed by words ("detik"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="camera_stop_duration">Waktu berhenti dari kamera: %1$d detik. Nilai ini dipertahankan.</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values-en/strings.xml:330: Warning: Formatting %d followed by words ("sec"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="camera_stop_duration">Camera stop duration: %1$d sec. This value is preserved.</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:337: Warning: Formatting %d followed by words ("interval"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="day_interval_count">%1$s · %2$d interval</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values-en/strings.xml:337: Warning: Formatting %d followed by words ("intervals"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="day_interval_count">%1$s · %2$d intervals</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:338: Warning: Formatting %d followed by words ("interval"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="interval_limit">%1$d interval · Batas editor %2$d</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values-en/strings.xml:338: Warning: Formatting %d followed by words ("intervals"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="interval_limit">%1$d intervals · Editor limit %2$d</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values-en/strings.xml:341: Warning: Formatting %d followed by words ("cells"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="selected_detection_cells">Detection area: %1$d × %2$d, %3$d cells selected</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:341: Warning: Formatting %d followed by words ("sel"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="selected_detection_cells">Area deteksi: %1$d × %2$d, %3$d sel dipilih</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values-en/strings.xml:344: Warning: Formatting %d followed by words ("cells"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="selected_cells_count">%1$d of %2$d cells selected</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:344: Warning: Formatting %d followed by words ("dari"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="selected_cells_count">%1$d dari %2$d sel dipilih</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values-en/strings.xml:355: Warning: Formatting %d followed by words ("cells"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="area_reference_accessibility">Area reference image. %1$d cells selected. More selection options are below the image.</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:355: Warning: Formatting %d followed by words ("sel"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="area_reference_accessibility">Gambar referensi area. %1$d sel dipilih. Alternatif pemilihan tersedia di bawah gambar.</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:629: Warning: Formatting %d followed by words ("preset"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="saved_presets">%1$d/%2$d preset tersimpan</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values-en/strings.xml:629: Warning: Formatting %d followed by words ("presets"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="saved_presets">%1$d/%2$d presets saved</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/values/strings.xml:683: Warning: Formatting %d followed by words ("dari"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="setup_stage">Langkah %1$d dari 4 · %2$s</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "PluralsCandidate":
+   This lint check looks for potential errors in internationalization where
+   you have translated a message which involves a quantity and it looks like
+   other parts of the string may need grammatical changes.
+
+   For example, rather than something like this:
+     <string name="try_again">Try again in %d seconds.</string>
+   you should be using a plural:
+      <plurals name="try_again">
+           <item quantity="one">Try again in %d second</item>
+           <item quantity="other">Try again in %d seconds</item>
+       </plurals>
+   This will ensure that in other languages the right set of translations are
+   provided for the different quantity classes.
+
+   (This check depends on some heuristics, so it may not accurately determine
+   whether a string really should be a quantity. You can use tools:ignore to
+   filter out false positives.
+
+   https://developer.android.com/guide/topics/resources/string-resource.html#Plurals
+
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/ui/MainActivity.kt:147: Hint: Prefer mutableIntStateOf instead of mutableStateOf [AutoboxingStateCreation from androidx.compose.runtime]
+    var draftPort by rememberSaveable { mutableStateOf(8800) }
+                                        ~~~~~~~~~~~~~~
+
+   Explanation for issues of type "AutoboxingStateCreation":
+   Calling mutableStateOf<T>() when T is either backed by a primitive type on
+   the JVM or is a value class results in a state implementation that requires
+   all state values to be boxed. This usually causes an additional allocation
+   for each state write, and adds some additional work to auto-unbox values
+   when reading the value of the state. Instead, prefer to use a specialized
+   primitive state implementation for Int, Long, Float, and Double when the
+   state does not need to track null values and does not override the default
+   SnapshotMutationPolicy. See mutableIntStateOf(), mutableLongStateOf(),
+   mutableFloatStateOf(), and mutableDoubleStateOf() for more information.
+
+   Vendor: Jetpack Compose
+   Identifier: androidx.compose.runtime
+   Feedback: https://issuetracker.google.com/issues/new?component=612128
+
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/media/RecordingExporter.kt:59: Warning: Consider also using StorageManager#getAllocatableBytes and allocateBytes which will consider clearable cached data [UsableSpace]
+        if (cacheDir.usableSpace < 1024 * 1024L) throw RecordingStorageFullException()
+                     ~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/media/RecordingExporter.kt:78: Warning: Consider also using StorageManager#getAllocatableBytes and allocateBytes which will consider clearable cached data [UsableSpace]
+        if (file.usableSpace < frame.bytes.size + 1024 * 1024L) throw RecordingStorageFullException()
+                 ~~~~~~~~~~~
+
+   Explanation for issues of type "UsableSpace":
+   When you need to allocate disk space for large files, consider using the
+   new allocateBytes(FileDescriptor, long) API, which will automatically clear
+   cached files belonging to other apps (as needed) to meet your request.
+
+   When deciding if the device has enough disk space to hold your new data,
+   call getAllocatableBytes(UUID) instead of using getUsableSpace(), since the
+   former will consider any cached data that the system is willing to clear on
+   your behalf.
+
+   Note that these methods require API level 26. If your app is running on
+   older devices, you will probably need to use both APIs, conditionally
+   switching on Build.VERSION.SDK_INT. Lint only looks in the same compilation
+   unit to see if you are already using both APIs, so if it warns even though
+   you are already using the new API, consider moving the calls to the same
+   file or suppressing the warning.
+
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/res/drawable/ap_camera_illustration.png: Warning: Found bitmap drawable res/drawable/ap_camera_illustration.png in densityless folder [IconLocation]
+
+   Explanation for issues of type "IconLocation":
+   The res/drawable folder is intended for density-independent graphics such
+   as shapes defined in XML. For bitmaps, move it to drawable-mdpi and
+   consider providing higher and lower resolution versions in drawable-ldpi,
+   drawable-hdpi and drawable-xhdpi. If the icon really is density independent
+   (for example a solid color) you can place it in drawable-nodpi.
+
+   https://developer.android.com/guide/practices/screens_support.html
+
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/ui/AppPreferences.kt:22: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        set(value) { preferences.edit().putString(KEY_LANGUAGE, value.tag).apply() }
+                     ~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/ui/AppPreferences.kt:27: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+            preferences.edit().apply {
+            ~~~~~~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/ui/CameraViewModel.kt:141: Warning: Use the KTX extension function String.toUri instead? [UseKtx]
+            request.getString("uri")?.let { Uri.parse(it) to exportSegment(request) }
+                                            ~~~~~~~~~~~~~
+/home/husain/Documents/Works/Github/cctv-v380/app/src/main/java/dev/cctv/v380/media/VideoFrameCapture.kt:26: Warning: Use the KTX function createBitmap instead? [UseKtx]
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UseKtx":
+   The Android KTX libraries decorates the Android platform SDK as well as
+   various libraries with more convenient extension functions available from
+   Kotlin, allowing you to use default parameters, named parameters, and
+   more.
+
+   Available options:
+
+   **remove-defaults** (default is true):
+   Whether to skip arguments that match the defaults provided by the extension.
+
+   Extensions often provide default values for some of the parameters. For example:
+   ```kotlin
+   fun Path.readLines(charset: Charset = Charsets.UTF_8): List<String> { return Files.readAllLines(this, charset) }
+   ```
+   This lint check will by default automatically omit parameters that match the default, so if your code was calling
+
+   ```kotlin
+   Files.readAllLines(file, Charset.UTF_8)
+   ```
+   lint would replace this with
+   ```kotlin
+   file.readLines()
+   ```
+   rather than
+
+   ```kotlin
+   file.readLines(Charset.UTF_8
+   ```
+   You can turn this behavior off using this option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="remove-defaults" value="true" />
+       </issue>
+   </lint>
+   ```
+
+   **require-present** (default is true):
+   Whether to only offer extensions already available.
+
+   This option lets you only have lint suggest extension replacements if those extensions are already available on the class path (in other words, you're already depending on the library containing the extension method.)
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="require-present" value="true" />
+       </issue>
+   </lint>
+   ```
+
+0 errors, 35 warnings, 1 hint

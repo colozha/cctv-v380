@@ -26,7 +26,7 @@ import javax.crypto.spec.SecretKeySpec
 class SdMaintenanceTest {
     private val profile = CameraProfile(name = "Synthetic SD", host = "192.0.2.10", deviceId = "sd-fixture")
 
-    @Test fun recoveryReadsExactlyThreePropertiesWhileWritesAreBlockedAndNeverSendsFormat() = runBlocking {
+    @Test fun recoveryReadsExactlyThreePropertiesWhileWritesAreBlocked() = runBlocking {
         val peer = Peer()
         val session = authenticated(peer)
         try {
@@ -48,8 +48,8 @@ class SdMaintenanceTest {
             repeat(2) {
                 val error = runCatching {
                     session.sendSdFormat(profile.id, profile.deviceId, "same-operation",
-                        beforeWrite = { fail("Unproven format must not save a marker") },
-                        onWriteStarted = { fail("Unproven format must not write") })
+                        beforeWrite = { fail("Blocked maintenance must not save a marker") },
+                        onWriteStarted = { fail("Blocked maintenance must not write") })
                 }.exceptionOrNull()
                 assertEquals(SessionError.FeatureUnsupported, (error as CameraFailure).reason)
             }
@@ -114,8 +114,90 @@ class SdMaintenanceTest {
         } finally { session.dispose() }
     }
 
-    @Test fun onlyKnownSdStatusProvesProgressAndRawFormatValuesDoNotOpenTheWriter() {
-        assertFalse(CameraSettingsProtocol.FORMAT_STATUS_VERIFIED)
+    @Test fun actionAckIsTheOnlySuccessContractAndMarkerPrecedesTheSoleWrite() = runBlocking {
+        val peer = Peer()
+        val session = authenticated(peer)
+        var marker = false
+        var writeStarted = false
+        var markerBeforeAction = false
+        peer.onRequest = {
+            if (peer.requests.last().getInt("method_id") == IoTCommonProtocol.ACTION_REQUEST)
+                markerBeforeAction = marker
+        }
+        try {
+            val ack = session.sendSdFormat(profile.id, profile.deviceId, "op-ack",
+                beforeWrite = { marker = true }, onWriteStarted = { writeStarted = true })
+            assertEquals(SdFormatAck.ACCEPTED, ack)
+            assertTrue(marker); assertTrue(writeStarted); assertTrue(markerBeforeAction)
+            assertTrue(session.maintenancePending)
+            assertEquals(2, peer.requests.size)
+            val action = peer.requests.last()
+            assertEquals(IoTCommonProtocol.ACTION_REQUEST, action.getInt("method_id"))
+            assertEquals(131584, action.getJSONObject("params").getInt("daid"))
+            assertEquals(1, action.getJSONObject("params").length())
+        } finally { session.dispose() }
+    }
+
+    @Test fun correlatedActionRejectionIsTypedAndNeverRetried() = runBlocking {
+        val peer = Peer("action-denied")
+        val session = authenticated(peer)
+        try {
+            val error = runCatching {
+                session.sendSdFormat(profile.id, profile.deviceId, "op-denied", beforeWrite = {})
+            }.exceptionOrNull()
+            val failure = error as IoTProtocolException
+            assertEquals(IoTFailure.PermissionDenied, failure.kind)
+            assertEquals(1109, failure.deviceCode)
+            assertEquals(1, peer.requests.count { it.getInt("method_id") == IoTCommonProtocol.ACTION_REQUEST })
+            assertTrue(session.maintenancePending)
+        } finally { session.dispose() }
+    }
+
+    @Test fun actionTimeoutAfterTheSoleWriteIsAmbiguousAndNeverRetried() = runBlocking {
+        val peer = Peer("action-timeout")
+        val session = authenticated(peer)
+        var marker = false
+        try {
+            val error = runCatching {
+                session.sendSdFormat(profile.id, profile.deviceId, "op-timeout", beforeWrite = { marker = true })
+            }.exceptionOrNull()
+            assertEquals(SessionError.Timeout, CameraSession.reason(error as Exception))
+            assertTrue(marker)
+            assertTrue(session.maintenancePending)
+            assertEquals(1, peer.requests.count { it.getInt("method_id") == IoTCommonProtocol.ACTION_REQUEST })
+        } finally { session.dispose() }
+    }
+
+    @Test fun missingFormatStateDoesNotBlockAnEligibleCard() = runBlocking {
+        val peer = Peer("missing")
+        val session = authenticated(peer)
+        try {
+            assertEquals(SdFormatAck.ACCEPTED,
+                session.sendSdFormat(profile.id, profile.deviceId, "op-missing", beforeWrite = {}))
+            assertEquals(1, peer.requests.count { it.getInt("method_id") == IoTCommonProtocol.ACTION_REQUEST })
+        } finally { session.dispose() }
+    }
+
+    @Test fun missingOrIneligibleCardIsRejectedBeforeMarkerAndAction() = runBlocking {
+        for (status in listOf<Int?>(null, 4, 5, 6, 7)) {
+            val peer = Peer(sdStatus = status)
+            val session = authenticated(peer)
+            var marker = false
+            try {
+                val error = runCatching {
+                    session.sendSdFormat(profile.id, profile.deviceId, "op-$status", beforeWrite = { marker = true })
+                }.exceptionOrNull()
+                assertEquals("status=$status", SessionError.FeatureUnsupported, (error as CameraFailure).reason)
+                assertFalse("status=$status", marker)
+                assertEquals("status=$status", 1, peer.requests.size)
+                assertFalse(peer.requests.any { it.getInt("method_id") == IoTCommonProtocol.ACTION_REQUEST })
+            } finally { session.dispose() }
+        }
+    }
+
+    @Test fun onlySdStatusFourProvesProgressAndTerminalEnumRemainsUnverified() {
+        assertTrue(CameraSettingsProtocol.FORMAT_ACTION_VERIFIED)
+        assertFalse(CameraSettingsProtocol.FORMAT_TERMINAL_VERIFIED)
         for (raw in listOf(-1, 0, 1, 2, 3, 4, 1000, Int.MAX_VALUE)) {
             for (status in listOf(1, 3, 4, 5, 8)) {
                 val settings = CameraSettings(mapOf(CameraSettingsProtocol.SD_STATUS to status,
@@ -143,7 +225,7 @@ class SdMaintenanceTest {
     private fun set(target: Any, field: String, value: Any) = target.javaClass.getDeclaredField(field)
         .apply { isAccessible = true }.set(target, value)
 
-    private class Peer(val variant: String = "ok") {
+    private class Peer(val variant: String = "ok", private val sdStatus: Int? = 1) {
         val key = ByteArray(32) { (it + 1).toByte() }
         val requests = mutableListOf<JSONObject>()
         var onRequest: () -> Unit = {}
@@ -166,8 +248,24 @@ class SdMaintenanceTest {
                     val request = IoTCommonProtocol.decodeJson(header, packet.copyOfRange(16, packet.size), key)
                     requests.add(request)
                     onRequest()
-                    val rows = JSONArray().put(row(CameraSettingsProtocol.SD_STATUS, 1))
-                        .put(row(CameraSettingsProtocol.SD_CAPACITY, "1000|900|0", if (variant == "missing") 1109 else 1000))
+                    if (request.getInt("method_id") == IoTCommonProtocol.ACTION_REQUEST) {
+                        if (variant == "action-timeout") {
+                            input = object : InputStream() {
+                                override fun read(): Int = throw SocketTimeoutException("Synthetic action timeout")
+                                override fun read(buffer: ByteArray, off: Int, len: Int): Int =
+                                    throw SocketTimeoutException("Synthetic action timeout")
+                            }
+                            return
+                        }
+                        val response = JSONObject().put("id", request.getInt("id")).put("chn", 1)
+                            .put("method_id", IoTCommonProtocol.ACTION_RESPONSE)
+                            .put("result", JSONObject().put("code", if (variant == "action-denied") 1109 else 1000))
+                        input = encrypted(response)
+                        return
+                    }
+                    val rows = JSONArray()
+                    sdStatus?.let { rows.put(row(CameraSettingsProtocol.SD_STATUS, it)) }
+                    rows.put(row(CameraSettingsProtocol.SD_CAPACITY, "1000|900|0", if (variant == "missing") 1109 else 1000))
                     if (variant != "missing") rows.put(row(CameraSettingsProtocol.SD_FORMAT_STATE, 777))
                     val response = JSONObject().put("id", request.getInt("id") + if (variant == "id") 1 else 0)
                         .put("chn", if (variant == "channel") 9 else 1)
@@ -176,14 +274,17 @@ class SdMaintenanceTest {
                             "denied" -> 1109; "uncorrelated-auth" -> 1103; "uncorrelated-expired" -> 1104; else -> 1000
                         })).put("data", JSONObject().put("dplist_result", rows))
                     if (variant.startsWith("uncorrelated")) response.remove("id")
-                    val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding").apply {
-                        init(Cipher.ENCRYPT_MODE, SecretKeySpec(key.copyOfRange(0, 16), "AES"), IvParameterSpec(key.copyOfRange(16, 32)))
-                    }
-                    val body = cipher.doFinal(response.toString().toByteArray())
-                    input = ByteArrayInputStream(ByteBuffer.allocate(16 + body.size).order(ByteOrder.LITTLE_ENDIAN)
-                        .putInt(IoTCommonProtocol.COMMAND_IOT).put(1).put(2).put(if (variant == "sid") 18 else 17)
-                        .put(0).putInt(0).putInt(body.size).put(body).array())
+                    input = encrypted(response)
                 }
+            }
+            private fun encrypted(response: JSONObject): InputStream {
+                val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding").apply {
+                    init(Cipher.ENCRYPT_MODE, SecretKeySpec(key.copyOfRange(0, 16), "AES"), IvParameterSpec(key.copyOfRange(16, 32)))
+                }
+                val body = cipher.doFinal(response.toString().toByteArray())
+                return ByteArrayInputStream(ByteBuffer.allocate(16 + body.size).order(ByteOrder.LITTLE_ENDIAN)
+                    .putInt(IoTCommonProtocol.COMMAND_IOT).put(1).put(2).put(if (variant == "sid") 18 else 17)
+                    .put(0).putInt(0).putInt(body.size).put(body).array())
             }
         }
         private fun row(id: Int, value: Any, code: Int = 1000) =

@@ -28,7 +28,7 @@ Kondisi awal yang perlu dipertahankan:
 | Pengaturan | Baca properti, write, ACK per properti, dan readback; orientasi/lampu dasar/perekaman tersedia | Belum ada alarm, jadwal lampu, dan informasi perangkat; parser terutama menerima scalar |
 | PTZ | Empat arah, stop, lease/watchdog, kemampuan horizontal/vertikal | Belum ada daftar preset, simpan/panggil/hapus, patroli, atau kalibrasi |
 | Sensitivitas lampu | DPID `327939`, nilai 1–3 dikenali protokol | UI belum tersedia karena arti label/rentang belum lengkap |
-| Format SD | Action, konfirmasi, pending AtomicFile, dan polling dasar tersedia | `FORMAT_STATUS_VERIFIED=false`; belum ada evaluator status terminal dan fase selesai |
+| Format SD | Action, konfirmasi, pending AtomicFile, dan polling dasar tersedia; aktif17Oktober2026 dengan kontrak ACK vendor | Enum terminal `131330` belum terbukti dan tidak ditafsirkan; fase ACCEPTED/COMPLETE berbasis ACK dan transisi4→1 |
 | Koordinasi | `launchFeature` membatalkan pekerjaan sebelumnya; AP edit mempunyai penjagaan pengiriman sendiri | Pola replace-job tidak boleh dipakai langsung untuk aksi motor/restart/format |
 
 Dasar implementasi: [status proyek](../IMPLEMENTATION.md), [kontrak pengaturan/SD](recordings-settings-wire.md), [analisis PTZ](discovery-ptz.md), dan [rencana rekaman/pengaturan sebelumnya](recordings-settings-implementation-plan.md). Dokumen ini memperluas fitur terkait; tidak mengulang pengembangan rekaman atau hotspot.
@@ -144,16 +144,15 @@ Selesai ketika informasi perangkat berasal dari kamera, restart dikirim maksimal
 
 ### 4.5 Format kartu SD
 
-- Gunakan UI konfirmasi dan action yang sudah ada. Aktivasi memerlukan evaluator status terminal yang dibuktikan untuk profil firmware; tidak cukup mengganti `FORMAT_STATUS_VERIFIED` menjadi true. Ganti gerbang global dengan pemeriksaan dukungan kontrak profil dan status sesi.
-- Sebelum action, baca status terbaru, pastikan kartu eligible, tidak sedang format, tidak ada draft/pending operasi/transfer, hentikan media/PTZ, dan tulis marker atomik. Kirim action `131584` tanpa `in`, dengan respons; tidak membawa `no_rsp:true` dari PTZ.
-- Tambahkan fase **SENDING, CHECKING/RUNNING, COMPLETE, FAILED, REJECTED, UNKNOWN**. FAILED memerlukan status gagal terminal yang terbukti; timeout monitoring menjadi UNKNOWN.
-- Pantau status memakai polling2 detik dengan batas awal120 detik foreground. Status terminal diperiksa setiap respons dan polling dihentikan segera setelah hasil terverifikasi; bukan menjalankan polling tetap lalu selalu mengembalikan UNKNOWN seperti sekarang.
-- Sukses memerlukan status terminal yang terhubung dengan operasi saat ini: transisi berjalan→terminal, operation ID bila tersedia, atau mekanisme lain yang memang dibuktikan kontrak. Nilai terminal lama, ACK, SD normal, ruang bertambah, dan daftar rekaman kosong tidak cukup sendirian.
-- Setelah sukses, baca ulang status/kapasitas dan invalidasi daftar/segmen rekaman. Jika status gagal, tampilkan sebab yang terbukti; jangan mengirim format ulang otomatis. Kartu dilepas atau kamera restart saat pemantauan menghasilkan unknown kecuali protokol memberi hasil definitif.
-- Background/process death menghentikan pemantauan lokal, bukan format kamera. Saat kembali, **Periksa status kartu** hanya membaca/evaluasi. Jika proses mati membuat korelasi hasil hilang, tetap UNKNOWN meskipun kartu normal.
-- Pending dihapus hanya untuk operasi yang hasil terminalnya sudah dicatat atau setelah pengguna memilih menutup catatan dengan penjelasan bahwa hasil belum terverifikasi. Menutup catatan tidak mengizinkan format baru bila kamera masih melaporkan sedang format atau status mutakhir belum tersedia.
+- Gunakan UI konfirmasi dan action yang sudah ada. Aktivasi memakai **kontrak penerimaan vendor** yang dibuktikan REA: action `131584` tanpa `in`, respons berkorelasi `result.code=1000`. Enum terminal `131330` tetap belum terbukti dan tidak boleh ditafsirkan; jangan mengklaim format fisik selesai.
+- Sebelum action, baca status terbaru, pastikan `SD_STATUS ∈ {1,2,3,8}` (bukan sedang format, tanpa kartu, atau transisi), tidak ada draft/pending operasi/transfer, hentikan media/PTZ, dan tulis marker atomik. Properti `131330` tidak lagi menjadi prasyarat; kamera yang tidak mengembalikannya tetap dapat diformat.
+- Fase: **SENDING, ACCEPTED, CHECKING, FORMATTING, COMPLETE, REJECTED, UNKNOWN, NOT_SENT**. ACK hanya menghasilkan ACCEPTED. Penolakan berkorelasi menghasilkan REJECTED dan marker dibersihkan; timeout/ambigu setelah write menghasilkan UNKNOWN dan marker dipertahankan.
+- Pantau status dengan polling2 detik, batas120 detik foreground. `SD_STATUS=4` menandai FORMATTING. Bila `4→1` teramati, set COMPLETE dan hapus marker otomatis; bila tidak, akhirkan sebagai UNKNOWN dengan catatan pengguna dan tanpa pengiriman ulang.
+- Setelah ACK, invalidasi daftar rekaman dan kapasitas. Jangan mengirim format ulang otomatis pada timeout, penolakan jaringan, atau proses mati. Background/process death menghentikan pemantauan lokal, bukan format kamera; restore hanya membaca status sebagai UNKNOWN.
+- **Periksa status kartu** tetap read-only dan boleh saat maintenance terkunci. **Tutup catatan format** menghapus catatan lokal dengan konfirmasi dan tidak menyatakan sukses/pembatalan kamera.
+- Jangan menafsirkan `131330`, status normal, kapasitas bertambah, atau daftar kosong sebagai bukti terminal. COMPLETE hanya dari pengamatan 4→1 setelah ACK operasi ini dan tetap bukan bukti fisik yang terikat secara kriptografis.
 
-Selesai ketika format tersedia pada kontrak yang memenuhi syarat, tidak terkirim ulang pada semua jalur pemulihan, dan status selesai/gagal mempunyai bukti yang dapat diuji.
+Selesai ketika format dapat dikirim tepat sekali pada kontrak ACK yang terbukti, status diterima/ditolak/unknown dibedakan, dan tidak ada pengiriman ulang pada semua jalur pemulihan. Acceptance kamera fisik tetap belum diklaim.
 
 ## 5. Integrasi UI, error, dan diagnostik
 

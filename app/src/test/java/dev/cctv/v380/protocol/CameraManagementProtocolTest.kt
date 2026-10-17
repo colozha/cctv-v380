@@ -192,10 +192,11 @@ class CameraManagementProtocolTest {
         assertThrows(IllegalArgumentException::class.java) { p.setParams(mapOf(p.PATROL to invalid), before, ability) }
     }
 
-    @Test fun restartAndCalibrationAreSeparateReplyRequiredActionsAndFormatRemainsGated() {
+    @Test fun restartAndCalibrationAreSeparateReplyRequiredActionsAndFormatTerminalRemainsGated() {
         val reboot = p.restartParams(); assertEquals(66050, reboot.getInt("daid"))
         assertFalse(reboot.has("in")); assertFalse(reboot.has("no_rsp"))
         assertEquals(393732, p.calibrateParams().getInt("daid")); assertEquals(1, p.calibrateParams().getInt("vsbmp"))
+        assertTrue(CameraSettingsProtocol.FORMAT_ACTION_VERIFIED)
         assertFalse(p.FORMAT_TERMINAL_VERIFIED); assertFalse(p.PATROL_MOTOR_STATUS_VERIFIED)
         assertThrows(IllegalArgumentException::class.java) { p.setParams(mapOf(p.SOFTWARE to "fake"), CameraSettings(mapOf(p.SOFTWARE to "real"), emptyMap()), ManagementAbilities()) }
     }

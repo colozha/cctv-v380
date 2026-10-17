@@ -12,6 +12,7 @@ import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.unit.Density
 import androidx.lifecycle.ViewModelStore
 import androidx.test.platform.app.InstrumentationRegistry
+import dev.cctv.v380.protocol.CameraSettingsProtocol
 import dev.cctv.v380.session.*
 import dev.cctv.v380.ui.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -102,6 +103,48 @@ class SdMaintenanceUiTest {
                 it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             }
             dir.deleteRecursively()
+        }
+    }
+
+    @Test fun completedFormatNoticeStaysVisibleWithoutAPendingMarker() {
+        val owners = ViewModelStore()
+        val profile = CameraProfile(name = "Contoh SD (sintetis)", host = "192.0.2.10", deviceId = "sd-complete")
+        var opened = 0
+        lateinit var model: CameraViewModel
+        try {
+            compose.activityRule.scenario.onActivity { activity ->
+                model = CameraViewModel(activity.application, sessionOverride = CameraSession(channelFactory = {
+                    opened++; error("Offline UI must not open transport")
+                }))
+                owners.put("sd-complete", model)
+            }
+            compose.waitUntil(15000) { model.features.value.pendingLoaded }
+            @Suppress("UNCHECKED_CAST")
+            val features = model.javaClass.getDeclaredField("mutableFeatures").apply { isAccessible = true }
+                .get(model) as MutableStateFlow<CameraFeatureState>
+            compose.runOnIdle {
+                features.value = CameraFeatureState(profileId = profile.id, tab = CameraTab.SETTINGS,
+                    pendingLoaded = true, restartLoaded = true, apPendingLoaded = true,
+                    format = SdFormatPhase.COMPLETE,
+                    settings = CameraSettings(mapOf(
+                        CameraSettingsProtocol.SD_STATUS to 1,
+                        CameraSettingsProtocol.SD_CAPACITY to "1000|900|0"), emptyMap()))
+            }
+            compose.activityRule.scenario.onActivity { activity ->
+                activity.setContent {
+                    V380Theme {
+                        val feature by model.features.collectAsState()
+                        CameraSettingsScreen(model, profile, SessionState.Idle, feature, {})
+                    }
+                }
+            }
+            compose.onNodeWithText("Kamera melaporkan format selesai dan kartu kembali siap.").assertExists()
+            if (compose.onAllNodesWithText("Format kartu SD").fetchSemanticsNodes().isEmpty())
+                compose.onNodeWithText("Rekaman & kartu SD").performScrollTo().performClick()
+            compose.onNodeWithText("Format kartu SD").performScrollTo().assertIsNotEnabled()
+            assertEquals(0, opened)
+        } finally {
+            compose.activityRule.scenario.onActivity { owners.clear() }
         }
     }
 

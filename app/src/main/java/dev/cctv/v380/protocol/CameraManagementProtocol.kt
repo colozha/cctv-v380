@@ -45,8 +45,9 @@ object CameraManagementProtocol {
     const val REBOOT = 66050
     const val PRESET_ACTION = 393729
     const val CALIBRATE = 393732
-    // No terminal format enum or motor-running notification has been recovered. Never infer one.
-    const val FORMAT_TERMINAL_VERIFIED = CameraSettingsProtocol.FORMAT_STATUS_VERIFIED
+    // The action ACK is verified separately (CameraSettingsProtocol.FORMAT_ACTION_VERIFIED);
+    // no terminal format enum or motor-running notification has been recovered. Never infer one.
+    const val FORMAT_TERMINAL_VERIFIED = CameraSettingsProtocol.FORMAT_TERMINAL_VERIFIED
     const val PATROL_MOTOR_STATUS_VERIFIED = false
     const val MOTION_SENSITIVITY_VERIFIED = false
     // Vendor TimeBarInfo.tryCoverTimeBarInfo caps edits at five. Firmware acceptance remains untested.

@@ -300,7 +300,7 @@ fun LivePlayerScreen(model: CameraViewModel, profile: CameraProfile, state: Sess
             feature.pendingAp != null -> "Pemeriksaan hotspot akan berhenti. Perubahan yang mungkin sudah diterapkan tidak dibatalkan; perintah tidak akan dikirim ulang."
             feature.pendingRestart != null -> "Pemeriksaan restart akan berhenti. Kamera mungkin sudah menerima perintah; tidak ada pengiriman ulang."
             feature.pendingCalibration != null -> "Pemeriksaan kalibrasi akan berhenti. Kamera mungkin masih bergerak; perintah tidak dikirim ulang."
-            feature.pendingFormat != null -> "Pemeriksaan status akan berhenti. Format yang sudah dikirim tetap berjalan di kamera dan tidak akan dikirim ulang."
+            feature.pendingFormat != null -> "Pemeriksaan status akan berhenti. Perintah format yang sudah diterima kamera tetap berjalan dan tidak akan dikirim ulang."
             feature.areaPhase == AreaCapturePhase.EDITING -> "Perubahan area yang belum digunakan akan dibuang. Gambar referensi akan dilepas."
             (feature.draft.isNotEmpty() || feature.managementDraft.isNotEmpty()) -> "Perubahan pengaturan yang belum disimpan akan dibuang."
             else -> "Pekerjaan yang sedang berjalan akan dibatalkan. File yang belum lengkap tidak dinyatakan tersimpan."

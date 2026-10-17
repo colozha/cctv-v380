@@ -83,6 +83,7 @@ class FeatureUiTest {
         capture("settings-synthetic")
         compose.onNodeWithText("Rekaman & kartu SD").performScrollTo().performClick()
         compose.onNodeWithText("50% ruang kartu tersedia").assertExists()
+        // This fixture has no authenticated session, so the format action stays locked.
         compose.onNodeWithText("Format kartu SD").assertIsNotEnabled()
         capture("storage-synthetic")
         compose.runOnIdle { panel = 1 }

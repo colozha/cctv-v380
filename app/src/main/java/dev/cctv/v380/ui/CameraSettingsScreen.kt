@@ -81,12 +81,18 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
                 summary = if (settings == null) localizedCopy("Belum diperiksa") else localizedCopy(sdStatus(settings.int(P.SD_STATUS))),
                 status = { if (listOf(P.RECORD_MODE, P.RECORD_QUALITY, P.RECORD_AUDIO, P.RECORD_LOOP).any { it in feature.draft })
                     SettingsNotice("Perubahan belum disimpan")
-                    if (feature.pendingFormat != null) SettingsNotice(when (feature.format) {
-                        SdFormatPhase.SENDING -> "Mengirim perintah format…"
-                        SdFormatPhase.CHECKING -> "Memeriksa status kartu. Proses format di kamera tetap berjalan jika Anda meninggalkan layar."
-                        SdFormatPhase.FORMATTING -> "Kamera melaporkan kartu sedang diformat. Hasil akhir belum terverifikasi."
-                        else -> "Hasil format sebelumnya belum dapat dipastikan. Perintah tidak akan dikirim ulang secara otomatis."
-                    }, error = !feature.busy)
+                    if (feature.pendingFormat != null ||
+                        feature.format in setOf(SdFormatPhase.COMPLETE, SdFormatPhase.REJECTED, SdFormatPhase.NOT_SENT))
+                        SettingsNotice(when (feature.format) {
+                            SdFormatPhase.SENDING -> "Mengirim perintah format…"
+                            SdFormatPhase.ACCEPTED -> "Kamera menerima perintah format. Memantau status kartu…"
+                            SdFormatPhase.CHECKING -> "Memeriksa status kartu. Proses format di kamera tetap berjalan jika Anda meninggalkan layar."
+                            SdFormatPhase.FORMATTING -> "Kamera melaporkan kartu sedang diformat. Hasil akhir belum terverifikasi."
+                            SdFormatPhase.COMPLETE -> "Kamera melaporkan format selesai dan kartu kembali siap."
+                            SdFormatPhase.REJECTED -> "Kamera menolak perintah format. Periksa kartu dan status kamera sebelum mencoba lagi."
+                            SdFormatPhase.NOT_SENT -> "Perintah format tidak dikirim."
+                            else -> "Hasil format sebelumnya belum dapat dipastikan. Perintah tidak akan dikirim ulang secara otomatis."
+                        }, error = feature.format in setOf(SdFormatPhase.NOT_SENT, SdFormatPhase.REJECTED, SdFormatPhase.UNKNOWN))
                 }) {
                 Text(stringResource(R.string.settings_recording), style = MaterialTheme.typography.titleSmall)
                 if (settings == null) Text(unfilled, style = MaterialTheme.typography.bodyMedium)
@@ -131,12 +137,12 @@ fun CameraSettingsScreen(model: CameraViewModel, profile: CameraProfile, session
                             modifier = Modifier.heightIn(min = 48.dp)) { Text("Tutup catatan format") }
                     } else Text("Buka kamera yang memiliki pemeriksaan format tertunda terlebih dahulu.")
                 }
-                OutlinedButton(onClick = { confirmFormat = true }, enabled = P.FORMAT_STATUS_VERIFIED && enabled && feature.pendingLoaded && feature.draft.isEmpty() &&
-                    settings?.int(P.SD_STATUS) in setOf(1, 2, 3, 8) && settings?.int(P.SD_FORMAT_STATE) != null &&
+                OutlinedButton(onClick = { confirmFormat = true }, enabled = P.FORMAT_ACTION_VERIFIED && enabled && feature.pendingLoaded && feature.draft.isEmpty() &&
+                    P.formatEligible(settings) &&
                     feature.download !in setOf(DownloadPhase.CHOOSING_DESTINATION, DownloadPhase.AWAITING_ACCESS, DownloadPhase.DOWNLOADING, DownloadPhase.SAVING),
                     modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = scheme.error)) { Text("Format SD card") }
-                Text("Format menghapus rekaman pada kartu. Fitur belum diaktifkan karena status akhir format belum terverifikasi.",
+                Text("Format menghapus semua rekaman pada kartu. Kamera dapat menolak perintah; hasil akhir dipantau dari status kartu.",
                     style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant)
             }
             CameraPanel {

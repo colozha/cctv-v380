@@ -1,6 +1,6 @@
 # Rencana implementasi rekaman, pengaturan kamera, dan format SD
 
-Tanggal: 14 Oktober 2026. Status implementasi: tab, daftar/playback/ekspor IoT dan pengaturan diimplementasikan pada debug0.3.0; format SD tetap gated karena enum terminal belum terbukti. Validasi kamera tetap ditunda. [Kontrak dan batas hasil implementasi](recordings-settings-wire.md).
+Tanggal: 14 Oktober 2026. Status implementasi: tab, daftar/playback/ekspor IoT dan pengaturan diimplementasikan pada debug0.3.0; format SD aktif sejak17Oktober2026 dengan kontrak ACK vendor, sedangkan enum terminal `131330` tetap belum terbukti. Validasi kamera tetap ditunda. [Kontrak dan batas hasil implementasi](recordings-settings-wire.md), [aktivasi format](sd-maintenance-wire.md#aktivasi-paritas-vendor--17-oktober-2026).
 
 Tujuan: pemilik kamera dapat mencari dan memutar rekaman SD, menyimpan rekaman ke perangkat Android, mengubah pengaturan yang didukung, serta memformat SD dengan status yang dapat dipercaya. Target tetap Kotlin/Compose Material 3, Android API26+, satu modul aplikasi, akses lokal, dan adapter eksperimental pada debug sampai acceptance per firmware lulus.
 
@@ -30,7 +30,7 @@ Temuan tambahan REA sebelumnya belum diarsipkan ke repo; laporan dan excerpt saa
 | Lampu IoT | Floodlight switch/status/brightness/sensitivity/schedule dan indicator switch | Enum/rentang, unit, schema jadwal, capability, serta perbedaan lampu putih, indikator, dan mode night vision |
 | Rekaman SD IoT | Mode `131331`, kualitas `131332`, audio `131333`, loop `131334` | Getter/setter beserta hasilnya, kemampuan kualitas dan konsistensi konfigurasi |
 | Mode rekaman | Bitmask continuous=1, alarm=2, retrench=8; kualitas SD=1, HD=2, FHD=3 | DEX membenarkan bitmask, tetapi retrench dan FHD tetap mengikuti kemampuan perangkat |
-| Format SD IoT | `DAID_SD_FORMAT=131584`, action `197384/197385`; status format `131330` | Request tanpa `in` jika memang tidak ada input, respons, enum status proses dan terminal, serta izin format |
+| Format SD IoT | `DAID_SD_FORMAT=131584`, action `197384/197385`; status format `131330` | Request tanpa `in` dan respons berkorelasi1000 terbukti; dipakai sejak17Oktober2026. Enum status proses/terminal `131330` tetap belum terbukti dan tidak ditafsirkan |
 | Format legacy | Setting version ≥2: request 256B `341`, respons 32B `441`; ada keluarga lama `141/241` | Layout dan pemilihan versi; jangan mencampurkan respons, wrapper relay, atau autentikasi keluarga lama |
 | Kontrol legacy tambahan | Source pembanding: light `196`, image mode `197`, flip `190` | Validasi terhadap APK/caller native dan profil target; source pembanding saja belum cukup |
 
@@ -48,7 +48,7 @@ Pada jalur `pver>=5` yang ditelusuri, pencarian rekaman/playback/download dapat 
 | Pengaturan | Grup **Gambar**, **Lampu**, **Perekaman**, **Kartu SD**. Tampilkan nilai yang dibaca dari kamera; simpan hanya field yang diubah lewat aksi **Simpan pengaturan**. Format merupakan aksi terpisah. |
 | Kartu SD | Status dan kapasitas jika tersedia, tombol muat ulang, lalu **Format SD card**. Konfirmasi menamai kamera dan menyebut bahwa semua rekaman pada kartu akan dihapus. |
 
-State wajib: belum tersambung, memuat, kosong, siap, sedang menyimpan, error, tidak didukung, kemampuan belum diketahui, memerlukan cloud, dan izin kamera ditolak. Daftar yang gagal dibaca tidak ditampilkan sebagai “Tidak ada rekaman”. Format yang status akhirnya belum terbukti tidak diberi label selesai.
+State wajib: belum tersambung, memuat, kosong, siap, sedang menyimpan, error, tidak didukung, kemampuan belum diketahui, memerlukan cloud, dan izin kamera ditolak. Daftar yang gagal dibaca tidak ditampilkan sebagai “Tidak ada rekaman”. Format tidak diberi label selesai fisik; COMPLETE hanya berarti transisi4→1 teramati setelah ACK operasi ini.
 
 Pertahankan warna dan typography Material yang ada, tema sistem, target sentuh minimal48dp, font scaling, window/IME insets, dan navigasi Back. Pengaturan memakai layout scroll tanpa area video kosong. Video playback mengikuti batas tinggi player saat ini agar kontrol tetap terjangkau dalam landscape. Perubahan sistem visual tidak diperlukan.
 
@@ -105,14 +105,14 @@ Hasil: rekaman historis tersimpan sebagai file yang dapat dibuka. Lulus ketika f
 
 Rujukan platform: [MediaMuxer](https://developer.android.com/reference/android/media/MediaMuxer) dan [Storage Access Framework](https://developer.android.com/training/data-storage/shared/documents-files).
 
-**Tahap 5 — format SD dengan verifikasi status**
+**Tahap 5 — format SD dengan kontrak ACK vendor**
 
-1. Aktifkan hanya untuk profil yang memiliki kontrak format, pembacaan status, dan izin yang terbukti. Tombol dinonaktifkan selama playback/download, penyimpanan setting, atau proses format lain.
+1. Aktifkan untuk profil IoT yang memiliki action/pembacaan status terbukti. Aktivasi memakai ACK berkorelasi1000 sebagai penerimaan, bukan enum terminal. Tombol dinonaktifkan selama playback/download, penyimpanan setting, proses format lain, atau saat kartu tidak eligible.
 2. Tampilkan konfirmasi **Format SD card** dengan nama kamera, konsekuensi penghapusan, tombol **Batal**, dan **Hapus rekaman dan format**. Tidak menggunakan label reset kamera atau menawarkan undo.
 3. Hentikan pekerjaan media/PTZ, lalu simpan penanda nonrahasia berisi identitas profil dan operasi format pending sebelum mengirim sekali. Gunakan pola `AtomicFile` dari `ProfileStore`, dengan file pending terpisah dari provisioning; jangan menimpa progres setup AP.
-4. Gunakan keluarga `341/441` atau action IoT `131584` sesuai bukti. Untuk IoT, mintalah respons; jangan membawa `no_rsp:true` dari PTZ. Penolakan definitif berbeda dari koneksi terputus setelah pengiriman.
-5. Pantau status dengan polling berinterval dan batas waktu client. Tampilkan mengirim → memformat → selesai/ditolak/status belum diketahui. Timeout monitoring tidak menyatakan format gagal dan tidak mengirim format ulang.
-6. Selesai memerlukan status terminal format yang semantiknya telah dipulihkan. ACK sukses, status SD normal, atau daftar kosong saja tidak membuktikan operasi tersebut selesai ketika respons hilang. Muat ulang status/kapasitas dan invalidasi daftar rekaman setelah hasil yang terverifikasi.
+4. Gunakan action IoT `131584`; jalur Legacy `341/441` tidak diimplementasikan pada client ini. Mintalah respons; jangan membawa `no_rsp:true` dari PTZ. Penolakan definitif berbeda dari koneksi terputus setelah pengiriman.
+5. Pantau status dengan polling2detik hingga120detik. Tampilkan mengirim → diterima → memformat → selesai/ditolak/status belum diketahui. `SD_STATUS=4` berarti memformat; `4→1` setelah ACK menandai COMPLETE. Timeout tidak menyatakan gagal dan tidak mengirim ulang.
+6. Selesai fisik tidak diklaim. COMPLETE hanya berarti transisi4→1 teramati setelah ACK operasi ini dan tidak terikat kriptografis terhadap operasi. Nilai mentah `131330`, ACK, status normal, atau daftar kosong tidak dipakai sebagai bukti terminal. Muat ulang status/kapasitas dan invalidasi daftar rekaman setelah hasil.
 7. Setelah background/restart, baca penanda pending dan lakukan pemeriksaan status saja. Penanda tidak pernah dipakai sebagai antrean write. Tombol meninggalkan layar menghentikan pemantauan lokal, bukan menjanjikan pembatalan format di kamera.
 
 Hasil: format dapat dijalankan dengan status yang jujur dan tidak diulang akibat timeout/restart. Lulus ketika pengiriman tepat sekali terjaga pada respons hilang, double tap, cancellation, dan process recreation. Pada pengujian fisik nanti gunakan kartu dengan data yang memang boleh dihapus.
